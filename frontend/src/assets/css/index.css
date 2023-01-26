@@ -1,0 +1,12 @@
+/* css 색상 변수 */
+:root {
+  --clr-primary-1: #f5c82e;
+  --clr-primary-2: #314e8d;
+  --clr-primary-3: #f2f3e6;
+  --clr-primary-4: #7d7667;
+  --clr-black: #000000;
+  --light-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+  --clr-white: #ffffff;
+  --clr-white-opacity-1: rgba(255, 255, 255, 0.8);
+  --clr-primary-4-hover: #5c564b;
+}
