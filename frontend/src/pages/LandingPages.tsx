@@ -256,10 +256,10 @@ function LandingPages() {
   const target2 = document.getElementById("item2")!; // 요소의 id 값이 target이라 가정
   const clientRect2 = target2?.getBoundingClientRect(); // DomRect 구하기 (각종 좌표값이 들어있는 객체)
   const relativeTop2 = clientRect2?.top; // Viewport의 시작지점을 기준으로한 상대좌표 Y 값.
-  console.log("divTop", relativeTop1);
+  // console.log("divTop", relativeTop1);
   // let windowWidth = window.innerWidth;
-  console.log("width:", windowWidth);
-  console.log("Y:", position);
+  // console.log("width:", windowWidth);
+  // console.log("Y:", position);
   const studyList = [
     {
       si_id: 1,
