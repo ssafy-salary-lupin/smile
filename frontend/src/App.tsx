@@ -4,6 +4,11 @@ import NavBar from "./components/common/NavBar";
 import Footer from "./components/common/Footer";
 import Router from "./Router";
 import { createGlobalStyle } from "styled-components";
+<<<<<<< HEAD
+import LandingPages from "./pages/LandingPages";
+import StudyCreatePages from "./pages/StudyCreatePages";
+=======
+>>>>>>> ed5ea4587a39312cf8e2b736613760f80e7719d0
 
 const GlobalStyle = createGlobalStyle`
 /* @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap"); */
@@ -160,10 +165,18 @@ function App() {
     <>
       <GlobalStyle />
       <NavBar />
+<<<<<<< HEAD
+      <LandingPages />
+      {/* <StudyCreatePages /> */}
+      <Modal />
+      {/* <ButtonBasic /> */}
+      {/* <Footer /> */}
+=======
       <Modal />
       {/* <ButtonBasic /> */}
       <Router />
       <Footer />
+>>>>>>> ed5ea4587a39312cf8e2b736613760f80e7719d0
     </>
   );
 }
