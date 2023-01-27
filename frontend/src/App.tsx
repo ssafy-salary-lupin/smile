@@ -8,9 +8,14 @@ import LandingPages from "./pages/LandingPages";
 import StudyCreatePages from "./pages/StudyCreatePages";
 
 const GlobalStyle = createGlobalStyle`
-@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap"); */
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap");
+
 html,
-body,
+body {
+  font-family: "Noto Sans", sans-serif;
+
+}
 div,
 span,
 applet,
@@ -157,11 +162,10 @@ function App() {
     <>
       <GlobalStyle />
       <NavBar />
-      <LandingPages />
-      {/* <StudyCreatePages /> */}
       <Modal />
       {/* <ButtonBasic /> */}
-      {/* <Footer /> */}
+      <Router />
+      <Footer />
     </>
   );
 }
