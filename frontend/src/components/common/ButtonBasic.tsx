@@ -1,4 +1,3 @@
-import { SetStateAction, useState } from "react";
 import styled from "styled-components";
 import "../../assets/css/index.css";
 
@@ -10,41 +9,27 @@ import "../../assets/css/index.css";
 const YellowBtn = styled.button`
   cursor: pointer;
   border-radius: 4px;
-  padding: 0.556vw 1.111vw;
+  padding: 0.5rem 1rem;
   background-color: var(--clr-primary-1);
   color: white;
   border: 0;
-  margin: 1.111vw 1.667vw 0vw 0vw;
-  width: 4.93vw;
-  height: 3.473vw;
-  font-size: 1.111vw;
+  margin: 1rem 1.5rem 0rem 0rem;
 `;
 
 const BlueBtn = styled.button`
   cursor: pointer;
   border-radius: 4px;
-  padding: 0.556vw 1.111vw;
+  padding: 0.5rem 1rem;
   background-color: var(--clr-primary-2);
   color: white;
   border: 0;
-  width: 4.93vw;
-  height: 3.473vw;
-  font-size: 1.111vw;
 `;
 
-interface PropsType {
-  setModalBasicClose: React.Dispatch<SetStateAction<boolean>>;
-}
-
-function ButtonBasic(props: PropsType) {
-  const closeModal = () => {
-    props.setModalBasicClose(false);
-  };
-
+function ButtonBasic() {
   return (
     <div>
       <YellowBtn>확인</YellowBtn>
-      <BlueBtn onClick={closeModal}>취소</BlueBtn>
+      <BlueBtn>취소</BlueBtn>
     </div>
   );
 }
