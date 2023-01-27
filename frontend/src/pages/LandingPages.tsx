@@ -40,19 +40,21 @@ import { useEffect, useState } from "react";
 // `;
 
 const SLandingBody = styled.div`
-  /* background-color: ${(props) => props.theme.mainColor}; */
   @import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap");
   font-family: "Noto Sans", sans-serif;
   /* @import url("https://fonts.googleapis.com/css2?family=Noto+Sans&family=Noto+Sans+KR&display=swap");
   font-family: "Noto Sans KR", sans-serif; */
 `;
 const SBackground = styled.div`
+  position: absolute;
+  z-index: -1;
   background-image: linear-gradient(
     to bottom,
     ${(props) => props.theme.mainColor},
     white
   );
   height: 40vw;
+  width: 100vw;
 `;
 
 const SContainer = styled.div`
@@ -98,6 +100,25 @@ const SBannerItem = styled.div`
     }
   }
 `;
+
+const Hover = keyframes`
+  from {
+    
+  }
+  to {
+    box-shadow: 0px 0px 2vw #666b70;
+  }
+`;
+
+const NotHover = keyframes`
+  from {
+    box-shadow: 0px 0px 2vw #666b70;
+  }
+  to {
+    
+  }
+`;
+
 const SBannerButton = styled.button`
   width: 16.7vw;
   height: 5.04vw;
@@ -109,6 +130,12 @@ const SBannerButton = styled.button`
   color: white;
   /* font-size: 24px; */
   font-size: 1.68vw;
+  :hover {
+    animation: ${Hover} 1.5s forwards;
+  }
+  :not(:hover) {
+    animation: ${NotHover} 1.5s forwards;
+  }
 `;
 
 const SCards = styled.div`
@@ -132,36 +159,44 @@ const SArrow = styled.div`
 const slideLeft = keyframes`
   from {
     left: -50vw;
+    opacity: 0;
   }
   to {
     left: 3.6vw;
+    opacity: 1;
   }
 `;
 
 const slideRight = keyframes`
   from {
     right: -50vw;
+    opacity: 0;
   }
   to {
     right: 3.6vw;
+    opacity: 1;
   }
 `;
 
 const slideLeftReverse = keyframes`
   from {
     left: 3.6vw;
+    opacity: 1;
   }
   to {
     left: -50vw;
+    opacity: 0;
   }
 `;
 
 const slideRightReverse = keyframes`
   from {
     right: 3.6vw;
+    opacity: 1;
   }
   to {
     right: -50vw;
+    opacity: 0;
   }
 `;
 
@@ -179,26 +214,26 @@ const SIntroductionItem = styled.div<SIntroductionItemTextProps>`
     z-index: -1;
     ${(props) => (props.direction === "L" ? "left: -50vw;" : "right: -50vw")};
     animation: ${(props) =>
-        props.top <= 1000
+        props.top <= 900
           ? props.direction === "L"
             ? slideLeft
             : slideRight
           : props.direction === "L"
           ? slideLeftReverse
           : slideRightReverse}
-      3s forwards;
+      2s forwards ease-in;
   }
   div {
     ${(props) => (props.direction === "L" ? "right: 3.6vw;" : "left: 3.6vw")};
     animation: ${(props) =>
-        props.top <= 1000
+        props.top <= 900
           ? props.direction === "L"
             ? slideRight
             : slideLeft
           : props.direction === "L"
           ? slideRightReverse
           : slideLeftReverse}
-      3s forwards;
+      2s forwards ease-out;
   }
 `;
 
@@ -223,6 +258,7 @@ const STextBold = styled.span`
   font-size: 3vw;
   /* font-size: 48px; */
   font-weight: 600;
+  margin-bottom: 1.12vw;
 `;
 const SText = styled.span`
   font-size: 2.24vw;
@@ -303,15 +339,18 @@ function LandingPages() {
   ];
 
   return (
-    <SLandingBody>
-      <SBackground>
+    <>
+      <SBackground />
+      <SLandingBody>
         <SContainer>
           <SBanner>
             <SBannerItem>
               <span>{bannerText}</span>
               <span>{bannerSubText}</span>
             </SBannerItem>
-            <SBannerButton>{bannerButtonText}</SBannerButton>
+            <SBannerButton>
+              <span>{bannerButtonText}</span>
+            </SBannerButton>
           </SBanner>
           <SStudyList>
             <SItemTitle>현재 인기있는 스터디</SItemTitle>
@@ -342,8 +381,8 @@ function LandingPages() {
             <SIntroductionItemImg src={introductionImg2} id="item2" />
           </SIntroductionItem>
         </SContainer>
-      </SBackground>
-    </SLandingBody>
+      </SLandingBody>
+    </>
   );
 }
 
