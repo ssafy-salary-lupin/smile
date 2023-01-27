@@ -1,5 +1,22 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import ProfileImg from "./ProfileImg";
+
+const CardHover = keyframes`
+  from {
+    
+  }
+  to {
+    box-shadow: 0px 0px 2vw #666b70;
+  }
+`;
+const CardNotHover = keyframes`
+  from {
+    box-shadow: 0px 0px 2vw #666b70;    
+  }
+  to {
+
+  }
+`;
 
 const SContainer = styled.div`
   @import url("https://fonts.googleapis.com/css2?family=Noto+Sans&family=Noto+Sans+KR&display=swap");
@@ -19,7 +36,11 @@ const SContainer = styled.div`
   /* box-shadow: 0px 0px 16px ${(props) => props.theme.subColor}; */
   :hover {
     /* box-shadow: 0px 0px 24px #b4bbc5; */
-    box-shadow: 0px 0px 1.68vw #b4bbc5;
+    /* box-shadow: 0px 0px 1.68vw #b4bbc5; */
+    animation: ${CardHover} 1.5s forwards;
+  }
+  :not(:hover) {
+    animation: ${CardNotHover} 1.5s forwards;
   }
 `;
 
