@@ -5,6 +5,8 @@ import "../../assets/css/index.css";
 
 const StudyNav = styled.div`
   align-items: center;
+  /* height: 3.192vw; */
+  /* margin: 3.192vw; */
 `;
 
 const BlankSpace = styled.div`
@@ -16,11 +18,12 @@ const Items = styled.li`
   color: gray;
   font-size: 0.694vw;
   justify-content: center;
+  padding: 0vw 1.12vw;
 `;
 
 const ItemText = styled.ul`
   margin: 0 2.24vw; // 0 4rem;
-  padding: 1.4vw 0.069vw;
+  padding: 1.4vw 1.4vw;
   /* 텍스트 세로 중앙 정렬 위해 display, align-items 속성 추가 */
   font-size: 1.12vw;
   display: flex;
@@ -31,6 +34,9 @@ const ItemText = styled.ul`
   focus {
     cursor: pointer;
     font-weight: bold;
+    color: black;
+    /* margin: 0 1.9vw; */
+    /* font-size: 1.4vw; */
   }
 `;
 const Itemline = styled.ul`
@@ -40,23 +46,6 @@ const Itemline = styled.ul`
   font-size: 1.12vw;
   display: flex;
   align-items: center;
-`;
-
-const NabBtn = styled.button`
-  cursor: pointer;
-  padding: 0.56vw 1.12vw; // 0.5rem 1rem;
-  margin: 0;
-  background-color: ${(props) => props.theme.subColor2};
-  color: white;
-  border: 0;
-  text-decoration: none;
-  font-size: 1.12vw;
-
-  &:hover,
-  active,
-  focus {
-    background: ${(props) => props.theme.subColorHover};
-  }
 `;
 
 function StudyNavBar() {
