@@ -1,4 +1,4 @@
-import StudyNavBar from "../components/common/StudyNavBar";
+// import StudyNavBar from "../components/common/StudyNavBar";
 import Search from "../components/common/Search";
 
 function TestPages() {
@@ -9,7 +9,7 @@ function TestPages() {
         searchHeight={3.36}
         innerText="궁금한 스터디를 검색하세요"
       />
-      <StudyNavBar />
+      {/* <StudyNavBar /> */}
     </div>
   );
 }
