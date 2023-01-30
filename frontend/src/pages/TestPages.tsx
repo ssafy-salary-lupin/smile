@@ -1,16 +1,17 @@
-import styled from "styled-components";
-import Select from "components/common/Select";
-import BlankSpace from "components/common/BlankSpace";
-import SearchBar from "components/common/SearchBar";
-import * as Icon from "components/common/Icons";
+// import StudyNavBar from "../components/common/StudyNavBar";
+import Search from "../components/common/Search";
+
 function TestPages() {
   return (
-    <>
-      <BlankSpace />
-      <Icon.CaretLeft width="5vw" height="10vw" />
-      {/* <SearchBar /> */}
-      {/* <Select /> */}
-    </>
+    <div>
+      <Search
+        searchWidth={28}
+        searchHeight={3}
+        innerText="궁금한 스터디를 검색하세요"
+        unit="vw"
+      />
+      {/* <StudyNavBar /> */}
+    </div>
   );
 }
 
