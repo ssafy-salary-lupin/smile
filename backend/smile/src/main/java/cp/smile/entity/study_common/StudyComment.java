@@ -34,6 +34,8 @@ public class StudyComment extends BaseEntity {
     @Column(name = "sc_is_deleted")
     private boolean isDeleted;
 
+
+
     //댓글에 연결된 대댓글을 조회하기 때문에 연관관계를 양방향으로 맺음.
     @OneToMany(mappedBy = "studyComment")
     List<StudyReply> studyRelies = new ArrayList<>();

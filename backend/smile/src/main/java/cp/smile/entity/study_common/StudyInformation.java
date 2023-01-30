@@ -11,7 +11,9 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @NoArgsConstructor
@@ -57,15 +59,15 @@ public class StudyInformation extends BaseEntity {
     private LocalDateTime lastVisitedTime; //마지막으로 조회한 시간.
 
     //스터디 조회시점에 댓글을 가져와야됨.
-    @OneToMany(mappedBy = "studyInformation")
-    List<StudyComment> studyComments = new ArrayList<>();
+    @OneToMany(mappedBy = "studyInformation" , fetch = FetchType.LAZY) //
+    Set<StudyComment> studyComments = new HashSet<>();
 
     //스터디 관리페이지에 들어갔을때, 가입된 유저 정보들을 가지고 있어야 됨.
-    @OneToMany(mappedBy = "studyInformation")
-    List<UserJoinStudy> userJoinStudies = new ArrayList<>(); // 유저 스터디 가입 정보
+    @OneToMany(mappedBy = "studyInformation", fetch = FetchType.LAZY)
+    Set<UserJoinStudy> userJoinStudies = new HashSet<>(); // 유저 스터디 가입 정보
 
-    @OneToMany(mappedBy = "studyInformation")
-    List<ChatMessage> chatMessages = new ArrayList<>(); //채팅 메시지 테이블
+    @OneToMany(mappedBy = "studyInformation", fetch = FetchType.LAZY)
+    Set<ChatMessage> chatMessages = new HashSet<>(); //채팅 메시지 테이블
 
     @Builder
     public StudyInformation(int id, String name, LocalDateTime startDate, LocalDateTime endDate, String time, String imgPath, int currentPerson, int maxPerson, String description, int viewCount, boolean deadline, String rule, String chatroomId, StudyType studyType, boolean isEnd, LocalDateTime lastVisitedTime) {
@@ -85,5 +87,30 @@ public class StudyInformation extends BaseEntity {
         this.studyType = studyType;
         this.isEnd = isEnd;
         this.lastVisitedTime = lastVisitedTime;
+    }
+
+    @Override
+    public String toString() {
+        return "StudyInformation{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", time='" + time + '\'' +
+                ", imgPath='" + imgPath + '\'' +
+                ", currentPerson=" + currentPerson +
+                ", maxPerson=" + maxPerson +
+                ", description='" + description + '\'' +
+                ", viewCount=" + viewCount +
+                ", deadline=" + deadline +
+                ", rule='" + rule + '\'' +
+                ", chatroomId='" + chatroomId + '\'' +
+                ", studyType=" + studyType +
+                ", isEnd=" + isEnd +
+                ", lastVisitedTime=" + lastVisitedTime +
+                ", studyComments=" + studyComments +
+                ", userJoinStudies=" + userJoinStudies +
+                ", chatMessages=" + chatMessages +
+                '}';
     }
 }
