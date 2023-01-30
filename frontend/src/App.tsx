@@ -1,3 +1,5 @@
+import Modal from "./components/common/Modal";
+import ButtonBasic from "./components/common/ButtonBasic";
 import NavBar from "./components/common/NavBar";
 import Footer from "./components/common/Footer";
 import Router from "./Router";
@@ -10,10 +12,7 @@ const GlobalStyle = createGlobalStyle`
 html,
 body {
   font-family: "Noto Sans", sans-serif;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
+
 }
 div,
 span,
@@ -161,6 +160,8 @@ function App() {
     <>
       <GlobalStyle />
       <NavBar />
+      <Modal />
+      {/* <ButtonBasic /> */}
       <Router />
       <Footer />
     </>
