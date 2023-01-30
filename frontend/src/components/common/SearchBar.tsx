@@ -3,13 +3,14 @@ import searchIcon from "../../assets/img/search.png";
 import BlankSpace from "./BlankSpace";
 
 interface ISearchContainer {
-  widthValue?: string;
-  heightValue?: string;
+  widthValue?: number;
+  heightValue?: number;
+  unit?: string;
 }
 
 const SSearchContainer = styled.div<ISearchContainer>`
-  width: ${(props) => props.widthValue || "27.778vw"};
-  height: ${(props) => props.heightValue || "3.333vw"};
+  width: ${(props) => props.widthValue + props.unit! || "27.778vw"};
+  height: ${(props) => props.heightValue + props.unit! || "3.333vw"};
   /* width: 27.778vw; */
   /* height: 3.333vw; */
   border: solid 1px black;
@@ -27,9 +28,10 @@ const SSearchIcon = styled.img.attrs({ src: searchIcon })`
 `;
 
 interface IInput {
-  inputWidth: string;
-  inputHeight: string;
+  inputWidth: number;
+  inputHeight: number;
   inputInnerText?: string;
+  unit?: string;
 }
 
 const SSearchInput = styled.input.attrs((props: IInput) => ({
@@ -37,10 +39,10 @@ const SSearchInput = styled.input.attrs((props: IInput) => ({
   placeholder: props.inputInnerText,
   // placeholder: "궁금한 스터디를 검색하세요.",
 }))<IInput>`
-  /* width: ${(props) => props.inputWidth || "23vw"};
-  height: ${(props) => props.inputHeight || "3.125vw"}; */
-  width: 23vw;
-  height: 3.125vw;
+  width: ${(props) => props.inputWidth + props.unit! || "23vw"};
+  height: ${(props) => props.inputHeight + props.unit! || "3.125vw"};
+  /* width: 23vw;
+  height: 3.125vw; */
   border: none;
   outline: none;
   -webkit-appearance: none;
@@ -48,9 +50,11 @@ const SSearchInput = styled.input.attrs((props: IInput) => ({
   /* margin-left: 10px; */
   overflow: auto; //검색어가 길어졌을때 오른쪽으로 자연스럽게 검색되도록 하기 위해
   /* z-index: -1; */
-  font-size: 1.389vw;
+  font-size: ${(props) => props.inputWidth * 0.06 + props.unit!};
+  /* font-size: 1.389vw; */
   ::placeholder {
-    font-size: 1.389vw;
+    font-size: ${(props) => props.inputWidth * 0.06 + props.unit!};
+    /* font-size: 1.389vw; */
   }
 `;
 
@@ -58,6 +62,7 @@ interface ISearchProps {
   searchWidth?: number;
   searchHeight?: number;
   innerText?: string;
+  unit?: string;
 }
 
 function SearchBar(props: ISearchProps) {
@@ -67,13 +72,15 @@ function SearchBar(props: ISearchProps) {
     <>
       <BlankSpace />
       <SSearchContainer
-        widthValue={`${props.searchWidth}vw`}
-        heightValue={`${props.searchHeight}vw`}
+        widthValue={props.searchWidth}
+        heightValue={props.searchHeight}
+        unit={props.unit}
       >
         <SSearchInput
-          inputWidth={`${inputWidth}vw`}
-          inputHeight={`${inputHeight}vw`}
+          inputWidth={inputWidth}
+          inputHeight={inputHeight}
           inputInnerText={props.innerText}
+          unit={props.unit}
         />
         <SSearchIcon />
       </SSearchContainer>
