@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import searchIcon from "../../assets/img/search.png";
-import BlankSpace from "./BlankSpace";
 
 interface ISearchContainer {
   widthValue: number;
@@ -68,7 +67,6 @@ function SearchBar(props: ISearchProps) {
   const inputHeight = props?.searchHeight! * 0.94;
   return (
     <>
-      <BlankSpace />
       <SSearchContainer
         widthValue={props.searchWidth || 27.778}
         heightValue={props.searchHeight || 3.333}

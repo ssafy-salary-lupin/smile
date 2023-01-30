@@ -1,17 +1,14 @@
-// import StudyNavBar from "../components/common/StudyNavBar";
-import Search from "../components/common/Search";
+import Select from "components/common/Select";
+import BlankSpace from "components/common/BlankSpace";
+import styled from "styled-components";
 
 function TestPages() {
   return (
-    <div>
-      <Search
-        searchWidth={28}
-        searchHeight={3}
-        innerText="궁금한 스터디를 검색하세요"
-        unit="vw"
-      />
-      {/* <StudyNavBar /> */}
-    </div>
+    <>
+      <BlankSpace />
+      <Select />
+      {/* <SSelectInput /> */}
+    </>
   );
 }
 
