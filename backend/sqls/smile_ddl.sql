@@ -93,6 +93,7 @@ CREATE TABLE IF NOT EXISTS `smile_db`.`study_informations` (
   `st_id` INT NOT NULL,
   `update_id` INT NOT NULL,
   `create_id` INT NOT NULL,
+  `si_last_visited_time` TIMESTAMP NOT NULL,
   PRIMARY KEY (`si_id`),
   INDEX `fk_study_informations_study_types1_idx` (`st_id` ASC) VISIBLE,
   CONSTRAINT `fk_study_informations_study_types1`
