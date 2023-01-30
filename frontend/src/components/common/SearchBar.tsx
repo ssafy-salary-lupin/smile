@@ -29,12 +29,14 @@ const SSearchIcon = styled.img.attrs({ src: searchIcon })`
 interface IInput {
   inputWidth: string;
   inputHeight: string;
+  inputInnerText?: string;
 }
 
-const SSearchInput = styled.input.attrs({
+const SSearchInput = styled.input.attrs((props: IInput) => ({
   type: "text",
-  placeholder: "궁금한 스터디를 검색하세요.",
-})<IInput>`
+  placeholder: props.inputInnerText,
+  // placeholder: "궁금한 스터디를 검색하세요.",
+}))<IInput>`
   /* width: ${(props) => props.inputWidth || "23vw"};
   height: ${(props) => props.inputHeight || "3.125vw"}; */
   width: 23vw;
@@ -71,6 +73,7 @@ function SearchBar(props: ISearchProps) {
         <SSearchInput
           inputWidth={`${inputWidth}vw`}
           inputHeight={`${inputHeight}vw`}
+          inputInnerText={props.innerText}
         />
         <SSearchIcon />
       </SSearchContainer>
