@@ -8,10 +8,10 @@ interface ISearchContainer {
 }
 
 const SSearchContainer = styled.div<ISearchContainer>`
-  /* width: ${(props) => props.widthValue || "27.778vw"};
-  height: ${(props) => props.heightValue || "3.333vw"}; */
-  width: 27.778vw;
-  height: 3.333vw;
+  width: ${(props) => props.widthValue || "27.778vw"};
+  height: ${(props) => props.heightValue || "3.333vw"};
+  /* width: 27.778vw; */
+  /* height: 3.333vw; */
   border: solid 1px black;
   border-radius: 0.694vw;
   display: flex;
@@ -43,7 +43,7 @@ const SSearchInput = styled.input.attrs({
   outline: none;
   -webkit-appearance: none;
   /* text-align: center; */
-  margin-left: 10px;
+  /* margin-left: 10px; */
   overflow: auto; //검색어가 길어졌을때 오른쪽으로 자연스럽게 검색되도록 하기 위해
   /* z-index: -1; */
   font-size: 1.389vw;
@@ -65,16 +65,15 @@ function SearchBar(props: ISearchProps) {
     <>
       <BlankSpace />
       <SSearchContainer
-        widthValue={props.searchWidth}
-        heightValue={props.searchHeight}
+        widthValue={`${props.searchWidth}vw`}
+        heightValue={`${props.searchHeight}vw`}
       >
-        <SSearchInput inputWidth={inputWidth} inputHeight={inputHeight} />
+        <SSearchInput
+          inputWidth={`${inputWidth}vw`}
+          inputHeight={`${inputHeight}vw`}
+        />
         <SSearchIcon />
       </SSearchContainer>
-
-      <div>
-        <span>askldjalksjd</span>
-      </div>
     </>
   );
 }
