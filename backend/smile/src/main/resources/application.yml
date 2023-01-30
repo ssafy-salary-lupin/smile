@@ -1,1 +1,19 @@
+spring:
+  datasource:
+    url: "jdbc:mysql://localhost:3306/smile_db?serverTimezone=UTC&characterEncoding=UTF-8"
+    username: "root"
+    password: "1234"
+    driver-class-name: com.mysql.cj.jdbc.Driver #이전에 사용하던 com.mysql.jdbc.Driver는 deprecated됨.
+
+  jpa:
+    database:
+    hibernate:
+      ddl_auto: none #validate로 검증하려고 했는데, jpa2.1부터 지원안함.
+    properties:
+      hibernate:
+        "globally_quoted_identifiers": "true"
+        format_sql: true
+        show_sqlL: true #sys.out으로 sql 로그 남겨줌
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+
 

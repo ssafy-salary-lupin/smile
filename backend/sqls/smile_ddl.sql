@@ -11,7 +11,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema smile_db
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `smile_db` DEFAULT CHARACTER SET utf8mb4 ;
+CREATE SCHEMA IF NOT EXISTS `smile_db` DEFAULT CHARACTER SET utf8 ;
 USE `smile_db` ;
 
 -- -----------------------------------------------------
@@ -20,10 +20,10 @@ USE `smile_db` ;
 CREATE TABLE IF NOT EXISTS `smile_db`.`login_providers` (
   `lp_id` INT NOT NULL AUTO_INCREMENT,
   `lp_provider` VARCHAR(255) NOT NULL,
-  `lp_update_time` TIMESTAMP NOT NULL,
-  `lp_create_time` TIMESTAMP NOT NULL,
-  `lp_update_id` INT NOT NULL,
-  `lp_create_id` INT NOT NULL,
+  `update_time` TIMESTAMP NOT NULL,
+  `create_time` TIMESTAMP NOT NULL,
+  `update_id` INT NOT NULL,
+  `create_id` INT NOT NULL,
   PRIMARY KEY (`lp_id`))
 ENGINE = InnoDB;
 
@@ -37,10 +37,10 @@ CREATE TABLE IF NOT EXISTS `smile_db`.`users` (
   `user_nickname` VARCHAR(255) NOT NULL,
   `user_email` VARCHAR(255) NOT NULL,
   `user_img` VARCHAR(255) NULL,
-  `user_update_time` TIMESTAMP NOT NULL,
-  `user_create_time` TIMESTAMP NOT NULL,
-  `user_update_id` INT NOT NULL,
-  `user_create_id` INT NOT NULL,
+  `update_time` TIMESTAMP NOT NULL,
+  `create_time` TIMESTAMP NOT NULL,
+  `update_id` INT NOT NULL,
+  `create_id` INT NOT NULL,
   `user_is_deleted` TINYINT NOT NULL,
   `user_refresh_token` VARCHAR(255) NULL,
   `lp_id` INT NOT NULL,
@@ -62,10 +62,10 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `smile_db`.`study_types` (
   `st_id` INT NOT NULL AUTO_INCREMENT,
   `st_name` VARCHAR(255) NOT NULL,
-  `st_update_time` TIMESTAMP NOT NULL,
-  `st_create_time` TIMESTAMP NOT NULL,
-  `st_update_id` INT NOT NULL,
-  `st_create_id` INT NOT NULL,
+  `update_time` TIMESTAMP NOT NULL,
+  `create_time` TIMESTAMP NOT NULL,
+  `update_id` INT NOT NULL,
+  `create_id` INT NOT NULL,
   PRIMARY KEY (`st_id`))
 ENGINE = InnoDB;
 
@@ -87,10 +87,12 @@ CREATE TABLE IF NOT EXISTS `smile_db`.`study_informations` (
   `si_deadline` TINYINT NOT NULL,
   `si_rule` TEXT NULL,
   `si_chatroom_id` VARCHAR(255) NOT NULL,
-  `si_update_time` TIMESTAMP NOT NULL,
-  `si_create_time` TIMESTAMP NOT NULL,
+  `update_time` TIMESTAMP NOT NULL,
+  `create_time` TIMESTAMP NOT NULL,
   `si_is_end` TINYINT NOT NULL,
   `st_id` INT NOT NULL,
+  `update_id` INT NOT NULL,
+  `create_id` INT NOT NULL,
   PRIMARY KEY (`si_id`),
   INDEX `fk_study_informations_study_types1_idx` (`st_id` ASC) VISIBLE,
   CONSTRAINT `fk_study_informations_study_types1`
@@ -107,10 +109,10 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `smile_db`.`user_join_studies` (
   `ujs_is_leader` TINYINT NOT NULL,
   `ujs_is_ban` TINYINT NOT NULL,
-  `ujs_update_time` TIMESTAMP NOT NULL,
-  `ujs_create_time` TIMESTAMP NOT NULL,
-  `ujs_update_id` INT NOT NULL,
-  `ujs_create_id` INT NOT NULL,
+  `update_time` TIMESTAMP NOT NULL,
+  `create_time` TIMESTAMP NOT NULL,
+  `update_id` INT NOT NULL,
+  `create_id` INT NOT NULL,
   `ujs_is_deleted` TINYINT NOT NULL,
   `user_id` INT NOT NULL,
   `si_id` INT NOT NULL,
@@ -135,10 +137,10 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `smile_db`.`study_comments` (
   `sc_id` INT NOT NULL AUTO_INCREMENT,
   `sc_content` TEXT NOT NULL,
-  `sc_update_time` TIMESTAMP NOT NULL,
-  `sc_create_time` TIMESTAMP NOT NULL,
-  `sc_update_id` INT NOT NULL,
-  `sc_create_id` INT NOT NULL,
+  `update_time` TIMESTAMP NOT NULL,
+  `create_time` TIMESTAMP NOT NULL,
+  `update_id` INT NOT NULL,
+  `create_id` INT NOT NULL,
   `sc_is_deleted` TINYINT NOT NULL,
   `user_id` INT NOT NULL,
   `si_id` INT NOT NULL,
@@ -164,10 +166,10 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `smile_db`.`study_board_types` (
   `sbt_id` INT NOT NULL AUTO_INCREMENT,
   `sbt_type` VARCHAR(255) NOT NULL,
-  `sbt_update_time` TIMESTAMP NOT NULL,
-  `sbt_create_time` TIMESTAMP NOT NULL,
-  `sbt_update_id` INT NOT NULL,
-  `sbt_create_id` INT NOT NULL,
+  `update_time` TIMESTAMP NOT NULL,
+  `create_time` TIMESTAMP NOT NULL,
+  `update_id` INT NOT NULL,
+  `create_id` INT NOT NULL,
   PRIMARY KEY (`sbt_id`))
 ENGINE = InnoDB;
 
@@ -180,10 +182,10 @@ CREATE TABLE IF NOT EXISTS `smile_db`.`study_boards` (
   `sb_title` VARCHAR(255) NOT NULL,
   `sb_view` INT NOT NULL,
   `sb_content` TEXT NOT NULL,
-  `sb_update_time` TIMESTAMP NOT NULL,
-  `sb_create_time` TIMESTAMP NOT NULL,
-  `sb_update_id` INT NOT NULL,
-  `sb_create_id` INT NOT NULL,
+  `update_time` TIMESTAMP NOT NULL,
+  `create_time` TIMESTAMP NOT NULL,
+  `update_id` INT NOT NULL,
+  `create_id` INT NOT NULL,
   `sb_is_deleted` TINYINT NOT NULL,
   `si_id` INT NOT NULL,
   `sbt_id` INT NOT NULL,
@@ -216,10 +218,10 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `smile_db`.`study_board_comments` (
   `sbc_id` INT NOT NULL AUTO_INCREMENT,
   `sbc_content` TEXT NOT NULL,
-  `sbc_update_time` TIMESTAMP NOT NULL,
-  `sbc_create_time` TIMESTAMP NOT NULL,
-  `sbc_update_id` INT NOT NULL,
-  `sbc_create_id` INT NOT NULL,
+  `update_time` TIMESTAMP NOT NULL,
+  `create_time` TIMESTAMP NOT NULL,
+  `update_id` INT NOT NULL,
+  `create_id` INT NOT NULL,
   `sbc_is_deleted` TINYINT NOT NULL,
   `sb_id` INT NOT NULL,
   `user_id` INT NOT NULL,
@@ -245,10 +247,10 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `smile_db`.`study_replies` (
   `sr_id` INT NOT NULL AUTO_INCREMENT,
   `sr_content` TEXT NOT NULL,
-  `sr_update_time` TIMESTAMP NOT NULL,
-  `sr_create_time` TIMESTAMP NOT NULL,
-  `sr_update_id` INT NOT NULL,
-  `sr_create_id` INT NOT NULL,
+  `update_time` TIMESTAMP NOT NULL,
+  `create_time` TIMESTAMP NOT NULL,
+  `update_id` INT NOT NULL,
+  `create_id` INT NOT NULL,
   `sr_is_deleted` TINYINT NOT NULL,
   `user_id` INT NOT NULL,
   `sc_id` INT NOT NULL,
@@ -275,10 +277,10 @@ CREATE TABLE IF NOT EXISTS `smile_db`.`stduy_board_files` (
   `sbf_id` INT NOT NULL AUTO_INCREMENT,
   `sbf_name` VARCHAR(255) NOT NULL,
   `sbf_path` VARCHAR(255) NOT NULL,
-  `sbf_update_time` TIMESTAMP NOT NULL,
-  `sbf_create_time` TIMESTAMP NOT NULL,
-  `sbf_update_id` INT NOT NULL,
-  `sbf_create_id` INT NOT NULL,
+  `update_time` TIMESTAMP NOT NULL,
+  `create_time` TIMESTAMP NOT NULL,
+  `update_id` INT NOT NULL,
+  `create_id` INT NOT NULL,
   `sbf_is_deleted` TINYINT NOT NULL,
   `sb_id` INT NOT NULL,
   PRIMARY KEY (`sbf_id`),
@@ -297,10 +299,10 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `smile_db`.`schedule_types` (
   `sct_id` INT NOT NULL AUTO_INCREMENT,
   `sct_name` VARCHAR(255) NOT NULL,
-  `sct_update_time` TIMESTAMP NOT NULL,
-  `sct_create_time` TIMESTAMP NOT NULL,
-  `sct_update_id` INT NOT NULL,
-  `sct_create_id` INT NOT NULL,
+  `update_time` TIMESTAMP NOT NULL,
+  `create_time` TIMESTAMP NOT NULL,
+  `update_id` INT NOT NULL,
+  `create_id` INT NOT NULL,
   PRIMARY KEY (`sct_id`))
 ENGINE = InnoDB;
 
@@ -315,10 +317,10 @@ CREATE TABLE IF NOT EXISTS `smile_db`.`study_schedules` (
   `ss_name` VARCHAR(255) NOT NULL,
   `ss_desc` TEXT NOT NULL,
   `ss_part` INT NULL,
-  `ss_update_time` TIMESTAMP NOT NULL,
-  `ss_create_time` TIMESTAMP NOT NULL,
-  `ss_update_id` INT NOT NULL,
-  `ss_create_id` INT NOT NULL,
+  `update_time` TIMESTAMP NOT NULL,
+  `create_time` TIMESTAMP NOT NULL,
+  `update_id` INT NOT NULL,
+  `create_id` INT NOT NULL,
   `ss_is_deleted` TINYINT NOT NULL,
   `si_id` INT NOT NULL,
   `sct_id` INT NOT NULL,
@@ -344,10 +346,10 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `smile_db`.`study_meeting_types` (
   `smt_id` INT NOT NULL AUTO_INCREMENT,
   `smt_name` VARCHAR(255) NOT NULL,
-  `smt_update_time` TIMESTAMP NOT NULL,
-  `smt_create_time` TIMESTAMP NOT NULL,
-  `smt_update_id` INT NOT NULL,
-  `smt_create_id` INT NOT NULL,
+  `update_time` TIMESTAMP NOT NULL,
+  `create_time` TIMESTAMP NOT NULL,
+  `update_id` INT NOT NULL,
+  `create_id` INT NOT NULL,
   PRIMARY KEY (`smt_id`))
 ENGINE = InnoDB;
 
@@ -360,10 +362,13 @@ CREATE TABLE IF NOT EXISTS `smile_db`.`study_meetings` (
   `sm_name` VARCHAR(255) NOT NULL,
   `sm_is_end` INT NOT NULL,
   `sm_start_time` DATETIME NOT NULL,
-  `sm_create_time` TIMESTAMP NOT NULL,
   `si_id` INT NOT NULL,
   `smt_id` INT NOT NULL,
   `user_id` INT NOT NULL,
+  `create_time` TIMESTAMP NOT NULL,
+  `update_time` TIMESTAMP NOT NULL,
+  `create_id` INT NOT NULL,
+  `update_id` INT NOT NULL,
   PRIMARY KEY (`sm_id`),
   INDEX `fk_study_meetings_study_informations1_idx` (`si_id` ASC) VISIBLE,
   INDEX `fk_study_meetings_study_meeting_types1_idx` (`smt_id` ASC) VISIBLE,
@@ -396,6 +401,10 @@ CREATE TABLE IF NOT EXISTS `smile_db`.`chat_messages` (
   `cm_session` VARCHAR(255) NOT NULL,
   `si_id` INT NOT NULL,
   `user_id` INT NOT NULL,
+  `update_time` TIMESTAMP NOT NULL,
+  `create_time` TIMESTAMP NOT NULL,
+  `update_id` INT NOT NULL,
+  `create_id` INT NOT NULL,
   PRIMARY KEY (`cm_id`),
   INDEX `fk_chat_messages_study_informations1_idx` (`si_id` ASC) VISIBLE,
   INDEX `fk_chat_messages_users1_idx` (`user_id` ASC) VISIBLE,
