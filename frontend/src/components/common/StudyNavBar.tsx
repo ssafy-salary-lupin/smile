@@ -10,7 +10,7 @@ const StudyNav = styled.div`
 `;
 
 const BlankSpace = styled.div`
-  height: 7.384vw;
+  height: 7.383vw;
 `;
 
 const Items = styled.li`
