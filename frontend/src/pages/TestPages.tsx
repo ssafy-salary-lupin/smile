@@ -1,27 +1,22 @@
-<<<<<<< HEAD
-import Select from "components/common/Select";
-import BlankSpace from "components/common/BlankSpace";
-import styled from "styled-components";
-
-function TestPages() {
-  return (
-    <>
-      <BlankSpace />
-      <Select />
-      {/* <SSelectInput /> */}
-    </>
-=======
 // import StudyNavBar from "../components/common/StudyNavBar";
 import SearchBar from "../components/common/SearchBar";
 import Modal from "../components/common/Modal";
+import Select from "components/common/Select";
+import BlankSpace from "components/common/BlankSpace";
 
 function TestPages() {
+  const optionObj = {
+    optionTitle: "스터디 유형",
+    optionList: ["면접", "자격증", "외국어"],
+  };
+  // const optionList = ange(1, 7);
   return (
     <div>
       {/* <StudyNavBar /> */}
+      <BlankSpace />
+      <Select optionObj={optionObj} />
       <Modal />
     </div>
->>>>>>> 68523f1fa59773ece9c85383bd8433f5c54bd59f
   );
 }
 

@@ -6,16 +6,57 @@ import CheckBoxTrue from "./Icons/CheckBoxTrue.svg";
 import BlankSpace from "./BlankSpace";
 import { Set } from "typescript";
 
+const Color = keyframes`
+  from {
+    
+  }
+  to {
+    color: #2551b3;
+  }
+`;
+const SelectColor = keyframes`
+  from {
+    
+  }
+  to {
+    border: 2px solid #2551b3;
+  }
+`;
+const InputColor = keyframes`
+  from {
+    
+  }
+  to {
+    border: 2px solid #2551b3;
+  }
+`;
+const fold = keyframes`
+  0% {
+    
+  }
+  99% {
+
+  }
+  100% {
+    border: none;
+  }
+`;
+
 const SSelectContainer = styled.div<{ isActive: boolean }>`
   position: relative;
   width: 195px;
   height: 48px;
   border-radius: 10px;
-  border: 2px solid #2551b3;
+
+  border: 2px solid rgba(0, 0, 0, 0.5);
   /* background: url("https://freepikpsd.com/media/2019/10/down-arrow-icon-png-7-Transparent-Images.png")
     calc(100% - 7px) center no-repeat; */
   /* background-size: 20px; */
   cursor: pointer;
+  ${(props) => (props.isActive ? "border: 2px solid #2551b3;" : null)}
+  :hover {
+    animation: ${SelectColor} 1s forwards;
+  }
   * {
     box-sizing: border-box;
   }
@@ -45,7 +86,8 @@ const SSelectContainer = styled.div<{ isActive: boolean }>`
       background: #303030;
     }
     ${(props) =>
-      props.isActive ? "max-height: 500px" : "transition: 0.3s ease-out"}
+      props.isActive ? "max-height: 500px;" : "transition: 0.3s ease-out;"};
+    animation: ${(props) => (props.isActive ? null : fold)} 1s forwards;
   }
   li {
     :hover {
@@ -54,6 +96,13 @@ const SSelectContainer = styled.div<{ isActive: boolean }>`
     }
     :last-child {
       border-bottom: 0 none;
+    }
+  }
+  button {
+    color: ${(props) => (props.isActive ? "#2551b3" : "black")};
+
+    :hover {
+      animation: ${Color} 1s forwards;
     }
   }
 `;
@@ -68,6 +117,8 @@ const SLabelBtn = styled.button`
   padding-left: 15px;
   background: transparent;
   cursor: pointer;
+  font-size: 20px;
+  font-weight: 600;
 `;
 
 const SOptionList = styled.ul`
@@ -91,23 +142,6 @@ const SOptionList = styled.ul`
   max-height: 0;
   transition: 0.3s ease-in;
   border: 1px solid rgba(0, 0, 0, 0.5);
-`;
-
-const Color = keyframes`
-  from {
-    
-  }
-  to {
-    color: #2551b3;
-  }
-`;
-const InputColor = keyframes`
-  from {
-    
-  }
-  to {
-    border: 2px solid #2551b3;
-  }
 `;
 
 const SOptionContainer = styled.div`
@@ -154,11 +188,26 @@ const SOptionItem = styled.label`
   /* font-weight: 600; */
 `;
 
-function Select(optionList: Array) {
+interface ISelectProps {
+  optionObj: {
+    optionTitle: string;
+    optionList: string[];
+  };
+}
+
+function Select(props: ISelectProps) {
   const [checkedList, setCheckedList] = useState<number[]>([]);
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState<boolean>(false);
   const [isActive, setIsActive] = useState<boolean>(false);
-  // const optionList = ["면접", "자격증", "외국어"];
+
+  // function range(start: number, end: number) {
+  //   let array = [];
+  //   for (let i = start; i < end; ++i) {
+  //     array.push(i);
+  //   }
+  //   return array;
+  // }
+
   const onClickLabel = () => {
     setIsActive(!isActive);
   };
@@ -181,12 +230,14 @@ function Select(optionList: Array) {
     setIsChecked(!isChecked);
     checkedItemHandler(value, e.target.checked);
   };
-  console.log(checkedList);
   return (
     <SSelectContainer isActive={isActive}>
-      <SLabelBtn onClick={onClickLabel}>버튼</SLabelBtn>
+      <SLabelBtn onClick={onClickLabel}>
+        {props.optionObj.optionTitle}
+      </SLabelBtn>
+      {/* {isActive && ( */}
       <SOptionList>
-        {optionList.map((optionItem, index) => (
+        {props.optionObj.optionList.map((optionItem, index) => (
           <SOptionContainer>
             <SSelectInput
               key={index + 1}
@@ -200,6 +251,7 @@ function Select(optionList: Array) {
           </SOptionContainer>
         ))}
       </SOptionList>
+      {/* )} */}
     </SSelectContainer>
   );
 }
