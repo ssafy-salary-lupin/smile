@@ -17,6 +17,8 @@ import cp.smile.study_common.dto.response.StudyTypeDTO;
 import cp.smile.study_common.dto.response.StudyUserProfileDTO;
 import cp.smile.study_common.dto.response.comment.StudyCommentDTO;
 import cp.smile.study_common.repository.*;
+import cp.smile.user.repository.UserJoinStudyRepository;
+import cp.smile.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +28,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
