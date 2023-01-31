@@ -1,20 +1,14 @@
 package cp.smile.user.repository;
 
-import cp.smile.entity.user.LoginProvider;
 import cp.smile.entity.user.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
+import java.util.Optional;
 
 
-public interface UserRepository {
+public interface UserRepository extends JpaRepository<User, Integer> {
 
-    void save(User user);
+    Optional<User> findByEmail(String email);
 
-    User findById(int id);
-
-    List<User> findAll();
-
-    //테스트를 위해서 만듦
-    LoginProvider findByLoginProviderId(int id);
-
+    Optional<User> findById(int id);
 }

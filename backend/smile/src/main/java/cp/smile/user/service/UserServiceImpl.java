@@ -1,6 +1,5 @@
 package cp.smile.user.service;
 
-import cp.smile.entity.user.LoginProvider;
 import cp.smile.entity.user.User;
 import cp.smile.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,15 +16,13 @@ public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
 
     @Override
-    public void join(User user) {
-
-        userRepository.save(user);
+    public User join(User user) {
+        return userRepository.save(user);
     }
 
     @Override
     public User findOne(int id) {
-        System.out.println("123123");
-        return userRepository.findById(id);
+        return userRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -33,4 +30,14 @@ public class UserServiceImpl implements UserService{
         return userRepository.findAll();
     }
 
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email).orElse(null);
+    }
+
+    @Override
+    public void updateRefreshToken(User user, String refreshToken) {
+        user = findOne(user.getId());
+        user.updateRefreshToken(refreshToken);
+    }
 }
