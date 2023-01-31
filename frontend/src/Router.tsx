@@ -1,4 +1,4 @@
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import LandingPages from "./pages/LandingPages";
 import StudyManagePages from "./pages/StudyManagePages";
 import StudyCreatePages from "./pages/StudyCreatePages";

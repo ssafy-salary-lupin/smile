@@ -2,6 +2,7 @@ import NavBar from "./components/common/NavBar";
 import Footer from "./components/common/Footer";
 import Router from "./Router";
 import { createGlobalStyle } from "styled-components";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 const GlobalStyle = createGlobalStyle`
 /* @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap"); */
@@ -154,15 +155,30 @@ a:visited,
 a:active,
 a:link {
   text-decoration: none !important;
-}`;
+}
+/* fullcalendar cursor pointer */
+.myCalendar {
+    cursor: pointer;
+}
+.fc-event{
+    cursor: pointer;
+}
+.fc-content {
+    cursor: pointer;
+}
+`;
 
 function App() {
+  const curPath = window.location.pathname;
+
   return (
     <>
-      <GlobalStyle />
-      {/* <NavBar /> */}
-      <Router />
-      <Footer />
+      <BrowserRouter>
+        <GlobalStyle />
+        <NavBar curUrl={curPath} />
+        <Router />
+        <Footer />
+      </BrowserRouter>
     </>
   );
 }
