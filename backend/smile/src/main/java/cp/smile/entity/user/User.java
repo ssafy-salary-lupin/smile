@@ -66,10 +66,14 @@ public class User extends BaseEntity {
     }
 
     /*user엔티티 -> StudyUserProfileDTO*/
-    public StudyUserProfileDTO createStudyUserProfileDTO(){
+    public StudyUserProfileDTO createStudyUserProfileDTO() {
         return StudyUserProfileDTO.builder()
                 .id(this.id)
                 .imgPath(this.imagePath)
                 .nickname(this.nickname).build();
+    }
+
+    public void updateRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 }
