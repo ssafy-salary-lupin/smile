@@ -3,6 +3,7 @@ package cp.smile.entity.study_management;
 
 import cp.smile.config.BaseEntity;
 import cp.smile.entity.study_common.StudyInformation;
+import cp.smile.study_management.schedule.dto.response.ScheduleDTO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -55,5 +56,16 @@ public class StudySchedule extends BaseEntity {
         this.isDeleted = isDeleted;
         this.scheduleType = scheduleType;
         this.url = url;
+    }
+
+    public ScheduleDTO createScheduleDTO(){
+        return ScheduleDTO.builder()
+                .id(this.id)
+                .title(this.name)
+                .type(this.scheduleType.createScheduleTypeDTO())
+                .startTime(this.startTime)
+                .endTime(this.endTime)
+                .url(this.url)
+                .description(this.description).build();
     }
 }

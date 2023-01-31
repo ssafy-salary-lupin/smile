@@ -1,6 +1,7 @@
 package cp.smile.entity.study_management;
 
 import cp.smile.config.BaseEntity;
+import cp.smile.study_management.schedule.dto.response.ScheduleTypeDTO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,5 +25,12 @@ public class ScheduleType extends BaseEntity {
     public ScheduleType(int id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+
+    public ScheduleTypeDTO createScheduleTypeDTO(){
+        return ScheduleTypeDTO.builder()
+                .id(this.id)
+                .name(this.name).build();
     }
 }
