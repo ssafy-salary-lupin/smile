@@ -1,6 +1,7 @@
 package cp.smile.study_common.controller;
 
 
+import cp.smile.auth.oauth2.CustomOAuth2User;
 import cp.smile.config.response.CommonResponse;
 import cp.smile.config.response.DataResponse;
 import cp.smile.config.response.ResponseService;
@@ -13,6 +14,7 @@ import cp.smile.study_common.service.StudyCommonService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,13 +37,15 @@ public class StudyCommonController {
     }
 
     @PostMapping("/studies")
-    public CommonResponse createStudy(@RequestBody CreateStudyDTO createStudyDTO){
+    public CommonResponse createStudy(
+            @RequestBody CreateStudyDTO createStudyDTO,
+            @AuthenticationPrincipal CustomOAuth2User oAuth2User){
 
-        // TODO : 유저 인증 로직 필요 - security 사용
+        int userId = oAuth2User.getUserId(); //토큰에서 유저 식별자 가져오기.
 
         // TODO : 파일업로드를 위해서 MartipartFormData로 처리 필요,
 
-        studyCommonService.createStudy(1,createStudyDTO);
+        studyCommonService.createStudy(userId,createStudyDTO);
 
 
 
@@ -60,11 +64,10 @@ public class StudyCommonController {
     @PostMapping("/studies/{studyId}/comments")
     public CommonResponse createStudyComment(
             @RequestBody CreateCommentDTO createCommentDTO,
-            @PathVariable int studyId){
+            @PathVariable int studyId,
+            @AuthenticationPrincipal CustomOAuth2User oAuth2User){
 
-
-        // TODO : 인증을 통해서 현재 요청한 사용자의 정보를 가져오도록 해야됨
-        int userId = 1;
+        int userId = oAuth2User.getUserId();// 토큰으로부터 userID 가져옴.
 
         createCommentDTO.setUserId(userId);
         createCommentDTO.setStudyId(studyId);
@@ -79,11 +82,10 @@ public class StudyCommonController {
     public CommonResponse createStudyReply(
             @RequestBody CreateReplyDTO createReplyDTO,
             @PathVariable int studyId,
-            @PathVariable int commentId){
+            @PathVariable int commentId,
+            @AuthenticationPrincipal CustomOAuth2User oAuth2User){
 
-
-        // TODO : 시큐리티를 이용한 인증 토큰에서 가져와야 됨.
-        int userId = 1;
+        int userId = oAuth2User.getUserId(); // 토큰으로부터 userID 가져옴.
 
         createReplyDTO.setUserId(userId);
         createReplyDTO.setCommentId(commentId);

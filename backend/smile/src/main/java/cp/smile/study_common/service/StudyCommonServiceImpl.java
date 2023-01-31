@@ -140,7 +140,6 @@ public class StudyCommonServiceImpl implements StudyCommonService{
                 .isDeleted(false)
                 .build();
 
-        System.out.println("test1");
         userJoinStudyRepository.save(userJoinStudy); //유저 스터디 가입 정보 저장.
     }
 
