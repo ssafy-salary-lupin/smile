@@ -13,8 +13,8 @@ public class CreateStudyDTO {
     private int typeId; //스터디 유형Id
 
     private int maxPerson;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private String startDate;
+    private String endDate;
 
     private String description; //스터디 설명
     private String time; //스터디 시간(ex. 미정)

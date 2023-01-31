@@ -39,6 +39,10 @@ public class StudyCommonController {
 
         // TODO : 파일업로드를 위해서 MartipartFormData로 처리 필요,
 
+        studyCommonService.createStudy(1,createStudyDTO);
+
+
+
         //서비스 계층 호출 하는 로직 필요
         return responseService.getSuccessResponse();
     }

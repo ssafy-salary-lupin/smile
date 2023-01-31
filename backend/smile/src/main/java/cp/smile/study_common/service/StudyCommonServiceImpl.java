@@ -6,6 +6,7 @@ import cp.smile.entity.study_common.StudyInformation;
 import cp.smile.entity.study_common.StudyType;
 import cp.smile.entity.user.User;
 import cp.smile.entity.user.UserJoinStudy;
+import cp.smile.entity.user.UserJoinStudyId;
 import cp.smile.study_common.dto.request.CreateStudyDTO;
 import cp.smile.study_common.dto.response.FindAllStudyDTO;
 import cp.smile.study_common.dto.response.FindDetailStudyDTO;
@@ -17,7 +18,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -84,6 +87,8 @@ public class StudyCommonServiceImpl implements StudyCommonService{
     /*스터디 생성*/
     public void createStudy(int userId, CreateStudyDTO createStudyDTO){
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일");
+
         String uuid = UUID.randomUUID().toString();
 
         //스터디 유형 조회.
@@ -95,8 +100,8 @@ public class StudyCommonServiceImpl implements StudyCommonService{
         //스터디 테이블 넣기
         StudyInformation studyInformation = StudyInformation.builder()
                 .name(createStudyDTO.getName())
-                .startDate(createStudyDTO.getStartDate())
-                .endDate(createStudyDTO.getEndDate())
+                .startDate(LocalDate.parse(createStudyDTO.getStartDate(), formatter))
+                .endDate(LocalDate.parse(createStudyDTO.getEndDate(), formatter))
                 .time(createStudyDTO.getTime())
                 .currentPerson(1)
                 .maxPerson(createStudyDTO.getMaxPerson())
@@ -115,8 +120,14 @@ public class StudyCommonServiceImpl implements StudyCommonService{
                 .findById(userId)
                 .orElseThrow(RuntimeException::new);
 
+        //유저 스터디 가입정보 복합키 생성
+        UserJoinStudyId userJoinStudyId = UserJoinStudyId.builder()
+                .userId(user.getId())
+                .studyInformationId(studyInformation.getId()).build();
+
         //유저 스터디 가입 정보 테이블에 넣기.
         UserJoinStudy userJoinStudy = UserJoinStudy.builder()
+                .id(userJoinStudyId)
                 .user(user)
                 .studyInformation(studyInformation)
                 .isLeader(true)
@@ -124,6 +135,7 @@ public class StudyCommonServiceImpl implements StudyCommonService{
                 .isDeleted(false)
                 .build();
 
+        System.out.println("test1");
         userJoinStudyRepository.save(userJoinStudy); //유저 스터디 가입 정보 저장.
     }
 

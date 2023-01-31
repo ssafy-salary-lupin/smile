@@ -11,6 +11,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -70,6 +71,9 @@ public class StudyInformation extends BaseEntity {
 
     @OneToMany(mappedBy = "studyInformation", fetch = FetchType.LAZY)
     Set<ChatMessage> chatMessages = new HashSet<>(); //채팅 메시지 테이블
+
+    //Date 형태 파싱
+
 
     @Builder
     public StudyInformation(int id, String name, LocalDate startDate, LocalDate endDate, String time, String imgPath, int currentPerson, int maxPerson, String description, int viewCount, boolean deadline, String rule, String chatroomId, StudyType studyType, boolean isEnd, LocalDateTime lastVisitedTime) {
