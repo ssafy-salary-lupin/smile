@@ -3,7 +3,7 @@ import profileImg from "../../assets/img/study_manage_profile_img.jpg";
 import chatImg from "../../assets/img/chat_icon.png";
 
 const Wrapper = styled.div`
-  margin: 0 10.833vw;
+  margin: 3.889vw 10.833vw;
   display: flex;
   flex-direction: column;
 `;
