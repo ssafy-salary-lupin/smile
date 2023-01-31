@@ -1,7 +1,6 @@
 package cp.smile.study_common.repository;
 
 import cp.smile.entity.study_common.StudyInformation;
-import cp.smile.study_common.dto.response.FindAllStudyDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

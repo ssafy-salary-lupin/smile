@@ -1,5 +1,6 @@
 package cp.smile.user.repository;
 
+import cp.smile.entity.user.LoginProvider;
 import cp.smile.entity.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
