@@ -3,6 +3,8 @@ package cp.smile.entity.study_common;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import cp.smile.config.BaseEntity;
 import cp.smile.entity.user.User;
+import cp.smile.study_common.dto.response.comment.StudyCommentDTO;
+import cp.smile.study_common.dto.response.comment.StudyReplyDTO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 // TODO : Setter는 나중에 빼고, 연관관계 메서드를 만들어서 처리하도록 해야됨.
 
@@ -62,5 +65,19 @@ public class StudyComment extends BaseEntity {
                 ", isDeleted=" + isDeleted +
                 ", studyRelies=" + studyRelies +
                 '}';
+    }
+
+    /*스터디 상세조회 댓글 DTO 변환*/
+    public StudyCommentDTO createStudyCommentDTO(){
+
+        List<StudyReplyDTO> studyReplyDTOS = studyRelies.stream()
+                .map(StudyReply::createStudyReplyDTO)
+                .collect(Collectors.toList());
+
+        return StudyCommentDTO.builder()
+                .id(this.id)
+                .user(this.user.createStudyUserProfileDTO())
+                .content(this.content)
+                .replies(studyReplyDTOS).build();
     }
 }

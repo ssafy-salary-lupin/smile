@@ -11,15 +11,19 @@ import java.util.List;
 @Setter
 public class StudyCommentDTO {
 
+    private int id; //식별자
     private StudyUserProfileDTO user;
     private String content;
 
     private List<StudyReplyDTO> replies;
 
     @Builder
-    public StudyCommentDTO(StudyUserProfileDTO user, String content, List<StudyReplyDTO> replies) {
+    public StudyCommentDTO(int id,StudyUserProfileDTO user, String content, List<StudyReplyDTO> replies) {
+        this.id = id;
         this.user = user;
         this.content = content;
         this.replies = replies;
     }
+
+
 }

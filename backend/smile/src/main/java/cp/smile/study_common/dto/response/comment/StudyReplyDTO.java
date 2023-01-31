@@ -7,11 +7,13 @@ import lombok.Getter;
 @Getter
 public class StudyReplyDTO {
 
+    private int id; //식별자
     private StudyUserProfileDTO user; //유저 프로필 객체
     private String content; //내용
 
     @Builder
-    public StudyReplyDTO(StudyUserProfileDTO user, String content) {
+    public StudyReplyDTO(int id, StudyUserProfileDTO user, String content) {
+        this.id = id;
         this.user = user;
         this.content = content;
     }

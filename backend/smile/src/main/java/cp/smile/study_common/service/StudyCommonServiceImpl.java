@@ -11,6 +11,7 @@ import cp.smile.study_common.dto.response.FindAllStudyDTO;
 import cp.smile.study_common.dto.response.FindDetailStudyDTO;
 import cp.smile.study_common.dto.response.StudyTypeDTO;
 import cp.smile.study_common.dto.response.StudyUserProfileDTO;
+import cp.smile.study_common.dto.response.comment.StudyCommentDTO;
 import cp.smile.study_common.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
@@ -47,12 +49,12 @@ public class StudyCommonServiceImpl implements StudyCommonService{
         // TODO : 스트림으로 코드를 좀 더 깔끔하게 처리할 필요가 있음, - 또는 디비구조를 개편해서 코드를 줄이는 방법 생각(join을 안쓸 순 없음.)
         /*조인 한 결과를 response DTO에 담음.*/
         for(StudyInformation studyInformation : studyInformations){
-            
+
             //스터디 타입 객체 매핑
             StudyTypeDTO studyTypeDTO = studyInformation.getStudyType().createStudyTypeDTO();
 
-            //유저 프로핊 정보 객체 매핑
-            studyInformation.getUserJoinStudies().iterator().next().getUser().createStudyUserProfileDTO();
+            //유저 프로필 정보 객체 매핑
+            StudyUserProfileDTO studyUserProfileDTO = studyInformation.getUserJoinStudies().iterator().next().getUser().createStudyUserProfileDTO();
 
             //댓글의 수 구하기 - 삭제 된 것도 있기 때문에 스트림을 이용해서 개수를 세어줌.
             int commentCount = (int)studyInformation.getStudyComments().stream()
@@ -133,16 +135,29 @@ public class StudyCommonServiceImpl implements StudyCommonService{
                 .findById(id)
                 .orElseThrow(RuntimeException::new);
 
+
         //댓글 대댓글 조회 - 대댓글은 없을 수도 있기 때문에 null리턴.
         Set<StudyComment> studyComments = studyCommentRepository
                 .findAllCommentAndReply(studyInformation)
                 .orElse(null);
 
         //댓글 DTO 채우기 & 대댓글 DTO 채우기
-        studyComments.stream().map((studyComment) -> studyComment.getStudyRelies())
+        List<StudyCommentDTO> StudyCommentDTOS = studyComments.stream()
+                .map(StudyComment::createStudyCommentDTO)
+                .collect(Collectors.toList());
 
         //스터디 상세 조회 DTO 채우기.
-
-        return null;
+        return FindDetailStudyDTO.builder()
+                .id(studyInformation.getId())
+                .name(studyInformation.getName())
+                .startDate(studyInformation.getStartDate())
+                .endDate(studyInformation.getEndDate())
+                .time(studyInformation.getTime())
+                .imgPath(studyInformation.getImgPath())
+                .currentPerson(studyInformation.getCurrentPerson())
+                .maxPerson(studyInformation.getMaxPerson())
+                .viewCount(studyInformation.getViewCount())
+                .type(studyInformation.getStudyType().createStudyTypeDTO())
+                .comments(StudyCommentDTOS).build();
     }
 }
