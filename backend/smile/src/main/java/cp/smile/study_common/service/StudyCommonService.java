@@ -2,6 +2,8 @@ package cp.smile.study_common.service;
 
 
 import cp.smile.entity.study_common.StudyInformation;
+import cp.smile.study_common.dto.request.CreateCommentDTO;
+import cp.smile.study_common.dto.request.CreateReplyDTO;
 import cp.smile.study_common.dto.request.CreateStudyDTO;
 import cp.smile.study_common.dto.response.FindAllStudyDTO;
 import cp.smile.study_common.dto.response.FindDetailStudyDTO;
@@ -21,5 +23,8 @@ public interface StudyCommonService {
 
 
     FindDetailStudyDTO findDetailStudy(int id); //상세조회
+
+    void createComment(CreateCommentDTO createCommentDTO);
+    void createReply(CreateReplyDTO createReplyDTO);
 
 }

@@ -3,10 +3,13 @@ package cp.smile.study_common.service;
 
 import cp.smile.entity.study_common.StudyComment;
 import cp.smile.entity.study_common.StudyInformation;
+import cp.smile.entity.study_common.StudyReply;
 import cp.smile.entity.study_common.StudyType;
 import cp.smile.entity.user.User;
 import cp.smile.entity.user.UserJoinStudy;
 import cp.smile.entity.user.UserJoinStudyId;
+import cp.smile.study_common.dto.request.CreateCommentDTO;
+import cp.smile.study_common.dto.request.CreateReplyDTO;
 import cp.smile.study_common.dto.request.CreateStudyDTO;
 import cp.smile.study_common.dto.response.FindAllStudyDTO;
 import cp.smile.study_common.dto.response.FindDetailStudyDTO;
@@ -34,6 +37,7 @@ public class StudyCommonServiceImpl implements StudyCommonService{
     private final StudyTypeRepository studyTypeRepository;
     private final UserRepository userRepository;
     private final StudyCommentRepository studyCommentRepository;
+    private final StudyReplyRepository studyReplyRepository;
 
     /*전체 조회.*/
     @Override
@@ -172,4 +176,60 @@ public class StudyCommonServiceImpl implements StudyCommonService{
                 .type(studyInformation.getStudyType().createStudyTypeDTO())
                 .comments(StudyCommentDTOS).build();
     }
+
+    /*댓글 생성*/
+    @Override
+    public void createComment(CreateCommentDTO createCommentDTO) {
+
+        //유저 조회
+        User user = userRepository
+                .findById(createCommentDTO.getUserId())
+                .orElseThrow(RuntimeException::new);
+
+        //스터디 조회
+        StudyInformation studyInformation = studyCommonRepository
+                .findById(createCommentDTO.getStudyId())
+                .orElseThrow(RuntimeException::new);
+
+        //댓글 엔티티에 저장.
+        StudyComment studyComment = StudyComment.builder()
+                .user(user)
+                .studyInformation(studyInformation)
+                .content(createCommentDTO.getContent())
+                .isDeleted(false).build();
+
+        //댓글 저장.
+        studyCommentRepository.save(studyComment);
+
+    }
+
+    /*대댓글 생성*/
+    @Override
+    public void createReply(CreateReplyDTO createReplyDTO) {
+
+        //유저 조회
+        User user = userRepository
+                .findById(createReplyDTO.getUserId())
+                .orElseThrow(RuntimeException::new);
+
+        //댓글 조회
+        StudyComment studyComment = studyCommentRepository
+                .findById(createReplyDTO.getCommentId())
+                .orElseThrow(RuntimeException::new);
+
+
+        //대댓글 엔티티 생성
+        StudyReply studyReply = StudyReply.builder()
+                .user(user)
+                .studyComment(studyComment)
+                .content(createReplyDTO.getContent())
+                .isDeleted(false).build();
+
+        //대댓글 엔티티 저장
+        studyReplyRepository.save(studyReply);
+
+    }
+
+
+
 }

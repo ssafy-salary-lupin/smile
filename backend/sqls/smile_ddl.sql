@@ -325,6 +325,7 @@ CREATE TABLE IF NOT EXISTS `smile_db`.`study_schedules` (
   `ss_is_deleted` TINYINT NOT NULL,
   `si_id` INT NOT NULL,
   `sct_id` INT NOT NULL,
+  `ss_url` VARCHAR(255) NULL,
   PRIMARY KEY (`ss_id`),
   INDEX `fk_study_schedules_study_informations1_idx` (`si_id` ASC) VISIBLE,
   INDEX `fk_study_schedules_schedule_types1_idx` (`sct_id` ASC) VISIBLE,

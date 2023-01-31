@@ -4,6 +4,8 @@ package cp.smile.study_common.controller;
 import cp.smile.config.response.CommonResponse;
 import cp.smile.config.response.DataResponse;
 import cp.smile.config.response.ResponseService;
+import cp.smile.study_common.dto.request.CreateCommentDTO;
+import cp.smile.study_common.dto.request.CreateReplyDTO;
 import cp.smile.study_common.dto.request.CreateStudyDTO;
 import cp.smile.study_common.dto.response.FindAllStudyDTO;
 import cp.smile.study_common.dto.response.FindDetailStudyDTO;
@@ -55,8 +57,41 @@ public class StudyCommonController {
     }
 
 
+    @PostMapping("/studies/{studyId}/comments")
+    public CommonResponse createStudyComment(
+            @RequestBody CreateCommentDTO createCommentDTO,
+            @PathVariable int studyId){
 
 
+        // TODO : 인증을 통해서 현재 요청한 사용자의 정보를 가져오도록 해야됨
+        int userId = 1;
 
+        createCommentDTO.setUserId(userId);
+        createCommentDTO.setStudyId(studyId);
+
+        studyCommonService.createComment(createCommentDTO);
+
+        return responseService.getSuccessResponse();
+
+    }
+
+    @PostMapping("/studies/{studyId}/comments/{commentId}/replies")
+    public CommonResponse createStudyReply(
+            @RequestBody CreateReplyDTO createReplyDTO,
+            @PathVariable int studyId,
+            @PathVariable int commentId){
+
+
+        // TODO : 시큐리티를 이용한 인증 토큰에서 가져와야 됨.
+        int userId = 1;
+
+        createReplyDTO.setUserId(userId);
+        createReplyDTO.setCommentId(commentId);
+
+
+        studyCommonService.createReply(createReplyDTO);
+
+        return responseService.getSuccessResponse();
+    }
 
 }
