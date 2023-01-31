@@ -15,7 +15,11 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "baseUrl": "src" // 루트 폴더 url -> src로 설정
+    "baseUrl": "src", // 루트 폴더 url -> src로 설정
+    "compilerOptions": {
+      "target": "es5",
+      "downlevelIteration": true
+    }
   },
   "include": ["src"]
 }
