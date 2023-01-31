@@ -44,9 +44,9 @@ const fold = keyframes`
 
 const SSelectContainer = styled.div<{ isActive: boolean }>`
   position: relative;
-  width: 195px;
-  height: 48px;
-  border-radius: 10px;
+  width: 13.542vw;
+  height: 3.333vw;
+  border-radius: 0.694vw;
 
   border: 2px solid rgba(0, 0, 0, 0.5);
   /* background: url("https://freepikpsd.com/media/2019/10/down-arrow-icon-png-7-Transparent-Images.png")
@@ -60,8 +60,9 @@ const SSelectContainer = styled.div<{ isActive: boolean }>`
   * {
     box-sizing: border-box;
   }
-  ::after {
-    /* content: ""; */
+  /* 중앙 분리 선 만들기 */
+  /* ::after {
+    content: "";
     display: block;
     width: 2px;
     height: 100%;
@@ -69,18 +70,18 @@ const SSelectContainer = styled.div<{ isActive: boolean }>`
     top: 0;
     right: 35px;
     background: lightcoral;
-  }
+  } */
 
   ul {
     ::-webkit-scrollbar {
-      width: 6px;
+      width: 0.417vw;
     }
     ::-webkit-scrollbar-track {
       background: transparent;
     }
     ::-webkit-scrollbar-thumb {
       background: #303030;
-      border-radius: 45px;
+      border-radius: 3.125vw;
     }
     ::-webkit-scrollbar-thumb:hover {
       background: #303030;
@@ -114,10 +115,10 @@ const SLabelBtn = styled.button`
   height: inherit;
   border: 0 none;
   outline: 0 none;
-  padding-left: 15px;
+  padding-left: 1.042vw;
   background: transparent;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 1.389vw;
   font-weight: 600;
 `;
 
@@ -127,17 +128,17 @@ const SOptionList = styled.ul`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  top: 50px;
+  top: 3.472vw;
   left: 0;
   width: 100%;
-  height: 200px;
+  height: 13.889vw;
   /* background: lightcoral; */
   background: white;
   color: black;
   list-style-type: none;
   padding: 0;
   /* padding: 28px 54px; */
-  border-radius: 6px;
+  border-radius: 0.417vw;
   overflow: hidden;
   max-height: 0;
   transition: 0.3s ease-in;
@@ -148,7 +149,7 @@ const SOptionContainer = styled.div`
   display: flex;
   /* justify-content: center; */
   align-items: center;
-  margin-left: 32px;
+  margin-left: 2.222vw;
   :hover {
     /* color: #2551b3; */
     animation: ${Color} 1s forwards;
@@ -181,10 +182,10 @@ const SSelectInput = styled.input.attrs({
 
 const SOptionItem = styled.label`
   /* border-bottom: 1px dashed rgb(170, 72, 72); */
-  padding: 5px 15px 5px;
-  margin: 16px 0px;
+  padding: 0.347vw 1.042vw 0.347vw;
+  margin: 1.111vw 0px;
   transition: 0.1s;
-  font-size: 16px;
+  font-size: 1.111vw;
   /* font-weight: 600; */
 `;
 
