@@ -1,6 +1,7 @@
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import LandingPages from "./pages/LandingPages";
 import StudyManagePages from "./pages/StudyManagePages";
+import StudyCreatePages from "./pages/StudyCreatePages";
 import TestPages from "./pages/TestPages";
 
 function Router() {
@@ -15,6 +16,9 @@ function Router() {
         </Route>
         <Route path="/test">
           <TestPages />
+        </Route>
+        <Route path="/create">
+          <StudyCreatePages />
         </Route>
       </Switch>
     </BrowserRouter>

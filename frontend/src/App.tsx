@@ -160,7 +160,7 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      <NavBar />
+      {/* <NavBar /> */}
       <Router />
       <Footer />
     </>
