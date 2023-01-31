@@ -11,6 +11,8 @@ public interface UserService {
     User join(User user); //회원가입
     void join(UserJoinDTO userJoinDTO);
 
+    User findOne(int id);
+
     UserInfoDTO findDetailUser(int id);
 
     User findByEmail(String email);

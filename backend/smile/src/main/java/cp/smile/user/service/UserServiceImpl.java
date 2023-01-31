@@ -1,9 +1,11 @@
 package cp.smile.user.service;
 
+import cp.smile.auth.oauth2.provider.LoginProviderRepository;
+import cp.smile.auth.oauth2.provider.OAuth2Provider;
+import cp.smile.entity.user.LoginProvider;
 import cp.smile.entity.user.User;
 import cp.smile.user.dto.request.UserJoinDTO;
 import cp.smile.user.dto.response.UserInfoDTO;
-import cp.smile.user.repository.LoginProviderRepository;
 import cp.smile.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,12 +22,14 @@ public class UserServiceImpl implements UserService{
     @Override
     public User join(User user) {
         return userRepository.save(user);
+    }
+
     public void join(UserJoinDTO userJoinDTO) {
 
         // TODO: 2023-01-31 비밀번호 암호화해서 DB에 넣기, loginProvider, 프로필이미지 경로 처리
 
         LoginProvider loginProvider = loginProviderRepository
-                .findById(1)
+                .findByProvider(OAuth2Provider.local)
                 .orElseThrow(RuntimeException::new);
 
         User user = User.builder()
@@ -44,6 +48,7 @@ public class UserServiceImpl implements UserService{
     public User findOne(int id) {
         return userRepository.findById(id).orElse(null);
     }
+
     public UserInfoDTO findDetailUser(int id) {
 
         User user = userRepository
