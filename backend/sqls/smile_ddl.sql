@@ -76,8 +76,8 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `smile_db`.`study_informations` (
   `si_id` INT NOT NULL AUTO_INCREMENT,
   `si_name` VARCHAR(255) NOT NULL,
-  `si_start_date` TIMESTAMP NOT NULL,
-  `si_end_date` TIMESTAMP NOT NULL,
+  `si_start_date` DATE NOT NULL,
+  `si_end_date` DATE NOT NULL,
   `si_time` VARCHAR(255) NOT NULL,
   `si_img` VARCHAR(255) NULL,
   `si_person` INT NOT NULL,
@@ -325,6 +325,7 @@ CREATE TABLE IF NOT EXISTS `smile_db`.`study_schedules` (
   `ss_is_deleted` TINYINT NOT NULL,
   `si_id` INT NOT NULL,
   `sct_id` INT NOT NULL,
+  `ss_url` VARCHAR(255) NULL,
   PRIMARY KEY (`ss_id`),
   INDEX `fk_study_schedules_study_informations1_idx` (`si_id` ASC) VISIBLE,
   INDEX `fk_study_schedules_schedule_types1_idx` (`sct_id` ASC) VISIBLE,

@@ -1,6 +1,5 @@
 package cp.smile.user.service;
 
-import cp.smile.entity.user.LoginProvider;
 import cp.smile.entity.user.User;
 import cp.smile.user.dto.request.UserJoinDTO;
 import cp.smile.user.dto.response.UserInfoDTO;
@@ -19,6 +18,8 @@ public class UserServiceImpl implements UserService{
     private final LoginProviderRepository loginProviderRepository;
 
     @Override
+    public User join(User user) {
+        return userRepository.save(user);
     public void join(UserJoinDTO userJoinDTO) {
 
         // TODO: 2023-01-31 비밀번호 암호화해서 DB에 넣기, loginProvider, 프로필이미지 경로 처리
@@ -40,6 +41,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public User findOne(int id) {
+        return userRepository.findById(id).orElse(null);
+    }
     public UserInfoDTO findDetailUser(int id) {
 
         User user = userRepository
@@ -54,4 +58,14 @@ public class UserServiceImpl implements UserService{
                 .isDeleted(user.getIsDeleted()).build();
     }
 
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email).orElse(null);
+    }
+
+    @Override
+    public void updateRefreshToken(User user, String refreshToken) {
+        user = findOne(user.getId());
+        user.updateRefreshToken(refreshToken);
+    }
 }

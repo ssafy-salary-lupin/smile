@@ -8,8 +8,12 @@ import java.util.List;
 
 public interface UserService {
 
+    User join(User user); //회원가입
     void join(UserJoinDTO userJoinDTO);
 
     UserInfoDTO findDetailUser(int id);
 
+    User findByEmail(String email);
+
+    void updateRefreshToken(User user, String refreshToken);
 }

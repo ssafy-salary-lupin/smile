@@ -40,8 +40,11 @@ public class StudySchedule extends BaseEntity {
     @JoinColumn(name = "sct_id")
     private ScheduleType scheduleType;
 
+    @Column(name = "ss_url")
+    private String url;
+
     @Builder
-    public StudySchedule(int id, LocalDateTime startTime, LocalDateTime endTime, String name, String description, int part, StudyInformation studyInformation, Boolean isDeleted, ScheduleType scheduleType) {
+    public StudySchedule(int id, LocalDateTime startTime, LocalDateTime endTime, String name, String description, int part, StudyInformation studyInformation, Boolean isDeleted, ScheduleType scheduleType, String url) {
         this.id = id;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -51,5 +54,6 @@ public class StudySchedule extends BaseEntity {
         this.studyInformation = studyInformation;
         this.isDeleted = isDeleted;
         this.scheduleType = scheduleType;
+        this.url = url;
     }
 }
