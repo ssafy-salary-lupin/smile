@@ -1,13 +1,13 @@
-import SearchBar from "../components/common/Search";
+
+// import StudyNavBar from "../components/common/StudyNavBar";
+import SearchBar from "../components/common/SearchBar";
+import Modal from "../components/common/Modal";
 
 function TestPages() {
   return (
     <div>
-      <SearchBar
-        searchWidth={28}
-        searchHeight={3.36}
-        innerText="궁금한 스터디를 검색하세요"
-      />
+      {/* <StudyNavBar /> */}
+      <Modal />
     </div>
   );
 }
