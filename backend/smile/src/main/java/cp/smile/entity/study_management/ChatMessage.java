@@ -23,7 +23,7 @@ public class ChatMessage extends BaseEntity {
     private String content;
     @Column(name = "cm_send_time")
     private LocalDateTime sendTime; //보낸시간
-    @Column(name = "sm_session")
+    @Column(name = "cm_session")
     private String session;
 
     @ManyToOne(fetch = FetchType.LAZY)

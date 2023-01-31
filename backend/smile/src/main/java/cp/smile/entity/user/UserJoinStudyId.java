@@ -1,14 +1,18 @@
 package cp.smile.entity.user;
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Getter
 @Embeddable
+@NoArgsConstructor
 public class UserJoinStudyId implements Serializable {
 
 //    @Column(name = "user_id")
@@ -27,5 +31,11 @@ public class UserJoinStudyId implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(userId,studyInformationId);
+    }
+
+    @Builder
+    public UserJoinStudyId(int userId, int studyInformationId) {
+        this.userId = userId;
+        this.studyInformationId = studyInformationId;
     }
 }

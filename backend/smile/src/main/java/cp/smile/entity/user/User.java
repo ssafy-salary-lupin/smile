@@ -2,6 +2,7 @@ package cp.smile.entity.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import cp.smile.config.BaseEntity;
+import cp.smile.study_common.dto.response.StudyUserProfileDTO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -62,5 +63,13 @@ public class User extends BaseEntity {
 
     public void addLoginProvider(LoginProvider loginProvider){
         this.loginProvider = loginProvider;
+    }
+
+    /*user엔티티 -> StudyUserProfileDTO*/
+    public StudyUserProfileDTO createStudyUserProfileDTO(){
+        return StudyUserProfileDTO.builder()
+                .id(this.id)
+                .imgPath(this.imagePath)
+                .nickname(this.nickname).build();
     }
 }
