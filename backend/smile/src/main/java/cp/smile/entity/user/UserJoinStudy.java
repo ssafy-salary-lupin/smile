@@ -6,10 +6,8 @@ import cp.smile.entity.study_common.StudyInformation;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
@@ -46,5 +44,18 @@ public class UserJoinStudy extends BaseEntity {
         this.isLeader = isLeader;
         this.isBan = isBan;
         this.isDeleted = isDeleted;
+    }
+
+    public void connectUserAndStudy(User user, StudyInformation study) {
+        this.user = user;
+        user.getUserJoinStudy().add(this);
+
+        this.studyInformation = study;
+        study.getUserJoinStudies().add(this);
+
+//        UserJoinStudyId.builder()
+//                .userId(user.getId())
+//                .studyInformationId(study.getId())
+//                .build();
     }
 }

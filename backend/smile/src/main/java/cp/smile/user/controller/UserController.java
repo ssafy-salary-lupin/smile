@@ -1,18 +1,17 @@
 
 package cp.smile.user.controller;
 
+import cp.smile.auth.oauth2.CustomOAuth2User;
 import cp.smile.config.response.CommonResponse;
 import cp.smile.config.response.DataResponse;
 import cp.smile.config.response.ResponseService;
-import cp.smile.entity.user.User;
 import cp.smile.user.dto.request.UserJoinDTO;
 import cp.smile.user.dto.response.UserInfoDTO;
 import cp.smile.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -42,4 +41,13 @@ public class UserController {
         return responseService.getDataResponse(userService.findDetailUser(userId));
     }
 
+    @PostMapping("/users/{userId}/studies/{studyId}")
+    public CommonResponse joinStudy(
+            @PathVariable int userId,
+            @PathVariable int studyId,
+            @AuthenticationPrincipal CustomOAuth2User oAuth2User) {
+        log.info("request user id: {}", oAuth2User.getUserId());
+        userService.joinStudy(userId, studyId);
+        return responseService.getSuccessResponse();
+    }
 }

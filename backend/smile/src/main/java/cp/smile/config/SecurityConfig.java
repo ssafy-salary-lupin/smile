@@ -7,6 +7,7 @@ import cp.smile.auth.oauth2.CustomOAuth2UserService;
 import cp.smile.auth.oauth2.OAuth2LoginSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -28,6 +29,7 @@ public class SecurityConfig {
         http.csrf().disable();
         http.authorizeHttpRequests()
                 .antMatchers("/auth/authenticated").authenticated()
+                .antMatchers(HttpMethod.POST, "/users/{userId}/studies/{studyId}").authenticated()
                 .anyRequest().permitAll()
                 .and()
                 .oauth2Login()
