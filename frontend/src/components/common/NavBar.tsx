@@ -14,6 +14,7 @@ const Nav = styled(motion.nav)`
   justify-content: space-between;
   // padding: 0.784vw; //0.7rem
   align-items: center;
+  z-index: 9999;
 `;
 
 const NavHeader = styled.div`

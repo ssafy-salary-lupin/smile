@@ -6,7 +6,7 @@ const FooterContainer = styled.footer`
   background-color: ${(props) => props.theme.blackColor};
   color: ${(props) => props.theme.whiteColor};
   padding: 3rem 2rem;
-  margin-top: 5rem;
+  /* margin-top: 5rem; */
   display: flex;
   flex-direction: column;
   font-size: 1.12vw;
