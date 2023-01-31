@@ -2,22 +2,33 @@ package cp.smile.user.service;
 
 import cp.smile.auth.oauth2.provider.LoginProviderRepository;
 import cp.smile.auth.oauth2.provider.OAuth2Provider;
+import cp.smile.entity.study_common.StudyInformation;
 import cp.smile.entity.user.LoginProvider;
 import cp.smile.entity.user.User;
+import cp.smile.entity.user.UserJoinStudy;
+import cp.smile.entity.user.UserJoinStudyId;
+import cp.smile.study_common.repository.StudyCommonRepository;
 import cp.smile.user.dto.request.UserJoinDTO;
 import cp.smile.user.dto.response.UserInfoDTO;
+import cp.smile.user.repository.UserJoinStudyRepository;
 import cp.smile.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
+
 @Service
 @Transactional(readOnly = false)
+@Slf4j
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
+    private final StudyCommonRepository studyCommentRepository;
     private final LoginProviderRepository loginProviderRepository;
+    private final UserJoinStudyRepository userJoinStudyRepository;
 
     @Override
     public User join(User user) {
@@ -72,5 +83,33 @@ public class UserServiceImpl implements UserService{
     public void updateRefreshToken(User user, String refreshToken) {
         user = findOne(user.getId());
         user.updateRefreshToken(refreshToken);
+    }
+
+    @Override
+    public void joinStudy(int userId, int studyId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException(userId + "에 해당하는 유저가 없습니다."));
+
+        log.info("find user: {}", user.getEmail());
+
+        StudyInformation study = studyCommentRepository.findById(studyId)
+                .orElseThrow(() -> new EntityNotFoundException(studyId + "에 해당하는 스터디가 없습니다."));
+
+        log.info("find study: {}", study.getName());
+
+        /**
+         * 이미 가입한 스터디인 경우 예외 처리 추가
+         */
+
+        UserJoinStudyId userJoinStudyId = new UserJoinStudyId(userId, studyId);
+        UserJoinStudy userJoinStudy = UserJoinStudy.builder()
+                .id(userJoinStudyId)
+                .isBan(false)
+                .isDeleted(false)
+                .isLeader(false)
+                .build();
+
+        userJoinStudy.connectUserAndStudy(user, study);
+        userJoinStudyRepository.save(userJoinStudy);
     }
 }
