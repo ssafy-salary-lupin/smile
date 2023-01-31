@@ -1,6 +1,5 @@
 import React, { SetStateAction, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import ButtonBasic from "../common/ButtonBasic";
 
 interface PropsType {
   children?: React.ReactNode;
@@ -43,17 +42,7 @@ const Close = styled.div`
   font-size: 1.042vw;
 `;
 
-const Text = styled.div`
-  font-size: 1.111vw;
-`;
-
 function ModalBasic(props: PropsType) {
-  const [modalBasicClose, setModalBasicClose] = useState<boolean>(true);
-  // 모달 끄기
-  const closeModal = () => {
-    console.log("before : ", props.setModalOpen);
-    props.setModalOpen(false);
-  };
   const modalRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     // 이벤트 핸들러 함수
@@ -77,7 +66,7 @@ function ModalBasic(props: PropsType) {
   return (
     <Backdrop className="modalBg">
       <ModalContainer className="modalBox" ref={modalRef}>
-        {/* <Close onClick={closeModal}>X</Close> */}
+        {/* 여기에 모달 내용 요소 props */}
         {props.children}
       </ModalContainer>
     </Backdrop>

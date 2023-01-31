@@ -1,3 +1,7 @@
+// 다음과 같이 import해서 사용
+// import * as <원하는 이름 ex) Icons> from "components/common/Icons"
+// <Icons.Camera/>
+
 import { ReactComponent as Camera } from "assets/icon/Camera.svg";
 import { ReactComponent as CameraSlash } from "assets/icon/CameraSlash.svg";
 import { ReactComponent as CaretDown } from "assets/icon/CaretDown.svg";
