@@ -1,5 +1,6 @@
 package cp.smile.entity.study_common;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import cp.smile.config.BaseEntity;
 import cp.smile.entity.user.User;
 import lombok.Builder;
@@ -10,7 +11,9 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 // TODO : Setter는 나중에 빼고, 연관관계 메서드를 만들어서 처리하도록 해야됨.
 
@@ -34,11 +37,10 @@ public class StudyComment extends BaseEntity {
     @Column(name = "sc_is_deleted")
     private boolean isDeleted;
 
-
-
     //댓글에 연결된 대댓글을 조회하기 때문에 연관관계를 양방향으로 맺음.
+//    @JsonManagedReference
     @OneToMany(mappedBy = "studyComment")
-    List<StudyReply> studyRelies = new ArrayList<>();
+    Set<StudyReply> studyRelies = new HashSet<>();
 
     @Builder
     public StudyComment(int id, User user, StudyInformation studyInformation, String content, boolean isDeleted) {
@@ -47,5 +49,18 @@ public class StudyComment extends BaseEntity {
         this.studyInformation = studyInformation;
         this.content = content;
         this.isDeleted = isDeleted;
+    }
+
+
+    @Override
+    public String toString() {
+        return "StudyComment{" +
+                "id=" + id +
+                ", user=" + user +
+                ", studyInformation=" + studyInformation +
+                ", content='" + content + '\'' +
+                ", isDeleted=" + isDeleted +
+                ", studyRelies=" + studyRelies +
+                '}';
     }
 }

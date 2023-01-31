@@ -1,6 +1,7 @@
 package cp.smile.entity.study_common;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import cp.smile.config.BaseEntity;
 import cp.smile.entity.user.User;
 import lombok.Builder;
@@ -24,6 +25,7 @@ public class StudyReply extends BaseEntity {
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+//    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "sc_id")
     private StudyComment studyComment;

@@ -25,10 +25,18 @@ public interface StudyCommonRepository extends JpaRepository<StudyInformation, I
             "where s.deadline = false and s.isEnd = false and ujs.isLeader = true")
     Optional<Set<StudyInformation>> findAllByStudyInformation();
 
-    //스터디 생성 - 이미 만들어져 있음
+    /*스터디 생성 */
+
+    //스터디 정보 테이블에 넣기 - save 함수가 구현되어있음.
+
+    //유저 스터디 가입 정보 테이블에 넣기.
 
 
-    //스터디 상세 조회
+    /*스터디 상세 조회*/
+
+    //스터디 id로 스터디 정보, 스터디장 조회.
+
+    //스터디 id에 해당하는 댓글 - 대댓글 정보 가져오기.
 
 
 

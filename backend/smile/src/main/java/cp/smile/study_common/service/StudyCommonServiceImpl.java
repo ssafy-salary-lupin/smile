@@ -1,26 +1,36 @@
 package cp.smile.study_common.service;
 
 
+import cp.smile.entity.study_common.StudyComment;
 import cp.smile.entity.study_common.StudyInformation;
+import cp.smile.entity.study_common.StudyType;
+import cp.smile.entity.user.User;
+import cp.smile.entity.user.UserJoinStudy;
+import cp.smile.study_common.dto.request.CreateStudyDTO;
 import cp.smile.study_common.dto.response.FindAllStudyDTO;
+import cp.smile.study_common.dto.response.FindDetailStudyDTO;
 import cp.smile.study_common.dto.response.StudyTypeDTO;
 import cp.smile.study_common.dto.response.StudyUserProfileDTO;
-import cp.smile.study_common.repository.StudyCommonRepository;
+import cp.smile.study_common.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = false)
 public class StudyCommonServiceImpl implements StudyCommonService{
     private final StudyCommonRepository studyCommonRepository;
+    private final UserJoinStudyRepository userJoinStudyRepository;
+    private final StudyTypeRepository studyTypeRepository;
+    private final UserRepository userRepository;
+    private final StudyCommentRepository studyCommentRepository;
 
+    /*전체 조회.*/
     @Override
     public List<FindAllStudyDTO> findAllStudy() {
 
@@ -34,23 +44,15 @@ public class StudyCommonServiceImpl implements StudyCommonService{
 
         List<FindAllStudyDTO> findAllStudyDTOS = new ArrayList<>();
 
-        System.out.println(studyInformations);
-
         // TODO : 스트림으로 코드를 좀 더 깔끔하게 처리할 필요가 있음, - 또는 디비구조를 개편해서 코드를 줄이는 방법 생각(join을 안쓸 순 없음.)
         /*조인 한 결과를 response DTO에 담음.*/
         for(StudyInformation studyInformation : studyInformations){
-
+            
             //스터디 타입 객체 매핑
-            StudyTypeDTO studyTypeDTO = StudyTypeDTO.builder()
-                    .id(studyInformation.getStudyType().getId())
-                    .name(studyInformation.getStudyType().getName()).build();
+            StudyTypeDTO studyTypeDTO = studyInformation.getStudyType().createStudyTypeDTO();
 
-            //유저 프로필 정보 객체 매핑.
-            StudyUserProfileDTO studyUserProfileDTO = StudyUserProfileDTO.builder()
-                    .id(studyInformation.getUserJoinStudies().iterator().next().getUser().getId())
-                    .nickname(studyInformation.getUserJoinStudies().iterator().next().getUser().getNickname())
-                    .imgPath(studyInformation.getUserJoinStudies().iterator().next().getUser().getImagePath()).build();
-
+            //유저 프로핊 정보 객체 매핑
+            studyInformation.getUserJoinStudies().iterator().next().getUser().createStudyUserProfileDTO();
 
             //댓글의 수 구하기 - 삭제 된 것도 있기 때문에 스트림을 이용해서 개수를 세어줌.
             int commentCount = (int)studyInformation.getStudyComments().stream()
@@ -74,11 +76,73 @@ public class StudyCommonServiceImpl implements StudyCommonService{
             findAllStudyDTOS.add(findAllStudyDTO);
         }
 
-
-        // TODO : user 도메인 쪽에서 스터디가입 정보 조회 테이블이 완료되면
-        /*스터디 장 조회*/
-
-        System.out.println(findAllStudyDTOS);
         return findAllStudyDTOS;
+    }
+
+    /*스터디 생성*/
+    public void createStudy(int userId, CreateStudyDTO createStudyDTO){
+
+        String uuid = UUID.randomUUID().toString();
+
+        //스터디 유형 조회.
+        StudyType studyType = studyTypeRepository
+                .findById(createStudyDTO.getTypeId())
+                .orElseThrow(RuntimeException::new);
+
+
+        //스터디 테이블 넣기
+        StudyInformation studyInformation = StudyInformation.builder()
+                .name(createStudyDTO.getName())
+                .startDate(createStudyDTO.getStartDate())
+                .endDate(createStudyDTO.getEndDate())
+                .time(createStudyDTO.getTime())
+                .currentPerson(1)
+                .maxPerson(createStudyDTO.getMaxPerson())
+                .description(createStudyDTO.getDescription())
+                .viewCount(0)
+                .deadline(false)
+                .chatroomId(uuid)
+                .isEnd(false)
+                .studyType(studyType)
+                .lastVisitedTime(LocalDateTime.now()).build();
+
+        studyCommonRepository.save(studyInformation); //저장
+
+        //유저 객체 조회
+        User user = userRepository
+                .findById(userId)
+                .orElseThrow(RuntimeException::new);
+
+        //유저 스터디 가입 정보 테이블에 넣기.
+        UserJoinStudy userJoinStudy = UserJoinStudy.builder()
+                .user(user)
+                .studyInformation(studyInformation)
+                .isLeader(true)
+                .isBan(false)
+                .isDeleted(false)
+                .build();
+
+        userJoinStudyRepository.save(userJoinStudy); //유저 스터디 가입 정보 저장.
+    }
+
+    /*스터디 상세 조회*/
+    public FindDetailStudyDTO findDetailStudy(int id){
+
+        //스터디 테이블 조회 - 스터디 아이디로 조회하는데 없다면 잘못된 요청이므로 예외던짐.
+        StudyInformation studyInformation = studyCommonRepository
+                .findById(id)
+                .orElseThrow(RuntimeException::new);
+
+        //댓글 대댓글 조회 - 대댓글은 없을 수도 있기 때문에 null리턴.
+        Set<StudyComment> studyComments = studyCommentRepository
+                .findAllCommentAndReply(studyInformation)
+                .orElse(null);
+
+        //댓글 DTO 채우기 & 대댓글 DTO 채우기
+        studyComments.stream().map((studyComment) -> studyComment.getStudyRelies())
+
+        //스터디 상세 조회 DTO 채우기.
+
+        return null;
     }
 }

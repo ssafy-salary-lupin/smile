@@ -76,8 +76,8 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `smile_db`.`study_informations` (
   `si_id` INT NOT NULL AUTO_INCREMENT,
   `si_name` VARCHAR(255) NOT NULL,
-  `si_start_date` TIMESTAMP NOT NULL,
-  `si_end_date` TIMESTAMP NOT NULL,
+  `si_start_date` DATE NOT NULL,
+  `si_end_date` DATE NOT NULL,
   `si_time` VARCHAR(255) NOT NULL,
   `si_img` VARCHAR(255) NULL,
   `si_person` INT NOT NULL,

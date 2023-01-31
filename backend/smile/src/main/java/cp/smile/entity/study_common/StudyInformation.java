@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -26,10 +27,11 @@ public class StudyInformation extends BaseEntity {
     private int id;
     @Column(name = "si_name")
     private String name;
+
     @Column(name = "si_start_date")
-    private LocalDateTime startDate;
+    private LocalDate startDate;
     @Column(name = "si_end_date")
-    private LocalDateTime endDate;
+    private LocalDate endDate;
     @Column(name = "si_time")
     private String time; //스터디 하는 시간.
     @Column(name = "si_img")
@@ -70,7 +72,7 @@ public class StudyInformation extends BaseEntity {
     Set<ChatMessage> chatMessages = new HashSet<>(); //채팅 메시지 테이블
 
     @Builder
-    public StudyInformation(int id, String name, LocalDateTime startDate, LocalDateTime endDate, String time, String imgPath, int currentPerson, int maxPerson, String description, int viewCount, boolean deadline, String rule, String chatroomId, StudyType studyType, boolean isEnd, LocalDateTime lastVisitedTime) {
+    public StudyInformation(int id, String name, LocalDate startDate, LocalDate endDate, String time, String imgPath, int currentPerson, int maxPerson, String description, int viewCount, boolean deadline, String rule, String chatroomId, StudyType studyType, boolean isEnd, LocalDateTime lastVisitedTime) {
         this.id = id;
         this.name = name;
         this.startDate = startDate;
@@ -108,9 +110,6 @@ public class StudyInformation extends BaseEntity {
                 ", studyType=" + studyType +
                 ", isEnd=" + isEnd +
                 ", lastVisitedTime=" + lastVisitedTime +
-                ", studyComments=" + studyComments +
-                ", userJoinStudies=" + userJoinStudies +
-                ", chatMessages=" + chatMessages +
                 '}';
     }
 }
