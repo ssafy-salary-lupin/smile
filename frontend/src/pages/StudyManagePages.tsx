@@ -11,8 +11,8 @@ function StudyManagePages() {
   return (
     <>
       <SubMenu></SubMenu>
-      {/* <StudyManageMain /> */}
-      <StudyManageCalendar />
+      <StudyManageMain />
+      {/* <StudyManageCalendar /> */}
     </>
   );
 }

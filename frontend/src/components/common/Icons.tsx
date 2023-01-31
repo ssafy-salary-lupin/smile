@@ -9,11 +9,11 @@ import { ReactComponent as CheckBoxTrue } from "assets/icon/CheckBoxTrue.svg";
 import { ReactComponent as CircleWavyCheck } from "assets/icon/CircleWavyCheck.svg";
 import { ReactComponent as CircleWavyQuestion } from "assets/icon/CircleWavyQuestion.svg";
 import { ReactComponent as CircleWavyWarning } from "assets/icon/CircleWavyWarning.svg";
+import { ReactComponent as Close } from "assets/icon/Close.svg";
 import { ReactComponent as Crown } from "assets/icon/Crown.svg";
 import { ReactComponent as CrownSimple } from "assets/icon/CrownSimple.svg";
 import { ReactComponent as Door } from "assets/icon/Door.svg";
 import { ReactComponent as Download } from "assets/icon/Download.svg";
-import { ReactComponent as DuotonIcon } from "assets/icon/DuotonIcon.svg";
 import { ReactComponent as Hash } from "assets/icon/Hash.svg";
 import { ReactComponent as Image } from "assets/icon/Image.svg";
 import { ReactComponent as ImageSquare } from "assets/icon/ImageSquare.svg";
@@ -74,11 +74,11 @@ export {
   CircleWavyCheck,
   CircleWavyQuestion,
   CircleWavyWarning,
+  Close,
   Crown,
   CrownSimple,
   Door,
   Download,
-  DuotonIcon,
   Hash,
   Image,
   ImageSquare,
