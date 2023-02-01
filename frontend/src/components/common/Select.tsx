@@ -1,10 +1,6 @@
 import React from "react";
 import { useState } from "react";
 import styled, { keyframes } from "styled-components";
-import "./test.css";
-import CheckBoxTrue from "./Icons/CheckBoxTrue.svg";
-import BlankSpace from "./BlankSpace";
-import { Set } from "typescript";
 
 const Color = keyframes`
   from {

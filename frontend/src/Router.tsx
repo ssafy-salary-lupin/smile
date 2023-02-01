@@ -3,7 +3,7 @@ import LandingPages from "./pages/LandingPages";
 import StudyManagePages from "./pages/StudyManagePages";
 import StudyCreatePages from "./pages/StudyCreatePages";
 import TestPages from "./pages/TestPages";
-
+import VideoRoomComponent from "components/video-meeting/VideoRoomComponent";
 function Router() {
   return (
     <BrowserRouter>
@@ -19,6 +19,9 @@ function Router() {
         </Route>
         <Route path="/create">
           <StudyCreatePages />
+        </Route>
+        <Route path="/test2">
+          <VideoRoomComponent />
         </Route>
       </Switch>
     </BrowserRouter>
