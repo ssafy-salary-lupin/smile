@@ -13,7 +13,6 @@ import { ReactComponent as Crown } from "assets/icon/Crown.svg";
 import { ReactComponent as CrownSimple } from "assets/icon/CrownSimple.svg";
 import { ReactComponent as Door } from "assets/icon/Door.svg";
 import { ReactComponent as Download } from "assets/icon/Download.svg";
-import { ReactComponent as DuotonIcon } from "assets/icon/DuotonIcon.svg";
 import { ReactComponent as Hash } from "assets/icon/Hash.svg";
 import { ReactComponent as Image } from "assets/icon/Image.svg";
 import { ReactComponent as ImageSquare } from "assets/icon/ImageSquare.svg";
@@ -78,7 +77,6 @@ export {
   CrownSimple,
   Door,
   Download,
-  DuotonIcon,
   Hash,
   Image,
   ImageSquare,
