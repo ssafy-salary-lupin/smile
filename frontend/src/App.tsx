@@ -2,7 +2,7 @@ import NavBar from "./components/common/NavBar";
 import Footer from "./components/common/Footer";
 import Router from "./Router";
 import { createGlobalStyle } from "styled-components";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 
 const GlobalStyle = createGlobalStyle`
 /* @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap"); */
