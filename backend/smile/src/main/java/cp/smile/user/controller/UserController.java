@@ -1,8 +1,6 @@
 
 package cp.smile.user.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import cp.smile.auth.oauth2.CustomOAuth2User;
 import cp.smile.config.response.CommonResponse;
 import cp.smile.config.response.DataResponse;
@@ -58,17 +56,9 @@ public class UserController {
     }
 
     @GetMapping("/users/{userId}/studies")
-    public DataResponse<UserJoinedStudies> findJoinStudies(
-            @PathVariable int userId,
-            @AuthenticationPrincipal CustomOAuth2User oAuth2User) throws JsonProcessingException {
-        log.info("findJoinStudies:: userId: {}", userId);
-//        int requestUserId = oAuth2User.getUserId();
-        int requestUserId = userId;
-        List<UserJoinStudy> studies = userService.findJoinStudies(requestUserId);
+    public DataResponse<UserJoinedStudies> findJoinStudies(@PathVariable int userId) {
+        List<UserJoinStudy> studies = userService.findJoinStudies(userId);
         UserJoinedStudies dto = UserJoinedStudies.of(studies);
-
-        log.info("join study count: {}", dto.getStudies().size());
-//        log.info(new ObjectMapper().writeValueAsString(dto));
 
         return responseService.getDataResponse(dto);
     }
