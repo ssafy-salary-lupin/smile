@@ -1,17 +1,23 @@
 
 package cp.smile.user.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import cp.smile.auth.oauth2.CustomOAuth2User;
 import cp.smile.config.response.CommonResponse;
 import cp.smile.config.response.DataResponse;
 import cp.smile.config.response.ResponseService;
+import cp.smile.entity.user.UserJoinStudy;
 import cp.smile.user.dto.request.UserJoinDTO;
 import cp.smile.user.dto.response.UserInfoDTO;
+import cp.smile.user.dto.response.UserJoinedStudies;
 import cp.smile.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -49,5 +55,21 @@ public class UserController {
         log.info("request user id: {}", oAuth2User.getUserId());
         userService.joinStudy(userId, studyId);
         return responseService.getSuccessResponse();
+    }
+
+    @GetMapping("/users/{userId}/studies")
+    public DataResponse<UserJoinedStudies> findJoinStudies(
+            @PathVariable int userId,
+            @AuthenticationPrincipal CustomOAuth2User oAuth2User) throws JsonProcessingException {
+        log.info("findJoinStudies:: userId: {}", userId);
+//        int requestUserId = oAuth2User.getUserId();
+        int requestUserId = userId;
+        List<UserJoinStudy> studies = userService.findJoinStudies(requestUserId);
+        UserJoinedStudies dto = UserJoinedStudies.of(studies);
+
+        log.info("join study count: {}", dto.getStudies().size());
+//        log.info(new ObjectMapper().writeValueAsString(dto));
+
+        return responseService.getDataResponse(dto);
     }
 }
