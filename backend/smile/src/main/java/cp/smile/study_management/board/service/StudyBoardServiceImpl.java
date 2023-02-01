@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -39,5 +40,10 @@ public class StudyBoardServiceImpl implements StudyBoardService {
         studyBoard.setStudyInformation(study);
 
         return studyBoardRepository.save(studyBoard);
+    }
+
+    @Override
+    public List<StudyBoard> findByStudyId(int studyId) {
+        return studyBoardRepository.findByStudyId(studyId);
     }
 }

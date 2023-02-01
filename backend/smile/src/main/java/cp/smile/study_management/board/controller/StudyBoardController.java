@@ -2,12 +2,15 @@ package cp.smile.study_management.board.controller;
 
 import cp.smile.auth.oauth2.CustomOAuth2User;
 import cp.smile.config.response.CommonResponse;
+import cp.smile.config.response.DataResponse;
 import cp.smile.config.response.ResponseService;
 import cp.smile.entity.study_common.StudyInformation;
+import cp.smile.entity.study_management.StudyBoard;
 import cp.smile.entity.user.User;
 import cp.smile.study_common.repository.StudyCommonRepository;
 import cp.smile.study_common.service.StudyCommonService;
 import cp.smile.study_management.board.dto.request.StudyBoardWriteDTO;
+import cp.smile.study_management.board.dto.response.StudyBoardListDTO;
 import cp.smile.study_management.board.service.StudyBoardService;
 import cp.smile.user.repository.UserRepository;
 import cp.smile.user.service.UserService;
@@ -17,6 +20,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/studies/{studyId}/boards")
@@ -42,5 +46,12 @@ public class StudyBoardController {
         log.info("스터디 게시글 작성 - 작성자: {} / 스터디: {}", writer.getNickname(), study.getName());
 
         return responseService.getSuccessResponse();
+    }
+
+    @GetMapping
+    public DataResponse<StudyBoardListDTO> getAllStudyBoard(@PathVariable int studyId) {
+        List<StudyBoard> studyBoards = studyBoardService.findByStudyId(studyId);
+
+        return responseService.getDataResponse(StudyBoardListDTO.of(studyBoards));
     }
 }
