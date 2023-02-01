@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 
 @Service
 @Transactional(readOnly = false)
@@ -111,5 +112,10 @@ public class UserServiceImpl implements UserService{
 
         userJoinStudy.connectUserAndStudy(user, study);
         userJoinStudyRepository.save(userJoinStudy);
+    }
+
+    @Override
+    public List<UserJoinStudy> findJoinStudies(int userId) {
+        return userJoinStudyRepository.findByUserId(userId);
     }
 }

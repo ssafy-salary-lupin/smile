@@ -1,8 +1,11 @@
 package cp.smile.user.service;
 
 import cp.smile.entity.user.User;
+import cp.smile.entity.user.UserJoinStudy;
 import cp.smile.user.dto.request.UserJoinDTO;
 import cp.smile.user.dto.response.UserInfoDTO;
+
+import java.util.List;
 
 public interface UserService {
 
@@ -18,4 +21,6 @@ public interface UserService {
     void updateRefreshToken(User user, String refreshToken);
 
     void joinStudy(int userId, int studyId);
+
+    List<UserJoinStudy> findJoinStudies(int userId);
 }
