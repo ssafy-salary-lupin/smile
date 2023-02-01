@@ -2,7 +2,7 @@ import NavBar from "./components/common/NavBar";
 import Footer from "./components/common/Footer";
 import Router from "./Router";
 import { createGlobalStyle } from "styled-components";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 
 const GlobalStyle = createGlobalStyle`
 /* @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap"); */
@@ -15,6 +15,11 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
+  /* -ms-overflow-style: none;  
+  scrollbar-width: none; 
+  ::-webkit-scrollbar {
+    display: none; 
+  } */
 }
 div,
 span,
@@ -165,6 +170,15 @@ a:link {
 }
 .fc-content {
     cursor: pointer;
+}
+/* 일요일 날짜: 빨간색 */
+.fc-day-sun a {
+    color: red;
+}
+  
+/* 토요일 날짜: 파란색 */
+.fc-day-sat a {
+    color: blue;
 }
 `;
 
