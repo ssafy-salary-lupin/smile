@@ -2,6 +2,8 @@
 import SearchBar from "../components/common/SearchBar";
 // import Modal from "../components/common/Modal";
 import StudyNavBar from "../components/common/StudyNavBar";
+// import BlankSpace from "components/common/BlankSpace";
+// import Select from "components/common/Select";
 
 function TestPages() {
   const optionObj = {
@@ -12,9 +14,9 @@ function TestPages() {
   return (
     <div>
       {/* <StudyNavBar /> */}
-      <BlankSpace />
-      <Select optionObj={optionObj} />
-      <Modal />
+      {/* <BlankSpace /> */}
+      {/* <Select optionObj={optionObj} /> */}
+      {/* <Modal /> */}
     </div>
   );
 }
