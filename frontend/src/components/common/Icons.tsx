@@ -1,3 +1,7 @@
+// 다음과 같이 import해서 사용
+// import * as <원하는 이름 ex) Icons> from "components/common/Icons"
+// <Icons.Camera/>
+
 import { ReactComponent as Camera } from "assets/icon/Camera.svg";
 import { ReactComponent as CameraSlash } from "assets/icon/CameraSlash.svg";
 import { ReactComponent as CaretDown } from "assets/icon/CaretDown.svg";
@@ -9,6 +13,7 @@ import { ReactComponent as CheckBoxTrue } from "assets/icon/CheckBoxTrue.svg";
 import { ReactComponent as CircleWavyCheck } from "assets/icon/CircleWavyCheck.svg";
 import { ReactComponent as CircleWavyQuestion } from "assets/icon/CircleWavyQuestion.svg";
 import { ReactComponent as CircleWavyWarning } from "assets/icon/CircleWavyWarning.svg";
+import { ReactComponent as Close } from "assets/icon/Close.svg";
 import { ReactComponent as Crown } from "assets/icon/Crown.svg";
 import { ReactComponent as CrownSimple } from "assets/icon/CrownSimple.svg";
 import { ReactComponent as Door } from "assets/icon/Door.svg";
@@ -73,6 +78,7 @@ export {
   CircleWavyCheck,
   CircleWavyQuestion,
   CircleWavyWarning,
+  Close,
   Crown,
   CrownSimple,
   Door,

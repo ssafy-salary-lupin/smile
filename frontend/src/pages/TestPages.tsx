@@ -4,10 +4,17 @@ import SearchBar from "../components/common/SearchBar";
 import StudyNavBar from "../components/common/StudyNavBar";
 
 function TestPages() {
+  const optionObj = {
+    optionTitle: "스터디 유형",
+    optionList: ["면접", "자격증", "외국어"],
+  };
+  // const optionList = ange(1, 7);
   return (
     <div>
       {/* <StudyNavBar /> */}
-      {/* <Modal /> */}
+      <BlankSpace />
+      <Select optionObj={optionObj} />
+      <Modal />
     </div>
   );
 }
