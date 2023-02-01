@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService{
 
     public void join(UserJoinDTO userJoinDTO) {
 
-        // TODO: 2023-01-31 프로필이미지 경로 처리
+        // TODO: 2023-01-31 프로필이미지 경로 처리, 중복 회원 처리
 
         LoginProvider loginProvider = loginProviderRepository
                 .findByProvider(OAuth2Provider.local)
