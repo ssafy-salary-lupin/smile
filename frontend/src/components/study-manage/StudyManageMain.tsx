@@ -5,7 +5,7 @@ import { useState } from "react";
 import StudyRuleModal from "./StudyRuleModal";
 
 const Wrapper = styled.div`
-  margin: 0 10.833vw;
+  margin: 3.889vw 10.833vw;
   display: flex;
   flex-direction: column;
 `;

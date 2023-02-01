@@ -1,3 +1,4 @@
+import StudyNavBar from "components/common/StudyNavBar";
 import styled from "styled-components";
 import StudyManageCalendar from "../components/study-manage/StudyManageCalendar";
 import StudyManageMain from "../components/study-manage/StudyManageMain";
@@ -10,9 +11,11 @@ const SubMenu = styled.div`
 function StudyManagePages() {
   return (
     <>
-      <SubMenu></SubMenu>
-      <StudyManageMain />
-      {/* <StudyManageCalendar /> */}
+      <SubMenu>
+        <StudyNavBar />
+      </SubMenu>
+      {/* <StudyManageMain /> */}
+      <StudyManageCalendar />
     </>
   );
 }

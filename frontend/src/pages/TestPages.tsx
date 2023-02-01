@@ -1,9 +1,8 @@
 // import StudyNavBar from "../components/common/StudyNavBar";
 import SearchBar from "../components/common/SearchBar";
-import Modal from "../components/common/Modal";
-import Select from "components/common/Select";
-import BlankSpace from "components/common/BlankSpace";
-import * as Icons from "components/common/Icons";
+// import Modal from "../components/common/Modal";
+import StudyNavBar from "../components/common/StudyNavBar";
+
 function TestPages() {
   const optionObj = {
     optionTitle: "스터디 유형",
