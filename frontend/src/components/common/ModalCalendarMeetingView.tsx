@@ -7,7 +7,8 @@ interface PropsType {
   setModalOpen: React.Dispatch<SetStateAction<boolean>>;
   type: string;
   title: string;
-  date: string;
+  start: string;
+  time: string;
   host: string;
 }
 
@@ -207,7 +208,7 @@ function ModalCalendarMeetingView(props: PropsType) {
             </ContentWrap>
             <ContentWrap>
               <Label>회의 날짜</Label>
-              <Date placeholder="회의 날짜" disabled value={props.date} />
+              <Date placeholder="회의 날짜" disabled value={props.start} />
             </ContentWrap>
           </ModalContent>
         </ModalConWrapper>
