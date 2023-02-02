@@ -8,6 +8,9 @@ import { ReactComponent as LinkLogo } from "../../assets/icon/Link.svg";
 interface PropsType {
   setModalOpen: React.Dispatch<SetStateAction<boolean>>;
   title: string;
+  start: string;
+  end: string;
+  time: string;
   desc: string;
   type: string;
   link: string;
