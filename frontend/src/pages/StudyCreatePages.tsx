@@ -170,19 +170,25 @@ function StudyCreatePages() {
     setSelected(event.target.value);
   };
 
-  const [imgFile, setImgFile] = useState(<Icons.Users />);
-  const imgRef = useRef();
+  const [imgFile, setImgFile] = useState<string | ArrayBuffer>();
+  const imgRef = useRef<HTMLInputElement>(null);
   const [isActive, setIsActivate] = useState<boolean>(false);
+
+  console.log("imgRef.current : ", imgRef.current);
 
   // 이미지 업로드 input의 onChange
   const saveImgFile = () => {
-    const file = imgRef.current.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setImgFile(reader.result);
-    };
-    setIsActivate(true);
+    if (imgRef.current?.files !== undefined && imgRef.current?.files !== null) {
+      const file = imgRef.current?.files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        if (reader.result) {
+          setImgFile(reader.result);
+        }
+      };
+      setIsActivate(true);
+    }
   };
 
   const [startDate, setStartDate] = useState(new Date());
@@ -290,7 +296,11 @@ function StudyCreatePages() {
             <Form>
               <label className="signup-profileImg-label" htmlFor="profileImg">
                 <ImgBox>
-                  {isActive ? <img src={imgFile} alt="" /> : <Icons.Users />}
+                  {isActive && typeof imgFile == "string" ? (
+                    <img src={imgFile} alt="" />
+                  ) : (
+                    <Icons.Users />
+                  )}
                 </ImgBox>
               </label>
               <input

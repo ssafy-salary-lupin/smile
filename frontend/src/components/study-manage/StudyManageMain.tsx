@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import profileImg from "../../assets/img/study_manage_profile_img.jpg";
 import chatImg from "../../assets/img/chat_icon.png";
+import { useState } from "react";
+import StudyRuleModal from "./StudyRuleModal";
 
 const Wrapper = styled.div`
   margin: 3.889vw 10.833vw;
@@ -100,6 +102,7 @@ const StudyNotice = styled.div`
   font-size: 1.111vw;
   display: flex;
   align-items: center;
+  cursor: pointer;
 `;
 
 const DefaultNotice = styled.p`
@@ -232,6 +235,11 @@ const ChatIcon = styled.img`
 `;
 
 function StudyManageMain() {
+  // 스터디 룰 모달창 노출 여부 state
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const showModal = () => {
+    setModalOpen(true);
+  };
   return (
     <Wrapper>
       <SubWrapper1>
@@ -254,7 +262,7 @@ function StudyManageMain() {
           </QuitBtnBox>
         </StudyPropfile>
         <StudyContents>
-          <StudyNotice>
+          <StudyNotice onClick={showModal}>
             <DefaultNotice>
               스터디 규칙을 작성을 위해 CLICK해주세요.
             </DefaultNotice>
@@ -287,6 +295,7 @@ function StudyManageMain() {
           <ChatIcon src={chatImg} />
         </Chat>
       </SubWrapper2>
+      {modalOpen && <StudyRuleModal setModalOpen={setModalOpen} />}
     </Wrapper>
   );
 }
