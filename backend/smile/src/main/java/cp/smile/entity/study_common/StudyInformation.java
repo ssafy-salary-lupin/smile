@@ -2,6 +2,7 @@ package cp.smile.entity.study_common;
 
 import cp.smile.config.BaseEntity;
 import cp.smile.entity.study_management.ChatMessage;
+import cp.smile.entity.study_management.StudyBoard;
 import cp.smile.entity.user.UserJoinStudy;
 import lombok.Builder;
 import lombok.Getter;
@@ -72,7 +73,8 @@ public class StudyInformation extends BaseEntity {
     @OneToMany(mappedBy = "studyInformation", fetch = FetchType.LAZY)
     Set<ChatMessage> chatMessages = new HashSet<>(); //채팅 메시지 테이블
 
-    //Date 형태 파싱
+    @OneToMany(mappedBy = "studyInformation", fetch = FetchType.LAZY)
+    List<StudyBoard> studyBoards = new ArrayList<>();
 
 
     @Builder

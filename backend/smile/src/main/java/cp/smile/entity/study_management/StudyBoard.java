@@ -59,4 +59,13 @@ public class StudyBoard extends BaseEntity {
         this.studyBoardType = studyBoardType;
         this.isDeleted = isDeleted;
     }
+
+    public void setWriter(User writer) {
+        this.user = writer;
+    }
+
+    public void setStudyInformation(StudyInformation studyInformation) {
+        this.studyInformation = studyInformation;
+        studyInformation.getStudyBoards().add(this);
+    }
 }
