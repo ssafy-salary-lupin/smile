@@ -111,7 +111,6 @@ public class StudyScheduleServiceImpl implements StudyScheduleService{
         StudyInformation studyInformation = studyCommonRepository
                 .findById(createScheduleDTO.getStudyId())
                 .orElseThrow(RuntimeException::new);
-
         //스터디 일정 엔티티에 넣기
         StudySchedule studySchedule = StudySchedule.builder()
                 .startTime(LocalDateTime.parse(createScheduleDTO.getStartTime(), formatter))
