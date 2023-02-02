@@ -38,4 +38,12 @@ public class UserJoinStudyId implements Serializable {
         this.userId = userId;
         this.studyInformationId = studyInformationId;
     }
+
+    @Override
+    public String toString() {
+        return "UserJoinStudyId{" +
+                "userId=" + userId +
+                ", studyInformationId=" + studyInformationId +
+                '}';
+    }
 }

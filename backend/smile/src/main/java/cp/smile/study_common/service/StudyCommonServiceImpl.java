@@ -5,7 +5,6 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import cp.smile.config.AwsS3DirectoryName;
 import cp.smile.entity.study_common.StudyComment;
 import cp.smile.entity.study_common.StudyInformation;
 import cp.smile.entity.study_common.StudyReply;
@@ -19,9 +18,11 @@ import cp.smile.study_common.dto.request.CreateStudyDTO;
 import cp.smile.study_common.dto.response.FindAllStudyDTO;
 import cp.smile.study_common.dto.response.FindDetailStudyDTO;
 import cp.smile.study_common.dto.response.StudyTypeDTO;
-import cp.smile.study_common.dto.response.StudyUserProfileDTO;
+import cp.smile.study_common.dto.response.UserProfileDTO;
 import cp.smile.study_common.dto.response.comment.StudyCommentDTO;
 import cp.smile.study_common.repository.*;
+import cp.smile.study_management.chat.service.ChatService;
+import cp.smile.study_management.chat.service.ChatServiceImpl;
 import cp.smile.user.repository.UserJoinStudyRepository;
 import cp.smile.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -52,8 +53,11 @@ public class StudyCommonServiceImpl implements StudyCommonService{
     private final StudyCommentRepository studyCommentRepository;
     private final StudyReplyRepository studyReplyRepository;
     private final AmazonS3Client amazonS3Client;
+    private final ChatService chatService;
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
+
+
 
     /*전체 조회.*/
     @Override
@@ -77,7 +81,7 @@ public class StudyCommonServiceImpl implements StudyCommonService{
             StudyTypeDTO studyTypeDTO = studyInformation.getStudyType().createStudyTypeDTO();
 
             //유저 프로필 정보 객체 매핑
-            StudyUserProfileDTO studyUserProfileDTO = studyInformation.getUserJoinStudies().iterator().next().getUser().createStudyUserProfileDTO();
+            UserProfileDTO userProfileDTO = studyInformation.getUserJoinStudies().iterator().next().getUser().createUserProfileDTO();
 
             //댓글의 수 구하기 - 삭제 된 것도 있기 때문에 스트림을 이용해서 개수를 세어줌.
             int commentCount = (int)studyInformation.getStudyComments().stream()
@@ -96,7 +100,7 @@ public class StudyCommonServiceImpl implements StudyCommonService{
                     .lastVisitedTime(studyInformation.getLastVisitedTime())
                     .type(studyTypeDTO)
                     .commentCount(commentCount)
-                    .leader(studyUserProfileDTO).build();
+                    .leader(userProfileDTO).build();
 
             findAllStudyDTOS.add(findAllStudyDTO);
         }
@@ -132,7 +136,6 @@ public class StudyCommonServiceImpl implements StudyCommonService{
             System.out.println(bucket);
 
             try (InputStream inputStream = multipartFile.getInputStream()) {
-                System.out.println("test2222");
                 amazonS3Client.putObject(new PutObjectRequest(bucket, key, inputStream, objectMetadata)
                         .withCannedAcl(CannedAccessControlList.PublicRead));
             }
@@ -143,6 +146,7 @@ public class StudyCommonServiceImpl implements StudyCommonService{
 
             storeFileUrl = amazonS3Client.getUrl(bucket, key).toString(); //저장된 Url
         }
+
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일");
 
@@ -171,7 +175,9 @@ public class StudyCommonServiceImpl implements StudyCommonService{
                 .imgPath(storeFileUrl)
                 .lastVisitedTime(LocalDateTime.now()).build();
 
-        studyCommonRepository.save(studyInformation); //저장
+
+        //저장 - 저장한 객체를 반환해서 해당 id로 채팅방 생성.
+        StudyInformation saveStudyInformation = studyCommonRepository.save(studyInformation);
 
         //유저 객체 조회
         User user = userRepository
@@ -194,6 +200,12 @@ public class StudyCommonServiceImpl implements StudyCommonService{
                 .build();
 
         userJoinStudyRepository.save(userJoinStudy); //유저 스터디 가입 정보 저장.
+
+        /*스터디 채팅방 생성*/
+        //디비에 정보저장이 다 되었으면 스터디 채팅방을 생성함.
+        chatService.createRoom(saveStudyInformation.getId());
+
+        // TODO : 방이 생성되면 studyId를 생성해서 반환해주어야 한다.
     }
 
     /*스터디 상세 조회*/
