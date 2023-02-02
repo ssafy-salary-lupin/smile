@@ -16,6 +16,8 @@ import cp.smile.study_management.board.repository.StudyBoardTypeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -72,11 +74,6 @@ public class StudyBoardServiceImpl implements StudyBoardService {
         return studyBoard;
     }
 
-    @Override
-    public List<StudyBoard> findByStudyId(int studyId) {
-        return studyBoardRepository.findByStudyId(studyId);
-    }
-
     private List<StudyBoardFile> uploadFiles(StudyBoard studyBoard, MultipartFile ...files) {
         List<StudyBoardFile> uploadedBoardFiles = new ArrayList<>();
         for (MultipartFile file : files) {
@@ -114,5 +111,10 @@ public class StudyBoardServiceImpl implements StudyBoardService {
         }
 
         return uploadedBoardFiles;
+    }
+
+    @Override
+    public Page<StudyBoard> findByStudyIdWithPaging(int studyId, Pageable pageable) {
+        return studyBoardRepository.findByStudyIdWithPaging(studyId, pageable);
     }
 }
