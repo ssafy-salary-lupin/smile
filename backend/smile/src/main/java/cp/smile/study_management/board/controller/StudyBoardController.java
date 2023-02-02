@@ -6,11 +6,13 @@ import cp.smile.config.response.DataResponse;
 import cp.smile.config.response.ResponseService;
 import cp.smile.dto.response.PageDTO;
 import cp.smile.entity.study_management.StudyBoard;
+import cp.smile.entity.user.User;
 import cp.smile.entity.user.UserJoinStudy;
 import cp.smile.study_management.board.dto.request.StudyBoardWriteDTO;
 import cp.smile.study_management.board.dto.response.SimpleBoardDTO;
 import cp.smile.study_management.board.service.StudyBoardService;
 import cp.smile.user.repository.UserJoinStudyRepository;
+import cp.smile.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -21,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -32,6 +35,7 @@ public class StudyBoardController {
 
     private final StudyBoardService studyBoardService;
     private final ResponseService responseService;
+    private final UserRepository userRepository;
     private final UserJoinStudyRepository userJoinStudyRepository;
 
     @PostMapping
@@ -73,5 +77,18 @@ public class StudyBoardController {
                 .collect(Collectors.toList());
 
         return responseService.getDataResponse(PageDTO.of(result, content));
+    }
+
+    @PostMapping("/{boardId}/comments")
+    public CommonResponse writeComment(
+            @AuthenticationPrincipal CustomOAuth2User oAuth2User,
+            @PathVariable int boardId,
+            @RequestBody Map<String, String> body) {
+        User writer = userRepository.findById(oAuth2User.getUserId())
+                .orElseThrow(() -> new EntityNotFoundException(oAuth2User.getUserId() + "에 해당하는 사용자가 없습니다."));
+
+        studyBoardService.writeComment(writer, boardId, body.get("content"));
+
+        return responseService.getSuccessResponse();
     }
 }

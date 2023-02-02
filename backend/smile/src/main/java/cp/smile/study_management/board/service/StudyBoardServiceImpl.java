@@ -4,12 +4,11 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import cp.smile.entity.study_management.StudyBoard;
-import cp.smile.entity.study_management.StudyBoardFile;
-import cp.smile.entity.study_management.StudyBoardType;
-import cp.smile.entity.study_management.StudyBoardTypeName;
+import cp.smile.entity.study_management.*;
+import cp.smile.entity.user.User;
 import cp.smile.entity.user.UserJoinStudy;
 import cp.smile.study_management.board.dto.request.StudyBoardWriteDTO;
+import cp.smile.study_management.board.repository.StudyBoardCommentRepository;
 import cp.smile.study_management.board.repository.StudyBoardFileRepository;
 import cp.smile.study_management.board.repository.StudyBoardRepository;
 import cp.smile.study_management.board.repository.StudyBoardTypeRepository;
@@ -40,6 +39,7 @@ public class StudyBoardServiceImpl implements StudyBoardService {
     private final StudyBoardRepository studyBoardRepository;
     private final StudyBoardTypeRepository studyBoardTypeRepository;
     private final StudyBoardFileRepository studyBoardFileRepository;
+    private final StudyBoardCommentRepository studyBoardCommentRepository;
     private final AmazonS3Client amazonS3Client;
     
     @Value("${cloud.aws.s3.bucket}")
@@ -72,6 +72,21 @@ public class StudyBoardServiceImpl implements StudyBoardService {
         }
 
         return studyBoard;
+    }
+
+    @Override
+    @Transactional
+    public StudyBoardComment writeComment(User writer, int boardId, String content) {
+        StudyBoard studyBoard = studyBoardRepository.findById(boardId)
+                .orElseThrow(() -> new EntityNotFoundException(boardId + "에 해당하는 게시글이 없습니다."));
+
+        StudyBoardComment boardComment = StudyBoardComment.builder()
+                .studyBoard(studyBoard)
+                .content(content)
+                .user(writer)
+                .build();
+
+        return studyBoardCommentRepository.save(boardComment);
     }
 
     private List<StudyBoardFile> uploadFiles(StudyBoard studyBoard, MultipartFile ...files) {
