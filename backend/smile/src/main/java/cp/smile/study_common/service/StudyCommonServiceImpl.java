@@ -1,11 +1,6 @@
 package cp.smile.study_common.service;
 
 
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
-import cp.smile.config.AwsS3DirectoryName;
 import cp.smile.entity.study_common.StudyComment;
 import cp.smile.entity.study_common.StudyInformation;
 import cp.smile.entity.study_common.StudyReply;
@@ -25,21 +20,14 @@ import cp.smile.study_common.repository.*;
 import cp.smile.user.repository.UserJoinStudyRepository;
 import cp.smile.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
-
-import static cp.smile.config.AwsS3DirectoryName.DEFAULT_STUDY;
-import static cp.smile.config.AwsS3DirectoryName.STUDY_IMG;
 
 @Service
 @RequiredArgsConstructor
@@ -51,9 +39,6 @@ public class StudyCommonServiceImpl implements StudyCommonService{
     private final UserRepository userRepository;
     private final StudyCommentRepository studyCommentRepository;
     private final StudyReplyRepository studyReplyRepository;
-    private final AmazonS3Client amazonS3Client;
-    @Value("${cloud.aws.s3.bucket}")
-    private String bucket;
 
     /*전체 조회.*/
     @Override
@@ -105,44 +90,7 @@ public class StudyCommonServiceImpl implements StudyCommonService{
     }
 
     /*스터디 생성*/
-    public void createStudy(int userId, CreateStudyDTO createStudyDTO, MultipartFile multipartFile) {
-        String storeFileUrl = ""; //AWS S3 이미지 url
-
-        //파일이 없다면 디폴트 경로 넣어줌.
-        if(multipartFile.getSize() == 0){
-            storeFileUrl = DEFAULT_STUDY;
-        }
-        //파일이 있으면 s3에 저장.
-        else{
-            /*파일 저장*/
-            ObjectMetadata objectMetadata = new ObjectMetadata();
-            objectMetadata.setContentType(multipartFile.getContentType());
-            objectMetadata.setContentLength(multipartFile.getSize());
-
-            String originFileName = multipartFile.getOriginalFilename();
-
-
-            int index = originFileName.lastIndexOf(".");
-            String ext = originFileName.substring(index+1);//확장자
-
-            String storeFileName = UUID.randomUUID().toString() + "." + ext; // 저장할 이름- 중복되지 않도록 하기 위해 uuid 사용(이름 중복이면 덮어씀.)
-
-            String key  = STUDY_IMG + storeFileName; //파일 저장위치.
-
-            System.out.println(bucket);
-
-            try (InputStream inputStream = multipartFile.getInputStream()) {
-                System.out.println("test2222");
-                amazonS3Client.putObject(new PutObjectRequest(bucket, key, inputStream, objectMetadata)
-                        .withCannedAcl(CannedAccessControlList.PublicRead));
-            }
-            catch(IOException e){
-
-                throw new RuntimeException(e);
-            }
-
-            storeFileUrl = amazonS3Client.getUrl(bucket, key).toString(); //저장된 Url
-        }
+    public void createStudy(int userId, CreateStudyDTO createStudyDTO){
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일");
 
@@ -168,7 +116,6 @@ public class StudyCommonServiceImpl implements StudyCommonService{
                 .chatroomId(uuid)
                 .isEnd(false)
                 .studyType(studyType)
-                .imgPath(storeFileUrl)
                 .lastVisitedTime(LocalDateTime.now()).build();
 
         studyCommonRepository.save(studyInformation); //저장
