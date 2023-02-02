@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -36,16 +37,18 @@ public class StudyCommonController {
         return responseService.getDataResponse(findAllStudyDTOS);
     }
 
-    @PostMapping("/studies")
+    @PostMapping(value = "/studies", consumes = {"multipart/form-data"})
     public CommonResponse createStudy(
-            @RequestBody CreateStudyDTO createStudyDTO,
+            @RequestPart("data") CreateStudyDTO createStudyDTO,
+            @RequestPart("file") MultipartFile multipartFile,
             @AuthenticationPrincipal CustomOAuth2User oAuth2User){
 
         int userId = oAuth2User.getUserId(); //토큰에서 유저 식별자 가져오기.
 
         // TODO : 파일업로드를 위해서 MartipartFormData로 처리 필요,
 
-        studyCommonService.createStudy(userId,createStudyDTO);
+
+        studyCommonService.createStudy(userId,createStudyDTO,multipartFile);
 
 
 
