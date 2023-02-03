@@ -4,10 +4,6 @@ import { ReactComponent as Close } from "../../assets/icon/Close.svg";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/esm/locale"; //한국어 설정
-import { useRecoilState } from "recoil";
-import { Schedules } from "../../atoms/StudyManageCalendarAtom";
-import { color } from "@mui/system";
-import { useMutation } from "react-query";
 import { calendarCreateApi } from "apis/StudyManageCalendarAPi";
 
 interface PropsType {

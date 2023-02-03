@@ -10,6 +10,7 @@ import { calendarSelectAllApi } from "apis/StudyManageCalendarAPi";
 import { useQuery } from "react-query";
 import { useRecoilState } from "recoil";
 import { Schedules } from "atoms/StudyManageCalendarAtom";
+import { LoginState } from "atoms/LoginAtom";
 
 const Wrapper = styled.div`
   margin: 3.889vw 10.833vw;
@@ -153,6 +154,9 @@ function StudyManageCalendar() {
       console.log("schedules : ", schedules);
     });
   }, [commonSchedules]);
+
+  // 임시 토큰 저장
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
 
   return (
     <Wrapper>

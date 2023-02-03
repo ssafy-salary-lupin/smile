@@ -4,8 +4,10 @@ import StudyManagePages from "./pages/StudyManagePages";
 import StudyCreatePages from "./pages/StudyCreatePages";
 import TestPages from "./pages/TestPages";
 import VideoRoomComponent from "components/video-meeting/VideoRoomComponent";
-// import StudyChat from "components/study-manage/StudyChat";
 import WaitingPages from "./pages/WaitingPages";
+import CreateReadChat from "components/study-manage/CreateReadChat";
+// import CreateReadChat from "components/study-manage/CreateReadChat";
+// import StudyChat from "components/study-manage/CreateReadChat";
 function Router() {
   return (
     <BrowserRouter>
@@ -28,10 +30,10 @@ function Router() {
         <Route path="/test3">
           <WaitingPages />
         </Route>
-        {/*
         <Route path="/chat">
-          <StudyChat />
-        </Route> */}
+          {/* <StudyChat /> */}
+          <CreateReadChat />
+        </Route>
       </Switch>
     </BrowserRouter>
   );
