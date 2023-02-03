@@ -28,6 +28,9 @@ dependencies {
 //	compileOnly "org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE"
 
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+	implementation group: 'it.ozimov', name: 'embedded-redis', version: '0.7.2'
 
 	// jwt
 	implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
