@@ -10,8 +10,4 @@ import java.util.List;
 
 public interface StudyAdminRepository extends JpaRepository<UserJoinStudy, UserJoinStudyId> {
 
-//    @Query(value = "select u from User u " +
-//            "join fetch u.UserJoinStudy ujs " +
-//            "where ujs.studyInformation.id = :studyId")
-//    List<User> findByAllUser(int studyId);
 }
