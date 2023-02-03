@@ -4,16 +4,15 @@ import { ReactComponent as Close } from "../../assets/icon/Close.svg";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/esm/locale"; //한국어 설정
+
+import { ScheduleRegist } from "atoms/StudyManageCalendarAtom";
 import { useRecoilState } from "recoil";
-import { Schedules } from "../../atoms/StudyManageCalendarAtom";
-import { color } from "@mui/system";
-import { useMutation } from "react-query";
-import { calendarCreateApi } from "apis/StudyManageCalendarAPi";
 
 interface PropsType {
   setModalOpen: React.Dispatch<SetStateAction<boolean>>;
   selectStart: string;
   selectEnd: string;
+  onRegist: Function;
 }
 
 const ModalContainer = styled.div`
@@ -210,31 +209,25 @@ const CancelBtn = styled(YellowBtn)`
 `;
 
 function ModalBasic(props: PropsType) {
-  // const [modalOpen, setModalOpen] = useState<boolean>(true);
-  // 모달 끄기
+  // 모달 관련 코드 ======================================
   const closeModal = () => {
     props.setModalOpen(false);
   };
   const modalRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    // 이벤트 핸들러 함수
     const handler = (event: any) => {
-      // mousedown 이벤트가 발생한 영역이 모달창이 아닐 때, 모달창 제거 처리
       if (modalRef.current && !modalRef.current.contains(event.target)) {
         props.setModalOpen(false);
       }
     };
 
-    // 이벤트 핸들러 등록
     document.addEventListener("mousedown", handler);
-    // document.addEventListener('touchstart', handler); // 모바일 대응
 
     return () => {
-      // 이벤트 핸들러 해제
       document.removeEventListener("mousedown", handler);
-      // document.removeEventListener('touchstart', handler); // 모바일 대응
     };
   });
+  // =====================================================
 
   // form
   const [startDate, setStartDate] = useState<Date>(new Date(props.selectStart));
@@ -245,6 +238,7 @@ function ModalBasic(props: PropsType) {
   const [desc, setDesc] = useState<string>();
   const [color, setColor] = useState<string>("#ffff8c");
 
+  // data set ===============================
   const handleType = (e: any) => {
     setType(e.target.value);
   };
@@ -264,27 +258,41 @@ function ModalBasic(props: PropsType) {
   const handleColor = (e: string) => {
     setColor(e);
   };
+  // =========================================
 
-  const temp = {
+  // 사용자가 등록할 데이터
+  // date 부분 code 간소화 방법 찾아보기...
+  const registData = {
+    scheduleTypeId: type, // 스케쥴 식별자 == 유형
     title: title,
-    start: startDate,
-    end: new Date(
-      endDate.getFullYear(),
-      endDate.getMonth(),
-      endDate.getDate() + 1,
-    ),
-    desc: desc,
-    type: type,
-    link: link,
-    // color: color,
-    // textColor: "#000000",
+    description: desc,
+    startTime:
+      startDate.getFullYear().toString() +
+      "-" +
+      startDate.getMonth().toString() +
+      "-" +
+      startDate.getDate().toString(),
+    endTime:
+      new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate() + 1)
+        .getFullYear()
+        .toString() +
+      "-" +
+      new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate() + 1)
+        .getMonth()
+        .toString() +
+      "-" +
+      new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate() + 1)
+        .getDate()
+        .toString(),
+    url: link,
+    // color : color,
+    // textColor : "#000000"
   };
 
-  const RegistSchedule = () => {
-    // useMutation => be에 data 등록 POST
-    // data등록
-    // useMutation((temp: Temp) => calendarCreateApi(temp));
+  // 단건 일정 recoil
+  const [schedule, setSchedule] = useRecoilState(ScheduleRegist);
 
+  const RegistSchedule = () => {
     // form 빈칸 체크
     if (type === undefined || type < 1) {
       alert(" 유형을 선택 하세요. ");
@@ -299,7 +307,11 @@ function ModalBasic(props: PropsType) {
       return;
     }
 
-    calendarCreateApi(temp);
+    // Recoil data 갱신
+    setSchedule(registData);
+
+    // 일정 등록 메소드 실행
+    props.onRegist();
     closeModal();
   };
 

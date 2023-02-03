@@ -655,4 +655,3 @@ class VideoRoomComponent extends Component {
   }
 }
 export default VideoRoomComponent;
-

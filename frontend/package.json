@@ -30,6 +30,7 @@
     "dropzone": "^6.0.0-beta.2",
     "framer-motion": "^8.5.2",
     "helmet": "^6.0.1",
+    "http-proxy-middleware": "^2.0.6",
     "jquery": "3.5.0",
     "moment": "^2.29.4",
     "openvidu-browser": "^2.23.0",
@@ -46,13 +47,14 @@
     "react-scripts": "5.0.1",
     "react-webcam": "^7.0.1",
     "recoil": "^0.7.6",
+    "recoil-persist": "^4.2.0",
     "sockjs-client": "^1.6.1",
     "styled-components": "^5.3.6",
     "typescript": "^4.9.4",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "cross-env HTTPS=true SSL_CRT_FILE=localhost.pem SSL_KEY_FILE=localhost-key.pem react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
