@@ -1,3 +1,5 @@
+import Modal from "./components/common/Modal";
+import ButtonBasic from "./components/common/ButtonBasic";
 import NavBar from "./components/common/NavBar";
 import Footer from "./components/common/Footer";
 import Router from "./Router";
@@ -20,6 +22,7 @@ body {
   ::-webkit-scrollbar {
     display: none; 
   } */
+
 }
 div,
 span,
