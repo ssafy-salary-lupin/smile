@@ -28,7 +28,8 @@ function Router() {
         <Route path="/test3">
           <WaitingPages />
         </Route>
-        {/*<Route path="/chat">
+        {/*
+        <Route path="/chat">
           <StudyChat />
         </Route> */}
       </Switch>
