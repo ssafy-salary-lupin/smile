@@ -60,4 +60,12 @@ public class UserJoinStudy extends BaseEntity {
 //                .studyInformationId(study.getId())
 //                .build();
     }
+
+    public void delegate() {
+        this.isLeader = true;
+    }
+
+    public void dismissal() {
+        this.isLeader = false;
+    }
 }
