@@ -23,7 +23,7 @@ const Items = styled.li`
 
 const ItemText = styled.ul`
   margin: 0 2.24vw; // 0 4rem;
-  padding: 1.4vw 1.12vw;
+  padding: 1.4vw 0;
   /* 텍스트 세로 중앙 정렬 위해 display, align-items 속성 추가 */
   font-size: 1.12vw;
   display: flex;

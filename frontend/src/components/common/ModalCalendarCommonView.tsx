@@ -10,7 +10,8 @@ interface PropsType {
   title: string;
   start: string;
   end: string;
-  time: string;
+  // startTime: string;
+  // endTime: string;
   desc: string;
   type: string;
   link: string;
