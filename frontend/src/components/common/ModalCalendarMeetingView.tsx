@@ -208,7 +208,7 @@ function ModalCalendarMeetingView(props: PropsType) {
             </ContentWrap>
             <ContentWrap>
               <Label>회의 날짜</Label>
-              <Date placeholder="회의 날짜" disabled value={props.start} />
+              <Date placeholder="회의 날짜" disabled value={props.time} />
             </ContentWrap>
           </ModalContent>
         </ModalConWrapper>

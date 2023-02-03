@@ -4,9 +4,16 @@ import { ReactComponent as Close } from "../../assets/icon/Close.svg";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/esm/locale"; //한국어 설정
+import { useRecoilState } from "recoil";
+import { Schedules } from "../../atoms/StudyManageCalendarAtom";
+import { color } from "@mui/system";
+import { useMutation } from "react-query";
+import { calendarCreateApi } from "apis/StudyManageCalendarAPi";
 
 interface PropsType {
   setModalOpen: React.Dispatch<SetStateAction<boolean>>;
+  selectStart: string;
+  selectEnd: string;
 }
 
 const ModalContainer = styled.div`
@@ -16,7 +23,7 @@ const ModalContainer = styled.div`
   flex-direction: column;
   position: fixed;
   width: 28.889vw;
-  height: 33.333vw;
+  height: 36.111vw;
   z-index: 999;
   background-color: white;
   border-radius: 0.556vw;
@@ -126,6 +133,54 @@ const Desc = styled.textarea`
   border: 1px solid ${(props) => props.theme.blackColorOpacity};
   resize: none;
   height: 9.444vw;
+  margin-bottom: 0.5vw;
+`;
+
+const ColorBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+`;
+
+const Red = styled.div`
+  cursor: pointer;
+  width: 2vw;
+  height: 2vw;
+  border-radius: 50%;
+  background-color: #ffa8a8;
+  margin: 0 0.5vw;
+  &:hover {
+    background-color: #dc9393;
+  }
+`;
+
+const Yellow = styled(Red)`
+  background-color: #ffff8c;
+  &:hover {
+    background-color: #dada79;
+  }
+`;
+
+const Green = styled(Red)`
+  background-color: #99ff99;
+  &:hover {
+    background-color: #81d681;
+  }
+`;
+
+const Blue = styled(Red)`
+  background-color: #a5e2ff;
+  &:hover {
+    background-color: #8dc0d8;
+  }
+`;
+
+const Gray = styled(Red)`
+  background-color: #c9c9c9;
+  &:hover {
+    background-color: #a1a0a0;
+  }
 `;
 
 const ModalBtn = styled.div`
@@ -182,8 +237,71 @@ function ModalBasic(props: PropsType) {
   });
 
   // form
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const [startDate, setStartDate] = useState<Date>(new Date(props.selectStart));
+  const [endDate, setEndDate] = useState<Date>(new Date(props.selectEnd));
+  const [type, setType] = useState<number>();
+  const [title, setTitle] = useState<string>();
+  const [link, setLink] = useState<string>();
+  const [desc, setDesc] = useState<string>();
+  const [color, setColor] = useState<string>("#ffff8c");
+
+  const handleType = (e: any) => {
+    setType(e.target.value);
+  };
+
+  const handleTitle = (e: any) => {
+    setTitle(e.target.value);
+  };
+
+  const handleLink = (e: any) => {
+    setLink(e.target.value);
+  };
+
+  const handleDesc = (e: any) => {
+    setDesc(e.target.value);
+  };
+
+  const handleColor = (e: string) => {
+    setColor(e);
+  };
+
+  const temp = {
+    title: title,
+    start: startDate,
+    end: new Date(
+      endDate.getFullYear(),
+      endDate.getMonth(),
+      endDate.getDate() + 1,
+    ),
+    desc: desc,
+    type: type,
+    link: link,
+    // color: color,
+    // textColor: "#000000",
+  };
+
+  const RegistSchedule = () => {
+    // useMutation => be에 data 등록 POST
+    // data등록
+    // useMutation((temp: Temp) => calendarCreateApi(temp));
+
+    // form 빈칸 체크
+    if (type === undefined || type < 1) {
+      alert(" 유형을 선택 하세요. ");
+      return;
+    }
+    if (title === undefined || title === "") {
+      alert(" 제목을 입력 하세요. ");
+      return;
+    }
+    if (desc === undefined || desc === "") {
+      alert(" 내용을 입력 하세요. ");
+      return;
+    }
+
+    calendarCreateApi(temp);
+    closeModal();
+  };
 
   return (
     <Backdrop>
@@ -197,14 +315,16 @@ function ModalBasic(props: PropsType) {
           </CloseBtn>
         </ModalHead>
         <ModalConWrapper>
-          <Select name="schedule">
+          <Select name="schedule" onChange={handleType}>
+            <Option value="0">-- 유형 --</Option>
             <Option value="1">서류 지원</Option>
             <Option value="2">채용 공고</Option>
           </Select>
-          <Title placeholder="회의 제목" />
-          <Link placeholder="링크" />
+          <Title placeholder="회의 제목" onChange={handleTitle} />
+          <Link placeholder="URL" onChange={handleLink} />
           <StyledDatePicker
             selected={startDate}
+            dateFormat="yyyy-MM-dd"
             onChange={(date: Date) => setStartDate(date)}
             selectsStart
             startDate={startDate}
@@ -213,17 +333,31 @@ function ModalBasic(props: PropsType) {
           />
           <StyledDatePicker
             selected={endDate}
-            onChange={(date: Date) => setEndDate(date)}
+            dateFormat="yyyy-MM-dd"
+            onChange={(date: Date) => {
+              setEndDate(date);
+            }}
             selectsEnd
             startDate={startDate}
             endDate={endDate}
             minDate={startDate}
             locale={ko}
           />
-          <Desc placeholder="회의 설명"></Desc>
+          <Desc placeholder="회의 설명" onChange={handleDesc}></Desc>
+          <ColorBox>
+            <Yellow
+              onClick={() => {
+                handleColor("#ffff8c");
+              }}
+            ></Yellow>
+            <Red onClick={() => handleColor("#ffa8a8")}></Red>
+            <Gray onClick={() => handleColor("#c9c9c9")}></Gray>
+            <Blue onClick={() => handleColor("#a5e2ff")}></Blue>
+            <Green onClick={() => handleColor("#99ff99")}></Green>
+          </ColorBox>
         </ModalConWrapper>
         <ModalBtn>
-          <YellowBtn onClick={closeModal}>등록</YellowBtn>
+          <YellowBtn onClick={RegistSchedule}>등록</YellowBtn>
           <CancelBtn onClick={closeModal}>취소</CancelBtn>
         </ModalBtn>
       </ModalContainer>
