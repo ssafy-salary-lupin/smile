@@ -3,6 +3,7 @@ package cp.smile.study_management.admin.controller;
 import cp.smile.config.response.DataResponse;
 import cp.smile.config.response.ResponseService;
 import cp.smile.entity.user.User;
+import cp.smile.entity.user.UserJoinStudy;
 import cp.smile.study_management.admin.dto.response.FindStudyJoinedUserDTO;
 import cp.smile.study_management.admin.service.StudyAdminService;
 import lombok.RequiredArgsConstructor;
@@ -31,13 +32,13 @@ public class StudyAdminController {
 
         for (User user : users) {
 
+            UserJoinStudy userJoinStudy = user.getUserJoinStudy().get(0);
 
-
-            FindStudyJoinedUserDTO.builder()
+            FindStudyJoinedUserDTOS.add(FindStudyJoinedUserDTO.builder()
                     .id(user.getId())
                     .email(user.getEmail())
                     .nickname(user.getNickname())
-                    .isLeader();
+                    .isLeader(userJoinStudy.getIsLeader()).build());
         }
 
         return responseService.getDataResponse(FindStudyJoinedUserDTOS);
