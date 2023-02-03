@@ -4,7 +4,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /*스터디 전체 조회에 사용*/
@@ -24,11 +23,11 @@ public class FindAllStudyDTO {
     private StudyTypeDTO type; //스터디 타입
 
     private int commentCount; //스터디 댓글 수
-    private StudyUserProfileDTO leader; //리더 정보
+    private UserProfileDTO leader; //리더 정보
 
 
     @Builder
-    public FindAllStudyDTO(int id, String imgPath, int person, int maxPerson, String description, int viewCount, LocalDateTime lastVisitedTime, StudyTypeDTO type, int commentCount, StudyUserProfileDTO leader) {
+    public FindAllStudyDTO(int id, String imgPath, int person, int maxPerson, String description, int viewCount, LocalDateTime lastVisitedTime, StudyTypeDTO type, int commentCount, UserProfileDTO leader) {
         this.id = id;
         this.imgPath = imgPath;
         this.person = person;

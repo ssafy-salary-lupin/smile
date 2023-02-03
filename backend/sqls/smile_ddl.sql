@@ -397,7 +397,7 @@ ENGINE = InnoDB;
 -- Table `smile_db`.`chat_messages`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `smile_db`.`chat_messages` (
-  `cm_id` BIGINT NOT NULL,
+  `cm_id` BIGINT NOT NULL AUTO_INCREMENT,
   `cm_content` TEXT NOT NULL,
   `cm_send_time` TIMESTAMP NOT NULL,
   `cm_session` VARCHAR(255) NOT NULL,
