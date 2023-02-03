@@ -1,16 +1,22 @@
 import axios from "axios";
 
-const BASE_URL = `http://localhost:8080/studies`;
+const BASE_URL = `https://i8b205.p.ssafy.io/be-api/studies`;
 
 // recoil 추가..
 // 일정 전체 조회 http://localhost:8080/studies/1/schedules
+// eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzU0MDk1NTQsImV4cCI6MTY3NTQxMzE1NH0.MLqPPEHlqa1zfXTmhrzcosQwWrCe7c1oPfTV2gLGRgSUY-GyYslNBg5gByvwr5garTVRVXcGv6dV53MwaqSA0g
+
 export async function calendarSelectAllApi() {
   try {
     console.log("Get 실행");
     // const result = await axios.get(`${BASE_URL}/1/schdules`); => axios 반환타입 어카냐...
-    const result = await fetch(`${BASE_URL}/1/schdules`).then((response) =>
-      response.json(),
-    );
+    const result = await fetch(`${BASE_URL}/1/schdules`, {
+      headers: {
+        Authorization:
+          "eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzU0MTI3MzUsImV4cCI6MTY3NTQxNjMzNX0.fGJWF-hlyq2-zKIGBkLN8sLi9d9h8DrJu1TzDomsqmQC6tG6CaUWjyrKG_E3TE3CWqNcD5Z_bSSqVYhDMfk4dg",
+      },
+    }).then((response) => response.json());
+    console.log("result : ", result);
     console.log("result Type : ", typeof result);
     // const result2 = [
     //   {
