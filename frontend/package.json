@@ -30,6 +30,7 @@
     "dropzone": "^6.0.0-beta.2",
     "framer-motion": "^8.5.2",
     "helmet": "^6.0.1",
+    "http-proxy-middleware": "^2.0.6",
     "jquery": "3.5.0",
     "moment": "^2.29.4",
     "openvidu-browser": "^2.23.0",

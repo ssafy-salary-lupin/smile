@@ -8,9 +8,9 @@ import ModalCalendarCommonView from "../common/ModalCalendarCommonView";
 import ModalCalendarRegist from "components/common/ModalCalendarRegist";
 import { calendarSelectAllApi } from "apis/StudyManageCalendarAPi";
 import { useQuery } from "react-query";
-import { useRecoilState } from "recoil";
-import { Schedules } from "atoms/StudyManageCalendarAtom";
-import { LoginState } from "atoms/LoginAtom";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { ScheduleRegist, Schedules } from "atoms/StudyManageCalendarAtom";
+import { calendarCreateApi } from "apis/StudyManageCalendarAPi";
 
 const Wrapper = styled.div`
   margin: 3.889vw 10.833vw;
@@ -60,7 +60,7 @@ function StudyManageCalendar() {
     setRegistModalOpen(true);
   };
 
-  // 임시 데이터
+  // 모달창 data
   const [type, setType] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [host, setHost] = useState<string>("");
@@ -69,30 +69,9 @@ function StudyManageCalendar() {
   const [time, setTime] = useState<string>("");
   const [desc, setDesc] = useState<string>("");
   const [link, setLink] = useState<string>("");
-
   // 달력 선택 시 시작날짜, 끝날짜 default값 설정
   const [selectStart, setSelectStart] = useState<string>("");
   const [selectEnd, setSelectEnd] = useState<string>("");
-
-  // const events = [
-  //   {
-  //     title: "현대오토에버",
-  //     start: "2023-02-24T14:40",
-  //     end: "2023-02-28T14:00",
-  //     // startTime: "12:00",
-  //     // endTime: "14:00",
-  //     desc: "현대 오토에버 채용공고 입니다. 링크 안내 참고~~ 👀",
-  //     type: "채용 공고",
-  //     link: " https://hyundai-autoever.recruiter.co.kr/app/jobnotice/view?systemKindCode=MRS2&jobnoticeSn=129061",
-  //   },
-  //   {
-  //     title: "면접 연습",
-  //     start: "2023-02-13",
-  //     time: "pm 7:00",
-  //     type: "면접",
-  //     host: "홍길동",
-  //   },
-  // ];
 
   const handleEventClick = (arg: any) => {
     if (arg.event._def.extendedProps.host) {
@@ -103,7 +82,6 @@ function StudyManageCalendar() {
       setStart(arg.event._def.start);
       setTime(arg.event._def.extendedProps.time);
       setHost(arg.event._def.extendedProps.host);
-      console.log(arg.event._def);
     } else if (arg.event._def.extendedProps.desc) {
       // 그냥 일반 일정 관련 모달창 띄울 때 => 단순 조회용 모달창
       setCommonModalOpen(true);
@@ -114,27 +92,26 @@ function StudyManageCalendar() {
       setStart(arg.event._def.start);
       setEnd(arg.event._def.end);
       setTime(arg.event._def.extendedProps.time);
-      console.log(arg.event);
     }
   };
 
-  // 일정 state
+  // 여러 일정 recoil
   const [schedules, setSchedules] = useRecoilState(Schedules);
-  // commonSchedules => api에서 받아온 일정 db 배열 => fullCalendar형식으로 바꾸기
-  // title = title
-  // start = startTime.split(" ")[0]
-  // end = endTime.split(" ")[0]
-  // startTime = startTime.split(" ")[1]
-  // endTime = endTime.split(" ")[1]
-  // desc = description
-  // type = type.name
-  // link = url
+
+  // 단건 일정 recoil => 단순 조회 용
+  const schedule = useRecoilValue(ScheduleRegist);
+
+  const onRegist = () => {
+    // post
+    calendarCreateApi(schedule);
+
+    // forceUpdate => 되도록 피해야... 다른 방법 뭐있지?
+  };
 
   // db에서 전체 일정 데이터 받아오기
-  const { data: commonSchedules } = useQuery<CommonSchedules[]>(
-    ["allSchedules"],
-    calendarSelectAllApi,
-  );
+  const { data: commonSchedules } = useQuery<CommonSchedules[] | undefined>([
+    "allSchedules",
+  ]);
 
   // 무한 렌더링,, 노션에 정리
   useEffect(() => {
@@ -144,19 +121,15 @@ function StudyManageCalendar() {
         title: el.title,
         start: el.startTime.split(" ")[0],
         end: el.endTime.split(" ")[0],
-        // 시작 시간
-        // 마감 시간
+        // 시작 시간 startTime.split(" ")[1]
+        // 마감 시간 endTime.split(" ")[1]
         desc: el.description,
         type: el.type.name,
         link: el.url,
       };
       setSchedules((oldSchedules) => [...oldSchedules, temp]);
-      console.log("schedules : ", schedules);
     });
   }, [commonSchedules]);
-
-  // 임시 토큰 저장
-  const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
 
   return (
     <Wrapper>
@@ -196,6 +169,7 @@ function StudyManageCalendar() {
           setModalOpen={setRegistModalOpen}
           selectStart={selectStart}
           selectEnd={selectEnd}
+          onRegist={onRegist}
         />
       )}
     </Wrapper>

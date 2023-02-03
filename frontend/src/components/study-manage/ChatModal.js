@@ -126,7 +126,7 @@ function ModalBasic(props) {
   const [chatList, setChatList] = useState([]); // 화면에 표시괼 채팅 기록
   const [chat, setChat] = useState(""); // 입력되는 채팅
 
-  const { apply_id } = useParams(); // 채널을 구분하는 식별자를 URL 파라미터로 받는다.
+  const { apply_id } = useParams(); // 채널을 구분하는 식별자를 URL 파라미터로 받는다. => 스터디 코드
   const client = useRef({});
 
   const connect = () => {
@@ -148,6 +148,7 @@ function ModalBasic(props) {
   const publish = (chat) => {
     if (!client.current.connected) return; // 연결되지 않았으면 메시지를 보내지 않는다.
 
+    // 메시지 보내기
     client.current.publish({
       destination: "/pub/chat",
       body: JSON.stringify({
@@ -159,6 +160,7 @@ function ModalBasic(props) {
     setChat("");
   };
 
+  // 메시지 받기 {우리 주소}/studies/{studyId}/chats
   const subscribe = () => {
     client.current.subscribe("/sub/chat/" + apply_id, (body) => {
       const json_body = JSON.parse(body.body);
@@ -178,7 +180,9 @@ function ModalBasic(props) {
 
   const handleSubmit = (event, chat) => {
     // 보내기 버튼 눌렀을 때 publish
-    event.preventDefault();
+    console.log("submit");
+    event.preventDefault(); // form 제출 막기
+    console.log("chat : ", chat);
 
     publish(chat);
   };
