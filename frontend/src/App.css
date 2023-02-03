@@ -1,0 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Sans:wght@300;400;500;600;700;800&display=swap");
+
+* {
+  /* 한글 */
+  @font-face {
+    font-family: "NotoSans";
+    src: url("https://fonts.googleapis.com/css2?family=Noo+Sans+KR&display=swap");
+  }
+  /* 영어 */
+  @font-face {
+    font-family: "NotoSans";
+    src: url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap");
+    unicode-range: U+0020-007E;
+  }
+}

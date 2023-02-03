@@ -1,0 +1,85 @@
+{
+  "name": "smile",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@fullcalendar/core": "^6.1.1",
+    "@fullcalendar/daygrid": "^6.1.0",
+    "@fullcalendar/interaction": "^6.1.0",
+    "@fullcalendar/react": "^6.1.0",
+    "@mui/icons-material": "^5.11.0",
+    "@mui/material": "^5.11.7",
+    "@mui/styled-engine-sc": "^5.11.0",
+    "@stomp/stompjs": "^6.1.2",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.2",
+    "@types/moment": "^2.13.0",
+    "@types/node": "^16.18.11",
+    "@types/react": "^17.0.38",
+    "@types/react-calendar": "^3.9.0",
+    "@types/react-datepicker": "^4.8.0",
+    "@types/react-dom": "^18.0.10",
+    "@types/react-dropzone": "^5.1.0",
+    "@types/sockjs-client": "^1.5.1",
+    "@types/stompjs": "^2.3.5",
+    "axios": "^1.3.1",
+    "dropzone": "^6.0.0-beta.2",
+    "framer-motion": "^8.5.2",
+    "helmet": "^6.0.1",
+    "jquery": "3.5.0",
+    "moment": "^2.29.4",
+    "openvidu-browser": "^2.23.0",
+    "query": "^0.2.0",
+    "react": "^18.2.0",
+    "react-calendar": "^4.0.0",
+    "react-datepicker": "^4.8.0",
+    "react-dom": "^18.2.0",
+    "react-dropzone": "^14.2.3",
+    "react-hook-form": "^7.42.1",
+    "react-native": "^0.71.1",
+    "react-query": "^3.39.2",
+    "react-router-dom": "^5.3.4",
+    "react-scripts": "5.0.1",
+    "react-webcam": "^7.0.1",
+    "recoil": "^0.7.6",
+    "sockjs-client": "^1.6.1",
+    "styled-components": "^5.3.6",
+    "typescript": "^4.9.4",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "cross-env HTTPS=true SSL_CRT_FILE=localhost.pem SSL_KEY_FILE=localhost-key.pem react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/react-datepicker": "^4.8.0",
+    "@types/react-router-dom": "^5.3.3",
+    "@types/styled-components": "^5.1.26",
+    "cross-env": "^7.0.3",
+    "prettier": "2.8.3"
+  }
+}
