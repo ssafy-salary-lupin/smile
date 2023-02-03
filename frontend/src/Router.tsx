@@ -6,7 +6,6 @@ import TestPages from "./pages/TestPages";
 import VideoRoomComponent from "components/video-meeting/VideoRoomComponent";
 // import StudyChat from "components/study-manage/StudyChat";
 import WaitingPages from "./pages/WaitingPages";
-// import StudyChat from "components/study-manage/StudyChat";
 function Router() {
   return (
     <BrowserRouter>
