@@ -2,14 +2,12 @@ package cp.smile.entity.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import cp.smile.config.BaseEntity;
-import cp.smile.study_common.dto.response.StudyUserProfileDTO;
+import cp.smile.study_common.dto.response.UserProfileDTO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,8 +64,8 @@ public class User extends BaseEntity {
     }
 
     /*user엔티티 -> StudyUserProfileDTO*/
-    public StudyUserProfileDTO createStudyUserProfileDTO() {
-        return StudyUserProfileDTO.builder()
+    public UserProfileDTO createUserProfileDTO() {
+        return UserProfileDTO.builder()
                 .id(this.id)
                 .imgPath(this.imagePath)
                 .nickname(this.nickname).build();

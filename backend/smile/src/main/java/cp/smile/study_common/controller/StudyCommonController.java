@@ -37,6 +37,8 @@ public class StudyCommonController {
         return responseService.getDataResponse(findAllStudyDTOS);
     }
 
+
+    // TODO : 스터디 생성이 되면 스터디 아이디를 반환해주어야 함.
     @PostMapping(value = "/studies", consumes = {"multipart/form-data"})
     public CommonResponse createStudy(
             @RequestPart("data") CreateStudyDTO createStudyDTO,
@@ -45,12 +47,7 @@ public class StudyCommonController {
 
         int userId = oAuth2User.getUserId(); //토큰에서 유저 식별자 가져오기.
 
-        // TODO : 파일업로드를 위해서 MartipartFormData로 처리 필요,
-
-
         studyCommonService.createStudy(userId,createStudyDTO,multipartFile);
-
-
 
         //서비스 계층 호출 하는 로직 필요
         return responseService.getSuccessResponse();

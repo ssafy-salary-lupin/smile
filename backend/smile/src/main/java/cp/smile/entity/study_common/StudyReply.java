@@ -1,17 +1,14 @@
 package cp.smile.entity.study_common;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import cp.smile.config.BaseEntity;
 import cp.smile.entity.user.User;
-import cp.smile.study_common.dto.response.StudyTypeDTO;
 import cp.smile.study_common.dto.response.comment.StudyReplyDTO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 
 @Getter
@@ -49,7 +46,7 @@ public class StudyReply extends BaseEntity {
     public StudyReplyDTO createStudyReplyDTO(){
         return StudyReplyDTO.builder()
                 .id(this.id)
-                .user(this.user.createStudyUserProfileDTO())
+                .user(this.user.createUserProfileDTO())
                 .content(this.content).build();
     }
 }

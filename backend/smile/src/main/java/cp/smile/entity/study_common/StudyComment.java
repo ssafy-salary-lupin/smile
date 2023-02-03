@@ -1,6 +1,5 @@
 package cp.smile.entity.study_common;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import cp.smile.config.BaseEntity;
 import cp.smile.entity.user.User;
 import cp.smile.study_common.dto.response.comment.StudyCommentDTO;
@@ -8,11 +7,8 @@ import cp.smile.study_common.dto.response.comment.StudyReplyDTO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -76,7 +72,7 @@ public class StudyComment extends BaseEntity {
 
         return StudyCommentDTO.builder()
                 .id(this.id)
-                .user(this.user.createStudyUserProfileDTO())
+                .user(this.user.createUserProfileDTO())
                 .content(this.content)
                 .replies(studyReplyDTOS).build();
     }
