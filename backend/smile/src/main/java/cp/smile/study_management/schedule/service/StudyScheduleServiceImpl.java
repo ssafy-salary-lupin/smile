@@ -14,6 +14,7 @@ import cp.smile.study_management.schedule.repository.StudyScheduleTypeRepository
 import cp.smile.user.repository.UserJoinStudyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -22,6 +23,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class StudyScheduleServiceImpl implements StudyScheduleService{
 
