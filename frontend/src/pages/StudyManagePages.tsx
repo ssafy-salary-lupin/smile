@@ -1,12 +1,23 @@
+import StudyNavBar from "components/common/StudyNavBar";
 import styled from "styled-components";
+import StudyManageCalendar from "../components/study-manage/StudyManageCalendar";
+import StudyManageMain from "../components/study-manage/StudyManageMain";
 
-const Wrapper = styled.div`
-  min-height: 1000px;
-  background-color: red;
+// submenu 들어갈 자리
+const SubMenu = styled.div`
+  height: 11.667vw;
 `;
 
 function StudyManagePages() {
-  return <Wrapper>여기는 관리페이지</Wrapper>;
+  return (
+    <>
+      <SubMenu>
+        <StudyNavBar />
+      </SubMenu>
+      {/* <StudyManageMain /> */}
+      <StudyManageCalendar />
+    </>
+  );
 }
 
 export default StudyManagePages;

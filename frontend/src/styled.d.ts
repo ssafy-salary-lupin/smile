@@ -7,12 +7,18 @@ declare module "styled-components" {
     pointColor: string;
     subColor: string;
     subColor2: string;
-    textColor: strinf;
+    textColor: string;
     textSubColor: string;
     blackColor: string;
     shadowColor: string;
     whiteColor: string;
     whiteOpacityColor: string;
     subColorHover: string;
+    pointColorOpacity: string;
+    blackColorOpacity: string;
+    blackColorOpacity2: string;
+    blackColorOpacity3: string;
+    mainColorOpacity: string;
+    mainColorDark: string;
   }
 }

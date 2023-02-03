@@ -12,4 +12,10 @@ export const theme: DefaultTheme = {
   whiteColor: "#FFFFFF",
   whiteOpacityColor: "#FFFFFFCC",
   subColorHover: "#5C564B",
+  pointColorOpacity: "#314e8d52",
+  blackColorOpacity: "#00000046",
+  blackColorOpacity2: "#000000ae",
+  blackColorOpacity3: "#00000020",
+  mainColorOpacity: "#f5c72e3b",
+  mainColorDark: "#D6B12B",
 };

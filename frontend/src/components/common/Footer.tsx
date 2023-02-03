@@ -1,12 +1,12 @@
 import styled from "styled-components";
-import logoImg from "../../assets/img/smile.png";
+import logoImg from "../../assets/img/smile_white.png";
 import "../../assets/css/index.css";
 
 const FooterContainer = styled.footer`
   background-color: ${(props) => props.theme.blackColor};
-  color: ${(props) => props.theme.whiteOpacityColor};
+  color: ${(props) => props.theme.whiteColor};
   padding: 3rem 2rem;
-  margin-top: 5rem;
+  /* margin-top: 5rem; */
   display: flex;
   flex-direction: column;
   font-size: 1.12vw;
@@ -36,7 +36,7 @@ const FooterCon1 = styled.div`
 const FooterCon2 = styled.div`
   margin-top: 3rem;
   a {
-    color: ${(props) => props.theme.whiteOpacityColor};
+    color: ${(props) => props.theme.whiteColor};
   }
   p {
     line-height: 30px;
@@ -51,13 +51,13 @@ const Copy = styled.div`
 const TopButton = styled.button`
   background-color: ${(props) => props.theme.blackColor};
   border: 0px;
-  color: ${(props) => props.theme.whiteOpacityColor};
+  color: ${(props) => props.theme.whiteColor};
   cursor: pointer;
   font-size: 1.12vw;
 `;
 
 const Img = styled.img`
-  height: 30px;
+  height: 2.133vw;
 `;
 
 function Footer() {

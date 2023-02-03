@@ -1,9 +1,8 @@
-import Modal from "./components/common/Modal";
-import ButtonBasic from "./components/common/ButtonBasic";
 import NavBar from "./components/common/NavBar";
 import Footer from "./components/common/Footer";
 import Router from "./Router";
 import { createGlobalStyle } from "styled-components";
+import { BrowserRouter } from "react-router-dom";
 
 const GlobalStyle = createGlobalStyle`
 /* @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap"); */
@@ -12,7 +11,15 @@ const GlobalStyle = createGlobalStyle`
 html,
 body {
   font-family: "Noto Sans", sans-serif;
-
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  /* -ms-overflow-style: none;  
+  scrollbar-width: none; 
+  ::-webkit-scrollbar {
+    display: none; 
+  } */
 }
 div,
 span,
@@ -153,17 +160,52 @@ a:visited,
 a:active,
 a:link {
   text-decoration: none !important;
-}`;
+}
+/* fullcalendar cursor pointer */
+.myCalendar {
+    cursor: pointer;
+}
+.fc-event{
+    cursor: pointer;
+}
+.fc-content {
+    cursor: pointer;
+}
+/* 일요일 날짜: 빨간색 */
+.fc-day-sun a {
+    color: red;
+}
+  
+/* 토요일 날짜: 파란색 */
+.fc-day-sat a {
+    color: blue;
+}
+
+// today 버튼 색상
+.fc .fc-button-primary:disabled {
+    background-color: #F5C82E;
+    border: none;
+    color: black;
+}
+
+.fc .fc-button-primary {
+  background-color: #F5C82E;
+    border: none;
+    color: black;
+}
+`;
 
 function App() {
+  const curPath = window.location.pathname;
+
   return (
     <>
-      <GlobalStyle />
-      <NavBar />
-      <Modal />
-      {/* <ButtonBasic /> */}
-      <Router />
-      <Footer />
+      <BrowserRouter>
+        <GlobalStyle />
+        <NavBar curUrl={curPath} />
+        <Router />
+        <Footer />
+      </BrowserRouter>
     </>
   );
 }
