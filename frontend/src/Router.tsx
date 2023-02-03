@@ -4,6 +4,7 @@ import StudyManagePages from "./pages/StudyManagePages";
 import StudyCreatePages from "./pages/StudyCreatePages";
 import TestPages from "./pages/TestPages";
 import VideoRoomComponent from "components/video-meeting/VideoRoomComponent";
+import WaitingPages from "./pages/WaitingPages";
 import StudyChat from "components/study-manage/StudyChat";
 function Router() {
   return (
@@ -24,6 +25,8 @@ function Router() {
         <Route path="/test2">
           <VideoRoomComponent />
         </Route>
+        <Route path="/test3">
+          <WaitingPages />
         <Route path="/chat">
           <StudyChat />
         </Route>
