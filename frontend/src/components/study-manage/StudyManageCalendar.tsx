@@ -108,6 +108,8 @@ function StudyManageCalendar() {
     // forceUpdate => 되도록 피해야... 다른 방법 뭐있지?
   };
 
+  //
+
   // db에서 전체 일정 데이터 받아오기
   const { data: commonSchedules } = useQuery<CommonSchedules[] | undefined>([
     "allSchedules",

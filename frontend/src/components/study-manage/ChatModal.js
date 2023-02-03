@@ -122,6 +122,7 @@ function ModalBasic(props) {
     };
   });
 
+  //,,,
   // 채팅
   const [chatList, setChatList] = useState([]); // 화면에 표시괼 채팅 기록
   const [chat, setChat] = useState(""); // 입력되는 채팅
