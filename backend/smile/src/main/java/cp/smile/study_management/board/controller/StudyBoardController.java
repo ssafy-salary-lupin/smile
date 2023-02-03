@@ -9,6 +9,7 @@ import cp.smile.entity.study_management.StudyBoard;
 import cp.smile.entity.user.User;
 import cp.smile.entity.user.UserJoinStudy;
 import cp.smile.study_management.board.dto.request.StudyBoardWriteDTO;
+import cp.smile.study_management.board.dto.response.DetailBoardDTO;
 import cp.smile.study_management.board.dto.response.SimpleBoardDTO;
 import cp.smile.study_management.board.service.StudyBoardService;
 import cp.smile.user.repository.UserJoinStudyRepository;
@@ -24,7 +25,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -90,5 +90,10 @@ public class StudyBoardController {
         studyBoardService.writeComment(writer, boardId, body.get("content"));
 
         return responseService.getSuccessResponse();
+    }
+
+    @GetMapping("/{boardId}")
+    public DataResponse<DetailBoardDTO> getStudyBoardDetail(@PathVariable int boardId) {
+        return responseService.getDataResponse(DetailBoardDTO.of(studyBoardService.findByIdForView(boardId)));
     }
 }

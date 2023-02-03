@@ -63,7 +63,7 @@ public class StudyBoardServiceImpl implements StudyBoardService {
                 .build();
 
         studyBoard.setWriter(userJoinStudy.getUser());
-        studyBoard.setStudyInformation(userJoinStudy.getStudyInformation());
+        studyBoard.addTo(userJoinStudy.getStudyInformation());
         studyBoardRepository.save(studyBoard);
 
         if (files[0].getSize() != 0) {
@@ -71,6 +71,37 @@ public class StudyBoardServiceImpl implements StudyBoardService {
             studyBoardFileRepository.saveAll(uploadedFiles);
         }
 
+        return studyBoard;
+    }
+
+    /**
+     * 게시글 ID로 게시글 조회
+     * 조회시 해당 게시글의 댓글과 업로드된 파일 목록을 함께 조회
+     */
+    @Override
+    public StudyBoard findById(int boardId) {
+        StudyBoard studyBoard = studyBoardRepository.findByIdWithType(boardId)
+                .orElseThrow(() -> new EntityNotFoundException(boardId + "에 해당하는 게시글이 없습니다."));
+
+        List<StudyBoardFile> files = studyBoardFileRepository.findByStudyBoard(studyBoard);
+        List<StudyBoardComment> comments = studyBoardCommentRepository.findByStudyBoardWithUser(studyBoard);
+
+        studyBoard.setStudyBoardFiles(files);
+        studyBoard.setStudyBoardComments(comments);
+
+        return studyBoard;
+    }
+
+    /**
+     * 게시글 ID로 게시글 조회하며 `조회수가 증가`
+     * 조회시 해당 게시글의 댓글과 업로드된 파일 목록을 함께 조회
+     * `Client가 게시글 조회`시 호춣
+     */
+    @Override
+    @Transactional
+    public StudyBoard findByIdForView(int boardId) {
+        StudyBoard studyBoard = findById(boardId);
+        studyBoard.addViewCount();
         return studyBoard;
     }
 
@@ -85,6 +116,8 @@ public class StudyBoardServiceImpl implements StudyBoardService {
                 .content(content)
                 .user(writer)
                 .build();
+
+        // 연관 메서드 필요
 
         return studyBoardCommentRepository.save(boardComment);
     }
