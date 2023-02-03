@@ -202,9 +202,9 @@ function App() {
     <>
       <BrowserRouter>
         <GlobalStyle />
-        {/* <NavBar curUrl={curPath} /> */}
+        <NavBar curUrl={curPath} />
         <Router />
-        {/* <Footer /> */}
+        <Footer />
       </BrowserRouter>
     </>
   );
