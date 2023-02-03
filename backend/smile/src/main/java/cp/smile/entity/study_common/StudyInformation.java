@@ -118,4 +118,8 @@ public class StudyInformation extends BaseEntity {
                 ", lastVisitedTime=" + lastVisitedTime +
                 '}';
     }
+
+    public void addPerson() {
+        this.currentPerson += 1;
+    }
 }
