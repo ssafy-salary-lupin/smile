@@ -2,6 +2,7 @@ import axios from "axios";
 
 const BASE_URL = `http://localhost:8080/studies`;
 
+// recoil 추가..
 // 일정 전체 조회 http://localhost:8080/studies/1/schedules
 export async function calendarSelectAllApi() {
   try {
