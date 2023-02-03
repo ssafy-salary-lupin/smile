@@ -28,7 +28,6 @@ public class StudyAdminController {
 
     private final StudyAdminService studyAdminService;
     private final ResponseService responseService;
-    private final UserJoinStudyRepository userJoinStudyRepository;
 
     /* 스터디에 속한 회원조회 */
     @GetMapping("/studies/{studyId}/users")
@@ -62,6 +61,44 @@ public class StudyAdminController {
         int currentLeaderId = oAuth2User.getUserId();
 
         studyAdminService.changeLeader(currentLeaderId, studyId, userId);
+
+        return responseService.getSuccessResponse();
+    }
+
+    /* 스터디 종료 */
+    @PatchMapping("studies/{studyId}/close")
+    public CommonResponse closeStudy(
+            @PathVariable int studyId,
+            @AuthenticationPrincipal CustomOAuth2User oAuth2User) {
+
+        int studyLeaderId = oAuth2User.getUserId();
+
+        studyAdminService.closeStudy(studyLeaderId, studyId);
+
+        return responseService.getSuccessResponse();
+    }
+
+    /* 스터디 모집 */
+    @PatchMapping("studies/{studyId}/recruit")
+    public CommonResponse recruitStudy(
+            @PathVariable int studyId,
+            @AuthenticationPrincipal CustomOAuth2User oAuth2User) {
+
+        int studyLeaderId = oAuth2User.getUserId();
+
+        studyAdminService.recruitStudy(studyLeaderId, studyId);
+
+        return responseService.getSuccessResponse();
+    }
+
+    /* 스터디 마감 */
+    @PatchMapping("studies/{studyId}/deadline")
+    public CommonResponse deadlineStudy(
+            @PathVariable int studyId,
+            @AuthenticationPrincipal CustomOAuth2User oAuth2User) {
+        int studyLeaderId = oAuth2User.getUserId();
+
+        studyAdminService.deadlineStudy(studyLeaderId, studyId);
 
         return responseService.getSuccessResponse();
     }

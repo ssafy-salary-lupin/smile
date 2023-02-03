@@ -118,4 +118,16 @@ public class StudyInformation extends BaseEntity {
                 ", lastVisitedTime=" + lastVisitedTime +
                 '}';
     }
+
+    public void close() {
+        this.isEnd = true;
+    }
+
+    public void recruit() {
+        this.deadline = false;
+    }
+
+    public void deadline() {
+        this.deadline = true;
+    }
 }

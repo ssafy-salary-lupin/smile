@@ -11,4 +11,10 @@ public interface StudyAdminService {
 
     void changeLeader(int currentLeaderId, int studyId, int nextLeaderId);
 
+    void closeStudy(int studyLeaderId, int studyId);
+
+    void recruitStudy(int studyLeaderId, int studyId);
+
+    void deadlineStudy(int studyLeaderId, int studyId);
+
 }
