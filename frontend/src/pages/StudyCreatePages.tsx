@@ -1,4 +1,3 @@
-// import { useEffect, useState } from "react";
 // import Btn from "../components/common/ButtonBasic";
 import { ReactComponent as Icon } from "../assets/icon/StudyCreatePages.svg";
 import { ReactComponent as Camera } from "../assets/icon/Camera.svg";
@@ -144,8 +143,8 @@ const Form = styled.form`
     display: none;
   }
   img {
-    height: 13.889vw;
-    width: 13.889vw;
+    height: 11.111vw;
+    width: 11.111vw;
   }
 `;
 
@@ -173,8 +172,6 @@ function StudyCreatePages() {
   const [imgFile, setImgFile] = useState<string | ArrayBuffer>();
   const imgRef = useRef<HTMLInputElement>(null);
   const [isActive, setIsActivate] = useState<boolean>(false);
-
-  console.log("imgRef.current : ", imgRef.current);
 
   // 이미지 업로드 input의 onChange
   const saveImgFile = () => {
@@ -277,7 +274,7 @@ function StudyCreatePages() {
                 showTimeSelectOnly
                 timeIntervals={30}
                 timeCaption="Time"
-                dateFormat="h:mm aa"
+                dateFormat="HH:mm"
               />
               <TextSmall>~</TextSmall>
               <Calendar
@@ -287,7 +284,7 @@ function StudyCreatePages() {
                 showTimeSelectOnly
                 timeIntervals={30}
                 timeCaption="Time"
-                dateFormat="h:mm aa"
+                dateFormat="HH:mm"
               />
             </DateTime>
           </SelectSmallTotal>

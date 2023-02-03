@@ -4,6 +4,7 @@ import StudyManagePages from "./pages/StudyManagePages";
 import StudyCreatePages from "./pages/StudyCreatePages";
 import TestPages from "./pages/TestPages";
 import VideoRoomComponent from "components/video-meeting/VideoRoomComponent";
+import WaitingPages from "./pages/WaitingPages";
 function Router() {
   return (
     <BrowserRouter>
@@ -22,6 +23,9 @@ function Router() {
         </Route>
         <Route path="/test2">
           <VideoRoomComponent />
+        </Route>
+        <Route path="/test3">
+          <WaitingPages />
         </Route>
       </Switch>
     </BrowserRouter>
