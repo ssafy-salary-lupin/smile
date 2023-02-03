@@ -3,6 +3,7 @@ package cp.smile.entity.study_management;
 import cp.smile.config.BaseEntity;
 import cp.smile.entity.study_common.StudyInformation;
 import cp.smile.entity.user.User;
+import cp.smile.study_management.chat.dto.response.ChatMessageInfoDTO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,5 +43,14 @@ public class ChatMessage extends BaseEntity {
         this.session = session;
         this.user = user;
         this.studyInformation = studyInformation;
+    }
+
+    public ChatMessageInfoDTO createChatMessageInfoDTO(){
+
+        return ChatMessageInfoDTO.builder()
+                .id(this.id)
+                .message(this.content)
+                .sendTime(this.sendTime)
+                .userProfile(this.user.createUserProfileDTO()).build();
     }
 }

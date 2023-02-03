@@ -18,6 +18,8 @@ public class UserJoinStudy extends BaseEntity {
     @EmbeddedId
     private UserJoinStudyId id;
 
+
+    // TODO : 연관관계 편의 메서드를 정의해서 양쪽에 값이 모두 들어가도록 만들어야됨.
     @MapsId("userId")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
