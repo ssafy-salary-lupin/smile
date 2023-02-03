@@ -180,6 +180,19 @@ a:link {
 .fc-day-sat a {
     color: blue;
 }
+
+// today 버튼 색상
+.fc .fc-button-primary:disabled {
+    background-color: #F5C82E;
+    border: none;
+    color: black;
+}
+
+.fc .fc-button-primary {
+  background-color: #F5C82E;
+    border: none;
+    color: black;
+}
 `;
 
 function App() {
@@ -189,7 +202,7 @@ function App() {
     <>
       <BrowserRouter>
         <GlobalStyle />
-        <NavBar curUrl={curPath} />
+        {/* <NavBar curUrl={curPath} /> */}
         <Router />
         {/* <Footer /> */}
       </BrowserRouter>
