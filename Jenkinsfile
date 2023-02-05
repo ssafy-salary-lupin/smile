@@ -7,7 +7,7 @@ pipeline {
             steps {
                 script {
                     IMAGE_NAME = "sh80165/ci_cd_jenkins_dood"
-                    IMAGE_STORAGE = "https://hub.docker.com"
+                    IMAGE_STORAGE = "https://registry.hub.docker.com"
                     IMAGE_STORAGE_CREDENTIAL = "docker-hub"
                     SSH_CONNECTION = "ubuntu@i8b205.p.ssafy.io"
                     SSH_CONNECTION_CREDENTIAL = "Deploy-Server-SSH-Credential"
