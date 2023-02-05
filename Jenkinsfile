@@ -27,10 +27,10 @@ pipeline {
                 }   
             }
         }
-        stage("Move application.yml"){
+        stage("Copy Application.yml"){
             steps{
                 dir("${APPLICATION_YML_PATH}"){
-                    sh "mv resources smile_be_develop/"
+                    sh "cp -r -f resources smile_be_develop/"
                 }
             }
         }
