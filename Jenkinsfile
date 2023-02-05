@@ -19,7 +19,9 @@ pipeline {
         stage("Clean Build Test") {
             steps {
                 sh "pwd"
+                sh "chmod +x ${SPRING_BUILD_PATH}/gradlew"
                 sh "${SPRING_BUILD_PATH}/gradlew clean build -x test"
+                sh "ls -al ${SPRING_BUILD_PATH}/build"
             }
         }
 
