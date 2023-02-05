@@ -18,11 +18,13 @@ pipeline {
 
         stage("Clean Build Test") {
             steps {
-                sh "cd ${SPRING_BUILD_PATH}"
-                sh "pwd"
-                sh "chmod +x gradlew"
-                sh "./gradlew clean build -x test"
-                sh "ls -al ./build"
+                dir(${SPRING_BUILD_PATH}){
+                    sh "pwd"
+                    sh "chmod +x gradlew"
+                    sh "./gradlew clean build -x test"
+                    sh "ls -al ./build"
+                }
+                
             }
         }
 
