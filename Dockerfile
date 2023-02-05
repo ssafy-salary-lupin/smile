@@ -10,4 +10,5 @@ COPY ./resources ./resources
 
 EXPOSE 8080
 
+
 ENTRYPOINT ["java","-jar","-Dspring.config.location=resources/application.yml,resources/application-deploy.yml", "-Dspring.activate.on-profile=deploy", "application.jar"]
