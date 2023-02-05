@@ -4,9 +4,9 @@ ENV APP_HOME=/usr/app
 
 WORKDIR $APP_HOME
 
-COPY ./S08P12B205/backend/smile/build/libs/*.jar ./application.jar
+COPY ./backend/smile/build/libs/*.jar ./application.jar
 
-COPY ./resources ./resources
+COPY ../resources ./resources
 
 EXPOSE 8080
 
