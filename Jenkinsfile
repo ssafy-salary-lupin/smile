@@ -30,6 +30,8 @@ pipeline {
 
         stage("Build Container Image") {
             steps {
+
+
                 script {
                     image = docker.build("${IMAGE_NAME}")
                 }
