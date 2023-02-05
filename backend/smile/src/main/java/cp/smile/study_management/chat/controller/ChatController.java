@@ -27,6 +27,7 @@ public class ChatController {
 
     private final SimpMessageSendingOperations messagingTemplate; //메시지를 도착지 까지 보내는 역할
 
+    //
     //스터디 아이디에 해당하는 모든 메시지 반환.
     @GetMapping("/studies/{studyId}/chats")
     public DataResponse<List<ChatMessageInfoDTO>> findAllMessage(
