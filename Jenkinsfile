@@ -63,9 +63,9 @@ pipeline {
                     // 최신 컨테이너 삭제
                     sh "ssh -o StrictHostKeyChecking=no ${SSH_CONNECTION} 'docker rm -f ${IMAGE_NAME}'"
                     // 최신 이미지 삭제
-                    sh "ssh -o StrictHostKeyChecking=no ${SSH_CONNECTION} 'docker rmi -f ${IMAGE_STORAGE}/${IMAGE_NAME}:latest'"
+                    sh "ssh -o StrictHostKeyChecking=no ${SSH_CONNECTION} 'docker rmi -f ${IMAGE_NAME}:latest'"
                     // 최신 이미지 PULL
-                    sh "ssh -o StrictHostKeyChecking=no ${SSH_CONNECTION} 'docker pull ${IMAGE_STORAGE}/${IMAGE_NAME}:latest'"
+                    sh "ssh -o StrictHostKeyChecking=no ${SSH_CONNECTION} 'docker pull ${IMAGE_NAME}:latest'"
                     // 이미지 확인
                     sh "ssh -o StrictHostKeyChecking=no ${SSH_CONNECTION} 'docker images'"
                     // 최신 이미지 RUN
