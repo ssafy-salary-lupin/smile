@@ -6,7 +6,7 @@ WORKDIR $APP_HOME
 
 COPY ./backend/smile/build/libs/*.jar ./application.jar
 
-COPY ../resources ./resources
+COPY ./resources ./resources
 
 EXPOSE 8080
 
