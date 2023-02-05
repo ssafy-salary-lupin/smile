@@ -69,7 +69,7 @@ pipeline {
                     // 이미지 확인
                     sh "ssh -o StrictHostKeyChecking=no ${SSH_CONNECTION} 'docker images'"
                     // 최신 이미지 RUN
-                    sh "ssh -o StrictHostKeyChecking=no ${SSH_CONNECTION} 'docker run -d --name ${IMAGE_NAME} -p 8080:8080 ${IMAGE_STORAGE}/${IMAGE_NAME}:latest'"
+                    sh "ssh -o StrictHostKeyChecking=no ${SSH_CONNECTION} 'docker run -d --name ${IMAGE_NAME} -p 8080:8080 ${IMAGE_NAME}:latest'"
                     // 컨테이너 확인
                     sh "ssh -o StrictHostKeyChecking=no ${SSH_CONNECTION} 'docker ps -a'"
                 }
