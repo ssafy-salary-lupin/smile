@@ -140,7 +140,7 @@ const SBannerButton = styled.button`
 
 const SCards = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: space-around; 
 
   margin-top: 2.8vw;
 `;
