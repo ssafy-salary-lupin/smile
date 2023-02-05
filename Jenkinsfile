@@ -31,7 +31,7 @@ pipeline {
         stage("Build Container Image") {
             steps {
                 script {
-                    image = docker.build("${IMAGE_STORAGE}/${IMAGE_NAME}")
+                    image = docker.build("${IMAGE_NAME}")
                 }
             }
         }
