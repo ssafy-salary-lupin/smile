@@ -12,6 +12,7 @@ pipeline {
                     SSH_CONNECTION = "ubuntu@i8b205.p.ssafy.io"
                     SSH_CONNECTION_CREDENTIAL = "Deploy-Server-SSH-Credential"
                     SPRING_BUILD_PATH = "./backend/smile"
+                    APPLICATION_YML_PATH = "/var/jenkins_home/workspace"
                 }
             }
         }
@@ -23,8 +24,14 @@ pipeline {
                     sh "chmod +x gradlew"
                     sh "./gradlew clean build -x test"
                     sh "ls -al ./build"
+                }   
+            }
+        }
+        stage("Move application.yml"){
+            steps{
+                dir("${APPLICATION_YML_PATH}"){
+                    sh "mv resources smile_be_develop/"
                 }
-                
             }
         }
 
