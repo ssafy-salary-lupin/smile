@@ -16,6 +16,7 @@ export const theme: DefaultTheme = {
   blackColorOpacity: "#00000046",
   blackColorOpacity2: "#000000ae",
   blackColorOpacity3: "#00000020",
+  blackColorOpacity4: "#898989",
   mainColorOpacity: "#f5c72e3b",
   mainColorDark: "#D6B12B",
 };

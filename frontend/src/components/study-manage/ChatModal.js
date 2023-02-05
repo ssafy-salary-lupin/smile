@@ -147,11 +147,14 @@ function ModalBasic(props) {
   };
 
   const publish = (chat) => {
-    if (!client.current.connected) return; // 연결되지 않았으면 메시지를 보내지 않는다.
-
+    if (!client.current.connected) {
+      console.log("client ", client);
+      console.log("클라이언트 연결 X");
+      return; // 연결되지 않았으면 메시지를 보내지 않는다.
+    }
     // 메시지 보내기
     client.current.publish({
-      destination: "/pub/chat",
+      destination: "/pub/chat/message",
       body: JSON.stringify({
         applyId: apply_id,
         chat: chat,
@@ -163,7 +166,7 @@ function ModalBasic(props) {
 
   // 메시지 받기 {우리 주소}/studies/{studyId}/chats
   const subscribe = () => {
-    client.current.subscribe("/sub/chat/" + apply_id, (body) => {
+    client.current.subscribe("/sub/chat/room/" + apply_id, (body) => {
       const json_body = JSON.parse(body.body);
       setChatList((_chat_list) => [..._chat_list, json_body]);
     });
@@ -171,6 +174,7 @@ function ModalBasic(props) {
 
   const disconnect = () => {
     // 연결이 끊겼을 때
+    console.log("disconnect!!!");
     client.current.deactivate();
   };
 
@@ -181,9 +185,7 @@ function ModalBasic(props) {
 
   const handleSubmit = (event, chat) => {
     // 보내기 버튼 눌렀을 때 publish
-    console.log("submit");
     event.preventDefault(); // form 제출 막기
-    console.log("chat : ", chat);
 
     publish(chat);
   };

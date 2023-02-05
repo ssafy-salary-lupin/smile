@@ -41,8 +41,10 @@
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.42.1",
+    "react-js-pagination": "^3.0.3",
     "react-native": "^0.71.1",
     "react-query": "^3.39.2",
+    "react-quill": "^2.0.0",
     "react-router-dom": "^5.3.4",
     "react-scripts": "5.0.1",
     "react-webcam": "^7.0.1",
@@ -79,6 +81,7 @@
   },
   "devDependencies": {
     "@types/react-datepicker": "^4.8.0",
+    "@types/react-js-pagination": "^3.0.4",
     "@types/react-router-dom": "^5.3.3",
     "@types/styled-components": "^5.1.26",
     "cross-env": "^7.0.3",
