@@ -61,7 +61,7 @@ public class StudyCommonServiceImpl implements StudyCommonService{
 
     /*전체 조회.*/
     @Override
-    public List<FindAllStudyDTO> findAllStudy() {
+    public List<FindAllStudyDTO> findAllStudy()  {
 
 
         // TODO : 현재는 단순한 RuntimeException을 던지지만, 추후에 예외에 대한 정리가 끝나면, 조회 데이터가 없다는 예외를 던지는 커스텀 예외를 적용해야됨.
