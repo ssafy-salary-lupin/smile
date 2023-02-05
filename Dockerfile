@@ -6,7 +6,7 @@ WORKDIR $APP_HOME
 
 COPY ./backend/smile/build/libs/*.jar ./application.jar
 
-COPY ../resources ./resources
+COPY /var/jenkins_home/workspace/resources ./resources
 
 EXPOSE 8080
 
