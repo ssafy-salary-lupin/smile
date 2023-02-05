@@ -32,11 +32,9 @@ public class ChatController {
     public DataResponse<List<ChatMessageInfoDTO>> findAllMessage(
             @PathVariable int studyId,
             @AuthenticationPrincipal CustomOAuth2User oAuth2User){
+        
+        int userId = oAuth2User.getUserId();
 
-        //TODO : 테스트를 위해서 잠시 주석
-//        int userId = oAuth2User.getUserId();
-
-        int userId = 1;
 
         List<ChatMessageInfoDTO> chatMessageInfoDTOS = chatService.findAllMessage(userId, studyId);
 
@@ -52,6 +50,7 @@ public class ChatController {
         }
 
         messagingTemplate.convertAndSend("/sub/chat/room/" + chatMessageDTO.getRoomId(), chatMessageDTO);
+
     }
 
 }
