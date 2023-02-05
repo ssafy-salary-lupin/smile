@@ -11,13 +11,17 @@ pipeline {
                     IMAGE_STORAGE_CREDENTIAL = "docker-hub"
                     SSH_CONNECTION = "ubuntu@i8b205.p.ssafy.io"
                     SSH_CONNECTION_CREDENTIAL = "Deploy-Server-SSH-Credential"
+                    SPRING_BUILD_PATH = "./backend/smile"
                 }
             }
         }
 
         stage("Clean Build Test") {
             steps {
-                sh "./gradlew clean build -x test"
+                sh "pwd"
+                sh "chmod +x ${SPRING_BUILD_PATH}/gradlew"
+                sh "${SPRING_BUILD_PATH}/gradlew clean build -x test"
+                sh "ls -al ${SPRING_BUILD_PATH}/build"
             }
         }
 
@@ -60,5 +64,4 @@ pipeline {
             }
         }
     }
-
 }
