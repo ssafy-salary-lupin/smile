@@ -18,7 +18,7 @@ pipeline {
 
         stage("Clean Build Test") {
             steps {
-                dir(${SPRING_BUILD_PATH}){
+                dir("${SPRING_BUILD_PATH}"){
                     sh "pwd"
                     sh "chmod +x gradlew"
                     sh "./gradlew clean build -x test"
