@@ -5,13 +5,14 @@
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
-    "@fullcalendar/core": "^6.1.0",
+    "@fullcalendar/core": "^6.1.1",
     "@fullcalendar/daygrid": "^6.1.0",
     "@fullcalendar/interaction": "^6.1.0",
     "@fullcalendar/react": "^6.1.0",
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.7",
     "@mui/styled-engine-sc": "^5.11.0",
+    "@stomp/stompjs": "^6.1.2",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -23,10 +24,13 @@
     "@types/react-datepicker": "^4.8.0",
     "@types/react-dom": "^18.0.10",
     "@types/react-dropzone": "^5.1.0",
-    "axios": "^1.2.6",
+    "@types/sockjs-client": "^1.5.1",
+    "@types/stompjs": "^2.3.5",
+    "axios": "^1.3.1",
     "dropzone": "^6.0.0-beta.2",
     "framer-motion": "^8.5.2",
     "helmet": "^6.0.1",
+    "http-proxy-middleware": "^2.0.6",
     "jquery": "3.5.0",
     "moment": "^2.29.4",
     "openvidu-browser": "^2.23.0",
@@ -43,12 +47,18 @@
     "react-scripts": "5.0.1",
     "react-webcam": "^7.0.1",
     "recoil": "^0.7.6",
+    "recoil-persist": "^4.2.0",
+    "sockjs-client": "^1.6.1",
     "styled-components": "^5.3.6",
     "typescript": "^4.9.4",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
+<<<<<<< HEAD
+=======
+    "start-https": "HTTPS=true SSL_CRT_FILE=localhost.pem SSL_KEY_FILE=localhost-key.pem react-scripts start",
+>>>>>>> 9e4732cec29f989c0c48743fac0ceee607551055
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

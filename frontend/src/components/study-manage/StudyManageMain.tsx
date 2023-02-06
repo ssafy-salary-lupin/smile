@@ -3,6 +3,7 @@ import profileImg from "../../assets/img/study_manage_profile_img.jpg";
 import chatImg from "../../assets/img/chat_icon.png";
 import { useState } from "react";
 import StudyRuleModal from "./StudyRuleModal";
+import ChatModal from "./ChatModal";
 
 const Wrapper = styled.div`
   margin: 3.889vw 10.833vw;
@@ -237,8 +238,13 @@ const ChatIcon = styled.img`
 function StudyManageMain() {
   // 스터디 룰 모달창 노출 여부 state
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [chatModalOpen, setChatModalOpen] = useState<boolean>(false);
   const showModal = () => {
     setModalOpen(true);
+  };
+  const showChatModal = () => {
+    console.log("채팅");
+    setChatModalOpen(!chatModalOpen);
   };
   return (
     <Wrapper>
@@ -291,11 +297,12 @@ function StudyManageMain() {
         </StudyContents>
       </SubWrapper1>
       <SubWrapper2>
-        <Chat>
+        <Chat onClick={showChatModal}>
           <ChatIcon src={chatImg} />
         </Chat>
       </SubWrapper2>
       {modalOpen && <StudyRuleModal setModalOpen={setModalOpen} />}
+      {chatModalOpen && <ChatModal setModalOpen={setModalOpen} />}
     </Wrapper>
   );
 }
