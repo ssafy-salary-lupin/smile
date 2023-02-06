@@ -29,6 +29,10 @@ dependencies {
 
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
+	// openvidu
+	implementation group: 'io.openvidu', name: 'openvidu-java-client', version: '2.24.0'
+
+
 	// jwt
 	implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 	implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
