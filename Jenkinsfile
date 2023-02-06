@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    tools {nodejs "nodejs"}
+    tools {nodejs "16.19.0"}
 
     stages {
         stage("Set Variable") {
@@ -14,7 +14,7 @@ pipeline {
                     REACT_BUILD_PATH = "./build"
                     APPLICATION_YML_PATH = "/var/jenkins_home/workspace"
                     CONTAINER_NAME = "smile-fronted"
-                    PROJECT_DIR = "smile-gitlab-frontend/frontend"
+                    PROJECT_DIR = "frontend"
                 }
             }
         }
