@@ -140,7 +140,7 @@ const SBannerButton = styled.button`
 
 const SCards = styled.div`
   display: flex;
-  justify-content: space-around; 
+  justify-content: space-around;
 
   margin-top: 2.8vw;
 `;
@@ -345,6 +345,7 @@ function LandingPages() {
         <SContainer>
           <SBanner>
             <SBannerItem>
+              <span>어? 해치웠나..?</span>
               <span>{bannerText}</span>
               <span>{bannerSubText}</span>
             </SBannerItem>
