@@ -1,5 +1,6 @@
 pipeline {
     agent any
+    tools {nodejs "nodejs"}
     stages {
         stage("Set Variable") {
             steps {
@@ -12,16 +13,19 @@ pipeline {
                     REACT_BUILD_PATH = "./build"
                     APPLICATION_YML_PATH = "/var/jenkins_home/workspace"
                     CONTAINER_NAME = "smile-fronted"
-                    PROJECT_DIR = "smile-gitlab-frontend/"
+                    PROJECT_DIR = "smile-gitlab-frontend/frontend"
                 }
             }
         }
 
         stage("Clean Build Test") {
             steps {
-                sh "pwd"
-                sh "npm i"
-                sh "npm run build"
+                dir("${PROJECT_DIR}"){
+                    sh "pwd"
+                    sh "npm i"
+                    sh "npm run build"
+                }
+                
 
             }
         }
