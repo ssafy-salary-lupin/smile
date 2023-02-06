@@ -3,6 +3,7 @@ import "styled-components";
 // and extend them!
 declare module "styled-components" {
   export interface DefaultTheme {
+    backgroundSize: string;
     mainColor: string;
     pointColor: string;
     subColor: string;
