@@ -19,4 +19,6 @@ public interface StudyScheduleService {
     void createStudySchedule(int userId,CreateScheduleDTO createScheduleDTO);
 
     void updateStudySchedule(int userId, int studyId, int scheduleId, UpdateScheduleDTO updateScheduleDTO);
+
+    void deleteStudySchedule(int userId, int studyId, int scheduleId);
 }

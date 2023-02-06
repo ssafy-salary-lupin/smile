@@ -79,4 +79,18 @@ public class StudyScheduleController {
         return responseService.getSuccessResponse();
     }
 
+    /* 스터디 일정 삭제 */
+    @PatchMapping("/studies/{studyId}/schedules/{scheduleId}/delete")
+    public CommonResponse deleteStudySchedule(
+            @PathVariable int studyId,
+            @PathVariable int scheduleId,
+            @AuthenticationPrincipal CustomOAuth2User oAuth2User) {
+
+        int userId = oAuth2User.getUserId();
+
+        studyScheduleService.deleteStudySchedule(userId, studyId, scheduleId);
+
+        return responseService.getSuccessResponse();
+    }
+
 }

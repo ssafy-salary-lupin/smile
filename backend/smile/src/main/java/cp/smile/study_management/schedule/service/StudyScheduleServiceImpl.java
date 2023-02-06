@@ -168,4 +168,17 @@ public class StudyScheduleServiceImpl implements StudyScheduleService{
             studySchedule.updateDescription(updateScheduleDTO.getDescription());
         }
     }
+
+    @Override
+    public void deleteStudySchedule(int userId, int studyId, int scheduleId) {
+        UserJoinStudy user = userJoinStudyRepository.findByUserIdAndStudyId(userId, studyId)
+                .orElseThrow(() -> new EntityNotFoundException("잘못된 접근입니다."));
+
+        StudySchedule studySchedule = studyScheduleRepository.findById(scheduleId)
+                .orElseThrow(() -> new EntityNotFoundException("잘못된 접근입니다."));
+
+        if (studySchedule.getIsDeleted() == false) {
+            studySchedule.deleteSchedule();
+        }
+    }
 }

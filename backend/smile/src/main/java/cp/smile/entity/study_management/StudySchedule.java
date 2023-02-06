@@ -89,4 +89,8 @@ public class StudySchedule extends BaseEntity {
     public void updateDescription(String description) {
         this.description = description;
     }
+
+    public void deleteSchedule() {
+        this.isDeleted = true;
+    }
 }
