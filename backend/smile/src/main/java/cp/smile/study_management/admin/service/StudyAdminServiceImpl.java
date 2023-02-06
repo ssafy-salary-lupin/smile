@@ -1,9 +1,12 @@
 package cp.smile.study_management.admin.service;
 
 import cp.smile.entity.study_common.StudyInformation;
+import cp.smile.entity.study_common.StudyType;
 import cp.smile.entity.user.User;
 import cp.smile.entity.user.UserJoinStudy;
 import cp.smile.study_common.repository.StudyCommonRepository;
+import cp.smile.study_common.repository.StudyTypeRepository;
+import cp.smile.study_management.admin.dto.request.StudyInfoDTO;
 import cp.smile.user.repository.UserJoinStudyRepository;
 import cp.smile.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -22,6 +28,7 @@ public class StudyAdminServiceImpl implements StudyAdminService {
     private final UserRepository userRepository;
     private final UserJoinStudyRepository userJoinStudyRepository;
     private final StudyCommonRepository studyCommonRepository;
+    private final StudyTypeRepository studyTypeRepository;
 
     @Override
     public List<User> findUserByStudy(int studyId) {
@@ -107,6 +114,54 @@ public class StudyAdminServiceImpl implements StudyAdminService {
                 user.ban();
             }
         }
+    }
+
+    @Override
+    public void updateStudyInfo(int studyLeaderId, int studyId, StudyInfoDTO studyInfoDTO) {
+        UserJoinStudy studyLeader = userJoinStudyRepository.findByUserIdAndStudyId(studyLeaderId, studyId)
+                .orElseThrow(() -> new EntityNotFoundException("잘못된 접근입니다."));
+
+        if (studyLeader.getIsLeader() == true) { // 스터디장이 맞으면
+            StudyInformation studyInfo = studyCommonRepository.findById(studyId)
+                    .orElseThrow(() -> new EntityNotFoundException("잘못된 접근입니다."));
+
+            StudyType studyType = studyTypeRepository
+                    .findById(studyInfoDTO.getTypeId())
+                    .orElseThrow(() -> new EntityNotFoundException("잘못된 접근입니다."));
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일");
+
+            LocalDate endDate = LocalDate.parse(studyInfoDTO.getEndDate(), formatter);
+
+            if (studyInfoDTO.getName() != null) {
+                studyInfo.updateName(studyInfoDTO.getName());
+            }
+
+            if (studyInfoDTO.getEndDate() != null) {
+                studyInfo.updateEndDate(endDate);
+            }
+
+            if (studyInfoDTO.getTime() != null) {
+                studyInfo.updateTime(studyInfoDTO.getTime());
+            }
+
+            if (studyInfoDTO.getMaxPerson() != null) {
+                studyInfo.updateMaxPerson(studyInfoDTO.getMaxPerson());
+            }
+
+            if (studyInfoDTO.getDescription() != null) {
+                studyInfo.updateDescription(studyInfoDTO.getDescription());
+            }
+
+            if (studyInfoDTO.getRule() != null) {
+                studyInfo.updateRule(studyInfoDTO.getRule());
+            }
+
+            if (studyType != null) {
+                studyInfo.updateStudyType(studyType);
+            }
+        }
+
     }
 
 }
