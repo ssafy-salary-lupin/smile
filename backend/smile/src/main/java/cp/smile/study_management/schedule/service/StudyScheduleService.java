@@ -1,6 +1,7 @@
 package cp.smile.study_management.schedule.service;
 
 import cp.smile.study_management.schedule.dto.request.CreateScheduleDTO;
+import cp.smile.study_management.schedule.dto.request.UpdateScheduleDTO;
 import cp.smile.study_management.schedule.dto.response.ScheduleDTO;
 
 import java.util.List;
@@ -17,4 +18,5 @@ public interface StudyScheduleService {
     //일정 생성
     void createStudySchedule(int userId,CreateScheduleDTO createScheduleDTO);
 
+    void updateStudySchedule(int userId, int studyId, int scheduleId, UpdateScheduleDTO updateScheduleDTO);
 }

@@ -8,6 +8,7 @@ import cp.smile.entity.user.UserJoinStudyId;
 import cp.smile.study_common.repository.StudyCommentRepository;
 import cp.smile.study_common.repository.StudyCommonRepository;
 import cp.smile.study_management.schedule.dto.request.CreateScheduleDTO;
+import cp.smile.study_management.schedule.dto.request.UpdateScheduleDTO;
 import cp.smile.study_management.schedule.dto.response.ScheduleDTO;
 import cp.smile.study_management.schedule.repository.StudyScheduleRepository;
 import cp.smile.study_management.schedule.repository.StudyScheduleTypeRepository;
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -128,5 +130,42 @@ public class StudyScheduleServiceImpl implements StudyScheduleService{
 
         //저장.
         studyScheduleRepository.save(studySchedule);
+    }
+
+    @Override
+    public void updateStudySchedule(int userId, int studyId, int scheduleId, UpdateScheduleDTO updateScheduleDTO) {
+        UserJoinStudy user = userJoinStudyRepository.findByUserIdAndStudyId(userId, studyId)
+                .orElseThrow(() -> new EntityNotFoundException("잘못된 접근입니다."));
+
+        StudySchedule studySchedule = studyScheduleRepository.findById(scheduleId)
+                .orElseThrow(() -> new EntityNotFoundException("잘못된 접근입니다."));
+
+        ScheduleType scheduleType = studyScheduleTypeRepository.findById(updateScheduleDTO.getTypeId())
+                .orElseThrow(() -> new EntityNotFoundException("잘못된 접근입니다."));
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분");
+
+        LocalDateTime startTime = LocalDateTime.parse(updateScheduleDTO.getStartTime());
+        LocalDateTime endTime = LocalDateTime.parse(updateScheduleDTO.getEndTime());
+
+        if (updateScheduleDTO.getStartTime() != null) {
+            studySchedule.updateStartTime(startTime);
+        }
+
+        if (updateScheduleDTO.getEndTime() != null) {
+            studySchedule.updateEndTime(endTime);
+        }
+
+        if (scheduleType != null) {
+            studySchedule.updateScheduleType(scheduleType);
+        }
+
+        if (updateScheduleDTO.getName() != null) {
+            studySchedule.updateName(updateScheduleDTO.getName());
+        }
+
+        if (updateScheduleDTO.getDescription() != null) {
+            studySchedule.updateDescription(updateScheduleDTO.getDescription());
+        }
     }
 }
