@@ -345,7 +345,6 @@ function LandingPages() {
         <SContainer>
           <SBanner>
             <SBannerItem>
-              <span>어? 해치웠나..?</span>
               <span>{bannerText}</span>
               <span>{bannerSubText}</span>
             </SBannerItem>
