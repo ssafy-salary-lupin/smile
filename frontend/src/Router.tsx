@@ -5,6 +5,8 @@ import StudyCreatePages from "./pages/StudyCreatePages";
 import TestPages from "./pages/TestPages";
 import VideoRoomComponent from "components/video-meeting/VideoRoomComponent";
 import WaitingPages from "./pages/WaitingPages";
+// import Settings from "pages/Settings";
+// import Settings from "./pages/Settings";
 function Router() {
   return (
     <BrowserRouter>
