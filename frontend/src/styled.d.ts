@@ -19,7 +19,9 @@ declare module "styled-components" {
     blackColorOpacity: string;
     blackColorOpacity2: string;
     blackColorOpacity3: string;
+    blackColorOpacity4: string;
     mainColorOpacity: string;
     mainColorDark: string;
+    videoRoomColor: string;
   }
 }

@@ -3,14 +3,17 @@ import FullCalendar from "@fullcalendar/react"; // must go before plugins
 import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
 import { useState, useEffect } from "react";
-import ModalCalendarMeetingView from "../common/ModalCalendarMeetingView";
-import ModalCalendarCommonView from "../common/ModalCalendarCommonView";
-import ModalCalendarRegist from "components/common/ModalCalendarRegist";
-import { calendarSelectAllApi } from "apis/StudyManageCalendarAPi";
+import ModalCalendarCommonView from "./ModalCalendarCommonView";
+import {
+  calendarCreateApi,
+  calendarSelectAllApi,
+} from "apis/StudyManageCalendarAPi";
 import { useQuery } from "react-query";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { ScheduleRegist, Schedules } from "atoms/StudyManageCalendarAtom";
-import { calendarCreateApi } from "apis/StudyManageCalendarAPi";
+import ModalCalendarRegist from "./ModalCalendarRegist";
+import ModalCalendarMeetingView from "./ModalCalendarMeetingView";
+import { common } from "@mui/material/colors";
 
 const Wrapper = styled.div`
   margin: 3.889vw 10.833vw;
@@ -38,28 +41,6 @@ function StudyManageCalendar() {
   const [CommonModalOpen, setCommonModalOpen] = useState<boolean>(false);
   const [RegistModalOpen, setRegistModalOpen] = useState<boolean>(false);
 
-  const handleDateClick = (arg: any) => {
-    // 일정 등록 모달 띄우기
-
-    const endDate = new Date(arg.end);
-    const yesterday = new Date(
-      endDate.getFullYear(),
-      endDate.getMonth(),
-      endDate.getDate() - 1,
-    );
-
-    const endStr =
-      yesterday.getFullYear().toString() +
-      "-" +
-      (yesterday.getMonth() + 1).toString() +
-      "-" +
-      yesterday.getDate().toString();
-
-    setSelectStart(arg.startStr);
-    setSelectEnd(endStr);
-    setRegistModalOpen(true);
-  };
-
   // 모달창 data
   const [type, setType] = useState<string>("");
   const [title, setTitle] = useState<string>("");
@@ -73,6 +54,31 @@ function StudyManageCalendar() {
   const [selectStart, setSelectStart] = useState<string>("");
   const [selectEnd, setSelectEnd] = useState<string>("");
 
+  // 여러 일정 저장된 atom
+  const [schedules, setSchedules] = useRecoilState(Schedules);
+  // 단건 일정 저장된 atom
+  const schedule = useRecoilValue(ScheduleRegist);
+
+  // 날짜 클릭 시 일정 등록 모달 띄우기
+  const handleDateClick = (arg: any) => {
+    const endDate = new Date(arg.end);
+    const yesterday = new Date(
+      endDate.getFullYear(),
+      endDate.getMonth(),
+      endDate.getDate() - 1,
+    );
+    const endStr =
+      yesterday.getFullYear().toString() +
+      "-" +
+      (yesterday.getMonth() + 1).toString() +
+      "-" +
+      yesterday.getDate().toString();
+    setSelectStart(arg.startStr);
+    setSelectEnd(endStr);
+    setRegistModalOpen(true);
+  };
+
+  // 이벤트 클릭시 적합한 모달창 띄우기
   const handleEventClick = (arg: any) => {
     if (arg.event._def.extendedProps.host) {
       // 회의 관련 모달창 띄울 때 => 참여 버튼 있는 모달창
@@ -95,43 +101,43 @@ function StudyManageCalendar() {
     }
   };
 
-  // 여러 일정 recoil
-  const [schedules, setSchedules] = useRecoilState(Schedules);
-
-  // 단건 일정 recoil => 단순 조회 용
-  const schedule = useRecoilValue(ScheduleRegist);
-
+  // 일정 등록시 post요청
   const onRegist = () => {
     // post
-    calendarCreateApi(schedule);
-
-    // forceUpdate => 되도록 피해야... 다른 방법 뭐있지?
+    // calendarCreateApi(schedule);
+    // 일정 등록 시 바로 달력에 표시되는지 체크
   };
 
-  //
-
   // db에서 전체 일정 데이터 받아오기
-  const { data: commonSchedules } = useQuery<CommonSchedules[] | undefined>([
+  // missing queryFn 오류
+  const { data: commonSchedules } = useQuery<CommonSchedules[]>(
     "allSchedules",
-  ]);
+    calendarSelectAllApi,
+  );
+
+  console.log("data : ", commonSchedules);
 
   // 무한 렌더링,, 노션에 정리
-  useEffect(() => {
-    commonSchedules?.forEach((el: CommonSchedules) => {
-      // console.log(el.startTime.split(" ")[0]);
-      const temp = {
-        title: el.title,
-        start: el.startTime.split(" ")[0],
-        end: el.endTime.split(" ")[0],
-        // 시작 시간 startTime.split(" ")[1]
-        // 마감 시간 endTime.split(" ")[1]
-        desc: el.description,
-        type: el.type.name,
-        link: el.url,
-      };
-      setSchedules((oldSchedules) => [...oldSchedules, temp]);
-    });
-  }, [commonSchedules]);
+  // useEffect 로 db에섯 data 받아올 떄만 실행할 수 있도록 처리함
+  // 즉, commonSchedules 변화가 있을 때만 아래 실행
+  // useEffect(() => {
+  //   setSchedules([]);
+  //   commonSchedules?.forEach((el: CommonSchedules) => {
+  //     console.log("실행????");
+  //     // console.log(el.startTime.split(" ")[0]);
+  //     const temp = {
+  //       title: el.title,
+  //       start: el.startTime.split(" ")[0],
+  //       end: el.endTime.split(" ")[0],
+  //       // 시작 시간 startTime.split(" ")[1]
+  //       // 마감 시간 endTime.split(" ")[1]
+  //       desc: el.description,
+  //       type: el.type.name,
+  //       link: el.url,
+  //     };
+  //     setSchedules((oldSchedules) => [...oldSchedules, temp]);
+  //   });
+  // }, [commonSchedules]);
 
   return (
     <Wrapper>

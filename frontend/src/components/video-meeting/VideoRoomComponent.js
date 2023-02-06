@@ -9,6 +9,9 @@ import "./VideoRoomComponent.css";
 import OpenViduLayout from "layout/openvidu-layout";
 import UserModel from "models/user-model";
 import ToolbarComponent from "./toolbar/ToolbarComponent";
+import CustomToolbarComponent from "components/video-meeting/toolbar/CustomToolbarComponent";
+import CustomToolbarComponentV1 from "components/video-meeting/toolbar/CustomToolbarComponentV1";
+import styled from "styled-components";
 
 var localUser = new UserModel();
 
@@ -17,6 +20,11 @@ const APPLICATION_SERVER_URL =
   process.env.NODE_ENV === "production"
     ? ""
     : "https://i8b205.p.ssafy.io:5000/";
+
+const VideoContainer = styled.div`
+  height: 80vh;
+  position: static;
+`;
 
 class VideoRoomComponent extends Component {
   constructor(props) {
@@ -36,7 +44,7 @@ class VideoRoomComponent extends Component {
     // userName: 유저의 이름 (기본 OpenVidu_User + 0부터 99까지의 랜덤한 숫자)
     let userName = this.props.user
       ? this.props.user
-      : "OpenVidu_User" + Math.floor(Math.random() * 100);
+      : "스터디원 " + Math.floor(Math.random() * 100);
 
     // remotes:
     this.remotes = [];
@@ -636,7 +644,7 @@ class VideoRoomComponent extends Component {
 
     return (
       <div className="container" id="container">
-        <ToolbarComponent
+        {/* <CustomToolbarComponentV1
           sessionId={mySessionId}
           user={localUser}
           showNotification={this.state.messageReceived}
@@ -648,7 +656,7 @@ class VideoRoomComponent extends Component {
           switchCamera={this.switchCamera}
           leaveSession={this.leaveSession}
           toggleChat={this.toggleChat}
-        />
+        /> */}
 
         <DialogExtensionComponent
           showDialog={this.state.showExtensionDialog}
@@ -656,6 +664,7 @@ class VideoRoomComponent extends Component {
         />
 
         <div id="layout" className="bounds">
+          {/* <VideoContainer id="VVVTEST"> */}
           {localUser !== undefined &&
             localUser.getStreamManager() !== undefined && (
               <div className="OT_root OT_publisher custom-class" id="localUser">
@@ -692,7 +701,21 @@ class VideoRoomComponent extends Component {
                 />
               </div>
             )}
+          {/* </VideoContainer> */}
         </div>
+        <CustomToolbarComponent
+          sessionId={mySessionId}
+          user={localUser}
+          showNotification={this.state.messageReceived}
+          camStatusChanged={this.camStatusChanged}
+          micStatusChanged={this.micStatusChanged}
+          screenShare={this.screenShare}
+          stopScreenShare={this.stopScreenShare}
+          toggleFullscreen={this.toggleFullscreen}
+          switchCamera={this.switchCamera}
+          leaveSession={this.leaveSession}
+          toggleChat={this.toggleChat}
+        />
       </div>
     );
   }
