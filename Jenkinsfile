@@ -63,7 +63,7 @@ pipeline {
             steps {
                 sshagent([SSH_CONNECTION_CREDENTIAL]) {
                     // 최신 컨테이너 삭제
-                    sh "ssh -o StrictHostKeyChecking=no ${SSH_CONNECTION} 'docker rm -f ${IMAGE_NAME}'"
+                    sh "ssh -o StrictHostKeyChecking=no ${SSH_CONNECTION} 'docker rm -f ${CONTAINER_NAME}'"
                     // 최신 이미지 삭제
                     sh "ssh -o StrictHostKeyChecking=no ${SSH_CONNECTION} 'docker rmi -f ${IMAGE_NAME}:latest'"
                     // 최신 이미지 PULL
