@@ -14,6 +14,7 @@ pipeline {
                     SPRING_BUILD_PATH = "./backend/smile"
                     APPLICATION_YML_PATH = "/var/jenkins_home/workspace"
                     CONTAINER_NAME = "smile-api"
+                    PROJECT_DIR = "smile-gitlab-backend/"
                 }
             }
         }
@@ -31,7 +32,7 @@ pipeline {
         stage("Copy Application.yml"){
             steps{
                 dir("${APPLICATION_YML_PATH}"){
-                    sh "cp -r -f resources smile_be_develop/"
+                    sh "cp -r -f resources ${PROJECT_DIR}"
                 }
             }
         }
@@ -73,7 +74,7 @@ pipeline {
                     sh "ssh -o StrictHostKeyChecking=no ${SSH_CONNECTION} 'docker run -d --name ${CONTAINER_NAME} -p 8080:8080 ${IMAGE_NAME}:latest'"
                     // 컨테이너 확인
                     sh "ssh -o StrictHostKeyChecking=no ${SSH_CONNECTION} 'docker ps -a'"
-                }
+                }   
             }
         }
     }
