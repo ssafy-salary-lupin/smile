@@ -159,4 +159,8 @@ public class StudyInformation extends BaseEntity {
     public void updateStudyType(StudyType studyType) {
         this.studyType = studyType;
     }
+
+    public void addPerson() {
+        this.currentPerson += 1;
+    }
 }
