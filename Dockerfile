@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM nginx:latest
 
 WORKDIR /usr/app
 

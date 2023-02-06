@@ -1,6 +1,7 @@
 pipeline {
     agent any
-    tools {nodejs "16.19.0"}
+    tools {nodejs "nodejs"}
+
     stages {
         stage("Set Variable") {
             steps {
@@ -13,7 +14,7 @@ pipeline {
                     REACT_BUILD_PATH = "./build"
                     APPLICATION_YML_PATH = "/var/jenkins_home/workspace"
                     CONTAINER_NAME = "smile-fronted"
-                    PROJECT_DIR = "frontend"
+                    PROJECT_DIR = "smile-gitlab-frontend/frontend"
                 }
             }
         }
@@ -62,7 +63,7 @@ pipeline {
                     // 이미지 확인
                     sh "ssh -o StrictHostKeyChecking=no ${SSH_CONNECTION} 'docker images'"
                     // 최신 이미지 RUN
-                    sh "ssh -o StrictHostKeyChecking=no ${SSH_CONNECTION} 'docker run exec -it -d -v /home/ubuntu/frontend:/usr/app --name ${CONTAINER_NAME} ${IMAGE_NAME}:latest'"
+                    sh "ssh -o StrictHostKeyChecking=no ${SSH_CONNECTION} 'docker run -d -v /home/ubuntu/frontend:/usr/app --name ${CONTAINER_NAME} ${IMAGE_NAME}:latest'"
                     // 컨테이너 확인
                     sh "ssh -o StrictHostKeyChecking=no ${SSH_CONNECTION} 'docker ps -a'"
                 }   
