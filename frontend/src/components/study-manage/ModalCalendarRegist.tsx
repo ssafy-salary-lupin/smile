@@ -5,8 +5,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/esm/locale"; //한국어 설정
 
-import { ScheduleRegist } from "atoms/StudyManageCalendarAtom";
-import { useRecoilState } from "recoil";
+import { ScheduleRegist, Selector } from "atoms/StudyManageCalendarAtom";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 interface PropsType {
   setModalOpen: React.Dispatch<SetStateAction<boolean>>;
@@ -208,7 +208,6 @@ const CancelBtn = styled(YellowBtn)`
   color: ${(props) => props.theme.blackColorOpacity2};
 `;
 
-// dkssd
 function ModalBasic(props: PropsType) {
   // 모달 관련 코드 ======================================
   const closeModal = () => {
@@ -261,7 +260,7 @@ function ModalBasic(props: PropsType) {
   };
   // =========================================
 
-  // 사용자가 등록할 데이터
+  // 사용자가 등록할 데이터(db에 맞는 형태로 보내기)
   // date 부분 code 간소화 방법 찾아보기...
   const registData = {
     scheduleTypeId: type, // 스케쥴 식별자 == 유형
@@ -308,12 +307,14 @@ function ModalBasic(props: PropsType) {
       return;
     }
 
+    console.log("시간 : ", startDate.getHours());
+
     // Recoil data 갱신
     setSchedule(registData);
 
     // 일정 등록 메소드 실행
-    props.onRegist();
-    closeModal();
+    // props.onRegist();
+    // closeModal();
   };
 
   return (
@@ -337,16 +338,17 @@ function ModalBasic(props: PropsType) {
           <Link placeholder="URL" onChange={handleLink} />
           <StyledDatePicker
             selected={startDate}
-            dateFormat="yyyy-MM-dd"
+            dateFormat="yyyy-MM-dd HH:mm"
             onChange={(date: Date) => setStartDate(date)}
             selectsStart
             startDate={startDate}
             endDate={endDate}
             locale={ko}
+            showTimeSelect
           />
           <StyledDatePicker
             selected={endDate}
-            dateFormat="yyyy-MM-dd"
+            dateFormat="yyyy-MM-dd HH:mm"
             onChange={(date: Date) => {
               setEndDate(date);
             }}
@@ -355,6 +357,7 @@ function ModalBasic(props: PropsType) {
             endDate={endDate}
             minDate={startDate}
             locale={ko}
+            showTimeSelect
           />
           <Desc placeholder="회의 설명" onChange={handleDesc}></Desc>
           <ColorBox>

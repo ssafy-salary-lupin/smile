@@ -136,7 +136,7 @@ function ModalBasic(props) {
     client.current = new StompJs.Client({
       brokerURL: "ws://localhost:3000/ws",
       onConnect: () => {
-        console.log("success");
+        console.log("connect success");
         subscribe(); // 연결 성공 시 구독하는 로직 실행
       },
       debug: function (str) {
@@ -147,11 +147,16 @@ function ModalBasic(props) {
   };
 
   const publish = (chat) => {
-    if (!client.current.connected) return; // 연결되지 않았으면 메시지를 보내지 않는다.
+    console.log("publish client ", client);
+    if (!client.current.connected) {
+      console.log("publish : 클라이언트 연결 FAIL");
+      return; // 연결되지 않았으면 메시지를 보내지 않는다.
+    }
 
+    console.log("publish : 클라이언트 연결 SUCCESS");
     // 메시지 보내기
     client.current.publish({
-      destination: "/pub/chat",
+      destination: "/pub/chat/message",
       body: JSON.stringify({
         applyId: apply_id,
         chat: chat,
@@ -163,7 +168,8 @@ function ModalBasic(props) {
 
   // 메시지 받기 {우리 주소}/studies/{studyId}/chats
   const subscribe = () => {
-    client.current.subscribe("/sub/chat/" + apply_id, (body) => {
+    console.log("subcribe");
+    client.current.subscribe("/sub/chat/room/" + apply_id, (body) => {
       const json_body = JSON.parse(body.body);
       setChatList((_chat_list) => [..._chat_list, json_body]);
     });
@@ -171,6 +177,7 @@ function ModalBasic(props) {
 
   const disconnect = () => {
     // 연결이 끊겼을 때
+    console.log("disconnect!!!");
     client.current.deactivate();
   };
 
@@ -181,15 +188,13 @@ function ModalBasic(props) {
 
   const handleSubmit = (event, chat) => {
     // 보내기 버튼 눌렀을 때 publish
-    console.log("submit");
     event.preventDefault(); // form 제출 막기
-    console.log("chat : ", chat);
 
     publish(chat);
   };
 
   useEffect(() => {
-    console.log("useEffect 실행");
+    console.log("useEffect 실행 => connect");
     connect();
 
     return () => disconnect();
