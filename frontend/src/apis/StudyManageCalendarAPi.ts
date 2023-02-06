@@ -10,14 +10,18 @@ export async function calendarSelectAllApi() {
   try {
     console.log("Get 실행");
     // const result = await axios.get(`${BASE_URL}/1/schdules`); => axios 반환타입 어카냐...
-    const result = await fetch(`${BASE_URL}/1/schedules`, {
+    const response = await fetch(`${BASE_URL}/1/schedules`, {
       headers: {
         Authorization:
           "eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzU2OTM5MjYsImV4cCI6MTY3NTY5NzUyNn0.85cHzBJlpeBoBsjYd_4mPP6dfYrabyZWIuXTi-SgAqvFP_lAOOpiqTfu9MxUMKzh3i5wSsFpeNUZouLjTYEbRA",
         Accept: "application / json",
       },
       method: "GET",
-    }).then((response) => response.json());
+    });
+
+    console.log("response : ", response);
+    const data = await response.json();
+    console.log("data  : ", data);
     // console.log("result : ", result);
     // console.log("result Type : ", typeof result);
 
@@ -60,7 +64,7 @@ export async function calendarSelectAllApi() {
     //   },
     // ];
 
-    return result;
+    return data;
   } catch (error: any) {
     console.log(error);
   }
