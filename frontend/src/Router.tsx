@@ -6,9 +6,7 @@ import TestPages from "./pages/TestPages";
 import VideoRoomComponent from "components/video-meeting/VideoRoomComponent";
 import WaitingPages from "./pages/WaitingPages";
 // import Settings from "pages/Settings";
-// import Settings from "./pages/Settings";
 import CreateReadChat from "components/study-manage/CreateReadChat";
-// import CreateReadChat from "components/study-manage/CreateReadChat";
 // import StudyChat from "components/study-manage/CreateReadChat";
 function Router() {
   return (
