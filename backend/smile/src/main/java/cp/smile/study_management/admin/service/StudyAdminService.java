@@ -17,4 +17,5 @@ public interface StudyAdminService {
 
     void deadlineStudy(int studyLeaderId, int studyId);
 
+    void banUser(int studyLeaderId, int studyId, int userId);
 }

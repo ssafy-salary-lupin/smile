@@ -96,9 +96,24 @@ public class StudyAdminController {
     public CommonResponse deadlineStudy(
             @PathVariable int studyId,
             @AuthenticationPrincipal CustomOAuth2User oAuth2User) {
+
         int studyLeaderId = oAuth2User.getUserId();
 
         studyAdminService.deadlineStudy(studyLeaderId, studyId);
+
+        return responseService.getSuccessResponse();
+    }
+
+    /* 스터디 강퇴 */
+    @PatchMapping("studies/{studyId}/users/{userId}")
+    public CommonResponse userBan(
+            @PathVariable int studyId,
+            @PathVariable int userId,
+            @AuthenticationPrincipal CustomOAuth2User oAuth2User) {
+
+        int studyLeaderId = oAuth2User.getUserId();
+
+        studyAdminService.banUser(studyLeaderId, studyId, userId);
 
         return responseService.getSuccessResponse();
     }

@@ -37,8 +37,8 @@ public class StudyAdminServiceImpl implements StudyAdminService {
         if (currentLeader.getIsLeader() == true) { //현재 스터디장
             UserJoinStudy nextLeader = userJoinStudyRepository.findByUserIdAndStudyId(nextLeaderId, studyId)
                     .orElseThrow(() -> new EntityNotFoundException("잘못된 접근입니다."));
+
             if (nextLeader.getIsLeader() == false) { //스터디장 위임대상
-                // update
                 currentLeader.dismissal();
                 nextLeader.delegate();
             }
@@ -71,8 +71,10 @@ public class StudyAdminServiceImpl implements StudyAdminService {
                     .orElseThrow(() -> new EntityNotFoundException("잘못된 접근입니다."));
 
             if (currentStudy.isEnd() == false) { //스터디가 진행중이면
-                //TODO 최대 인원일 경우 모집 불가능하도록, 모집 마감 테스트
-                currentStudy.recruit();
+
+                if (currentStudy.getCurrentPerson() < currentStudy.getMaxPerson()) { //현재 가입 인원이 최대 인원 수 보다 적을 경우 모집가능
+                    currentStudy.recruit();
+                }
             }
         }
     }
@@ -91,4 +93,20 @@ public class StudyAdminServiceImpl implements StudyAdminService {
             }
         }
     }
+
+    @Override
+    public void banUser(int studyLeaderId, int studyId, int userId) {
+        UserJoinStudy studyLeader = userJoinStudyRepository.findByUserIdAndStudyId(studyLeaderId, studyId)
+                .orElseThrow(() -> new EntityNotFoundException("잘못된 접근입니다."));
+
+        if (studyLeader.getIsLeader() == true) {//스터디장이 맞으면
+            UserJoinStudy user = userJoinStudyRepository.findByUserIdAndStudyId(userId, studyId)
+                    .orElseThrow(() -> new EntityNotFoundException("잘못된 접근입니다."));
+
+            if (user.getIsBan() == false) { //해당유저가 강퇴당한 상태가 아니면
+                user.ban();
+            }
+        }
+    }
+
 }
