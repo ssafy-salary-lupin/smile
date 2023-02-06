@@ -68,4 +68,8 @@ public class UserJoinStudy extends BaseEntity {
     public void dismissal() {
         this.isLeader = false;
     }
+
+    public void ban() {
+        this.isBan = true;
+    }
 }

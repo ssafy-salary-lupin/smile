@@ -6,16 +6,14 @@ import cp.smile.config.response.DataResponse;
 import cp.smile.config.response.ResponseService;
 import cp.smile.entity.user.User;
 import cp.smile.entity.user.UserJoinStudy;
+import cp.smile.study_management.admin.dto.request.StudyInfoDTO;
 import cp.smile.study_management.admin.dto.response.FindStudyJoinedUserDTO;
 import cp.smile.study_management.admin.service.StudyAdminService;
 import cp.smile.user.repository.UserJoinStudyRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
@@ -45,6 +43,7 @@ public class StudyAdminController {
                     .id(user.getId())
                     .email(user.getEmail())
                     .nickname(user.getNickname())
+                    .imgPath((user.getImagePath()))
                     .isLeader(userJoinStudy.getIsLeader()).build());
         }
 
@@ -96,9 +95,38 @@ public class StudyAdminController {
     public CommonResponse deadlineStudy(
             @PathVariable int studyId,
             @AuthenticationPrincipal CustomOAuth2User oAuth2User) {
+
         int studyLeaderId = oAuth2User.getUserId();
 
         studyAdminService.deadlineStudy(studyLeaderId, studyId);
+
+        return responseService.getSuccessResponse();
+    }
+
+    /* 스터디 강퇴 */
+    @PatchMapping("studies/{studyId}/users/{userId}")
+    public CommonResponse userBan(
+            @PathVariable int studyId,
+            @PathVariable int userId,
+            @AuthenticationPrincipal CustomOAuth2User oAuth2User) {
+
+        int studyLeaderId = oAuth2User.getUserId();
+
+        studyAdminService.banUser(studyLeaderId, studyId, userId);
+
+        return responseService.getSuccessResponse();
+    }
+
+    /* 스터디 정보 수정 */
+    @PatchMapping("studies/{studyId}")
+    public CommonResponse updateStudyInformation(
+            @PathVariable int studyId,
+            @RequestBody StudyInfoDTO studyInfoDTO,
+            @AuthenticationPrincipal CustomOAuth2User oAuth2User) {
+
+        int studyLeaderId = oAuth2User.getUserId();
+
+        studyAdminService.updateStudyInfo(studyLeaderId, studyId, studyInfoDTO);
 
         return responseService.getSuccessResponse();
     }

@@ -130,4 +130,37 @@ public class StudyInformation extends BaseEntity {
     public void deadline() {
         this.deadline = true;
     }
+
+    /* 스터디 정보 수정 */
+    public void updateName(String name) {
+        this.name = name;
+    }
+
+    public void updateEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    public void updateTime(String time) {
+        this.time = time;
+    }
+
+    public void updateMaxPerson(int maxPerson) {
+        this.maxPerson = maxPerson;
+    }
+
+    public void updateDescription(String description) {
+        this.description = description;
+    }
+
+    public void updateRule(String rule) {
+        this.rule = rule;
+    }
+
+    public void updateStudyType(StudyType studyType) {
+        this.studyType = studyType;
+    }
+
+    public void addPerson() {
+        this.currentPerson += 1;
+    }
 }

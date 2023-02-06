@@ -11,15 +11,15 @@ public class FindStudyJoinedUserDTO {
     private int id;
     private String nickname;
     private String email;
-//    private String imgPath;
+    private String imgPath;
     private boolean isLeader;
 
     @Builder
-    public FindStudyJoinedUserDTO(int id, String nickname, String email, boolean isLeader) {
+    public FindStudyJoinedUserDTO(int id, String nickname, String email, String imgPath, boolean isLeader) {
         this.id = id;
         this.nickname = nickname;
         this.email = email;
-//        this.imgPath = imgPath;
+        this.imgPath = imgPath;
         this.isLeader = isLeader;
     }
 }
