@@ -2,6 +2,10 @@ import { ReactComponent as Camera } from "assets/icon/DuotonIcon/Camera.svg";
 import { ReactComponent as CameraSlash } from "assets/icon/DuotonIcon/CameraSlash.svg";
 import { ReactComponent as CaretDown } from "assets/icon/DuotonIcon/CaretDown.svg";
 import { ReactComponent as CaretUp } from "assets/icon/DuotonIcon/CaretUp.svg";
+import { ReactComponent as ChatCircleDots } from "assets/icon/DuotonIcon/ChatCircleDots.svg";
+import { ReactComponent as Chats } from "assets/icon/DuotonIcon/Chats.svg";
+import { ReactComponent as ChatsCircle } from "assets/icon/DuotonIcon/ChatsCircle.svg";
+import { ReactComponent as ChatTeardropDots } from "assets/icon/DuotonIcon/ChatTeardropDots.svg";
 import { ReactComponent as CircleWavyCheck } from "assets/icon/DuotonIcon/CircleWavyCheck.svg";
 import { ReactComponent as CircleWavyQuestion } from "assets/icon/DuotonIcon/CircleWavyQuestion.svg";
 import { ReactComponent as CircleWavyWarning } from "assets/icon/DuotonIcon/CircleWavyWarning.svg";
@@ -13,6 +17,8 @@ import { ReactComponent as Image } from "assets/icon/DuotonIcon/Image.svg";
 import { ReactComponent as ImageSquare } from "assets/icon/DuotonIcon/ImageSquare.svg";
 import { ReactComponent as Info } from "assets/icon/DuotonIcon/Info.svg";
 import { ReactComponent as Key } from "assets/icon/DuotonIcon/Key.svg";
+import { ReactComponent as Laptop } from "assets/icon/DuotonIcon/Laptop.svg";
+import { ReactComponent as LaptopX } from "assets/icon/DuotonIcon/LaptopX.svg";
 import { ReactComponent as Lock } from "assets/icon/DuotonIcon/Lock.svg";
 import { ReactComponent as LockOpen } from "assets/icon/DuotonIcon/LockOpen.svg";
 import { ReactComponent as LockSimple } from "assets/icon/DuotonIcon/LockSimple.svg";
@@ -30,6 +36,7 @@ import { ReactComponent as PhoneIncoming } from "assets/icon/DuotonIcon/PhoneInc
 import { ReactComponent as PhoneOutgoing } from "assets/icon/DuotonIcon/PhoneOutgoing.svg";
 import { ReactComponent as PhoneSlash } from "assets/icon/DuotonIcon/PhoneSlash.svg";
 import { ReactComponent as PhoneX } from "assets/icon/DuotonIcon/PhoneX.svg";
+import { ReactComponent as PictureInPicture } from "assets/icon/DuotonIcon/PictureInPicture.svg";
 import { ReactComponent as Question } from "assets/icon/DuotonIcon/Question.svg";
 import { ReactComponent as ShieldWarning } from "assets/icon/DuotonIcon/ShieldWarning.svg";
 import { ReactComponent as SpeakerHigh } from "assets/icon/DuotonIcon/SpeakerHigh.svg";
@@ -62,12 +69,18 @@ export {
   CircleWavyWarning,
   Crown,
   CrownSimple,
+  ChatCircleDots,
+  Chats,
+  ChatsCircle,
+  ChatTeardropDots,
   Download,
   Hash,
   Image,
   ImageSquare,
   Info,
   Key,
+  Laptop,
+  LaptopX,
   Lock,
   LockOpen,
   LockSimple,
@@ -85,6 +98,7 @@ export {
   PhoneOutgoing,
   PhoneSlash,
   PhoneX,
+  PictureInPicture,
   Question,
   ShieldWarning,
   SpeakerHigh,
