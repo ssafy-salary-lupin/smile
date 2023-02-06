@@ -55,10 +55,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-<<<<<<< HEAD
-=======
-    "start-https": "HTTPS=true SSL_CRT_FILE=localhost.pem SSL_KEY_FILE=localhost-key.pem react-scripts start",
->>>>>>> 9e4732cec29f989c0c48743fac0ceee607551055
+    "start-https": "cross-env HTTPS=true SSL_CRT_FILE=localhost.pem SSL_KEY_FILE=localhost-key.pem react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
