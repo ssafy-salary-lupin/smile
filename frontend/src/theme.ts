@@ -20,4 +20,5 @@ export const theme: DefaultTheme = {
   blackColorOpacity4: "#898989",
   mainColorOpacity: "#f5c72e3b",
   mainColorDark: "#D6B12B",
+  videoRoomColor: "#222831",
 };

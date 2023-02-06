@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import "./StreamComponent.css";
 import OvVideoComponent from "./OvVideo";
 
@@ -16,58 +16,50 @@ import FormHelperText from "@mui/material/FormHelperText";
 // import styled from "styled-components";
 
 // StreamComponent: 스트림된 요소들을 컨트롤하는 요소들을 담은 컴포넌트
-export default class StreamComponent extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      nickname: this.props.user.getNickname(),
-      showForm: false,
-      mutedSound: false,
-      isFormValid: true,
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.handlePressKey = this.handlePressKey.bind(this);
-    this.toggleNicknameForm = this.toggleNicknameForm.bind(this);
-    this.toggleSound = this.toggleSound.bind(this);
-  }
+export default function StreamComponent(props) {
+  const [state, setState] = useState({
+    nickname: this.props.user.getNickname(),
+    showForm: false,
+    mutedSound: false,
+    isFormValid: true,
+  });
 
-  handleChange(event) {
-    this.setState({ nickname: event.target.value });
+  const handleChange = (event) => {
+    setState({ nickname: event.target.value });
     event.preventDefault();
-  }
+  };
 
-  toggleNicknameForm() {
-    if (this.props.user.isLocal()) {
-      this.setState({ showForm: !this.state.showForm });
+  const toggleNicknameForm = () => {
+    if (props.user.isLocal()) {
+      setState({ showForm: !state.showForm });
     }
-  }
+  };
 
   // toggleSound: 사운드를 뮤트하거나 풀 수 있는 토글 버튼 함수
-  toggleSound() {
-    this.setState({ mutedSound: !this.state.mutedSound });
-  }
+  const toggleSound = () => {
+    setState({ mutedSound: !state.mutedSound });
+  };
 
-  handlePressKey(event) {
+  const handlePressKey = (event) => {
     if (event.key === "Enter") {
-      console.log(this.state.nickname);
-      if (this.state.nickname.length >= 3 && this.state.nickname.length <= 20) {
-        this.props.handleNickname(this.state.nickname);
-        this.toggleNicknameForm();
-        this.setState({ isFormValid: true });
+      console.log(state.nickname);
+      if (state.nickname.length >= 3 && state.nickname.length <= 20) {
+        props.handleNickname(state.nickname);
+        toggleNicknameForm();
+        setState({ isFormValid: true });
       } else {
-        this.setState({ isFormValid: false });
+        setState({ isFormValid: false });
       }
     }
-  }
+  };
 
-  render() {
-    return (
-      <div className="OT_widget-container">
-        {/* 닉네임 부분 */}
-        <div className="pointer nickname">
-          {this.state.showForm ? (
-            <FormControl id="nicknameForm">
-              {/* <IconButton
+  return (
+    <div className="OT_widget-container">
+      {/* 닉네임 부분 */}
+      <div className="pointer nickname">
+        {this.state.showForm ? (
+          <FormControl id="nicknameForm">
+            {/* <IconButton
                 color="inherit"
                 id="closeButton"
                 onClick={this.toggleNicknameForm}
@@ -93,49 +85,48 @@ export default class StreamComponent extends Component {
                   Nickname is too long!
                 </FormHelperText>
               )} */}
-            </FormControl>
-          ) : (
-            <div onClick={this.toggleNicknameForm}>
-              <span>{this.props.user.getNickname()}</span>
-              {this.props.user.isLocal() && <span id=""> (edit)</span>}
-            </div>
-          )}
-        </div>
-        {/* 여기부터 동영상 */}
-        {this.props.user !== undefined &&
-        this.props.user.getStreamManager() !== undefined ? (
-          <div className="streamComponent">
-            <OvVideoComponent
-              user={this.props.user}
-              mutedSound={this.state.mutedSound}
-            />
-            <div id="statusIcons">
-              {!this.props.user.isVideoActive() ? (
-                <div id="camIcon">
-                  <VideocamOff id="statusCam" />
-                </div>
-              ) : null}
-
-              {!this.props.user.isAudioActive() ? (
-                <div id="micIcon">
-                  <MicOff id="statusMic" />
-                </div>
-              ) : null}
-            </div>
-            <div>
-              {!this.props.user.isLocal() && (
-                <IconButton id="volumeButton" onClick={this.toggleSound}>
-                  {this.state.mutedSound ? (
-                    <VolumeOff color="secondary" />
-                  ) : (
-                    <VolumeUp />
-                  )}
-                </IconButton>
-              )}
-            </div>
+          </FormControl>
+        ) : (
+          <div onClick={this.toggleNicknameForm}>
+            <span>{this.props.user.getNickname()}</span>
+            {this.props.user.isLocal() && <span id=""> (edit)</span>}
           </div>
-        ) : null}
+        )}
       </div>
-    );
-  }
+      {/* 여기부터 동영상 */}
+      {this.props.user !== undefined &&
+      this.props.user.getStreamManager() !== undefined ? (
+        <div className="streamComponent">
+          <OvVideoComponent
+            user={this.props.user}
+            mutedSound={this.state.mutedSound}
+          />
+          <div id="statusIcons">
+            {!this.props.user.isVideoActive() ? (
+              <div id="camIcon">
+                <VideocamOff id="statusCam" />
+              </div>
+            ) : null}
+
+            {!this.props.user.isAudioActive() ? (
+              <div id="micIcon">
+                <MicOff id="statusMic" />
+              </div>
+            ) : null}
+          </div>
+          <div>
+            {!this.props.user.isLocal() && (
+              <IconButton id="volumeButton" onClick={this.toggleSound}>
+                {this.state.mutedSound ? (
+                  <VolumeOff color="secondary" />
+                ) : (
+                  <VolumeUp />
+                )}
+              </IconButton>
+            )}
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
 }

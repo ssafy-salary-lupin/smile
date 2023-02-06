@@ -22,5 +22,6 @@ declare module "styled-components" {
     blackColorOpacity4: string;
     mainColorOpacity: string;
     mainColorDark: string;
+    videoRoomColor: string;
   }
 }
