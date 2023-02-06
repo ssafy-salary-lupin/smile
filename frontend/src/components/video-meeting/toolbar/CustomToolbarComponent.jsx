@@ -1,7 +1,8 @@
 import React, { Component, useState } from "react";
 import * as DuotonIcons from "components/common/DuotonIcons";
 import styled from "styled-components";
-
+import ExitMeeting from "components/video-meeting/toolbar/ExitMeeting";
+// 툴바를 감싸주는 컨테이너
 const ToolbarContainer = styled.div`
   display: flex;
   justify-content: space-around;
@@ -15,6 +16,7 @@ const ToolbarContainer = styled.div`
   /* min-width: 400px !important; */
 `;
 
+// 아이콘 외부의 동그라미
 const IconContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -28,6 +30,7 @@ const IconContainer = styled.div`
     props.bgColor === undefined ? "#393e46" : props.bgColor};
 `;
 
+// 채팅 아이콘
 const ChatIcon = styled.div`
   position: absolute;
   right: 32px;
@@ -37,10 +40,19 @@ const ChatIcon = styled.div`
 
 export default function CustomToolbarComponent(props) {
   const [fullscreen, setFullscreen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const toggleFullscreen = () => {
     setFullscreen(!fullscreen);
     props.toggleFullscreen();
+  };
+
+  const leaveSession = () => {
+    props.leaveSession();
+  };
+
+  const openModal = () => {
+    setModalOpen(!modalOpen);
   };
 
   const toggleChat = () => {
@@ -78,6 +90,7 @@ export default function CustomToolbarComponent(props) {
         </IconContainer>
       )}
 
+      {/* 화면 공유 온 / 오프 */}
       {localUser !== undefined && localUser.isScreenShareActive() ? (
         <IconContainer onClick={props.screenShare}>
           <DuotonIcons.PictureInPicture
@@ -136,15 +149,18 @@ export default function CustomToolbarComponent(props) {
       )}
 
       {/* 화상회의 종료 */}
-      <IconContainer bgColor="#DD5353" onClick={props.leaveSession}>
+
+      <IconContainer bgColor="#DD5353" onClick={openModal}>
         <DuotonIcons.PhoneX
           width={iconSize}
           height={iconSize}
           fill="none"
           stroke={iconColor}
           strokeWidth="2"
-        />
+        ></DuotonIcons.PhoneX>
       </IconContainer>
+
+      {/* 채팅 */}
       <ChatIcon onClick={toggleChat}>
         {props.showNotification && <div id="point" className="" />}
         <DuotonIcons.ChatCircleDots
@@ -155,6 +171,9 @@ export default function CustomToolbarComponent(props) {
           strokeWidth="2"
         />
       </ChatIcon>
+      {modalOpen && (
+        <ExitMeeting setModalOpen={setModalOpen} leaveSession={leaveSession} />
+      )}
     </ToolbarContainer>
   );
 }
