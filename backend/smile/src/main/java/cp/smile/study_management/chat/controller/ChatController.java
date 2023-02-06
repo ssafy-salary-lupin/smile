@@ -8,6 +8,7 @@ import cp.smile.study_management.chat.dto.ChatRoomDTO;
 import cp.smile.study_management.chat.dto.response.ChatMessageInfoDTO;
 import cp.smile.study_management.chat.service.ChatService;
 import cp.smile.study_management.chat.service.ChatServiceImpl;
+import cp.smile.study_management.chat.service.RedisPublisher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -24,8 +25,7 @@ public class ChatController {
 
     private final ChatService chatService;
     private final ResponseService responseService;
-
-    private final SimpMessageSendingOperations messagingTemplate; //메시지를 도착지 까지 보내는 역할
+    private final RedisPublisher redisPublisher;
 
     //
     //스터디 아이디에 해당하는 모든 메시지 반환.
@@ -47,8 +47,6 @@ public class ChatController {
     public void message(ChatMessageDTO chatMessageDTO){
 
         if(ChatMessageDTO.MessageType.ENTER.equals(chatMessageDTO.getType())){
-
-            cah
 
             // TODO : SenderId는 식별자이므로 이름을 조회해와서 던져주는 로직이 필요하다.
             chatMessageDTO.setMessage(chatMessageDTO.getSenderId() + "님이 입장하셨습니다.");

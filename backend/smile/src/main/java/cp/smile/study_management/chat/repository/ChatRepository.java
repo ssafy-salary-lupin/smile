@@ -9,4 +9,6 @@ public interface ChatRepository {
     Optional<ChatRoomDTO> findChatRoomById(int studyId);
 
     int createChatRoom(int studyId);
+
+
 }

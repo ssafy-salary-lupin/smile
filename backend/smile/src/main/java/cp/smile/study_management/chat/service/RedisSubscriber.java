@@ -19,7 +19,7 @@ public class RedisSubscriber implements MessageListener {
 
     private final ObjectMapper objectMapper;
     private final RedisTemplate redisTemplate;
-    private final SimpMessageSendingOperations messageTemplate;
+    private final SimpMessageSendingOperations messageTemplate;//메시지를 도착지 까지 보내는 역할
 
 
     @Override
@@ -33,6 +33,7 @@ public class RedisSubscriber implements MessageListener {
         }
         catch (Exception e){
             log.error(e.getMessage());
+            throw new RuntimeException(); //런타임 예외 던지기
         }
 
     }
