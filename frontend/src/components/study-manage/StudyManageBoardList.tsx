@@ -1,5 +1,6 @@
 import PagiNation from "components/common/Pagination";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
@@ -98,41 +99,132 @@ const NoArticle = styled.div`
   border-bottom: 3px solid ${(props) => props.theme.blackColor};
 `;
 
+interface Data {
+  isSuccess: boolean;
+  code: number;
+  message: string;
+  result: {
+    page: number; // 현재 페이지 번호
+    size: number; // 페이지당 사이즈
+    totalPages: number; // 전체 페이지 수
+    totalElements: number; // 전체 게시글 수
+    hasContent: boolean; // 해당 페이지의 컨텐츠 유무 - 있으면 true 없으면  false
+    hasPrevious: boolean; // 현재 페이지의 앞 페이지의 존재 유무
+    hasNext: false; // 현재 페이지의 다음 페이지의 존재 유무
+    content: [
+      // 해당 페이지의 데이터
+      {
+        studyId: number; // 스터디 번호
+        boardId: number; // 게시글 번호
+        views: number; // 게시글의 조회 수
+        title: string; // 게시글 제목
+        writer: {
+          // 게시글 작성자 정보
+          writerId: number; // 작성자 유저 식별자
+          nickname: string; // 작성자 닉네임
+        };
+        boardType: {
+          // 게시글 유형 정보
+          typeId: number; // 게시글 유형 식별자
+          type: string; // 게시글 유형
+        };
+        writeAt: string; // 게시글 작성일
+      },
+    ];
+    isFirst: boolean; // 첫 페이지 유무 - 첫 페이지면 true 아니면 false
+    isLast: boolean; // 마지막 페이지 유무 - 마지막 페이지면 true 아니면 false
+  };
+}
+
+interface ListData {
+  studyId: string; // 스터디 번호
+  boardId: string; // 게시글 번호
+  views: string; // 게시글의 조회 수
+  title: string; // 게시글 제목
+  writer: {
+    // 게시글 작성자 정보
+    writerId: string; // 작성자 유저 식별자
+    nickname: string; // 작성자 닉네임
+  };
+  boardType: {
+    // 게시글 유형 정보
+    typeId: string; // 게시글 유형 식별자
+    type: string; // 게시글 유형
+  };
+  writeAt: string; // 게시글 작성일
+}
+
 function StudyManageBoardList() {
+  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(10);
+  const [totalElements, setTotalElements] = useState(0);
+  const [list, setList] = useState<ListData[] | null>(null);
+
   const getList = async () => {
     const response = await fetch(
-      `https://i8b205.p.ssafy.io/be-api/studies/1/boards`,
+      `https://i8b205.p.ssafy.io/be-api/studies/1/boards/page=${page}&size=${size}`,
+      {
+        headers: {
+          Accept:
+            "eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzU3MjY0NzQsImV4cCI6MTY3NTczMDA3NH0.YUyGgfX5Vnqg8g-_sT_0k_RqAlOfUMqwConmVXoDXeZn3yq6batsgSa99e51sxgY05-KVIlhMrsqlcgpbi3RhA",
+        },
+      },
     );
-    const data = response.json();
 
-    console.log(data);
+    const data = response.json();
+    console.log("data : ", data);
+
+    // 1. 가져온 data 값에서 총 게시글 개수 가져와서 set
+    // setTotalElements(data.result.totalElements);
+
+    // 2. 해당 페이지의 데이터들을 배열에 담아줌 => 아래에서 배열의 각 요소별로 뽑아서 보여주기
+    // setList(data.reesult.content)
   };
 
   useEffect(() => {
     getList();
-  }, []);
+  }, [page]);
+
+  // 페이지 변환시 호출할 메소드 => page값 셋팅
+  const handlePageChange = (page: any) => {
+    setPage(page);
+  };
 
   return (
     <Wrapper>
       <Head>
-        <HeadSub1>총 14건</HeadSub1>
+        <HeadSub1>총 {totalElements}건</HeadSub1>
         <HeadSub2>글 쓰기</HeadSub2>
       </Head>
-      <BoardListBox>
-        <Tbody>
-          <Row>
-            <BoardNum>14</BoardNum>
-            <BoardType>
-              <TypeLabel1>공지</TypeLabel1>
-            </BoardType>
-            <BoardTitle>글 제목이 적힌 부분입니다.</BoardTitle>
-            <BoardWriter>홍길동</BoardWriter>
-            <BoardDate>2023-01-12</BoardDate>
-          </Row>
-        </Tbody>
-        {/* <NoArticle>글내용이 없습니다.</NoArticle> */}
-      </BoardListBox>
-      {/* <PagiNation page={page} size={size} totalElements={totalElements} /> */}
+
+      {list !== null ? (
+        list.map((el) => {
+          return (
+            <BoardListBox>
+              <Tbody>
+                <Row>
+                  <BoardNum>{el.boardId}</BoardNum>
+                  <BoardType>
+                    <TypeLabel1>{el.boardType.type}</TypeLabel1>
+                  </BoardType>
+                  <BoardTitle>{el.title}</BoardTitle>
+                  <BoardWriter>{el.writer.nickname}</BoardWriter>
+                  <BoardDate>{el.writeAt}</BoardDate>
+                </Row>
+              </Tbody>
+            </BoardListBox>
+          );
+        })
+      ) : (
+        <NoArticle>글내용이 없습니다.</NoArticle>
+      )}
+
+      <PagiNation
+        page={page}
+        size={size}
+        totalElements={totalElements}
+        handlePageChange={handlePageChange}
+      />
     </Wrapper>
   );
 }
