@@ -14,7 +14,9 @@ var localUser = new UserModel();
 
 // OPENVIDU_SERVER_URL: 오픈비두 서버쪽 URL (포트번호는 변경될 수 있음)
 const APPLICATION_SERVER_URL =
-  process.env.NODE_ENV === "production" ? "" : "https://localhost:5000/";
+  process.env.NODE_ENV === "production"
+    ? ""
+    : "https://i8b205.p.ssafy.io:5000/";
 
 class VideoRoomComponent extends Component {
   constructor(props) {
@@ -572,15 +574,15 @@ class VideoRoomComponent extends Component {
       this.state.subscribers.some((user) => user.isScreenShareActive()) ||
       localUser.isScreenShareActive();
     const openviduLayoutOptions = {
-      maxRatio: 3 / 2,
+      maxRatio: 9 / 16, // 세로/가로
       minRatio: 9 / 16,
       fixedRatio: isScreenShared,
       bigClass: "OV_big",
       bigPercentage: 0.8,
       bigFixedRatio: false,
-      bigMaxRatio: 3 / 2,
+      bigMaxRatio: 9 / 16,
       bigMinRatio: 9 / 16,
-      bigFirst: true,
+      bigFirst: false,
       animate: true,
     };
     this.layout.setLayoutOptions(openviduLayoutOptions);
@@ -658,11 +660,12 @@ class VideoRoomComponent extends Component {
             localUser.getStreamManager() !== undefined && (
               <div className="OT_root OT_publisher custom-class" id="localUser">
                 <StreamComponent
-                  user={localUser}
+                  user={localUser} // 내 화면
                   handleNickname={this.nicknameChanged}
                 />
               </div>
             )}
+          {/* //map을 쓴건 여러명이 들어올수 있어서인건가 */}
           {this.state.subscribers.map((sub, i) => (
             <div
               key={i}
@@ -670,7 +673,7 @@ class VideoRoomComponent extends Component {
               id="remoteUsers"
             >
               <StreamComponent
-                user={sub}
+                user={sub} // 상대편 화면
                 streamId={sub.streamManager.stream.streamId}
               />
             </div>
@@ -693,22 +696,6 @@ class VideoRoomComponent extends Component {
       </div>
     );
   }
-
-  /**
-   * --------------------------------------------
-   * GETTING A TOKEN FROM YOUR APPLICATION SERVER
-   * --------------------------------------------
-   * The methods below request the creation of a Session and a Token to
-   * your application server. This keeps your OpenVidu deployment secure.
-   *
-   * In this sample code, there is no user control at all. Anybody could
-   * access your application server endpoints! In a real production
-   * environment, your application server must identify the user to allow
-   * access to the endpoints.
-   *
-   * Visit https://docs.openvidu.io/en/stable/application-server to learn
-   * more about the integration of OpenVidu in your application server.
-   */
 
   // getToken: 현재 내 세션아이디를 이용해서 세션을 생성하고 토큰을 발급하는 함수
   async getToken() {

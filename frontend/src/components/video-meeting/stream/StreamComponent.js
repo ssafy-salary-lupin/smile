@@ -13,6 +13,9 @@ import IconButton from "@mui/material/IconButton";
 import HighlightOff from "@mui/icons-material/HighlightOff";
 import FormHelperText from "@mui/material/FormHelperText";
 
+// import styled from "styled-components";
+
+// StreamComponent: 스트림된 요소들을 컨트롤하는 요소들을 담은 컴포넌트
 export default class StreamComponent extends Component {
   constructor(props) {
     super(props);
@@ -39,6 +42,7 @@ export default class StreamComponent extends Component {
     }
   }
 
+  // toggleSound: 사운드를 뮤트하거나 풀 수 있는 토글 버튼 함수
   toggleSound() {
     this.setState({ mutedSound: !this.state.mutedSound });
   }
@@ -59,16 +63,15 @@ export default class StreamComponent extends Component {
   render() {
     return (
       <div className="OT_widget-container">
+        {/* 닉네임 부분 */}
         <div className="pointer nickname">
           {this.state.showForm ? (
             <FormControl id="nicknameForm">
-              <IconButton
+              {/* <IconButton
                 color="inherit"
                 id="closeButton"
                 onClick={this.toggleNicknameForm}
-              >
-                <HighlightOff />
-              </IconButton>
+              ></IconButton>
               <InputLabel htmlFor="name-simple" id="label">
                 Nickname
               </InputLabel>
@@ -89,16 +92,16 @@ export default class StreamComponent extends Component {
                 <FormHelperText id="name-error-text">
                   Nickname is too long!
                 </FormHelperText>
-              )}
+              )} */}
             </FormControl>
           ) : (
             <div onClick={this.toggleNicknameForm}>
-              <span id="nickname">{this.props.user.getNickname()}</span>
+              <span>{this.props.user.getNickname()}</span>
               {this.props.user.isLocal() && <span id=""> (edit)</span>}
             </div>
           )}
         </div>
-
+        {/* 여기부터 동영상 */}
         {this.props.user !== undefined &&
         this.props.user.getStreamManager() !== undefined ? (
           <div className="streamComponent">

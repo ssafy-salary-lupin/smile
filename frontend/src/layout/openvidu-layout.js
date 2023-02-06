@@ -1,40 +1,45 @@
-import $ from 'jquery';
+import $ from "jquery";
 
 class OpenViduLayout {
   layoutContainer;
-  opts ;
+  opts;
 
   fixAspectRatio(elem, width) {
-    const sub = elem.querySelector('.OT_root');
+    const sub = elem.querySelector(".OT_root");
     if (sub) {
       // If this is the parent of a subscriber or publisher then we need
       // to force the mutation observer on the publisher or subscriber to
       // trigger to get it to fix it's layout
       const oldWidth = sub.style.width;
-      sub.style.width = width + 'px';
+      sub.style.width = width + "px";
       // sub.style.height = height + 'px';
-      sub.style.width = oldWidth || '';
+      sub.style.width = oldWidth || "";
     }
   }
 
- positionElement(elem, x, y, width, height, animate) {
+  positionElement(elem, x, y, width, height, animate) {
     const targetPosition = {
-      left: x + 'px',
-      top: y + 'px',
-      width: width + 'px',
-      height: height + 'px',
+      left: x + "px",
+      top: y + "px",
+      width: width + "px",
+      height: height + "px",
     };
 
     this.fixAspectRatio(elem, width);
 
     if (animate && $) {
       $(elem).stop();
-      $(elem).animate(targetPosition, animate.duration || 200, animate.easing || 'swing', () => {
-        this.fixAspectRatio(elem, width);
-        if (animate.complete) {
-          animate.complete.call(this);
-        }
-      });
+      $(elem).animate(
+        targetPosition,
+        animate.duration || 200,
+        animate.easing || "swing",
+        () => {
+          this.fixAspectRatio(elem, width);
+          if (animate.complete) {
+            animate.complete.call(this);
+          }
+        },
+      );
     } else {
       $(elem).css(targetPosition);
     }
@@ -45,7 +50,7 @@ class OpenViduLayout {
     if (!elem) {
       return 3 / 4;
     }
-    const video = elem.querySelector('video');
+    const video = elem.querySelector("video");
     if (video && video.videoHeight && video.videoWidth) {
       return video.videoHeight / video.videoWidth;
     } else if (elem.videoHeight && elem.videoWidth) {
@@ -54,27 +59,27 @@ class OpenViduLayout {
     return 3 / 4;
   }
 
-   getCSSNumber(elem, prop) {
+  getCSSNumber(elem, prop) {
     const cssStr = $(elem).css(prop);
     return cssStr ? parseInt(cssStr, 10) : 0;
   }
 
   // Really cheap UUID function
-   cheapUUID() {
+  cheapUUID() {
     return (Math.random() * 100000000).toFixed(0);
   }
 
-   getHeight(elem) {
-    const heightStr = $(elem).css('height');
+  getHeight(elem) {
+    const heightStr = $(elem).css("height");
     return heightStr ? parseInt(heightStr, 10) : 0;
   }
 
-   getWidth(elem) {
-    const widthStr = $(elem).css('width');
+  getWidth(elem) {
+    const widthStr = $(elem).css("width");
     return widthStr ? parseInt(widthStr, 10) : 0;
   }
 
-   getBestDimensions(minR , maxR , count , WIDTH, HEIGHT, targetHeight) {
+  getBestDimensions(minR, maxR, count, WIDTH, HEIGHT, targetHeight) {
     let maxArea, targetCols, targetRows, targetWidth, tWidth, tHeight, tRatio;
 
     // Iterate through every possible combination of rows and columns
@@ -119,7 +124,7 @@ class OpenViduLayout {
     };
   }
 
-   arrange(
+  arrange(
     children,
     WIDTH,
     HEIGHT,
@@ -136,11 +141,27 @@ class OpenViduLayout {
     let dimensions;
 
     if (!fixedRatio) {
-      dimensions = this.getBestDimensions(minRatio, maxRatio, count, WIDTH, HEIGHT, targetHeight);
+      dimensions = this.getBestDimensions(
+        minRatio,
+        maxRatio,
+        count,
+        WIDTH,
+        HEIGHT,
+        targetHeight,
+      );
     } else {
       // Use the ratio of the first video element we find to approximate
-      const ratio = this.getVideoRatio(children.length > 0 ? children[0] : null);
-      dimensions = this.getBestDimensions(ratio, ratio, count, WIDTH, HEIGHT, targetHeight);
+      const ratio = this.getVideoRatio(
+        children.length > 0 ? children[0] : null,
+      );
+      dimensions = this.getBestDimensions(
+        ratio,
+        ratio,
+        count,
+        WIDTH,
+        HEIGHT,
+        targetHeight,
+      );
     }
 
     // Loop through each stream in the container and place it inside
@@ -197,9 +218,11 @@ class OpenViduLayout {
           let extraHeight = remainingHeightDiff / remainingShortRows;
           if (extraHeight / row.height > (WIDTH - row.width) / row.width) {
             // We can't go that big or we'll go too wide
-            extraHeight = Math.floor((WIDTH - row.width) / row.width * row.height);
+            extraHeight = Math.floor(
+              ((WIDTH - row.width) / row.width) * row.height,
+            );
           }
-          row.width += Math.floor(extraHeight / row.height * row.width);
+          row.width += Math.floor((extraHeight / row.height) * row.width);
           row.height += extraHeight;
           remainingHeightDiff -= extraHeight;
           remainingShortRows -= 1;
@@ -224,55 +247,62 @@ class OpenViduLayout {
         if (fixedRatio) {
           targetWidth = Math.floor(targetHeight / this.getVideoRatio(elem));
         }
-        elem.style.position = 'absolute';
+        elem.style.position = "absolute";
         // $(elem).css('position', 'absolute');
         const actualWidth =
           targetWidth -
-          this.getCSSNumber(elem, 'paddingLeft') -
-          this.getCSSNumber(elem, 'paddingRight') -
-          this.getCSSNumber(elem, 'marginLeft') -
-          this.getCSSNumber(elem, 'marginRight') -
-          this.getCSSNumber(elem, 'borderLeft') -
-          this.getCSSNumber(elem, 'borderRight');
+          this.getCSSNumber(elem, "paddingLeft") -
+          this.getCSSNumber(elem, "paddingRight") -
+          this.getCSSNumber(elem, "marginLeft") -
+          this.getCSSNumber(elem, "marginRight") -
+          this.getCSSNumber(elem, "borderLeft") -
+          this.getCSSNumber(elem, "borderRight");
 
         const actualHeight =
           targetHeight -
-          this.getCSSNumber(elem, 'paddingTop') -
-          this.getCSSNumber(elem, 'paddingBottom') -
-          this.getCSSNumber(elem, 'marginTop') -
-          this.getCSSNumber(elem, 'marginBottom') -
-          this.getCSSNumber(elem, 'borderTop') -
-          this.getCSSNumber(elem, 'borderBottom');
+          this.getCSSNumber(elem, "paddingTop") -
+          this.getCSSNumber(elem, "paddingBottom") -
+          this.getCSSNumber(elem, "marginTop") -
+          this.getCSSNumber(elem, "marginBottom") -
+          this.getCSSNumber(elem, "borderTop") -
+          this.getCSSNumber(elem, "borderBottom");
 
-        this.positionElement(elem, x + offsetLeft, y + offsetTop, actualWidth, actualHeight, animate);
+        this.positionElement(
+          elem,
+          x + offsetLeft,
+          y + offsetTop,
+          actualWidth,
+          actualHeight,
+          animate,
+        );
         x += targetWidth;
       }
       y += targetHeight;
     }
   }
 
- filterDisplayNone(element) {
-    return element.style.display !== 'none';
+  filterDisplayNone(element) {
+    return element.style.display !== "none";
   }
 
   updateLayout() {
-    if (this.layoutContainer.style.display === 'none') {
+    if (this.layoutContainer.style.display === "none") {
       return;
     }
     let id = this.layoutContainer.id;
     if (!id) {
-      id = 'OT_' + this.cheapUUID();
+      id = "OT_" + this.cheapUUID();
       this.layoutContainer.id = id;
     }
 
     const HEIGHT =
       this.getHeight(this.layoutContainer) -
-      this.getCSSNumber(this.layoutContainer, 'borderTop') -
-      this.getCSSNumber(this.layoutContainer, 'borderBottom');
+      this.getCSSNumber(this.layoutContainer, "borderTop") -
+      this.getCSSNumber(this.layoutContainer, "borderBottom");
     const WIDTH =
       this.getWidth(this.layoutContainer) -
-      this.getCSSNumber(this.layoutContainer, 'borderLeft') -
-      this.getCSSNumber(this.layoutContainer, 'borderRight');
+      this.getCSSNumber(this.layoutContainer, "borderLeft") -
+      this.getCSSNumber(this.layoutContainer, "borderRight");
 
     const availableRatio = HEIGHT / WIDTH;
 
@@ -282,11 +312,15 @@ class OpenViduLayout {
     let bigOffsetLeft = 0;
 
     const bigOnes = Array.prototype.filter.call(
-      this.layoutContainer.querySelectorAll('#' + id + '>.' + this.opts.bigClass),
+      this.layoutContainer.querySelectorAll(
+        "#" + id + ">." + this.opts.bigClass,
+      ),
       this.filterDisplayNone,
     );
     const smallOnes = Array.prototype.filter.call(
-      this.layoutContainer.querySelectorAll('#' + id + '>*:not(.' + this.opts.bigClass + ')'),
+      this.layoutContainer.querySelectorAll(
+        "#" + id + ">*:not(." + this.opts.bigClass + ")",
+      ),
       this.filterDisplayNone,
     );
 
@@ -294,8 +328,8 @@ class OpenViduLayout {
       let bigWidth, bigHeight;
 
       if (availableRatio > this.getVideoRatio(bigOnes[0])) {
-        // We are tall, going to take up the whole width and arrange small
-        // guys at the bottom
+        // 키가 크고, 전체 너비를 차지하고 작게 배열할 예정입니다.
+        // 바닥에 있는 부분
         bigWidth = WIDTH;
         bigHeight = Math.floor(HEIGHT * this.opts.bigPercentage);
         offsetTop = bigHeight;
@@ -390,14 +424,15 @@ class OpenViduLayout {
       minRatio: opts.minRatio != null ? opts.minRatio : 9 / 16,
       fixedRatio: opts.fixedRatio != null ? opts.fixedRatio : false,
       animate: opts.animate != null ? opts.animate : false,
-      bigClass: opts.bigClass != null ? opts.bigClass : 'OT_big',
+      bigClass: opts.bigClass != null ? opts.bigClass : "OT_big",
       bigPercentage: opts.bigPercentage != null ? opts.bigPercentage : 0.8,
       bigFixedRatio: opts.bigFixedRatio != null ? opts.bigFixedRatio : false,
       bigMaxRatio: opts.bigMaxRatio != null ? opts.bigMaxRatio : 3 / 2,
       bigMinRatio: opts.bigMinRatio != null ? opts.bigMinRatio : 9 / 16,
       bigFirst: opts.bigFirst != null ? opts.bigFirst : true,
     };
-    this.layoutContainer = typeof container === 'string' ? $(container) : container;
+    this.layoutContainer =
+      typeof container === "string" ? $(container) : container;
   }
 
   setLayoutOptions(options) {
