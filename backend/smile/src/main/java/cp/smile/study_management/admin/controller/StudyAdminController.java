@@ -45,6 +45,7 @@ public class StudyAdminController {
                     .id(user.getId())
                     .email(user.getEmail())
                     .nickname(user.getNickname())
+                    .imgPath((user.getImagePath()))
                     .isLeader(userJoinStudy.getIsLeader()).build());
         }
 
