@@ -4,12 +4,11 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import cp.smile.entity.study_management.StudyBoard;
-import cp.smile.entity.study_management.StudyBoardFile;
-import cp.smile.entity.study_management.StudyBoardType;
-import cp.smile.entity.study_management.StudyBoardTypeName;
+import cp.smile.entity.study_management.*;
+import cp.smile.entity.user.User;
 import cp.smile.entity.user.UserJoinStudy;
 import cp.smile.study_management.board.dto.request.StudyBoardWriteDTO;
+import cp.smile.study_management.board.repository.StudyBoardCommentRepository;
 import cp.smile.study_management.board.repository.StudyBoardFileRepository;
 import cp.smile.study_management.board.repository.StudyBoardRepository;
 import cp.smile.study_management.board.repository.StudyBoardTypeRepository;
@@ -40,6 +39,7 @@ public class StudyBoardServiceImpl implements StudyBoardService {
     private final StudyBoardRepository studyBoardRepository;
     private final StudyBoardTypeRepository studyBoardTypeRepository;
     private final StudyBoardFileRepository studyBoardFileRepository;
+    private final StudyBoardCommentRepository studyBoardCommentRepository;
     private final AmazonS3Client amazonS3Client;
     
     @Value("${cloud.aws.s3.bucket}")
@@ -63,7 +63,7 @@ public class StudyBoardServiceImpl implements StudyBoardService {
                 .build();
 
         studyBoard.setWriter(userJoinStudy.getUser());
-        studyBoard.setStudyInformation(userJoinStudy.getStudyInformation());
+        studyBoard.addTo(userJoinStudy.getStudyInformation());
         studyBoardRepository.save(studyBoard);
 
         if (files[0].getSize() != 0) {
@@ -72,6 +72,54 @@ public class StudyBoardServiceImpl implements StudyBoardService {
         }
 
         return studyBoard;
+    }
+
+    /**
+     * 게시글 ID로 게시글 조회
+     * 조회시 해당 게시글의 댓글과 업로드된 파일 목록을 함께 조회
+     */
+    @Override
+    public StudyBoard findById(int boardId) {
+        StudyBoard studyBoard = studyBoardRepository.findByIdWithType(boardId)
+                .orElseThrow(() -> new EntityNotFoundException(boardId + "에 해당하는 게시글이 없습니다."));
+
+        List<StudyBoardFile> files = studyBoardFileRepository.findByStudyBoard(studyBoard);
+        List<StudyBoardComment> comments = studyBoardCommentRepository.findByStudyBoardWithUser(studyBoard);
+
+        studyBoard.setStudyBoardFiles(files);
+        studyBoard.setStudyBoardComments(comments);
+
+        return studyBoard;
+    }
+
+    /**
+     * 게시글 ID로 게시글 조회하며 `조회수가 증가`
+     * 조회시 해당 게시글의 댓글과 업로드된 파일 목록을 함께 조회
+     * `Client가 게시글 조회`시 호춣
+     */
+    @Override
+    @Transactional
+    public StudyBoard findByIdForView(int boardId) {
+        StudyBoard studyBoard = findById(boardId);
+        studyBoard.addViewCount();
+        return studyBoard;
+    }
+
+    @Override
+    @Transactional
+    public StudyBoardComment writeComment(User writer, int boardId, String content) {
+        StudyBoard studyBoard = studyBoardRepository.findById(boardId)
+                .orElseThrow(() -> new EntityNotFoundException(boardId + "에 해당하는 게시글이 없습니다."));
+
+        StudyBoardComment boardComment = StudyBoardComment.builder()
+                .studyBoard(studyBoard)
+                .content(content)
+                .user(writer)
+                .build();
+
+        // 연관 메서드 필요
+
+        return studyBoardCommentRepository.save(boardComment);
     }
 
     private List<StudyBoardFile> uploadFiles(StudyBoard studyBoard, MultipartFile ...files) {
