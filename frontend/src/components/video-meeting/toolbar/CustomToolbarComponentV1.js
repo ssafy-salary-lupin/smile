@@ -122,9 +122,9 @@ export default function CustomToolbarComponent(props) {
             id="navChatButton"
           >
             {props.showNotification && <div id="point" className="" />}
-            <Tooltip title="Chat">
-              <QuestionAnswer />
-            </Tooltip>
+            {/* <Tooltip title="Chat"> */}
+            <QuestionAnswer />
+            {/* </Tooltip> */}
           </IconButton>
         </div>
       </Toolbar>
