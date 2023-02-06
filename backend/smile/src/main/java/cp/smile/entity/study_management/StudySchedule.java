@@ -68,4 +68,29 @@ public class StudySchedule extends BaseEntity {
                 .url(this.url)
                 .description(this.description).build();
     }
+
+    /* 스터디 일정 수정 */
+    public void updateStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public void updateEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public void updateScheduleType(ScheduleType scheduleType) {
+        this.scheduleType = scheduleType;
+    }
+
+    public void updateName(String name) {
+        this.name = name;
+    }
+
+    public void updateDescription(String description) {
+        this.description = description;
+    }
+
+    public void deleteSchedule() {
+        this.isDeleted = true;
+    }
 }
