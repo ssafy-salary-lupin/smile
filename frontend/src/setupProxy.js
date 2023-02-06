@@ -3,6 +3,9 @@ const { createProxyMiddleware } = require("http-proxy-middleware");
 module.exports = (app) => {
   app.use(
     "/ws",
-    createProxyMiddleware({ target: "http://localhost:3000", ws: true }),
+    createProxyMiddleware({
+      target: "https://i8b205.p.ssafy.io/be-api",
+      ws: true,
+    }),
   );
 };

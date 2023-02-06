@@ -45,10 +45,10 @@ function StudyManagePages() {
       <SubMenu>
         <StudyNavBar />
       </SubMenu>
-      {/* <StudyManageMain /> */}
+      <StudyManageMain />
       {/* <StudyManageCalendar /> */}
       {/* <StudyManageBoardList /> */}
-      <StudyManageBoardDetail />
+      {/* <StudyManageBoardDetail /> */}
       {/* <StudyManageBoardWrite /> */}
       {/* <SubWrapper2> 
         <Chat onClick={showChatModal}>
