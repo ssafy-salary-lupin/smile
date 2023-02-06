@@ -1,7 +1,9 @@
 import ReactQuill from "react-quill";
 import styled from "styled-components";
 import "react-quill/dist/quill.snow.css";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import axios from "axios";
+import Editor, { EditorContentChanged } from "./Editor";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
@@ -12,24 +14,30 @@ const Wrapper = styled.div`
 const Bracket = styled.div`
   flex-direction: row;
   display: flex;
+  border-top: 2px solid ${(props) => props.theme.blackColor};
+`;
+
+const Title = styled(Bracket)`
   border-top: 1px solid ${(props) => props.theme.blackColorOpacity};
 `;
 
-const Title = styled(Bracket)``;
-
-const Content = styled(Bracket)``;
+const Content = styled(Bracket)`
+  border-top: 1px solid ${(props) => props.theme.blackColorOpacity};
+`;
 
 const File = styled(Bracket)`
-  border-bottom: 1px solid ${(props) => props.theme.blackColorOpacity};
+  border-top: 1px solid ${(props) => props.theme.blackColorOpacity};
+  border-bottom: 2px solid ${(props) => props.theme.blackColor};
 `;
 
 const Sub1 = styled.div`
   border-right: 1px solid ${(props) => props.theme.blackColorOpacity};
   width: 15%;
-  text-align: center;
-  padding: 1.111vw 0;
-  font-size: 1.111vw;
+  text-align: left;
+  padding: 1.111vw 1.111vw;
+  font-size: 0.972vw;
   font-weight: bold;
+  background-color: #f6f6f6;
 `;
 
 const Sub2 = styled.div`
@@ -38,6 +46,7 @@ const Sub2 = styled.div`
   flex-direction: row;
   align-items: center;
   padding: 0.556vw 1.667vw;
+  height: auto;
 `;
 
 const Select = styled.select`
@@ -100,45 +109,97 @@ const CancelBtn = styled(WriteBtn)`
 `;
 
 function StudyManageBoardWrite() {
-  const modules = {
-    toolbar: [
-      [{ header: [1, 2, 3, 4, 5, 6, false] }],
-      ["bold", "italic", "underline", "strike", "blockquote"],
-      [{ font: [] }],
-      [{ align: ["right", "center", "justify"] }],
-      [{ list: "ordered" }, { list: "bullet" }],
-      ["link", "image"],
-      [{ color: ["red", "#785412"] }],
-      [{ background: ["red", "#785412", "yellow"] }],
-    ],
+  // const modules = {
+  //   toolbar: {
+  //     container: [
+  //       ["bold", "italic", "underline", "strike", "blockquote"],
+  //       [{ size: ["small", false, "large", "huge"] }, { color: [] }],
+  //       [
+  //         { list: "ordered" },
+  //         { list: "bullet" },
+  //         { indent: "-1" },
+  //         { indent: "+1" },
+  //         { align: [] },
+  //       ],
+  //     ],
+  //   },
+  //   clipboard: { matchVisual: false },
+  // };
+
+  // react - quill
+  const [editorHtmlValue, setEditorHtmlValue] = useState<string>("");
+  const [editorMarkdownValue, setEditorMarkdownValue] = useState<string>("");
+
+  const onEditorContentChanged = (content: EditorContentChanged) => {
+    setEditorHtmlValue(content.html);
+    setEditorMarkdownValue(content.markdown);
   };
 
-  const formats = [
-    "header",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "blockquote",
-    "list",
-    "bullet",
-    "link",
-    "color",
-    "image",
-    "background",
-    "align",
-    "size",
-    "font",
-  ];
+  const [title, setTitle] = useState(""); // 글 제목
+  const [content, setContent] = useState(""); // 글 내용
+  const [typeId, setTypeId] = useState(""); // 글 유형
+  const [selectedFile, setSelectedFile] = useState(null); // 파일
 
-  const [code, setCode] = useState("hellllo");
-  const handleProcedureContentChange = (
-    content: any,
-    delta: any,
-    source: any,
-    editor: any,
-  ) => {
-    setCode(content);
+  const handleTitle = (event: any) => {
+    setTitle(event.target.value);
+  };
+
+  const handleContent = (event: any) => {
+    setContent(event);
+  };
+
+  const handleTypeId = (event: any) => {
+    setTypeId(event.target.value);
+  };
+
+  const handleFileSelect = (event: any) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
+  const submit = async () => {
+    if (typeId === "") {
+      alert("유형을 선택해 주세요. ");
+      return;
+    }
+    if (title === "") {
+      alert("제목을 입력해주세요.");
+      return;
+    }
+    if (content === "") {
+      alert("내용을 입력해주세요.");
+      return;
+    }
+
+    const formData = new FormData();
+
+    const data = {
+      title: { title },
+      content: { content },
+      typeId: { typeId },
+    };
+
+    console.log(content);
+
+    formData.append("data", JSON.stringify(data));
+
+    const files = selectedFile;
+    if (files) {
+      formData.append("files", files);
+    }
+
+    try {
+      const response = await axios.post(
+        `http://localhost:8080/studies/{studyId}/boards`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        },
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -146,7 +207,7 @@ function StudyManageBoardWrite() {
       <Bracket>
         <Sub1>말머리</Sub1>
         <Sub2>
-          <Select name="bracket">
+          <Select name="bracket" onChange={handleTypeId}>
             <Option value="0">-- 말머리 --</Option>
             <Option value="1">공지</Option>
             <Option value="2">서류</Option>
@@ -156,27 +217,32 @@ function StudyManageBoardWrite() {
       <Title>
         <Sub1>제목</Sub1>
         <Sub2>
-          <TitleInput placeholder="제목을 입력해주세요." />
+          <TitleInput
+            placeholder="제목을 입력해주세요."
+            onChange={handleTitle}
+          />
         </Sub2>
       </Title>
       <Content>
         <Sub1>내용</Sub1>
         <Sub2>
-          <ReactQuill
+          {/* <ReactQuill
             theme="snow"
+            value={content}
+            onChange={handleContent}
             modules={modules}
-            formats={formats}
-            value={code}
-            onChange={handleProcedureContentChange}
-          />
+          /> */}
+          <Editor onChange={onEditorContentChanged} />
         </Sub2>
       </Content>
       <File>
-        <Sub1>파일 첨부</Sub1>
-        <Sub2></Sub2>
+        <Sub1>첨부파일</Sub1>
+        <Sub2>
+          <input type="file" onChange={handleFileSelect} />
+        </Sub2>
       </File>
       <Button>
-        <WriteBtn>등록</WriteBtn>
+        <WriteBtn onClick={submit}>등록</WriteBtn>
         <CancelBtn>취소</CancelBtn>
       </Button>
     </Wrapper>

@@ -5,8 +5,8 @@ import "../../assets/css/index.css";
 const FooterContainer = styled.footer`
   background-color: ${(props) => props.theme.blackColor};
   color: ${(props) => props.theme.whiteColor};
-  padding: 3rem 2rem;
-  /* margin-top: 5rem; */
+  padding: 4.861vw 3.75vw;
+  margin-top: 13.889vw;
   display: flex;
   flex-direction: column;
   font-size: 1.12vw;
@@ -25,16 +25,26 @@ const FooterCon1 = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
+    list-style: none;
   }
   li {
     margin-right: 3rem;
     font-size: 0.98vw;
     letter-spacing: -0.24px;
+    list-style: none;
   }
 `;
 
 const FooterCon2 = styled.div`
   margin-top: 3rem;
+  address {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+  }
   a {
     color: ${(props) => props.theme.whiteColor};
   }

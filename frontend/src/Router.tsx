@@ -5,9 +5,6 @@ import StudyCreatePages from "./pages/StudyCreatePages";
 import TestPages from "./pages/TestPages";
 import VideoRoomComponent from "components/video-meeting/VideoRoomComponent";
 import WaitingPages from "./pages/WaitingPages";
-import CreateReadChat from "components/study-manage/CreateReadChat";
-// import CreateReadChat from "components/study-manage/CreateReadChat";
-// import StudyChat from "components/study-manage/CreateReadChat";
 function Router() {
   return (
     <BrowserRouter>
@@ -29,10 +26,6 @@ function Router() {
         </Route>
         <Route path="/test3">
           <WaitingPages />
-        </Route>
-        <Route path="/chat">
-          {/* <StudyChat /> */}
-          <CreateReadChat />
         </Route>
       </Switch>
     </BrowserRouter>

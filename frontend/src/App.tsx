@@ -21,7 +21,7 @@ body {
     display: none; 
   } */
 }
-div,
+/* div,
 span,
 applet,
 object,
@@ -108,9 +108,9 @@ video {
   font-size: 100%;
   font: inherit;
   vertical-align: baseline;
-}
+} */
 /* HTML5 display-role reset for older browsers */
-article,
+/* article,
 aside,
 details,
 figcaption,
@@ -123,43 +123,47 @@ menu,
 nav,
 section {
   display: block;
-}
-/* HTML5 hidden-attribute fix for newer browsers */
-*[hidden] {
-  display: none;
-}
-body {
-  line-height: 1;
-}
-menu,
+} */
+
+
+/* menu,
 ol,
 ul {
   list-style: none;
-}
-blockquote,
+} */
+/* blockquote,
 q {
   quotes: none;
-}
-blockquote:before,
+} */
+/* blockquote:before,
 blockquote:after,
 q:before,
 q:after {
   content: "";
   content: none;
-}
-table {
+} */
+/* table {
   border-collapse: collapse;
   border-spacing: 0;
-}
-* {
-  box-sizing: border-box;
-}
-a,
+} */
+
+/* a,
 a:hover,
 a:visited,
 a:active,
 a:link {
   text-decoration: none !important;
+} */
+/* HTML5 hidden-attribute fix for newer browsers */
+*[hidden] {
+  display: none;
+}
+
+body {
+  line-height: 1;
+}
+* {
+  box-sizing: border-box;
 }
 /* fullcalendar  start ====================================== */
 .myCalendar {
@@ -202,7 +206,7 @@ a:link {
   }
   
   ul {
-    list-style: none;
+    /* list-style: none; */
     padding: 0;
   }
   
@@ -254,8 +258,27 @@ a:link {
 
   /* editor =============================================== */
   .quill{
-    /* height: 27.778vw; */
-    /* overflow: scroll; */
+    height: 27.778vw;
+    width: 100%;
+    text-align: center;
+  }
+
+  .ql-toolbar.ql-snow{
+    border: 1px solid #000000ae;
+    height:2.778vw;
+    background-color: #f6f6f6;;
+  }
+
+  .ql-container.ql-snow {
+    border: 1px solid #000000ae;  
+    height: 25vw;
+    background-color: white;
+  }
+
+  blockquote{
+    border-left: 0.556vw solid #ccc;
+    margin: 0.694vw;
+    padding-left:0.694vw; 
   }
 `;
 

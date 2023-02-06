@@ -26,9 +26,11 @@ const LinksContainer = styled.div`
 `;
 
 const Items = styled.li`
+  font-style: none;
   display: flex;
   margin-right: 2.24vw; // 2rem;
   height: 3.2vw;
+  list-style: none;
 `;
 
 const Item1 = styled.ul<UrlProps>`
@@ -43,8 +45,8 @@ const Item1 = styled.ul<UrlProps>`
     UrlProps.curUrl === "/studyList" ? "bold" : ""};
 
   &:hover,
-  active,
-  focus {
+  &:active,
+  &:focus {
     cursor: pointer;
     font-weight: bold;
   }
@@ -172,7 +174,9 @@ function NavBar(props: UrlProps) {
             {/* <Link to="">스터디 조회</Link> */} 스터디 조회
           </Item1>
           <Item2 curUrl={props.curUrl}>
-            <Link to="/manage">내 스터디</Link>
+            <Link to="/manage" style={{ textDecoration: "none" }}>
+              내 스터디
+            </Link>
           </Item2>
           <Item3 curUrl={props.curUrl}>내 정보</Item3>
           {/* <Item>

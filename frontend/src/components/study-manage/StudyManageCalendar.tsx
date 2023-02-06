@@ -3,9 +3,7 @@ import FullCalendar from "@fullcalendar/react"; // must go before plugins
 import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
 import { useState, useEffect } from "react";
-import ModalCalendarMeetingView from "../common/ModalCalendarMeetingView";
-import ModalCalendarCommonView from "../common/ModalCalendarCommonView";
-import ModalCalendarRegist from "components/common/ModalCalendarRegist";
+import ModalCalendarCommonView from "./ModalCalendarCommonView";
 import {
   calendarCreateApi,
   calendarSelectAllApi,
@@ -13,6 +11,8 @@ import {
 import { useQuery } from "react-query";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { ScheduleRegist, Schedules } from "atoms/StudyManageCalendarAtom";
+import ModalCalendarRegist from "./ModalCalendarRegist";
+import ModalCalendarMeetingView from "./ModalCalendarMeetingView";
 
 const Wrapper = styled.div`
   margin: 3.889vw 10.833vw;

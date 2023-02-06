@@ -136,7 +136,7 @@ function ModalBasic(props) {
     client.current = new StompJs.Client({
       brokerURL: "ws://localhost:3000/ws",
       onConnect: () => {
-        console.log("success");
+        console.log("connect success");
         subscribe(); // 연결 성공 시 구독하는 로직 실행
       },
       debug: function (str) {
@@ -147,11 +147,13 @@ function ModalBasic(props) {
   };
 
   const publish = (chat) => {
+    console.log("publish client ", client);
     if (!client.current.connected) {
-      console.log("client ", client);
-      console.log("클라이언트 연결 X");
+      console.log("publish : 클라이언트 연결 FAIL");
       return; // 연결되지 않았으면 메시지를 보내지 않는다.
     }
+
+    console.log("publish : 클라이언트 연결 SUCCESS");
     // 메시지 보내기
     client.current.publish({
       destination: "/pub/chat/message",
@@ -166,6 +168,7 @@ function ModalBasic(props) {
 
   // 메시지 받기 {우리 주소}/studies/{studyId}/chats
   const subscribe = () => {
+    console.log("subcribe");
     client.current.subscribe("/sub/chat/room/" + apply_id, (body) => {
       const json_body = JSON.parse(body.body);
       setChatList((_chat_list) => [..._chat_list, json_body]);
@@ -191,7 +194,7 @@ function ModalBasic(props) {
   };
 
   useEffect(() => {
-    console.log("useEffect 실행");
+    console.log("useEffect 실행 => connect");
     connect();
 
     return () => disconnect();

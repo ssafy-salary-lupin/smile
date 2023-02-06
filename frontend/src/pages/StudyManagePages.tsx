@@ -1,4 +1,4 @@
-import StudyNavBar from "components/common/StudyNavBar";
+import StudyNavBar from "components/study-manage/StudyNavBar";
 import ChatModal from "components/study-manage/ChatModal";
 import StudyManageBoardList from "components/study-manage/StudyManageBoardList";
 import { useState } from "react";
@@ -48,8 +48,8 @@ function StudyManagePages() {
       {/* <StudyManageMain /> */}
       {/* <StudyManageCalendar /> */}
       {/* <StudyManageBoardList /> */}
-      {/* <StudyManageBoardDetail /> */}
-      <StudyManageBoardWrite />
+      <StudyManageBoardDetail />
+      {/* <StudyManageBoardWrite /> */}
       {/* <SubWrapper2> 
         <Chat onClick={showChatModal}>
           <ChatIcon src={chatImg} />

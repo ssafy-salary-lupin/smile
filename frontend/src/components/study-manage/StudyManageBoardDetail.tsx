@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { ReactComponent as Time } from "../../assets/icon/Time.svg";
 import { ReactComponent as Eye } from "../../assets/icon/Eye.svg";
 import { ReactComponent as Comment } from "../../assets/icon/Comment.svg";
+import ReactMarkdown from "react-markdown";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
@@ -169,6 +170,9 @@ const WriteBtn = styled.button`
 const CommentList = styled.div``;
 
 function StudyManageBoardDetail() {
+  const post =
+    "# 안녕\n\n## 안녕\n\n### 안녕\n\n안녕\n\n**안녕**\n\n***안녕***\n\n****안녕****\n\n> ****안녕****\n\n1.  안녕\n\n*   안녕\n\n안녕\n";
+
   return (
     <Wrapper>
       <ArticleHeader>
@@ -196,13 +200,7 @@ function StudyManageBoardDetail() {
         </SubInfo>
       </ArticleInfo>
       <ArticleContent>
-        글 내용이 들어가는 부분입니다.
-        <br />글 내용이 들어가는 부분입니다.
-        <br />글 내용이 들어가는 부분입니다.
-        <br />글 내용이 들어가는 부분입니다.
-        <br />글 내용이 들어가는 부분입니다.
-        <br />글 내용이 들어가는 부분입니다.
-        <br />글 내용이 들어가는 부분입니다.
+        <ReactMarkdown>{post}</ReactMarkdown>
       </ArticleContent>
       <FileBox>
         <FileSub1>첨부 파일</FileSub1>
