@@ -42,13 +42,15 @@
   padding: 0;
 }
 
+/* 전체 화면의 설정을 담당하는 class */
 .bounds {
-  background-color: #494949;
+  background-color: #222831;
   overflow: hidden;
   position: absolute;
   left: 0;
   right: 0;
-  top: 40px;
+  /* top: 40px; */
+  top: 0;
   bottom: 0;
   height: inherit;
   min-width: 400px !important;
@@ -60,6 +62,13 @@
  * Released under the MIT license
  * http://opensource.org/licenses/MIT
  */
+
+/* 스크롤 기능 없애기 */
+.video-pages {
+  height: 100vw;
+  width: 100vw;
+  overflow: hidden;
+}
 
 .custom-class {
   min-height: 0px !important;
