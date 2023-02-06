@@ -161,9 +161,9 @@ export default class ToolbarComponent extends Component {
               id="navChatButton"
             >
               {this.props.showNotification && <div id="point" className="" />}
-              <Tooltip title="Chat">
-                <QuestionAnswer />
-              </Tooltip>
+              {/* <Tooltip title="Chat"> */}
+              <QuestionAnswer />
+              {/* </Tooltip> */}
             </IconButton>
           </div>
         </Toolbar>

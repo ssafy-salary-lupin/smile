@@ -78,9 +78,9 @@ video {
 #volumeButton {
   background-color: #000000c4;
   position: absolute;
-  margin: 0px 25px 0px 0px;
-  bottom: 45px;
-  right: 1px;
+  /* margin: 0px 25px 0px 0px; */
+  bottom: 32px;
+  right: 32px;
   z-index: 1000;
   color: hwb(230 20% 38%);
 }
