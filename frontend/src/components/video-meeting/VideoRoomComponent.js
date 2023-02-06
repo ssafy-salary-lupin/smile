@@ -51,7 +51,6 @@ class VideoRoomComponent extends Component {
       currentVideoDevice: undefined,
     };
 
-
     // joinSession: 세션 접속
     this.joinSession = this.joinSession.bind(this);
 
@@ -70,12 +69,10 @@ class VideoRoomComponent extends Component {
     // micStatusChanged: 마이크 상태 변경 함수
     this.micStatusChanged = this.micStatusChanged.bind(this);
 
-
     this.nicknameChanged = this.nicknameChanged.bind(this);
 
     // toggleFullscreen: 전체화면 처리 함수
     this.toggleFullscreen = this.toggleFullscreen.bind(this);
-
 
     this.switchCamera = this.switchCamera.bind(this);
 
@@ -97,7 +94,6 @@ class VideoRoomComponent extends Component {
     // checkSize: 화면 크기 체크 함수
     this.checkSize = this.checkSize.bind(this);
   }
-
 
   // componentDidMount: 컴포넌트가 마운트 되었을 때 작동하는 리액트 컴포넌트 생명주기함수
   componentDidMount() {
@@ -732,7 +728,7 @@ class VideoRoomComponent extends Component {
     return response.data; // The sessionId
   }
 
-  // createToken: 특정 sessionId에 대해서 오픈비두 서버에 토큰을 요청해서 받아오는 함수 (주의! Promise 반환!)  
+  // createToken: 특정 sessionId에 대해서 오픈비두 서버에 토큰을 요청해서 받아오는 함수 (주의! Promise 반환!)
   async createToken(sessionId) {
     const response = await axios.post(
       APPLICATION_SERVER_URL + "api/sessions/" + sessionId + "/connections",
