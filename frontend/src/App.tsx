@@ -284,14 +284,17 @@ body {
 
 function App() {
   const curPath = window.location.pathname;
-
+  // if (curPath === "/test2") {
+  //   const bodyTag = document.querySelector("body");
+  //   bodyTag?.classList.add("videoPage");
+  // }
   return (
     <>
       <BrowserRouter>
         <GlobalStyle />
-        <NavBar curUrl={curPath} />
+        {curPath !== "/test2" && <NavBar curUrl={curPath} />}
         <Router />
-        <Footer />
+        {curPath !== "/test2" && <Footer />}
       </BrowserRouter>
     </>
   );

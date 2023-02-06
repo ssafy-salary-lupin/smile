@@ -9,6 +9,8 @@ import "./VideoRoomComponent.css";
 import OpenViduLayout from "layout/openvidu-layout";
 import UserModel from "models/user-model";
 import ToolbarComponent from "./toolbar/ToolbarComponent";
+import CustomToolbarComponent from "components/video-meeting/toolbar/CustomToolbarComponent";
+import styled from "styled-components";
 
 var localUser = new UserModel();
 
@@ -17,6 +19,11 @@ const APPLICATION_SERVER_URL =
   process.env.NODE_ENV === "production"
     ? ""
     : "https://i8b205.p.ssafy.io:5000/";
+
+const VideoContainer = styled.div`
+  height: 80vh;
+  position: static;
+`;
 
 class VideoRoomComponent extends Component {
   constructor(props) {
@@ -636,7 +643,7 @@ class VideoRoomComponent extends Component {
 
     return (
       <div className="container" id="container">
-        <ToolbarComponent
+        {/* <ToolbarComponent
           sessionId={mySessionId}
           user={localUser}
           showNotification={this.state.messageReceived}
@@ -648,7 +655,7 @@ class VideoRoomComponent extends Component {
           switchCamera={this.switchCamera}
           leaveSession={this.leaveSession}
           toggleChat={this.toggleChat}
-        />
+        /> */}
 
         <DialogExtensionComponent
           showDialog={this.state.showExtensionDialog}
@@ -656,43 +663,61 @@ class VideoRoomComponent extends Component {
         />
 
         <div id="layout" className="bounds">
-          {localUser !== undefined &&
-            localUser.getStreamManager() !== undefined && (
-              <div className="OT_root OT_publisher custom-class" id="localUser">
-                <StreamComponent
-                  user={localUser} // 내 화면
-                  handleNickname={this.nicknameChanged}
-                />
-              </div>
-            )}
-          {/* //map을 쓴건 여러명이 들어올수 있어서인건가 */}
-          {this.state.subscribers.map((sub, i) => (
-            <div
-              key={i}
-              className="OT_root OT_publisher custom-class"
-              id="remoteUsers"
-            >
-              <StreamComponent
-                user={sub} // 상대편 화면
-                streamId={sub.streamManager.stream.streamId}
-              />
-            </div>
-          ))}
-          {localUser !== undefined &&
-            localUser.getStreamManager() !== undefined && (
+          <VideoContainer id="VVVTEST">
+            {localUser !== undefined &&
+              localUser.getStreamManager() !== undefined && (
+                <div
+                  className="OT_root OT_publisher custom-class"
+                  id="localUser"
+                >
+                  <StreamComponent
+                    user={localUser} // 내 화면
+                    handleNickname={this.nicknameChanged}
+                  />
+                </div>
+              )}
+            {/* //map을 쓴건 여러명이 들어올수 있어서인건가 */}
+            {this.state.subscribers.map((sub, i) => (
               <div
+                key={i}
                 className="OT_root OT_publisher custom-class"
-                style={chatDisplay}
+                id="remoteUsers"
               >
-                <ChatComponent
-                  user={localUser}
-                  chatDisplay={this.state.chatDisplay}
-                  close={this.toggleChat}
-                  messageReceived={this.checkNotification}
+                <StreamComponent
+                  user={sub} // 상대편 화면
+                  streamId={sub.streamManager.stream.streamId}
                 />
               </div>
-            )}
+            ))}
+            {localUser !== undefined &&
+              localUser.getStreamManager() !== undefined && (
+                <div
+                  className="OT_root OT_publisher custom-class"
+                  style={chatDisplay}
+                >
+                  <ChatComponent
+                    user={localUser}
+                    chatDisplay={this.state.chatDisplay}
+                    close={this.toggleChat}
+                    messageReceived={this.checkNotification}
+                  />
+                </div>
+              )}
+          </VideoContainer>
         </div>
+        {/* <CustomToolbarComponent
+          sessionId={mySessionId}
+          user={localUser}
+          showNotification={this.state.messageReceived}
+          camStatusChanged={this.camStatusChanged}
+          micStatusChanged={this.micStatusChanged}
+          screenShare={this.screenShare}
+          stopScreenShare={this.stopScreenShare}
+          toggleFullscreen={this.toggleFullscreen}
+          switchCamera={this.switchCamera}
+          leaveSession={this.leaveSession}
+          toggleChat={this.toggleChat}
+        /> */}
       </div>
     );
   }
