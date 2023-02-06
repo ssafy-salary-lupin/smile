@@ -54,6 +54,7 @@ pipeline {
         stage("Server Run") {
             steps {
                 sshagent([SSH_CONNECTION_CREDENTIAL]) {
+                    // 테스트
                     //기존 파일 삭제
                     //sh "ssh -o StrictHostKeyChecking=no ${SSH_CONNECTION} 'rm -rf ./frontend/build'"
                     // 최신 컨테이너 삭제
