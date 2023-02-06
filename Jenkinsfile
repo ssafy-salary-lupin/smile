@@ -58,17 +58,22 @@ pipeline {
                     //기존 파일 삭제
                     //sh "ssh -o StrictHostKeyChecking=no ${SSH_CONNECTION} 'rm -rf ./frontend/build'"
                     // 최신 컨테이너 삭제
-                    sh "ssh -o StrictHostKeyChecking=no ${SSH_CONNECTION} 'docker rm -f ${CONTAINER_NAME}'"
+                    //sh "ssh -o StrictHostKeyChecking=no ${SSH_CONNECTION} 'docker rm -f ${CONTAINER_NAME}'"
                     // 최신 이미지 삭제
-                    sh "ssh -o StrictHostKeyChecking=no ${SSH_CONNECTION} 'docker rmi -f ${IMAGE_NAME}:latest'"
+                    // sh "ssh -o StrictHostKeyChecking=no ${SSH_CONNECTION} 'docker rmi -f ${IMAGE_NAME}:latest'"
                     // 최신 이미지 PULL
-                    sh "ssh -o StrictHostKeyChecking=no ${SSH_CONNECTION} 'docker pull ${IMAGE_NAME}:latest'"
+                    // sh "ssh -o StrictHostKeyChecking=no ${SSH_CONNECTION} 'docker pull ${IMAGE_NAME}:latest'"
                     // 이미지 확인
-                    sh "ssh -o StrictHostKeyChecking=no ${SSH_CONNECTION} 'docker images'"
+                    // sh "ssh -o StrictHostKeyChecking=no ${SSH_CONNECTION} 'docker images'"
                     // 최신 이미지 RUN
-                    sh "ssh -o StrictHostKeyChecking=no ${SSH_CONNECTION} 'docker run -d -v /home/ubuntu/frontend:/usr/app --name ${CONTAINER_NAME} ${IMAGE_NAME}:latest'"
+                    // sh "ssh -o StrictHostKeyChecking=no ${SSH_CONNECTION} 'docker run -d -v /home/ubuntu/frontend:/usr/app --name ${CONTAINER_NAME} ${IMAGE_NAME}:latest'"
                     // 컨테이너 확인
-                    sh "ssh -o StrictHostKeyChecking=no ${SSH_CONNECTION} 'docker ps -a'"
+                    // sh "ssh -o StrictHostKeyChecking=no ${SSH_CONNECTION} 'docker ps -a'"
+                    //기존 파일 삭제
+                    sh "ssh -o StrictHostKeyChecking=no ${SSH_CONNECTION} 'rm -rf ./frontend/build'"
+
+                    //파일 이동
+                    sh "ssh -o StrictHostKeyChecking=no -r ${PROJECT_DIR}/build ${SSH_CONNECTION}:/home/ubuntu/frontend/build"
                 }   
             }
         }
