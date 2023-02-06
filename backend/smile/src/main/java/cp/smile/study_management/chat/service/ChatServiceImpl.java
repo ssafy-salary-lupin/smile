@@ -37,10 +37,12 @@ public class ChatServiceImpl implements ChatService{
     // 스터디 방은 UUID로 구분하는 것이 아닌, 스터디 식별자가 있기 때문에 이것으로 구분함.
     public void createRoom(int studyId){
 
-        //TODO : 현재는 방DTO 객체를 생성하지만 스터디ID를 key로 해서, 레디스에 저장하도록 해야 됨.
-
         //TODO : 예외 처리 해야됨 - 가능하면 옵셔널로 처리.
         chatRepository.createChatRoom(studyId); //방 생성.
+
+        //TODO : 현재는 방DTO 객체를 생성하지만 스터디ID를 key로 해서, 레디스에 저장하도록 해야 됨.
+
+
     }
 
     //스터디 아이디로 방 조회

@@ -8,5 +8,5 @@ public interface ChatRepository {
 
     Optional<ChatRoomDTO> findChatRoomById(int studyId);
 
-    void createChatRoom(int studyId);
+    int createChatRoom(int studyId);
 }

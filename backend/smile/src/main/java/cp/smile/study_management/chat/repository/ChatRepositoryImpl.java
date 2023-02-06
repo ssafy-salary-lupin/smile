@@ -26,7 +26,7 @@ public class ChatRepositoryImpl implements ChatRepository{
     }
 
     @Override
-    public void createChatRoom(int studyId) {
+    public int createChatRoom(int studyId) {
 
         ChatRoomDTO chatRoomDTO = ChatRoomDTO.builder()
                 .roomId(studyId)

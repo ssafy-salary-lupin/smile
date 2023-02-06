@@ -42,10 +42,14 @@ public class ChatController {
         return responseService.getDataResponse(chatMessageInfoDTOS);
     }
 
+    /* /pub/chat/message 로 들어오는 메시지 처리.*/
     @MessageMapping("/chat/message")
     public void message(ChatMessageDTO chatMessageDTO){
 
         if(ChatMessageDTO.MessageType.ENTER.equals(chatMessageDTO.getType())){
+
+            cah
+
             // TODO : SenderId는 식별자이므로 이름을 조회해와서 던져주는 로직이 필요하다.
             chatMessageDTO.setMessage(chatMessageDTO.getSenderId() + "님이 입장하셨습니다.");
         }
