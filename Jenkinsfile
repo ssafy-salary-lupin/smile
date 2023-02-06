@@ -73,7 +73,7 @@ pipeline {
                     sh "ssh -o StrictHostKeyChecking=no ${SSH_CONNECTION} 'rm -rf ./frontend/build'"
 
                     //파일 이동
-                    sh "ssh -o StrictHostKeyChecking=no -r ${PROJECT_DIR}/build ${SSH_CONNECTION}:/home/ubuntu/frontend/build"
+                    sh "scp -o StrictHostKeyChecking=no -r ${PROJECT_DIR}/build ${SSH_CONNECTION}:/home/ubuntu/frontend/build"
                 }   
             }
         }
