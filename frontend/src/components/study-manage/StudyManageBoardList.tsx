@@ -1,4 +1,5 @@
 import PagiNation from "components/common/Pagination";
+import { useEffect } from "react";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
@@ -98,6 +99,19 @@ const NoArticle = styled.div`
 `;
 
 function StudyManageBoardList() {
+  const getList = async () => {
+    const response = await fetch(
+      `https://i8b205.p.ssafy.io/be-api/studies/1/boards`,
+    );
+    const data = response.json();
+
+    console.log(data);
+  };
+
+  useEffect(() => {
+    getList();
+  }, []);
+
   return (
     <Wrapper>
       <Head>
@@ -118,7 +132,7 @@ function StudyManageBoardList() {
         </Tbody>
         {/* <NoArticle>글내용이 없습니다.</NoArticle> */}
       </BoardListBox>
-      <PagiNation />
+      {/* <PagiNation page={page} size={size} totalElements={totalElements} /> */}
     </Wrapper>
   );
 }
