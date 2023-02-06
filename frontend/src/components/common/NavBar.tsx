@@ -8,7 +8,8 @@ import { Link } from "react-router-dom";
 import { rootCertificates } from "tls";
 
 const Nav = styled(motion.nav)`
-  position: fixed;
+  position: absolute;
+  top: 0;
   width: 100%;
   display: flex;
   justify-content: space-between;
