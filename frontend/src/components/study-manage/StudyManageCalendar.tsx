@@ -13,6 +13,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { ScheduleRegist, Schedules } from "atoms/StudyManageCalendarAtom";
 import ModalCalendarRegist from "./ModalCalendarRegist";
 import ModalCalendarMeetingView from "./ModalCalendarMeetingView";
+import { common } from "@mui/material/colors";
 
 const Wrapper = styled.div`
   margin: 3.889vw 10.833vw;
@@ -103,38 +104,40 @@ function StudyManageCalendar() {
   // 일정 등록시 post요청
   const onRegist = () => {
     // post
-    calendarCreateApi(schedule);
+    // calendarCreateApi(schedule);
     // 일정 등록 시 바로 달력에 표시되는지 체크
   };
 
   // db에서 전체 일정 데이터 받아오기
   // missing queryFn 오류
-  const { data: commonSchedules } = useQuery<CommonSchedules[] | undefined>([
+  const { data: commonSchedules } = useQuery<CommonSchedules[]>(
     "allSchedules",
     calendarSelectAllApi,
-  ]);
+  );
+
+  console.log("data : ", commonSchedules);
 
   // 무한 렌더링,, 노션에 정리
   // useEffect 로 db에섯 data 받아올 떄만 실행할 수 있도록 처리함
   // 즉, commonSchedules 변화가 있을 때만 아래 실행
-  useEffect(() => {
-    setSchedules([]);
-    commonSchedules?.forEach((el: CommonSchedules) => {
-      console.log("실행????");
-      // console.log(el.startTime.split(" ")[0]);
-      const temp = {
-        title: el.title,
-        start: el.startTime.split(" ")[0],
-        end: el.endTime.split(" ")[0],
-        // 시작 시간 startTime.split(" ")[1]
-        // 마감 시간 endTime.split(" ")[1]
-        desc: el.description,
-        type: el.type.name,
-        link: el.url,
-      };
-      setSchedules((oldSchedules) => [...oldSchedules, temp]);
-    });
-  }, [commonSchedules]);
+  // useEffect(() => {
+  //   setSchedules([]);
+  //   commonSchedules?.forEach((el: CommonSchedules) => {
+  //     console.log("실행????");
+  //     // console.log(el.startTime.split(" ")[0]);
+  //     const temp = {
+  //       title: el.title,
+  //       start: el.startTime.split(" ")[0],
+  //       end: el.endTime.split(" ")[0],
+  //       // 시작 시간 startTime.split(" ")[1]
+  //       // 마감 시간 endTime.split(" ")[1]
+  //       desc: el.description,
+  //       type: el.type.name,
+  //       link: el.url,
+  //     };
+  //     setSchedules((oldSchedules) => [...oldSchedules, temp]);
+  //   });
+  // }, [commonSchedules]);
 
   return (
     <Wrapper>

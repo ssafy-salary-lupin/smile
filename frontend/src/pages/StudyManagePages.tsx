@@ -45,8 +45,8 @@ function StudyManagePages() {
       <SubMenu>
         <StudyNavBar />
       </SubMenu>
-      <StudyManageMain />
-      {/* <StudyManageCalendar /> */}
+      {/* <StudyManageMain /> */}
+      <StudyManageCalendar />
       {/* <StudyManageBoardList /> */}
       {/* <StudyManageBoardDetail /> */}
       {/* <StudyManageBoardWrite /> */}

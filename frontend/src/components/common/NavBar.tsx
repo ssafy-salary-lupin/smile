@@ -1,14 +1,13 @@
-// import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import styled from "styled-components";
 import logoImg from "../../assets/img/smile_black.png";
 import "../../assets/css/index.css";
 import { motion, useAnimation, useScroll } from "framer-motion";
 import { Link } from "react-router-dom";
-import { rootCertificates } from "tls";
 
 const Nav = styled(motion.nav)`
-  position: fixed;
+  position: absolute;
+  top: 0;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -189,3 +188,4 @@ function NavBar(props: UrlProps) {
   );
 }
 export default NavBar;
+
