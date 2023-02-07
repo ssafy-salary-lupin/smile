@@ -1,15 +1,19 @@
-import { useParams } from "react-router-dom";
+import { LoginToken } from "atoms/LoginAtom";
+import { useEffect } from "preact/hooks";
+import { useHistory, useParams } from "react-router-dom";
+import { useRecoilState } from "recoil";
 
 function KakaoPages() {
   const params = useParams();
-  console.log("params : ", params);
+  const history = useHistory();
 
-  return (
-    <div>
-      카카오 로그인 페이지 입니다.... ^^
-      {/* <br /> {params} */}
-    </div>
-  );
+  const [token, setToken] = useRecoilState(LoginToken);
+  useEffect(() => {
+    console.log("param 타입 ", typeof params);
+    history.push("/");
+  }, []);
+
+  return null;
 }
 
 export default KakaoPages;
