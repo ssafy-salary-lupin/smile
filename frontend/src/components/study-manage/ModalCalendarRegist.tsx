@@ -248,7 +248,7 @@ function ModalBasic(props: PropsType) {
 
   // data set ===============================
   const handleType = (e: any) => {
-    setType(e.target.value);
+    setType(Number(e.target.value));
   };
 
   const handleTitle = (e: any) => {
