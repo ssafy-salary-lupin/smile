@@ -7,6 +7,7 @@ const token = localStorage.getItem("kakao-token");
 
 export async function calendarSelectAllApi() {
   try {
+    console.log("token값 : ", token);
     const response = await fetch(`${BASE_URL}/1/schedules`, {
       headers: {
         Authorization: `Bearer ${token}`,
