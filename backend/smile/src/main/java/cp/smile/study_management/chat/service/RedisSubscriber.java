@@ -35,6 +35,5 @@ public class RedisSubscriber implements MessageListener {
             log.error(e.getMessage());
             throw new RuntimeException(); //런타임 예외 던지기
         }
-
     }
 }
