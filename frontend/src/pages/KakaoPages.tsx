@@ -19,6 +19,7 @@ function KakaoPages() {
   useEffect(() => {
     console.log("before data ", data);
     setToken(params.accessToken);
+    console.log("params.accessToken : ", params.accessToken);
     console.log("after data ", data);
     console.log("token : ", token);
     history.push("/");
