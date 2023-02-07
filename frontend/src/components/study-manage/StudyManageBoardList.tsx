@@ -177,6 +177,8 @@ function StudyManageBoardList() {
     if (listData !== undefined) {
       setList(listData?.result.content);
     }
+    console.log("listData.result.content : ", listData?.result.content);
+    console.log("게시글 : ", list);
   }, [page]);
 
   // 페이지 변환시 호출할 메소드 => page값 셋팅
