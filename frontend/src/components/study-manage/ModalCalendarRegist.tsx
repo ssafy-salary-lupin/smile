@@ -283,7 +283,13 @@ function ModalBasic(props: PropsType) {
       ":" +
       ("0" + startDate.getMinutes()).slice(-2).toString(),
     endTime:
-      new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate() + 1)
+      new Date(
+        endDate.getFullYear(),
+        endDate.getMonth(),
+        endDate.getDate() + 1,
+        endDate.getHours(),
+        endDate.getMinutes(),
+      )
         .getFullYear()
         .toString() +
       "-" +
@@ -293,6 +299,8 @@ function ModalBasic(props: PropsType) {
           endDate.getFullYear(),
           endDate.getMonth(),
           endDate.getDate() + 1,
+          endDate.getHours(),
+          endDate.getMinutes(),
         ).getMonth() +
           1)
       )
@@ -305,6 +313,8 @@ function ModalBasic(props: PropsType) {
           endDate.getFullYear(),
           endDate.getMonth(),
           endDate.getDate() + 1,
+          endDate.getHours(),
+          endDate.getMinutes(),
         ).getDate()
       )
         .slice(-2)
@@ -316,6 +326,8 @@ function ModalBasic(props: PropsType) {
           endDate.getFullYear(),
           endDate.getMonth(),
           endDate.getDate(),
+          endDate.getHours(),
+          endDate.getMinutes(),
         ).getHours()
       )
         .slice(-2)
@@ -327,6 +339,8 @@ function ModalBasic(props: PropsType) {
           endDate.getFullYear(),
           endDate.getMonth(),
           endDate.getDate(),
+          endDate.getHours(),
+          endDate.getMinutes(),
         ).getMinutes()
       )
         .slice(-2)
@@ -374,7 +388,9 @@ function ModalBasic(props: PropsType) {
           <Select name="schedule" onChange={handleType}>
             <Option value="0">-- 유형 --</Option>
             <Option value="1">면접</Option>
-            <Option value="2">채용</Option>
+            <Option value="2">서류</Option>
+            <Option value="3">스터디</Option>
+            <Option value="4">시험</Option>
           </Select>
           <Title placeholder="회의 제목" onChange={handleTitle} />
           <Link placeholder="URL" onChange={handleLink} />
