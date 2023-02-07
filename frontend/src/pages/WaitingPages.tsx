@@ -2,6 +2,12 @@ import styled from "styled-components";
 import * as Icons from "../components/common/Icons";
 import React, { useRef, useState, useEffect } from "react";
 import Webcam from "react-webcam";
+import "../components/video-meeting/toolbar/CustomToolbarComponent.css";
+import * as DuotonIcons from "components/common/DuotonIcons";
+import ExitMeeting from "components/video-meeting/toolbar/ExitMeeting";
+
+import IconButton from "@mui/material/IconButton";
+import logo from "assets/img/smile_black.png";
 
 const Container = styled.div`
   display: flex;
@@ -20,15 +26,42 @@ const Back = styled.div`
   align-items: center;
   flex-direction: column;
   background-color: #4d4949;
-  margin: 8vw 0vw 4vw 0vw;
+  /* margin: 8vw 0vw 4vw 0vw; */
   width: 479.995px;
   height: 270px;
+`;
+// 아이콘 외부의 동그라미
+const IconContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 3.889vw;
+  height: 3.889vw;
+  border-radius: 50px;
+  cursor: pointer;
+  background-color: #393e46;
+  /* background-color: ${(props: any) =>
+    props.bgColor === undefined ? "#393e46" : props.bgColor}; */
+`;
+const IconContainerRed = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 3.889vw;
+  height: 3.889vw;
+  border-radius: 50px;
+  cursor: pointer;
+  background-color: #dd5353;
+  /* background-color: ${(props: any) =>
+    props.bgColor === undefined ? "#393e46" : props.bgColor}; */
 `;
 
 const BtnZip = styled.div`
   display: flex;
-  justify-content: center;
-  height: 100px;
+  justify-content: space-around;
+  height: 120px;
+  width: 100vw;
+  padding: 16px 35vw;
 `;
 
 const Btn = styled.button`
@@ -44,7 +77,7 @@ const Icon = styled(Icons.Users)`
   height: 100px;
 `;
 
-function WaitingPages() {
+function WaitingPages(props: any) {
   const [isShowVideo, setIsShowVideo] = useState<boolean>(true);
   const [isMike, setIsMike] = useState<boolean>(true);
   const [isSpeaker, setIsSpeaker] = useState<boolean>(false);
@@ -104,6 +137,8 @@ function WaitingPages() {
     setIsSpeaker(false);
     // console.log(audio);
   };
+  const mySessionId = props.sessionId;
+  const localUser = props.user;
 
   // const getUserCamera = () => {
   //   navigator.mediaDevices
@@ -130,7 +165,21 @@ function WaitingPages() {
   // useEffect(() => {
   //   getUserCamera();
   // }, [videoElement]);
+  const [fullscreen, setFullscreen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
+  const leaveSession = () => {
+    props.leaveSession();
+  };
+
+  const openModal = () => {
+    setModalOpen(!modalOpen);
+  };
+
+  const iconSize = "1.944vw";
+  const iconColor = "#F5C82E";
+  // const iconColor = "#061C3D";
+  const iconborder = "2";
   return (
     <Container>
       <Back>
@@ -144,31 +193,53 @@ function WaitingPages() {
             autoPlay
           />
         )}
-        {isShowVideo === false && <Icon />}
       </Back>
       <BtnZip>
         {isShowVideo === false && (
-          <Btn onClick={startCam}>
-            <Icons.VideoCameraSlash />
-          </Btn>
+          <IconContainerRed onClick={startCam}>
+            <Icons.VideoCameraSlash
+              width={iconSize}
+              height={iconSize}
+              fill="none"
+              stroke={iconColor}
+              strokeWidth="2"
+            />
+          </IconContainerRed>
         )}
-
         {isShowVideo && (
-          <Btn onClick={stopCam}>
-            <Icons.VideoCamera />
-          </Btn>
+          <IconContainer onClick={stopCam}>
+            <Icons.VideoCamera
+              width={iconSize}
+              height={iconSize}
+              fill="none"
+              stroke={iconColor}
+              strokeWidth="2"
+            />
+          </IconContainer>
         )}
         {isMike === false && (
-          <Btn onClick={MikeOn}>
-            <Icons.MicrophoneSlash />
-          </Btn>
+          <IconContainerRed onClick={MikeOn}>
+            <Icons.MicrophoneSlash
+              width={iconSize}
+              height={iconSize}
+              fill="none"
+              stroke={iconColor}
+              strokeWidth="2"
+            />
+          </IconContainerRed>
         )}
         {isMike && (
-          <Btn onClick={MikeOff}>
-            <Icons.Microphone />
-          </Btn>
+          <IconContainer onClick={MikeOff}>
+            <Icons.Microphone
+              width={iconSize}
+              height={iconSize}
+              fill="none"
+              stroke={iconColor}
+              strokeWidth="2"
+            />
+          </IconContainer>
         )}
-        {isSpeaker !== true && (
+        {/* {isSpeaker !== true && (
           <Btn onClick={soundOff}>
             <Icons.SpeakerSimpleHigh />
           </Btn>
@@ -177,9 +248,21 @@ function WaitingPages() {
           <Btn onClick={soundOn}>
             <Icons.SpeakerX />
           </Btn>
-        )}
+        )} */}
+        <IconContainerRed onClick={openModal}>
+          <DuotonIcons.PhoneX
+            width={iconSize}
+            height={iconSize}
+            fill="none"
+            stroke={iconColor}
+            strokeWidth="2"
+          ></DuotonIcons.PhoneX>
+        </IconContainerRed>
         <button>참여</button>
       </BtnZip>
+      {modalOpen && (
+        <ExitMeeting setModalOpen={setModalOpen} leaveSession={leaveSession} />
+      )}
     </Container>
   );
 }
