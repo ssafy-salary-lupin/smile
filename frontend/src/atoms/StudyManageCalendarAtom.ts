@@ -1,5 +1,11 @@
 import { atom, selector } from "recoil";
 
+// 이벤트 클릭 상태값
+export const dateState = atom({
+  key: "dateState",
+  default: false,
+});
+
 // recoil 추가..
 export const Schedules = atom({
   key: "isSchedules",

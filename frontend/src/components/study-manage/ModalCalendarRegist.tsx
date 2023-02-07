@@ -4,6 +4,8 @@ import { ReactComponent as Close } from "../../assets/icon/Close.svg";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/esm/locale"; //한국어 설정
+import { dateState } from "atoms/StudyManageCalendarAtom";
+import { useRecoilState } from "recoil";
 
 interface PropsType {
   setModalOpen: React.Dispatch<SetStateAction<boolean>>;
@@ -217,9 +219,13 @@ const CancelBtn = styled(YellowBtn)`
 `;
 
 function ModalBasic(props: PropsType) {
+  // 이벤트 클릭 상태값
+  const [dateClickState, setDateClickState] = useRecoilState(dateState);
+
   // 모달 관련 코드 ======================================
   const closeModal = () => {
     props.setModalOpen(false);
+    setDateClickState(false);
   };
   const modalRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -364,9 +370,6 @@ function ModalBasic(props: PropsType) {
       alert(" 내용을 입력 하세요. ");
       return;
     }
-
-    console.log("등록하기 전 startDate : ", startDate);
-    console.log("등록하기 전 endDate :", endDate);
 
     // 일정 등록 메소드 실행
     props.onRegist(registData);
