@@ -88,7 +88,9 @@ function StudyManageCalendar() {
   };
 
   // 날짜 연속 클릭 방지용
-  const handleDateClickBlock = () => {};
+  const handleDateClickBlock = () => {
+    console.log("block 메소드 실행");
+  };
 
   // 이벤트 클릭시 적합한 모달창 띄우기
   const handleEventClick = (arg: any) => {
@@ -151,20 +153,25 @@ function StudyManageCalendar() {
 
   return (
     <Wrapper>
-      <FullCalendar
-        plugins={[dayGridPlugin, interactionPlugin]}
-        initialView="dayGridMonth"
-        events={schedules}
-        eventClick={handleEventClick}
-        selectable={true}
-        select={
-          dateClickState === false ? handleDateClick : handleDateClickBlock
-        }
-        unselect={
-          dateClickState === false ? handleDateClick : handleDateClickBlock
-        }
-        droppable={true}
-      />
+      {dateClickState === false ? (
+        <FullCalendar
+          plugins={[dayGridPlugin, interactionPlugin]}
+          initialView="dayGridMonth"
+          events={schedules}
+          eventClick={handleEventClick}
+          selectable={true}
+          select={handleDateClick}
+          unselect={handleDateClick}
+          droppable={true}
+        />
+      ) : (
+        <FullCalendar
+          plugins={[dayGridPlugin, interactionPlugin]}
+          initialView="dayGridMonth"
+          events={schedules}
+        />
+      )}
+
       {MeetingModalOpen && (
         <ModalCalendarMeetingView
           setModalOpen={setMeetingModalOpen}
