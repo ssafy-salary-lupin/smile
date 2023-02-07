@@ -147,18 +147,6 @@ function NavBar(props: UrlProps) {
   const { scrollY } = useScroll();
   const navAnimation = useAnimation();
 
-  //i8b205.p.ssafy.io/be-api/oauth2/authorization/kakao
-  const [token, setToken] = useRecoilState(LoginToken);
-  const kakaoTest = async () => {
-    console.log("kakaoTest");
-    const result = await axios.get(
-      `https://i8b205.p.ssafy.io/be-api/oauth2/authorization/kakao`,
-    );
-    console.log(result);
-
-    // redirect 뒤로 => 상태 변수에 저장
-  };
-
   useEffect(() => {
     if (props.curUrl === "/") {
       scrollY.onChange(() => {
@@ -208,4 +196,3 @@ function NavBar(props: UrlProps) {
   );
 }
 export default NavBar;
-
