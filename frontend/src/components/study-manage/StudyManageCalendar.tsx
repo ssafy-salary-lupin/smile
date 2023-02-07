@@ -68,6 +68,7 @@ function StudyManageCalendar() {
   const [schedules, setSchedules] = useRecoilState(Schedules);
   // 단건 일정 저장된 atom
   const schedule = useRecoilValue(ScheduleRegist);
+  const scheduleTest = useRecoilValue(Selector);
 
   // 날짜 클릭 시 일정 등록 모달 띄우기
   const handleDateClick = (arg: any) => {
@@ -114,10 +115,13 @@ function StudyManageCalendar() {
   // 일정 등록시 post요청
   const onRegist = () => {
     // post
+    console.log("onRegist() 호출");
+    console.log("넘기려는 값 : ", scheduleTest);
     calendarCreateApi(schedule);
     // 일정 등록 시 바로 달력에 표시되는지 체크
   };
 
+  console.log("캘린더 페이지 랜더링");
   // db에서 전체 일정 데이터 받아오기
   // missing queryFn 오류
   const { data: commonSchedules } = useQuery<IData>("allSchedules", () =>
