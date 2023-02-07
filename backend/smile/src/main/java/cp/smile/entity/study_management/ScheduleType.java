@@ -19,10 +19,11 @@ public class ScheduleType extends BaseEntity {
     @Column(name = "sct_id")
     private int id;
     @Column(name = "sct_name")
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private ScheduleTypeName name;
 
     @Builder
-    public ScheduleType(int id, String name) {
+    public ScheduleType(int id, ScheduleTypeName name) {
         this.id = id;
         this.name = name;
     }
@@ -31,6 +32,6 @@ public class ScheduleType extends BaseEntity {
     public ScheduleTypeDTO createScheduleTypeDTO(){
         return ScheduleTypeDTO.builder()
                 .id(this.id)
-                .name(this.name).build();
+                .name(this.name.toString()).build();
     }
 }
