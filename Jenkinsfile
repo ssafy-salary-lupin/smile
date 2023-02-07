@@ -71,7 +71,6 @@ pipeline {
                     // sh "ssh -o StrictHostKeyChecking=no ${SSH_CONNECTION} 'docker ps -a'"
                     //기존 파일 삭제
                     sh "ssh -o StrictHostKeyChecking=no ${SSH_CONNECTION} 'rm -rf ./frontend/build'"
-
                     //파일 이동
                     sh "scp -o StrictHostKeyChecking=no -r ${PROJECT_DIR}/build ${SSH_CONNECTION}:/home/ubuntu/frontend/build"
                 }   
