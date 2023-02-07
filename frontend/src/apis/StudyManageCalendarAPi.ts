@@ -8,7 +8,7 @@ export async function boardListSelectAllApi(page: number, size: number) {
     const response = await fetch(`${BASE_URL}/1/schedules`, {
       headers: {
         Authorization:
-          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzU3MzI1ODUsImV4cCI6MTY3NTczNjE4NX0.XgNWqDPxM_UQbgaTrXhw0Yd4HaQMuKt7EZP075Lev1ldaEl77quSo66F_fQf7lW43jRndyI3ekH5ntn3qtzjxA",
+          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzU3MzQ0MzcsImV4cCI6MTY3NTczODAzN30.NcRcaVjomF3AQAzimvDN3wf4XeMrlIfPnnIyy6lO2bKoGP-RZWqVqEmXbkIT29U5WNSufEOrrufwhvDhx2jv9w",
         Accept: "application/json",
       },
     });
