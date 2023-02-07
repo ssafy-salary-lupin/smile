@@ -1,4 +1,4 @@
-import { LoginToken } from "atoms/LoginAtom";
+import { LoginState } from "atoms/LoginAtom";
 import { useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { useRecoilState } from "recoil";
@@ -13,10 +13,11 @@ function KakaoPages() {
 
   console.log("params : ", params);
 
-  const [token, setToken] = useRecoilState(LoginToken);
+  const [tokenState, setTokenState] = useRecoilState(LoginState);
 
   useEffect(() => {
-    setToken(params.accessToken);
+    if (params) localStorage.setItem("kako-token", params.accessToken);
+    if (localStorage.getItem("kakao-token")) setTokenState(true);
     history.push("/");
   }, [params]);
 
