@@ -155,6 +155,7 @@ interface ListData {
   writeAt: string; // 게시글 작성일
 }
 
+//
 function StudyManageBoardList() {
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(10);
