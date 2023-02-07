@@ -5,6 +5,7 @@ import cp.smile.config.response.CommonResponse;
 import cp.smile.config.response.DataResponse;
 import cp.smile.config.response.ResponseService;
 import cp.smile.study_management.schedule.dto.request.CreateScheduleDTO;
+import cp.smile.study_management.schedule.dto.request.UpdateScheduleDTO;
 import cp.smile.study_management.schedule.dto.response.ScheduleDTO;
 import cp.smile.study_management.schedule.service.StudyScheduleService;
 import lombok.RequiredArgsConstructor;
@@ -61,6 +62,35 @@ public class StudyScheduleController {
         ScheduleDTO scheduleDTO = studyScheduleService.findDetailSchedule(userId, studyId, scheduleId);
 
         return responseService.getDataResponse(scheduleDTO);
+    }
+
+    /* 스터디 일정 수정 */
+    @PatchMapping("/studies/{studyId}/schedules/{scheduleId}")
+    public CommonResponse updateStudySchedule(
+            @PathVariable int studyId,
+            @PathVariable int scheduleId,
+            @RequestBody UpdateScheduleDTO updateScheduleDTO,
+            @AuthenticationPrincipal CustomOAuth2User oAuth2User) {
+
+        int userId = oAuth2User.getUserId();
+
+        studyScheduleService.updateStudySchedule(userId, studyId, scheduleId, updateScheduleDTO);
+
+        return responseService.getSuccessResponse();
+    }
+
+    /* 스터디 일정 삭제 */
+    @PatchMapping("/studies/{studyId}/schedules/{scheduleId}/delete")
+    public CommonResponse deleteStudySchedule(
+            @PathVariable int studyId,
+            @PathVariable int scheduleId,
+            @AuthenticationPrincipal CustomOAuth2User oAuth2User) {
+
+        int userId = oAuth2User.getUserId();
+
+        studyScheduleService.deleteStudySchedule(userId, studyId, scheduleId);
+
+        return responseService.getSuccessResponse();
     }
 
 }
