@@ -166,6 +166,8 @@ function StudyManageBoardList() {
     boardListSelectAllApi(page, size),
   );
 
+  console.log("가져온 데이타 : ", listData);
+
   useEffect(() => {
     // 1. 가져온 data 값에서 총 게시글 개수 가져와서 set
     if (listData !== undefined) {
