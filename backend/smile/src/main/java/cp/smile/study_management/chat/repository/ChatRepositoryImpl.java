@@ -46,16 +46,6 @@ public class ChatRepositoryImpl implements ChatRepository{
     public void init(){
         opsHashChatRoom = redisTemplate.opsForHash();
         topicMap = new HashMap<>();
-
-        ChatRoomDTO ssafy999 = ChatRoomDTO.builder()
-                .roomId(1)
-                .name("ssafy999").build();
-
-        opsHashChatRoom.put(CHAT_ROOMS,String.valueOf(ssafy999.getRoomId()), ssafy999);
-
-        System.out.println("test111");
-        System.out.println(opsHashChatRoom.get(CHAT_ROOMS,String.valueOf(ssafy999.getRoomId())));
-
     }
 
     /*스터디 Id(roomId)로 채팅방 찾기*/
