@@ -2,13 +2,13 @@ import axios from "axios";
 
 const BASE_URL = `https://i8b205.p.ssafy.io/be-api/studies`;
 
+const token = localStorage.getItem("kakao-token");
+
 export async function calendarSelectAllApi() {
   try {
-    console.log("Get 실행");
     const response = await fetch(`${BASE_URL}/1/schedules`, {
       headers: {
-        Authorization:
-          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzU3MzQ0MzcsImV4cCI6MTY3NTczODAzN30.NcRcaVjomF3AQAzimvDN3wf4XeMrlIfPnnIyy6lO2bKoGP-RZWqVqEmXbkIT29U5WNSufEOrrufwhvDhx2jv9w",
+        Authorization: `Bearer ${token}`,
         Accept: "application/json",
       },
     });
