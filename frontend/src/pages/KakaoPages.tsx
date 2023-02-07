@@ -7,11 +7,13 @@ function KakaoPages() {
   const params = useParams();
   const history = useHistory();
 
-  const [token, setToken] = useRecoilState(LoginToken);
-  useEffect(() => {
-    console.log("param 타입 ", typeof params);
-    // history.push("/");
-  }, [params]);
+  console.log("pramas 타입", typeof params);
+
+  // const [token, setToken] = useRecoilState(LoginToken);
+  // useEffect(() => {
+  //   console.log("param 타입 ", typeof params);
+  //   // history.push("/");
+  // }, [params]);
 
   return <div></div>;
 }
