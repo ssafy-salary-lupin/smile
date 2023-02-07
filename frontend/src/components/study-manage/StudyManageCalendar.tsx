@@ -13,7 +13,6 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { ScheduleRegist, Schedules } from "atoms/StudyManageCalendarAtom";
 import ModalCalendarRegist from "./ModalCalendarRegist";
 import ModalCalendarMeetingView from "./ModalCalendarMeetingView";
-import { common } from "@mui/material/colors";
 
 const Wrapper = styled.div`
   margin: 3.889vw 10.833vw;
