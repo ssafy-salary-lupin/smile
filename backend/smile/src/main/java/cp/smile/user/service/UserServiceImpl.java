@@ -112,6 +112,7 @@ public class UserServiceImpl implements UserService{
 
         userJoinStudy.connectUserAndStudy(user, study);
         userJoinStudyRepository.save(userJoinStudy);
+        study.addPerson();
     }
 
     @Override

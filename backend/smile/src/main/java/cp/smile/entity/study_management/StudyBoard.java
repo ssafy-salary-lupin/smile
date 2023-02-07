@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,8 +63,20 @@ public class StudyBoard extends BaseEntity {
         this.user = writer;
     }
 
-    public void setStudyInformation(StudyInformation studyInformation) {
+    public void addTo(StudyInformation studyInformation) {
         this.studyInformation = studyInformation;
         studyInformation.getStudyBoards().add(this);
+    }
+
+    public void setStudyBoardComments(List<StudyBoardComment> studyBoardComments) {
+        this.studyBoardComments = studyBoardComments;
+    }
+
+    public void setStudyBoardFiles(List<StudyBoardFile> studyBoardFiles) {
+        this.studyBoardFiles = studyBoardFiles;
+    }
+
+    public void addViewCount() {
+        this.viewCount += 1;
     }
 }
