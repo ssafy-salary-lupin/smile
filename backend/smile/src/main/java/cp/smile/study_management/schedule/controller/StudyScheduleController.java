@@ -80,7 +80,7 @@ public class StudyScheduleController {
     }
 
     /* 스터디 일정 삭제 */
-    @PatchMapping("/studies/{studyId}/schedules/{scheduleId}/delete")
+    @DeleteMapping("/studies/{studyId}/schedules/{scheduleId}")
     public CommonResponse deleteStudySchedule(
             @PathVariable int studyId,
             @PathVariable int scheduleId,

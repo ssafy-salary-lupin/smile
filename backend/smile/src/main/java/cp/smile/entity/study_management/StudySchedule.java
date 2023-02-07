@@ -90,7 +90,11 @@ public class StudySchedule extends BaseEntity {
         this.description = description;
     }
 
+    public void updateUrl(String url) { this.url = url; }
+
     public void deleteSchedule() {
         this.isDeleted = true;
     }
+
+
 }

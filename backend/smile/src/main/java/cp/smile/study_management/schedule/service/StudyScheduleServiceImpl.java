@@ -143,10 +143,11 @@ public class StudyScheduleServiceImpl implements StudyScheduleService{
         ScheduleType scheduleType = studyScheduleTypeRepository.findById(updateScheduleDTO.getTypeId())
                 .orElseThrow(() -> new EntityNotFoundException("잘못된 접근입니다."));
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-        LocalDateTime startTime = LocalDateTime.parse(updateScheduleDTO.getStartTime());
-        LocalDateTime endTime = LocalDateTime.parse(updateScheduleDTO.getEndTime());
+        LocalDateTime startTime = LocalDateTime.parse(updateScheduleDTO.getStartTime(),formatter);
+        LocalDateTime endTime = LocalDateTime.parse(updateScheduleDTO.getEndTime(),formatter);
+
 
         if (updateScheduleDTO.getStartTime() != null) {
             studySchedule.updateStartTime(startTime);
@@ -162,6 +163,10 @@ public class StudyScheduleServiceImpl implements StudyScheduleService{
 
         if (updateScheduleDTO.getName() != null) {
             studySchedule.updateName(updateScheduleDTO.getName());
+        }
+
+        if(updateScheduleDTO.getUrl() != null){
+            studySchedule.updateUrl(updateScheduleDTO.getUrl());
         }
 
         if (updateScheduleDTO.getDescription() != null) {
