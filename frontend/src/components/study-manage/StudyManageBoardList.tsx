@@ -205,7 +205,9 @@ function StudyManageBoardList() {
                   </BoardType>
                   <BoardTitle>{el.title}</BoardTitle>
                   <BoardWriter>{el.writer.nickname}</BoardWriter>
-                  <BoardDate>{el.writeAt}</BoardDate>
+                  <BoardDate>
+                    {el.writeAt.split("T")[0] + " " + el.writeAt.split("T")[1]}
+                  </BoardDate>
                 </Row>
               </Tbody>
             </BoardListBox>
