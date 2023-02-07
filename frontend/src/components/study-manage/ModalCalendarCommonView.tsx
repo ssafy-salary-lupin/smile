@@ -167,7 +167,7 @@ const YellowBtn = styled.button`
   font-size: 1vw;
 `;
 
-function ModalBasic(props: PropsType) {
+function ModalCalendarCommonView(props: PropsType) {
   // const [modalOpen, setModalOpen] = useState<boolean>(true);
   // 모달 끄기
   const closeModal = () => {
@@ -238,4 +238,4 @@ function ModalBasic(props: PropsType) {
     </Backdrop>
   );
 }
-export default ModalBasic;
+export default ModalCalendarCommonView;

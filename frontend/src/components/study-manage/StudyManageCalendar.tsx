@@ -87,14 +87,10 @@ function StudyManageCalendar() {
     setRegistModalOpen(true);
   };
 
-  // 날짜 연속 클릭 방지용
-  const handleDateClickBlock = () => {
-    console.log("block 메소드 실행");
-  };
-
   // 이벤트 클릭시 적합한 모달창 띄우기
   const handleEventClick = (arg: any) => {
     setDateClickState(true);
+    console.log("모달 창 뛰운 후dateclickstate : ", dateClickState);
     if (arg.event._def.extendedProps.host) {
       // 회의 관련 모달창 띄울 때 => 참여 버튼 있는 모달창
       setMeetingModalOpen(true);
