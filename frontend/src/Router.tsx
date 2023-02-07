@@ -13,9 +13,9 @@ function Router() {
         <Route exact path="/">
           <LandingPages />
         </Route>
-        <Route path="/manage">
+        {/* <Route path="/manage">
           <StudyManagePages />
-        </Route>
+        </Route> */}
         <Route path="/test">
           <TestPages />
         </Route>
@@ -29,7 +29,7 @@ function Router() {
           <WaitingPages />
         </Route>
         <Route path="/kakao/redirect/:accessToken">
-          <KakaoPages />
+          <StudyManagePages />
         </Route>
       </Switch>
     </BrowserRouter>
