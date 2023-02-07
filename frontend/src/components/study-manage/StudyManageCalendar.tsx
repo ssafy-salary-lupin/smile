@@ -13,7 +13,10 @@ import {
 } from "atoms/StudyManageCalendarAtom";
 import ModalCalendarRegist from "./ModalCalendarRegist";
 import ModalCalendarMeetingView from "./ModalCalendarMeetingView";
-import { calendarSelectAllApi } from "apis/StudyManageCalendarAPi";
+import {
+  calendarCreateApi,
+  calendarSelectAllApi,
+} from "apis/StudyManageCalendarAPi";
 
 const Wrapper = styled.div`
   margin: 3.889vw 10.833vw;
@@ -111,7 +114,7 @@ function StudyManageCalendar() {
   // 일정 등록시 post요청
   const onRegist = () => {
     // post
-    // calendarCreateApi(schedule);
+    calendarCreateApi(schedule);
     // 일정 등록 시 바로 달력에 표시되는지 체크
   };
 

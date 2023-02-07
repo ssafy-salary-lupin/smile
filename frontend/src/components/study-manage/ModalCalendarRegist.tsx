@@ -260,8 +260,6 @@ function ModalBasic(props: PropsType) {
   };
   // =========================================
 
-  // 사용자가 등록할 데이터(db에 맞는 형태로 보내기)
-  // date 부분 code 간소화 방법 찾아보기...
   const registData = {
     scheduleTypeId: type, // 스케쥴 식별자 == 유형
     title: title,
@@ -269,20 +267,61 @@ function ModalBasic(props: PropsType) {
     startTime:
       startDate.getFullYear().toString() +
       "-" +
-      startDate.getMonth().toString() +
+      ("0" + (startDate.getMonth() + 1)).slice(-2).toString() +
       "-" +
-      startDate.getDate().toString(),
+      ("0" + startDate.getDate()).slice(-2).toString() +
+      " " +
+      ("0" + startDate.getHours()).slice(-2).toString() +
+      ":" +
+      ("0" + startDate.getMinutes()).slice(-2).toString(),
     endTime:
       new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate() + 1)
         .getFullYear()
         .toString() +
       "-" +
-      new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate() + 1)
-        .getMonth()
+      (
+        "0" +
+        (new Date(
+          endDate.getFullYear(),
+          endDate.getMonth(),
+          endDate.getDate() + 1,
+        ).getMonth() +
+          1)
+      )
+        .slice(-2)
         .toString() +
       "-" +
-      new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate() + 1)
-        .getDate()
+      (
+        "0" +
+        new Date(
+          endDate.getFullYear(),
+          endDate.getMonth(),
+          endDate.getDate() + 1,
+        ).getDate()
+      )
+        .slice(-2)
+        .toString() +
+      " " +
+      (
+        "0" +
+        new Date(
+          endDate.getFullYear(),
+          endDate.getMonth(),
+          endDate.getDate() + 1,
+        ).getHours()
+      )
+        .slice(-2)
+        .toString() +
+      ":" +
+      (
+        "0" +
+        new Date(
+          endDate.getFullYear(),
+          endDate.getMonth(),
+          endDate.getDate() + 1,
+        ).getMinutes()
+      )
+        .slice(-2)
         .toString(),
     url: link,
     // color : color,
@@ -308,13 +347,15 @@ function ModalBasic(props: PropsType) {
     }
 
     console.log("시간 : ", startDate.getHours());
+    console.log("분 : ", startDate.getMinutes());
+    console.log(registData);
 
     // Recoil data 갱신
     setSchedule(registData);
 
     // 일정 등록 메소드 실행
-    // props.onRegist();
-    // closeModal();
+    props.onRegist();
+    closeModal();
   };
 
   return (
