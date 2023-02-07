@@ -148,7 +148,6 @@ function NavBar(props: UrlProps) {
 
   const [tokenState, setTokenState] = useRecoilState(LoginState);
   const kakaoToken = localStorage.getItem("kakao-token");
-  console.log("token상태값 : ", tokenState);
 
   useEffect(() => {
     if (props.curUrl === "/") {
@@ -165,7 +164,6 @@ function NavBar(props: UrlProps) {
   }, [scrollY, navAnimation, props.curUrl]);
 
   const signOut = () => {
-    console.log("로그아웃");
     localStorage.removeItem("kakao-token");
     setTokenState(false);
   };
