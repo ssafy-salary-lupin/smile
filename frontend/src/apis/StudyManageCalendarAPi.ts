@@ -6,8 +6,6 @@ const BASE_URL = `https://i8b205.p.ssafy.io/be-api/studies`;
 const token = localStorage.getItem("kakao-token");
 
 export async function calendarSelectAllApi() {
-  console.log("일정 GET 실행");
-  console.log("토큰 값 : ", token);
   try {
     const response = await fetch(`${BASE_URL}/1/schedules`, {
       headers: {
@@ -16,9 +14,7 @@ export async function calendarSelectAllApi() {
       },
     });
 
-    console.log("response : ", response);
     const data = await response.json();
-    console.log("data  : ", data);
 
     return data;
   } catch (error: any) {
@@ -30,7 +26,6 @@ export async function calendarSelectAllApi() {
 export async function calendarCreateApi(data: IRegistData) {
   console.log("일정 POST 실행");
   try {
-    console.log("post data", data);
     await axios.post(`${BASE_URL}/1/schedules`, JSON.stringify(data), {
       headers: {
         Authorization: `Bearer ${token}`,

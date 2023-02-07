@@ -351,8 +351,6 @@ function ModalBasic(props: PropsType) {
       return;
     }
 
-    console.log("보내기전에 data 체크 : ", registData);
-
     // 일정 등록 메소드 실행
     props.onRegist(registData);
     closeModal();
