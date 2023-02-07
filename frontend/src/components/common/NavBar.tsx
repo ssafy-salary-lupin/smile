@@ -194,7 +194,11 @@ function NavBar(props: UrlProps) {
           {/* <Item>
             <NabBtn>로그아웃</NabBtn>
           </Item> */}
-          <NabBtn onClick={kakaoTest}>로그인</NabBtn>
+          <NabBtn>
+            <a href="https://i8b205.p.ssafy.io/be-api/oauth2/authorization/kakao">
+              로그인
+            </a>
+          </NabBtn>
         </Items>
       </LinksContainer>
     </Nav>
