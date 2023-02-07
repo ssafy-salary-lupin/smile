@@ -16,7 +16,7 @@ function Router() {
       <Route path="/manage">
         <StudyManagePages />
       </Route>
-      <Route path="/myStudy">
+      <Route path="/myStudy/:userId">
         <MyStudyPages />
       </Route>
       <Route path="/test">

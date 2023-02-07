@@ -150,7 +150,7 @@ function NavBar(props: UrlProps) {
   const kakaoToken = localStorage.getItem("kakao-token");
 
   useEffect(() => {
-    if (props.curUrl === "/") {
+    if (props.curUrl === "/" || "^/myStudy") {
       scrollY.onChange(() => {
         if (scrollY.get() > 80) {
           navAnimation.start("scroll");

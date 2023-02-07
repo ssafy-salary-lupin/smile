@@ -121,29 +121,50 @@ const SCardUserItem = styled.div`
 
 interface studyImgProps {
   studyInfo: {
-    si_id: number;
-    si_img: string;
-    si_person: number;
-    si_max_person: number;
-    si_desc: string;
-    si_view: number;
-    si_leader: {
-      si_leader_id: number;
-      si_leader_img: string;
-      si_leader_nickname: string;
+    studyId: number; // 스터디 식별자
+    name?: string; // 스터디 이름
+    imageUrl: string; // 스터디 대표 이미지 주소
+    description: string; // 스터디 설명
+    person: number; // 현재 가입 인원
+    maxPerson: number; // 최대 가입 인원
+    views: number; // 조회수
+    lastVisitTime: string; // 마지막 방문 시간
+    studyLeader: {
+      // 스터디 리더
+      userId: number; // 스터디장 유저 식별자
+      profileImageUrl: string; // 스터디장 프로필 이미지 주소
+      nickname: string; // 스터디장 닉네임
     };
+    end?: boolean; // 스터디 종료 여부
   };
 }
+// interface studyImgProps {
+//   studyInfo: {
+//     id: number; //스터디 식별자
+//     imgPath: string; //스터디 대표이미지 url
+//     person: number; //현재 가입한 스터디원
+//     max_person: number; //스터디 최대 가입 인원
+//     description: string; //스터디 설명
+//     viewCount: number; //스터디 조회수
+//     lastVisitedTime: string; //최근 방문 시간.
+//     leader: {
+//       // 스터디장에 대한 정보
+//       id: number; //스터디장 유저 식별자
+//       imgPath: string; //스터디장 프로필 이미지 url
+//       nickname: string; //스터디장 닉네임`
+//     };
+//   };
+// }
 
-function Card(props: studyImgProps) {
+export default function Card(props: studyImgProps) {
   const visitedTime = 1;
-  const visitedCountInput = props.studyInfo.si_view;
+  const visitedCountInput = props.studyInfo.views;
   const visitedCount = visitedCountInput
     .toString()
     .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   return (
     <SContainer>
-      <SCardImg src={props.studyInfo.si_img} />
+      <SCardImg src={props.studyInfo.imageUrl} />
       <SCardItem>
         <SCardInfo>
           <SCardInfoItem>
@@ -156,21 +177,21 @@ function Card(props: studyImgProps) {
           <SCardInfoItem>
             <img src={require("../../assets/img/Users.png")} />
             <span>
-              {props.studyInfo.si_person}/{props.studyInfo.si_max_person}
+              {props.studyInfo.person}/{props.studyInfo.maxPerson}
             </span>
           </SCardInfoItem>
         </SCardInfo>
         <SCardDescription>
-          <span>{props.studyInfo.si_desc}</span>
+          <span>{props.studyInfo.description}</span>
         </SCardDescription>
         <SCardUser>
           <ProfileImg
-            imgUrl={props.studyInfo.si_leader.si_leader_img}
+            imgUrl={props.studyInfo.studyLeader.profileImageUrl}
             width="3.36vw"
             height="3.36vw"
           />
           <SCardUserItem>
-            <span>{props.studyInfo.si_leader.si_leader_nickname}</span>
+            <span>{props.studyInfo.studyLeader.nickname}</span>
             <span>{visitedTime} min read</span>
           </SCardUserItem>
         </SCardUser>
@@ -178,5 +199,3 @@ function Card(props: studyImgProps) {
     </SContainer>
   );
 }
-
-export default Card;
