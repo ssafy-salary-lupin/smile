@@ -10,10 +10,13 @@ import cp.smile.entity.user.User;
 import cp.smile.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +34,9 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     private final JwtProvider jwtProvider;
     private final UserService userService;
     private final LoginProviderRepository loginProviderRepository;
-    private final ResponseService responseService;
+
+    @Value("${app.auth.jwt.redirect-url}")
+    private String ACCESS_TOKEN_REDIRECT_URL;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -50,14 +55,17 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         response.addHeader("Set-Cookie", cookie.toString());
 
         String accessToken = jwtProvider.createAccessToken(authentication);
+        log.info("{}'s accessToken: {}", oAuth2User.getNickname(), accessToken);
 
-        Map<String, String> data = new HashMap<>();
-        data.put("accessToken", accessToken);
+//        Map<String, String> data = new HashMap<>();
+//        data.put("accessToken", accessToken);
+//
+//        response.getWriter()
+//                .write(new ObjectMapper().writeValueAsString(responseService.getDataResponse(data)));
 
-        response.getWriter()
-                .write(new ObjectMapper().writeValueAsString(responseService.getDataResponse(data)));
-
-        clearAuthenticationAttributes(request);
+//        clearAuthenticationAttributes(request);
+        String redirectUrl = ACCESS_TOKEN_REDIRECT_URL + accessToken;
+        getRedirectStrategy().sendRedirect(request, response, redirectUrl);
     }
 
     private User saveOrUpdateUser(String refreshToken, CustomOAuth2User oAuth2User) {
