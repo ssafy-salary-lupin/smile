@@ -24,4 +24,6 @@ public class ChatRoomDTO implements Serializable {
         this.roomId = roomId;
         this.name = name;
     }
+
+
 }

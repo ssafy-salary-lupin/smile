@@ -1,6 +1,8 @@
 package cp.smile.study_management.chat.repository;
 
 
+import cp.smile.entity.study_common.StudyComment;
+import cp.smile.study_common.repository.StudyCommentRepository;
 import cp.smile.study_management.chat.dto.ChatRoomDTO;
 import cp.smile.study_management.chat.service.RedisSubscriber;
 import lombok.RequiredArgsConstructor;
@@ -11,16 +13,13 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.nio.channels.Channel;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Repository
 public class ChatRepositoryImpl implements ChatRepository{
 
-    // TODO : DB에서 방을 조회해오는 식으로 바꿔야됨.
     private Map<Integer, ChatRoomDTO> chatRoomDTOS;
 
 
@@ -40,32 +39,60 @@ public class ChatRepositoryImpl implements ChatRepository{
     private HashOperations<String,String,ChatRoomDTO> opsHashChatRoom;
 
     //채팅방 대화 메시지 발행을 위한 레디스의 토픽 정보, 서버별로 채팅방에 매칭되는 토픽정보(스터디 식별자)을 Map에 넣어서 roomId(스터디 식별자)로 찾을 수 있게 함.
-    private Map<String, ChannelTopic> topics;
+    private Map<String, ChannelTopic> topicMap;
 
     /*객체 생성 이전에 레디스 , Map 등의 자료구조 먼저 생성*/
     @PostConstruct
     public void init(){
         opsHashChatRoom = redisTemplate.opsForHash();
-        topics = new HashMap<>();
+        topicMap = new HashMap<>();
+
+        ChatRoomDTO ssafy999 = ChatRoomDTO.builder()
+                .roomId(1)
+                .name("ssafy999").build();
+
+        opsHashChatRoom.put(CHAT_ROOMS,String.valueOf(ssafy999.getRoomId()), ssafy999);
+
+        System.out.println("test111");
+        System.out.println(opsHashChatRoom.get(CHAT_ROOMS,String.valueOf(ssafy999.getRoomId())));
+
     }
 
     /*스터디 Id(roomId)로 채팅방 찾기*/
     @Override
-    public Optional<ChatRoomDTO> findChatRoomById(int studyId) {
-        return Optional.of(chatRoomDTOS.get(studyId));
+    public Optional<ChatRoomDTO> findChatRoomById(String roomId) {
+        return Optional.of(opsHashChatRoom.get(CHAT_ROOMS,roomId)); //레디스 자료구조에서 채팅방 정보 가져오기.
     }
 
+    /*레디스에 저장 후,채팅방 객체를 반환하지 않음 - 채팅방 조회를 따로 호출해야 채팅방 객체를 리턴함.*/
     @Override
-    public int createChatRoom(int studyId) {
+    public void saveChatRoom(ChatRoomDTO chatRoomDTO) {
 
-        ChatRoomDTO chatRoomDTO = ChatRoomDTO.builder()
-                .roomId(studyId)
-                .name("방이름" + studyId).build();
-
-        //방생성이 되었으면 메모리 디비(map 자료구조에 저장.)
-        chatRoomDTOS.put(studyId,chatRoomDTO);
-
-        //TODO : 수정필요.
-        return 1;
+        //레디스 Hash에 저장.
+        opsHashChatRoom.put(CHAT_ROOMS,String.valueOf(chatRoomDTO.getRoomId()), chatRoomDTO);
     }
+
+    //토픽 가져오기
+    @Override
+    public Optional<ChannelTopic> findTopic(String roomId){
+
+        return Optional.of(topicMap.get(roomId));
+
+    }
+
+    //토픽 저장 - 저장시에는 리스너와 함께 저장해서 리스너를 통해 호출할 수 있도록 해야 됨.
+    @Override
+    public void saveTopic(String roomId){
+        ChannelTopic topic = new ChannelTopic(roomId);//룸 아이디(스터디 아이디)로 토픽 생성
+
+        redisMessageListener.addMessageListener(redisSubscriber,topic); //발행된 데이터를 매번 확인해야 되기 때문에 리스너 필요.
+
+        //채팅방 별로 토픽 저장해둠.
+        topicMap.put(roomId,topic);
+
+    }
+
+
+
+
 }

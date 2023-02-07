@@ -33,9 +33,8 @@ public class ChatController {
     public DataResponse<List<ChatMessageInfoDTO>> findAllMessage(
             @PathVariable int studyId,
             @AuthenticationPrincipal CustomOAuth2User oAuth2User){
-        
-        int userId = oAuth2User.getUserId();
 
+        int userId = oAuth2User.getUserId();
 
         List<ChatMessageInfoDTO> chatMessageInfoDTOS = chatService.findAllMessage(userId, studyId);
 
@@ -48,9 +47,14 @@ public class ChatController {
 
         if(ChatMessageDTO.MessageType.ENTER.equals(chatMessageDTO.getType())){
 
+            chatService.enterChatRoom(chatMessageDTO.getRoomId());
+
             // TODO : SenderId는 식별자이므로 이름을 조회해와서 던져주는 로직이 필요하다.
             chatMessageDTO.setMessage(chatMessageDTO.getSenderId() + "님이 입장하셨습니다.");
         }
+
+        //레디스로 데이터 발행.
+        redisPublisher.publish(chatService.getTopic(chatMessageDTO.getRoomId()), chatMessageDTO);
 
 //        messagingTemplate.convertAndSend("/sub/chat/room/" + chatMessageDTO.getRoomId(), chatMessageDTO);
 
