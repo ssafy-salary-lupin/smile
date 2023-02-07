@@ -5,6 +5,8 @@ import "../../assets/css/index.css";
 import { motion, useAnimation, useScroll } from "framer-motion";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { useRecoilState } from "recoil";
+import { LoginToken } from "atoms/LoginAtom";
 
 const Nav = styled(motion.nav)`
   position: absolute;
@@ -146,12 +148,15 @@ function NavBar(props: UrlProps) {
   const navAnimation = useAnimation();
 
   //i8b205.p.ssafy.io/be-api/oauth2/authorization/kakao
-  const kakaoTest = async () => {
-    const result = await axios.get(
-      `https://i8b205.p.ssafy.io/be-api/oauth2/authorization/kakao`,
-    );
-    console.log(result);
-  };
+  const [token, setToken] = useRecoilState(LoginToken);
+  // const kakaoTest = async () => {
+  //   const result = await axios.get(
+  //     `https://i8b205.p.ssafy.io/be-api/oauth2/authorization/kakao`,
+  //   );
+  //   console.log(result);
+
+  //   // redirect 뒤로 => 상태 변수에 저장
+  // };
 
   useEffect(() => {
     if (props.curUrl === "/") {
@@ -188,7 +193,11 @@ function NavBar(props: UrlProps) {
           {/* <Item>
             <NabBtn>로그아웃</NabBtn>
           </Item> */}
-          <NabBtn onClick={kakaoTest}>로그인</NabBtn>
+          <NabBtn>
+            <a href="https://i8b205.p.ssafy.io/be-api/oauth2/authorization/kakao">
+              로그인
+            </a>
+          </NabBtn>
         </Items>
       </LinksContainer>
     </Nav>
