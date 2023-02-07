@@ -26,7 +26,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable();
+        http.csrf().disable().cors(cors -> cors.disable());; // TODO : 나중에 빼야 됨.
         http.authorizeHttpRequests()
                 .antMatchers("/auth/authenticated").authenticated()
                 .antMatchers(HttpMethod.POST, "/users/{userId}/studies/{studyId}").authenticated()
