@@ -5,14 +5,6 @@ import StudyCreatePages from "./pages/StudyCreatePages";
 import TestPages from "./pages/TestPages";
 import VideoRoomComponent from "components/video-meeting/VideoRoomComponent";
 import WaitingPages from "./pages/WaitingPages";
-<<<<<<< HEAD
-import StudyDetailPages from "./pages/StudyDetailPages";
-// import Settings from "pages/Settings";
-// import Settings from "./pages/Settings";
-// import CreateReadChat from "components/study-manage/CreateReadChat";
-// import StudyChat from "components/study-manage/CreateReadChat";
-=======
->>>>>>> c36253c597ddc4386954b0b09befc4881c8996f6
 function Router() {
   return (
     <BrowserRouter>
@@ -28,9 +20,6 @@ function Router() {
         </Route>
         <Route path="/create">
           <StudyCreatePages />
-        </Route>
-        <Route path="/detail">
-          <StudyDetailPages />
         </Route>
         <Route path="/test2">
           <VideoRoomComponent />
