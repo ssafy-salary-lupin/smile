@@ -4,9 +4,8 @@ import logoImg from "../../assets/img/smile_black.png";
 import "../../assets/css/index.css";
 import { motion, useAnimation, useScroll } from "framer-motion";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import { useRecoilState } from "recoil";
-import { LoginToken } from "atoms/LoginAtom";
+import { LoginState } from "atoms/LoginAtom";
 
 const Nav = styled(motion.nav)`
   position: absolute;
@@ -147,17 +146,8 @@ function NavBar(props: UrlProps) {
   const { scrollY } = useScroll();
   const navAnimation = useAnimation();
 
-  //i8b205.p.ssafy.io/be-api/oauth2/authorization/kakao
-  const [token, setToken] = useRecoilState(LoginToken);
-  const kakaoTest = async () => {
-    console.log("kakaoTest");
-    const result = await axios.get(
-      `https://i8b205.p.ssafy.io/be-api/oauth2/authorization/kakao`,
-    );
-    console.log(result);
-
-    // redirect 뒤로 => 상태 변수에 저장
-  };
+  const [tokenState, setTokenState] = useRecoilState(LoginState);
+  console.log(tokenState);
 
   useEffect(() => {
     if (props.curUrl === "/") {
@@ -172,6 +162,12 @@ function NavBar(props: UrlProps) {
       navAnimation.start("fix");
     }
   }, [scrollY, navAnimation, props.curUrl]);
+
+  const signOut = () => {
+    console.log("로그아웃");
+    localStorage.removeItem("kakao-token");
+    setTokenState(false);
+  };
 
   return (
     <Nav variants={navVariants} animate={navAnimation} initial={"top"}>
@@ -191,14 +187,19 @@ function NavBar(props: UrlProps) {
             </Link>
           </Item2>
           <Item3 curUrl={props.curUrl}>내 정보</Item3>
-          {/* <Item>
-            <NabBtn>로그아웃</NabBtn>
-          </Item> */}
-          <NabBtn onClick={kakaoTest}>로그인</NabBtn>
+          {tokenState ? (
+            <NabBtn>
+              {/* 이 경로로 보내면 server에서 특정 페이지로 redirect */}
+              <a href="https://i8b205.p.ssafy.io/be-api/oauth2/authorization/kakao">
+                로그인
+              </a>
+            </NabBtn>
+          ) : (
+            <NabBtn onClick={signOut}>로그아웃</NabBtn>
+          )}
         </Items>
       </LinksContainer>
     </Nav>
   );
 }
 export default NavBar;
-

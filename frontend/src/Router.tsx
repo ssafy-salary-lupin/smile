@@ -6,6 +6,7 @@ import TestPages from "./pages/TestPages";
 import VideoRoomComponent from "components/video-meeting/VideoRoomComponent";
 import WaitingPages from "./pages/WaitingPages";
 import MyStudyPages from "pages/MyStudyPages";
+import KakaoPages from "pages/KakaoPages";
 function Router() {
   return (
     <BrowserRouter>
@@ -13,12 +14,14 @@ function Router() {
         <Route exact path="/">
           <LandingPages />
         </Route>
-        <Route path="/manage">
+        {/* <Route path="/manage">
           <StudyManagePages />
         </Route>
+
+        </Route> */}
         <Route path="/myStudy">
           <MyStudyPages />
-        </Route>
+        </Route>        
         <Route path="/test">
           <TestPages />
         </Route>
@@ -30,6 +33,9 @@ function Router() {
         </Route>
         <Route path="/test3">
           <WaitingPages />
+        </Route>
+        <Route path="/kakao/redirect/:accessToken">
+          <KakaoPages />
         </Route>
       </Switch>
     </BrowserRouter>
