@@ -132,8 +132,8 @@ function StudyManageCalendar() {
     datas?.forEach((el) => {
       const temp = {
         title: el.title,
-        start: el.startTime.split(" ")[0],
-        end: el.endTime.split(" ")[0],
+        start: el.startTime.split("T")[0],
+        end: el.endTime.split("T")[0],
         // 시작 시간 startTime.split(" ")[1]
         // 마감 시간 endTime.split(" ")[1]
         desc: el.description,
@@ -141,7 +141,6 @@ function StudyManageCalendar() {
         link: el.url,
       };
 
-      console.log("temp : ", temp);
       setSchedules((oldSchedules) => [...oldSchedules, temp]);
     });
   }, [commonSchedules]);

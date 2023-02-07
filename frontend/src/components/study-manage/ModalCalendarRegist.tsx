@@ -346,10 +346,6 @@ function ModalBasic(props: PropsType) {
       return;
     }
 
-    console.log("시간 : ", startDate.getHours());
-    console.log("분 : ", startDate.getMinutes());
-    console.log(registData);
-
     // Recoil data 갱신
     setSchedule(registData);
 
