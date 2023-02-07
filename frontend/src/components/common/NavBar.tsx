@@ -150,6 +150,7 @@ function NavBar(props: UrlProps) {
   //i8b205.p.ssafy.io/be-api/oauth2/authorization/kakao
   const [token, setToken] = useRecoilState(LoginToken);
   const kakaoTest = async () => {
+    console.log("kakaoTest");
     const result = await axios.get(
       `https://i8b205.p.ssafy.io/be-api/oauth2/authorization/kakao`,
     );
