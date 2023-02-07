@@ -233,6 +233,7 @@ function ModalCalendarRegist(props: PropsType) {
     const handler = (event: any) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
         props.setModalOpen(false);
+        setDateClickState(false);
       }
     };
 
