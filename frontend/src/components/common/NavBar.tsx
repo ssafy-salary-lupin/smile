@@ -195,7 +195,7 @@ function NavBar(props: UrlProps) {
             </a>
           </NabBtn>
 
-          {/* <NabBtn onClick={signOut}>로그아웃</NabBtn> */}
+          <NabBtn onClick={signOut}>로그아웃</NabBtn>
         </Items>
       </LinksContainer>
     </Nav>
