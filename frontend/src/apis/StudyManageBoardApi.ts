@@ -10,8 +10,8 @@ export async function boardListSelectAllApi(page: number, size: number) {
       {
         headers: {
           Authorization:
-            "Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzU3MjY0NzQsImV4cCI6MTY3NTczMDA3NH0.YUyGgfX5Vnqg8g-_sT_0k_RqAlOfUMqwConmVXoDXeZn3yq6batsgSa99e51sxgY05-KVIlhMrsqlcgpbi3RhA",
-          Accept: "application / json",
+            "Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzU3Mjg3MzIsImV4cCI6MTY3NTczMjMzMn0.VwUVfFJBvWXuXRYQx8_dOqJr_iaNcohu6EiiMiWK_yqyHBLUP2eQZgG1YWyvgvLqurAsP6iWf5nSzbPnUr75zg",
+          Accept: "application/json",
         },
       },
     );
