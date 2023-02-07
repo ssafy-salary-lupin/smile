@@ -29,7 +29,7 @@ function Router() {
           <WaitingPages />
         </Route>
         <Route path="/kakao/redirect/:accessToken">
-          <StudyManagePages />
+          <KakaoPages />
         </Route>
       </Switch>
     </BrowserRouter>
