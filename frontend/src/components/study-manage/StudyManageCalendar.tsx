@@ -131,6 +131,8 @@ function StudyManageCalendar() {
     refetch();
   };
 
+  console.log(localStorage.getItem("kakao-token"));
+
   useEffect(() => {
     setSchedules([]);
     const datas = commonSchedules?.result;
