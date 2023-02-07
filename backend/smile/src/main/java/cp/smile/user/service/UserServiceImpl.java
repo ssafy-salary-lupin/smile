@@ -14,6 +14,8 @@ import cp.smile.user.repository.UserJoinStudyRepository;
 import cp.smile.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -118,5 +120,11 @@ public class UserServiceImpl implements UserService{
     @Override
     public List<UserJoinStudy> findJoinStudies(int userId) {
         return userJoinStudyRepository.findByUserId(userId);
+    }
+
+    public void login(String email, String password) {
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(email, password);
+
+        Authentication authentication =
     }
 }
