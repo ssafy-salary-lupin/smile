@@ -8,12 +8,8 @@ import "./ChatComponent.css";
 import { Tooltip } from "@mui/material";
 
 export default function ChatComponent(props) {
-  const [state, setState] = useState({
-    messageList: [],
-    message: "",
-  });
   const [messageList, setMessageList] = useState([]);
-  const [messageState, setMessageState] = useState("");
+  const [message, setMessage] = useState("");
   const chatScroll = React.createRef();
 
   useEffect(() => {
@@ -36,7 +32,7 @@ export default function ChatComponent(props) {
       const document = window.document;
       setTimeout(() => {
         const userImg = document.getElementById(
-          "userImg-" + (state.messageList.length - 1),
+          "userImg-" + (messageList.length - 1),
         );
         const video = document.getElementById("video-" + data.streamId);
         const avatar = userImg.getContext("2d");
@@ -50,7 +46,7 @@ export default function ChatComponent(props) {
   }, []);
 
   const handleChange = (event) => {
-    setState({ message: event.target.value });
+    setMessage(event.target.value);
   };
 
   const handlePressKey = (event) => {
@@ -60,14 +56,14 @@ export default function ChatComponent(props) {
   };
 
   const sendMessage = () => {
-    console.log(state.message);
-    if (props.user && state.message) {
-      let message = state.message.replace(/ +(?= )/g, "");
-      if (message !== "" && message !== " ") {
+    console.log(message);
+    if (props.user && message) {
+      let messageTemp = message.replace(/ +(?= )/g, "");
+      if (messageTemp !== "" && messageTemp !== " ") {
         const data = {
-          message: message,
-          nickname: this.props.user.getNickname(),
-          streamId: this.props.user.getStreamManager().stream.streamId,
+          message: messageTemp,
+          nickname: props.user.getNickname(),
+          streamId: props.user.getStreamManager().stream.streamId,
         };
         props.user.getStreamManager().stream.session.signal({
           data: JSON.stringify(data),
@@ -75,7 +71,7 @@ export default function ChatComponent(props) {
         });
       }
     }
-    setState({ message: "" });
+    setMessage("");
   };
 
   const scrollToBottom = () => {
@@ -103,7 +99,7 @@ export default function ChatComponent(props) {
           </IconButton>
         </div>
         <div className="message-wrap" ref={chatScroll}>
-          {state.messageList.map((data, i) => (
+          {messageList.map((data, i) => (
             <div
               key={i}
               id="remoteUsers"
@@ -137,7 +133,7 @@ export default function ChatComponent(props) {
           <input
             placeholder="Send a messge"
             id="chatInput"
-            value={state.message}
+            value={message}
             onChange={handleChange}
             onKeyPress={handlePressKey}
           />
