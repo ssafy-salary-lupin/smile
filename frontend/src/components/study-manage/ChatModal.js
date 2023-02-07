@@ -120,7 +120,7 @@ function ModalBasic(props) {
       document.removeEventListener("mousedown", handler);
       // document.removeEventListener('touchstart', handler); // 모바일 대응
     };
-  });
+  }, []);
 
   //,,,
   // 채팅
@@ -140,6 +140,7 @@ function ModalBasic(props) {
         subscribe(); // 연결 성공 시 구독하는 로직 실행
       },
       debug: function (str) {
+        console.log("debug");
         console.log(str);
       },
     });
