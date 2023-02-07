@@ -71,8 +71,6 @@ function StudyManageCalendar() {
   // 날짜 클릭 시 일정 등록 모달 띄우기
   const handleDateClick = (arg: any) => {
     setDateClickState(true);
-    console.log("모달 창 뛰운 후dateclickstate : ", dateClickState);
-
     const endDate = new Date(arg.end);
     const yesterday = new Date(
       endDate.getFullYear(),
@@ -88,6 +86,11 @@ function StudyManageCalendar() {
     setSelectStart(arg.startStr);
     setSelectEnd(endStr);
     setRegistModalOpen(true);
+  };
+
+  // 날짜 연속 클릭 방지용
+  const handleDateClickBlock = () => {
+    setDateClickState(false);
   };
 
   // 이벤트 클릭시 적합한 모달창 띄우기
@@ -150,25 +153,20 @@ function StudyManageCalendar() {
 
   return (
     <Wrapper>
-      {dateClickState === false ? (
-        <FullCalendar
-          plugins={[dayGridPlugin, interactionPlugin]}
-          initialView="dayGridMonth"
-          events={schedules}
-          eventClick={handleEventClick}
-          selectable={true}
-          select={handleDateClick}
-          unselect={handleDateClick}
-          droppable={true}
-        />
-      ) : (
-        <FullCalendar
-          plugins={[dayGridPlugin, interactionPlugin]}
-          initialView="dayGridMonth"
-          events={schedules}
-        />
-      )}
-
+      <FullCalendar
+        plugins={[dayGridPlugin, interactionPlugin]}
+        initialView="dayGridMonth"
+        events={schedules}
+        eventClick={handleEventClick}
+        selectable={true}
+        select={
+          dateClickState === false ? handleDateClick : handleDateClickBlock
+        }
+        unselect={
+          dateClickState === false ? handleDateClick : handleDateClickBlock
+        }
+        droppable={true}
+      />
       {MeetingModalOpen && (
         <ModalCalendarMeetingView
           setModalOpen={setMeetingModalOpen}
