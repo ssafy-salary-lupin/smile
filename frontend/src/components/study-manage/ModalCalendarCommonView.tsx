@@ -10,8 +10,8 @@ interface PropsType {
   title: string;
   start: string;
   end: string;
-  // startTime: string;
-  // endTime: string;
+  timeStart: string;
+  timeEnd: string;
   desc: string;
   type: string;
   link: string;
@@ -211,6 +211,10 @@ function ModalBasic(props: PropsType) {
           <ModalContent>
             <Title placeholder="회의 제목" disabled value={props.title} />
             <Text>{props.desc}</Text>
+            <HashtagBox>
+              <Hashtag width="10%" height="100%" />
+              <HashtagTxt>시작 시간 : {props.timeStart}</HashtagTxt>
+            </HashtagBox>
             <HashtagBox>
               <Hashtag width="10%" height="100%" />
               <HashtagTxt>{props.type}</HashtagTxt>
