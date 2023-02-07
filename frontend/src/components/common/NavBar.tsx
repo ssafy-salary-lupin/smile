@@ -147,6 +147,7 @@ function NavBar(props: UrlProps) {
   const navAnimation = useAnimation();
 
   const [tokenState, setTokenState] = useRecoilState(LoginState);
+  console.log(tokenState);
 
   useEffect(() => {
     if (props.curUrl === "/") {
@@ -163,6 +164,7 @@ function NavBar(props: UrlProps) {
   }, [scrollY, navAnimation, props.curUrl]);
 
   const signOut = () => {
+    console.log("로그아웃");
     localStorage.removeItem("kakao-token");
     setTokenState(false);
   };
