@@ -13,9 +13,9 @@ function Router() {
         <Route exact path="/">
           <LandingPages />
         </Route>
-        {/* <Route path="/manage">
+        <Route path="/manage">
           <StudyManagePages />
-        </Route> */}
+        </Route>
         <Route path="/test">
           <TestPages />
         </Route>
