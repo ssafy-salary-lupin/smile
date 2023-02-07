@@ -108,13 +108,14 @@ function StudyManageCalendar() {
   // 일정 등록시 post요청
   const onRegist = (registData: IRegistData) => {
     calendarCreateApi(registData);
-    // 일정 등록 시 바로 달력에 표시되는지 체크
+    refetch();
   };
 
   console.log("캘린더 페이지 랜더링");
   // db에서 전체 일정 데이터 받아오기
-  const { data: commonSchedules } = useQuery<IData>("allSchedules", () =>
-    calendarSelectAllApi(),
+  const { data: commonSchedules, refetch } = useQuery<IData>(
+    "allSchedules",
+    () => calendarSelectAllApi(),
   );
 
   useEffect(() => {
