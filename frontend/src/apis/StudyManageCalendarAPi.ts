@@ -2,7 +2,7 @@ import axios from "axios";
 
 const BASE_URL = `https://i8b205.p.ssafy.io/be-api/studies`;
 
-export async function calendarSelectAllApi(page: number, size: number) {
+export async function calendarSelectAllApi() {
   try {
     console.log("Get 실행");
     const response = await fetch(`${BASE_URL}/1/schedules`, {
