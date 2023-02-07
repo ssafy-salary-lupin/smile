@@ -10,7 +10,7 @@ function KakaoPages() {
   const [token, setToken] = useRecoilState(LoginToken);
   useEffect(() => {
     console.log("param 타입 ", typeof params);
-    history.push("/");
+    // history.push("/");
   }, [params]);
 
   return <div></div>;
