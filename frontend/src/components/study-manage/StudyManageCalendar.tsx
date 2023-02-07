@@ -13,7 +13,6 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { ScheduleRegist, Schedules } from "atoms/StudyManageCalendarAtom";
 import ModalCalendarRegist from "./ModalCalendarRegist";
 import ModalCalendarMeetingView from "./ModalCalendarMeetingView";
-import { common } from "@mui/material/colors";
 
 const Wrapper = styled.div`
   margin: 3.889vw 10.833vw;
@@ -115,7 +114,7 @@ function StudyManageCalendar() {
     calendarSelectAllApi,
   );
 
-  console.log("data : ", commonSchedules);
+  console.log(" commonSchedules : ", commonSchedules);
 
   // 무한 렌더링,, 노션에 정리
   // useEffect 로 db에섯 data 받아올 떄만 실행할 수 있도록 처리함

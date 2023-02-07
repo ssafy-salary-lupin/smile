@@ -1,3 +1,4 @@
+import { boardListSelectAllApi } from "apis/StudyManageBoardApi";
 import PagiNation from "components/common/Pagination";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
@@ -137,53 +138,48 @@ interface Data {
 }
 
 interface ListData {
-  studyId: string; // 스터디 번호
-  boardId: string; // 게시글 번호
-  views: string; // 게시글의 조회 수
+  studyId: number; // 스터디 번호
+  boardId: number; // 게시글 번호
+  views: number; // 게시글의 조회 수
   title: string; // 게시글 제목
   writer: {
     // 게시글 작성자 정보
-    writerId: string; // 작성자 유저 식별자
+    writerId: number; // 작성자 유저 식별자
     nickname: string; // 작성자 닉네임
   };
   boardType: {
     // 게시글 유형 정보
-    typeId: string; // 게시글 유형 식별자
+    typeId: number; // 게시글 유형 식별자
     type: string; // 게시글 유형
   };
   writeAt: string; // 게시글 작성일
 }
 
+//
 function StudyManageBoardList() {
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(10);
   const [totalElements, setTotalElements] = useState(0);
   const [list, setList] = useState<ListData[] | null>(null);
 
-  const getList = async () => {
-    const response = await fetch(
-      `https://i8b205.p.ssafy.io/be-api/studies/1/boards/page=${page}&size=${size}`,
-      {
-        headers: {
-          Accept:
-            "eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzU3MjY0NzQsImV4cCI6MTY3NTczMDA3NH0.YUyGgfX5Vnqg8g-_sT_0k_RqAlOfUMqwConmVXoDXeZn3yq6batsgSa99e51sxgY05-KVIlhMrsqlcgpbi3RhA",
-        },
-      },
-    );
+  const { data: listData } = useQuery<Data>(["listData"], () =>
+    boardListSelectAllApi(page, size),
+  );
 
-    const data = response.json();
-    console.log("data : ", data);
-
-    // 1. 가져온 data 값에서 총 게시글 개수 가져와서 set
-    // setTotalElements(data.result.totalElements);
-
-    // 2. 해당 페이지의 데이터들을 배열에 담아줌 => 아래에서 배열의 각 요소별로 뽑아서 보여주기
-    // setList(data.reesult.content)
-  };
+  console.log("가져온 데이타 : ", listData);
 
   useEffect(() => {
-    getList();
-  }, [page]);
+    // 1. 가져온 data 값에서 총 게시글 개수 가져와서 set
+    if (listData !== undefined) {
+      setTotalElements(listData?.result.totalElements);
+    }
+    // 2. 해당 페이지의 데이터들을 배열에 담아줌 => 아래에서 배열의 각 요소별로 뽑아서 보여주기
+    if (listData !== undefined) {
+      setList(listData?.result.content);
+    }
+    console.log("listData.result.content : ", listData?.result.content);
+    console.log("게시글 : ", list);
+  }, [listData, page]);
 
   // 페이지 변환시 호출할 메소드 => page값 셋팅
   const handlePageChange = (page: any) => {
@@ -209,7 +205,9 @@ function StudyManageBoardList() {
                   </BoardType>
                   <BoardTitle>{el.title}</BoardTitle>
                   <BoardWriter>{el.writer.nickname}</BoardWriter>
-                  <BoardDate>{el.writeAt}</BoardDate>
+                  <BoardDate>
+                    {el.writeAt.split("T")[0] + " " + el.writeAt.split("T")[1]}
+                  </BoardDate>
                 </Row>
               </Tbody>
             </BoardListBox>
