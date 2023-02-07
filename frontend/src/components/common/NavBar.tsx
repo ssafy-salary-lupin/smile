@@ -147,7 +147,8 @@ function NavBar(props: UrlProps) {
   const navAnimation = useAnimation();
 
   const [tokenState, setTokenState] = useRecoilState(LoginState);
-  console.log(tokenState);
+  const kakaoToken = localStorage.getItem("kakao-token");
+  console.log("token상태값 : ", tokenState);
 
   useEffect(() => {
     if (props.curUrl === "/") {
@@ -188,14 +189,16 @@ function NavBar(props: UrlProps) {
           </Item2>
           <Item3 curUrl={props.curUrl}>내 정보</Item3>
 
-          <NabBtn>
-            {/* 이 경로로 보내면 server에서 특정 페이지로 redirect */}
-            <a href="https://i8b205.p.ssafy.io/be-api/oauth2/authorization/kakao">
-              로그인
-            </a>
-          </NabBtn>
-
-          <NabBtn onClick={signOut}>로그아웃</NabBtn>
+          {kakaoToken ? (
+            <NabBtn>
+              {/* 이 경로로 보내면 server에서 특정 페이지로 redirect */}
+              <a href="https://i8b205.p.ssafy.io/be-api/oauth2/authorization/kakao">
+                로그인
+              </a>
+            </NabBtn>
+          ) : (
+            <NabBtn onClick={signOut}>로그아웃</NabBtn>
+          )}
         </Items>
       </LinksContainer>
     </Nav>
