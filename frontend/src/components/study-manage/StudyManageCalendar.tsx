@@ -119,6 +119,8 @@ function StudyManageCalendar() {
 
   // 일정 등록시 post요청
   const onRegist = async (registData: IRegistData) => {
+    console.log("등록할 일정 : ", registData);
+
     await calendarCreateApi(registData);
     refetch();
   };

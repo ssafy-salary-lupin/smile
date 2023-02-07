@@ -351,6 +351,9 @@ function ModalBasic(props: PropsType) {
       return;
     }
 
+    console.log("등록하기 전 startDate : ", startDate);
+    console.log("등록하기 전 endDate :", endDate);
+
     // 일정 등록 메소드 실행
     props.onRegist(registData);
     closeModal();
@@ -370,8 +373,8 @@ function ModalBasic(props: PropsType) {
         <ModalConWrapper>
           <Select name="schedule" onChange={handleType}>
             <Option value="0">-- 유형 --</Option>
-            <Option value="1">서류 지원</Option>
-            <Option value="2">채용 공고</Option>
+            <Option value="1">면접</Option>
+            <Option value="2">채용</Option>
           </Select>
           <Title placeholder="회의 제목" onChange={handleTitle} />
           <Link placeholder="URL" onChange={handleLink} />
