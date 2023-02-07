@@ -50,19 +50,6 @@ public class StudyComment extends BaseEntity {
         this.isDeleted = isDeleted;
     }
 
-
-    @Override
-    public String toString() {
-        return "StudyComment{" +
-                "id=" + id +
-                ", user=" + user +
-                ", studyInformation=" + studyInformation +
-                ", content='" + content + '\'' +
-                ", isDeleted=" + isDeleted +
-                ", studyRelies=" + studyRelies +
-                '}';
-    }
-
     /*스터디 상세조회 댓글 DTO 변환*/
     public StudyCommentDTO createStudyCommentDTO(){
 
