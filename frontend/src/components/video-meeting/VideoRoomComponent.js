@@ -9,8 +9,6 @@ import "./VideoRoomComponent.css";
 import OpenViduLayout from "layout/openvidu-layout";
 import UserModel from "models/user-model";
 import ToolbarComponent from "./toolbar/ToolbarComponent";
-import CustomToolbarComponent from "components/video-meeting/toolbar/CustomToolbarComponent";
-import CustomToolbarComponentV1 from "components/video-meeting/toolbar/CustomToolbarComponentV1";
 import styled from "styled-components";
 
 var localUser = new UserModel();
@@ -644,20 +642,6 @@ class VideoRoomComponent extends Component {
 
     return (
       <div className="container" id="container">
-        {/* <CustomToolbarComponentV1
-          sessionId={mySessionId}
-          user={localUser}
-          showNotification={this.state.messageReceived}
-          camStatusChanged={this.camStatusChanged}
-          micStatusChanged={this.micStatusChanged}
-          screenShare={this.screenShare}
-          stopScreenShare={this.stopScreenShare}
-          toggleFullscreen={this.toggleFullscreen}
-          switchCamera={this.switchCamera}
-          leaveSession={this.leaveSession}
-          toggleChat={this.toggleChat}
-        /> */}
-
         <DialogExtensionComponent
           showDialog={this.state.showExtensionDialog}
           cancelClicked={this.closeDialogExtension}
@@ -703,7 +687,7 @@ class VideoRoomComponent extends Component {
             )}
           {/* </VideoContainer> */}
         </div>
-        <CustomToolbarComponent
+        <ToolbarComponent
           sessionId={mySessionId}
           user={localUser}
           showNotification={this.state.messageReceived}
