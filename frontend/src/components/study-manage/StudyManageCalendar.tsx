@@ -6,12 +6,8 @@ import { useState, useEffect } from "react";
 import ModalCalendarCommonView from "./ModalCalendarCommonView";
 import { useQuery } from "react-query";
 import { useRecoilState, useRecoilValue } from "recoil";
-import {
-  ScheduleRegist,
-  Schedules,
-  Selector,
-} from "atoms/StudyManageCalendarAtom";
-import ModalCalendarRegist from "./ModalCalendarRegist";
+import { Schedules } from "atoms/StudyManageCalendarAtom";
+import ModalCalendarRegist, { IRegistData } from "./ModalCalendarRegist";
 import ModalCalendarMeetingView from "./ModalCalendarMeetingView";
 import {
   calendarCreateApi,
@@ -66,9 +62,6 @@ function StudyManageCalendar() {
 
   // 여러 일정 저장된 atom
   const [schedules, setSchedules] = useRecoilState(Schedules);
-  // 단건 일정 저장된 atom
-  const schedule = useRecoilValue(ScheduleRegist);
-  const scheduleTest = useRecoilValue(Selector);
 
   // 날짜 클릭 시 일정 등록 모달 띄우기
   const handleDateClick = (arg: any) => {
@@ -113,11 +106,11 @@ function StudyManageCalendar() {
   };
 
   // 일정 등록시 post요청
-  const onRegist = () => {
+  const onRegist = (registData: IRegistData) => {
     // post
     console.log("onRegist() 호출");
-    console.log("넘기려는 값 : ", scheduleTest);
-    calendarCreateApi(schedule);
+    console.log("넘기려는 값 : ", registData);
+    calendarCreateApi(registData);
     // 일정 등록 시 바로 달력에 표시되는지 체크
   };
 

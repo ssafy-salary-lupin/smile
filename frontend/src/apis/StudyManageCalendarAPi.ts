@@ -28,7 +28,6 @@ export async function calendarSelectAllApi() {
 // 일정 등록 http://localhost:8080/studies/1/schdules
 export async function calendarCreateApi(data: object) {
   console.log("일정 POST 실행");
-  console.log("토큰 값 : ", token);
   try {
     console.log("post data", data);
     await axios.post(`${BASE_URL}/1/schdules`, data, {

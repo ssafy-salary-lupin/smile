@@ -5,14 +5,22 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/esm/locale"; //한국어 설정
 
-import { ScheduleRegist, Selector } from "atoms/StudyManageCalendarAtom";
-import { useRecoilState, useRecoilValue } from "recoil";
-
 interface PropsType {
   setModalOpen: React.Dispatch<SetStateAction<boolean>>;
   selectStart: string;
   selectEnd: string;
   onRegist: Function;
+}
+
+export interface IRegistData {
+  scheduleTypeId: number;
+  title: string;
+  description: string;
+  startTime: string;
+  endTime: string;
+  url: string;
+  // color : color,
+  // textColor : "#000000"
 }
 
 const ModalContainer = styled.div`
@@ -328,9 +336,6 @@ function ModalBasic(props: PropsType) {
     // textColor : "#000000"
   };
 
-  // 단건 일정 recoil
-  const [schedule, setSchedule] = useRecoilState(ScheduleRegist);
-
   const RegistSchedule = () => {
     // form 빈칸 체크
     if (type === undefined || type < 1) {
@@ -346,11 +351,8 @@ function ModalBasic(props: PropsType) {
       return;
     }
 
-    // Recoil data 갱신
-    setSchedule(registData);
-
     // 일정 등록 메소드 실행
-    props.onRegist();
+    props.onRegist(registData);
     closeModal();
   };
 
