@@ -14,6 +14,12 @@ import cp.smile.user.repository.UserJoinStudyRepository;
 import cp.smile.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +33,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
     private final StudyCommonRepository studyCommentRepository;
     private final LoginProviderRepository loginProviderRepository;
     private final UserJoinStudyRepository userJoinStudyRepository;
@@ -38,11 +45,13 @@ public class UserServiceImpl implements UserService{
 
     public void join(UserJoinDTO userJoinDTO) {
 
-        // TODO: 2023-01-31 비밀번호 암호화해서 DB에 넣기, loginProvider, 프로필이미지 경로 처리
+        // TODO: 2023-01-31 프로필이미지 경로 처리
 
         LoginProvider loginProvider = loginProviderRepository
                 .findByProvider(OAuth2Provider.local)
                 .orElseThrow(RuntimeException::new);
+
+        userJoinDTO.setPassword(passwordEncoder.encode(userJoinDTO.getPassword()));
 
         User user = User.builder()
                 .email(userJoinDTO.getEmail())
@@ -51,7 +60,8 @@ public class UserServiceImpl implements UserService{
                 .imagePath("123")
                 .isDeleted(false)
                 .refreshToken("123")
-                .loginProvider(loginProvider).build();
+                .loginProvider(loginProvider)
+                .build();
 
         userRepository.save(user);
     }
@@ -118,5 +128,11 @@ public class UserServiceImpl implements UserService{
     @Override
     public List<UserJoinStudy> findJoinStudies(int userId) {
         return userJoinStudyRepository.findByUserId(userId);
+    }
+
+    public void login(String email, String password) {
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(email, password);
+
+        Authentication authentication =
     }
 }
