@@ -22,17 +22,24 @@ const Wrapper = styled.div`
   padding: 0 5.556vw;
 `;
 
-interface CommonSchedules {
-  id: string; //일정 식별자
-  startTime: string; //일정 시작 일자
-  endTime: string; //일정 마감일자
-  title: string; //일정 제목
-  description: string;
-  url?: string | null; //일정 url
-  type: {
-    id: string;
-    name: string; //유형이름
-  };
+interface IData {
+  code: number;
+  isSuccess: boolean;
+  message: string;
+  result: [
+    {
+      id: number; //일정 식별자
+      startTime: string; //일정 시작 일자
+      endTime: string; //일정 마감일자
+      title: string; //일정 제목
+      description: string;
+      url?: string | null; //일정 url
+      type: {
+        id: number;
+        name: string; //유형이름
+      };
+    },
+  ];
 }
 
 function StudyManageCalendar() {
@@ -110,9 +117,8 @@ function StudyManageCalendar() {
 
   // db에서 전체 일정 데이터 받아오기
   // missing queryFn 오류
-  const { data: commonSchedules } = useQuery<CommonSchedules[]>(
-    "allSchedules",
-    () => calendarSelectAllApi(),
+  const { data: commonSchedules } = useQuery<IData>("allSchedules", () =>
+    calendarSelectAllApi(),
   );
 
   console.log(" commonSchedules data: ", commonSchedules);
@@ -128,8 +134,10 @@ function StudyManageCalendar() {
   // 즉, commonSchedules 변화가 있을 때만 아래 실행
   useEffect(() => {
     setSchedules([]);
-    commonSchedules?.forEach((el: CommonSchedules) => {
-      console.log("forEach 작동");
+
+    const datas = commonSchedules?.result;
+
+    datas?.forEach((el) => {
       const temp = {
         title: el.title,
         start: el.startTime.split(" ")[0],
@@ -140,6 +148,8 @@ function StudyManageCalendar() {
         type: el.type.name,
         link: el.url,
       };
+
+      console.log("temp : ", temp);
       setSchedules((oldSchedules) => [...oldSchedules, temp]);
     });
   }, [commonSchedules]);
