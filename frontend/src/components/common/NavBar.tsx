@@ -150,6 +150,8 @@ function NavBar(props: UrlProps) {
   const kakaoToken = localStorage.getItem("kakao-token");
 
   useEffect(() => {
+    console.log("props.curUrl : ", props.curUrl);
+
     if (props.curUrl === "/") {
       scrollY.onChange(() => {
         if (scrollY.get() > 80) {
