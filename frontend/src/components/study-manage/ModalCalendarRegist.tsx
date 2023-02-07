@@ -315,7 +315,7 @@ function ModalBasic(props: PropsType) {
         new Date(
           endDate.getFullYear(),
           endDate.getMonth(),
-          endDate.getDate() + 1,
+          endDate.getDate(),
         ).getHours()
       )
         .slice(-2)
@@ -326,7 +326,7 @@ function ModalBasic(props: PropsType) {
         new Date(
           endDate.getFullYear(),
           endDate.getMonth(),
-          endDate.getDate() + 1,
+          endDate.getDate(),
         ).getMinutes()
       )
         .slice(-2)
