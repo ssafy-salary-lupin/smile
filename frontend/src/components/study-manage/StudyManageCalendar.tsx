@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import ModalCalendarCommonView from "./ModalCalendarCommonView";
 import { useQuery } from "react-query";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { Schedules } from "atoms/StudyManageCalendarAtom";
+import { dateState, Schedules } from "atoms/StudyManageCalendarAtom";
 import ModalCalendarRegist, { IRegistData } from "./ModalCalendarRegist";
 import ModalCalendarMeetingView from "./ModalCalendarMeetingView";
 import {
@@ -65,6 +65,9 @@ function StudyManageCalendar() {
   // 여러 일정 저장된 atom
   const [schedules, setSchedules] = useRecoilState(Schedules);
 
+  // 이벤트 클릭 상태값
+  const [dateClickState, setDateClickState] = useRecoilState(dateState);
+
   // 날짜 클릭 시 일정 등록 모달 띄우기
   const handleDateClick = (arg: any) => {
     const endDate = new Date(arg.end);
@@ -84,8 +87,12 @@ function StudyManageCalendar() {
     setRegistModalOpen(true);
   };
 
+  // 날짜 연속 클릭 방지용
+  const handleDateClickBlock = () => {};
+
   // 이벤트 클릭시 적합한 모달창 띄우기
   const handleEventClick = (arg: any) => {
+    setDateClickState(true);
     if (arg.event._def.extendedProps.host) {
       // 회의 관련 모달창 띄울 때 => 참여 버튼 있는 모달창
       setMeetingModalOpen(true);
@@ -96,7 +103,6 @@ function StudyManageCalendar() {
       setHost(arg.event._def.extendedProps.host);
     } else if (arg.event._def.extendedProps.desc) {
       // 그냥 일반 일정 관련 모달창 띄울 때 => 단순 조회용 모달창
-      console.log("일정모달띄울때 : ", arg.event._def);
       setCommonModalOpen(true);
       setTitle(arg.event._def.title);
       setDesc(arg.event._def.extendedProps.desc);
@@ -119,8 +125,6 @@ function StudyManageCalendar() {
 
   // 일정 등록시 post요청
   const onRegist = async (registData: IRegistData) => {
-    console.log("등록할 일정 : ", registData);
-
     await calendarCreateApi(registData);
     refetch();
   };
@@ -130,8 +134,6 @@ function StudyManageCalendar() {
     const datas = commonSchedules?.result;
 
     datas?.forEach((el) => {
-      console.log("el : ", el);
-
       const temp = {
         title: el.title,
         start: el.startTime.split("T")[0],
@@ -155,8 +157,12 @@ function StudyManageCalendar() {
         events={schedules}
         eventClick={handleEventClick}
         selectable={true}
-        select={handleDateClick}
-        unselect={handleDateClick}
+        select={
+          dateClickState === false ? handleDateClick : handleDateClickBlock
+        }
+        unselect={
+          dateClickState === false ? handleDateClick : handleDateClickBlock
+        }
         droppable={true}
       />
       {MeetingModalOpen && (
