@@ -6,7 +6,11 @@ import { useState, useEffect } from "react";
 import ModalCalendarCommonView from "./ModalCalendarCommonView";
 import { useQuery } from "react-query";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { ScheduleRegist, Schedules } from "atoms/StudyManageCalendarAtom";
+import {
+  ScheduleRegist,
+  Schedules,
+  Selector,
+} from "atoms/StudyManageCalendarAtom";
 import ModalCalendarRegist from "./ModalCalendarRegist";
 import ModalCalendarMeetingView from "./ModalCalendarMeetingView";
 import { calendarSelectAllApi } from "apis/StudyManageCalendarAPi";
@@ -111,29 +115,34 @@ function StudyManageCalendar() {
     () => calendarSelectAllApi(),
   );
 
-  console.log(" commonSchedules : ", commonSchedules);
+  console.log(" commonSchedules data: ", commonSchedules);
+
+  const schdls = useRecoilValue(Selector);
+
+  console.log("현재 스케쥴 목록 : ", schdls);
+
+  console.log("렌더링");
 
   // 무한 렌더링,, 노션에 정리
   // useEffect 로 db에섯 data 받아올 떄만 실행할 수 있도록 처리함
   // 즉, commonSchedules 변화가 있을 때만 아래 실행
-  // useEffect(() => {
-  //   setSchedules([]);
-  //   commonSchedules?.forEach((el: CommonSchedules) => {
-  //     console.log("실행????");
-  //     // console.log(el.startTime.split(" ")[0]);
-  //     const temp = {
-  //       title: el.title,
-  //       start: el.startTime.split(" ")[0],
-  //       end: el.endTime.split(" ")[0],
-  //       // 시작 시간 startTime.split(" ")[1]
-  //       // 마감 시간 endTime.split(" ")[1]
-  //       desc: el.description,
-  //       type: el.type.name,
-  //       link: el.url,
-  //     };
-  //     setSchedules((oldSchedules) => [...oldSchedules, temp]);
-  //   });
-  // }, [commonSchedules]);
+  useEffect(() => {
+    setSchedules([]);
+    commonSchedules?.forEach((el: CommonSchedules) => {
+      console.log("forEach 작동");
+      const temp = {
+        title: el.title,
+        start: el.startTime.split(" ")[0],
+        end: el.endTime.split(" ")[0],
+        // 시작 시간 startTime.split(" ")[1]
+        // 마감 시간 endTime.split(" ")[1]
+        desc: el.description,
+        type: el.type.name,
+        link: el.url,
+      };
+      setSchedules((oldSchedules) => [...oldSchedules, temp]);
+    });
+  }, [commonSchedules]);
 
   return (
     <Wrapper>
