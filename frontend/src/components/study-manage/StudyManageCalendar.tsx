@@ -111,7 +111,7 @@ function StudyManageCalendar() {
     () => calendarSelectAllApi(),
   );
 
-  console.log(" commonSchedules : ", commonSchedules);
+  console.log(" commonSchedules data: ", commonSchedules);
 
   // 무한 렌더링,, 노션에 정리
   // useEffect 로 db에섯 data 받아올 떄만 실행할 수 있도록 처리함
