@@ -47,9 +47,9 @@ function StudyManagePages() {
       </SubMenu>
       {/* <StudyManageMain /> */}
       {/* <StudyManageCalendar /> */}
-      <StudyManageBoardList />
+      {/* <StudyManageBoardList /> */}
       {/* <StudyManageBoardDetail /> */}
-      {/* <StudyManageBoardWrite /> */}
+      <StudyManageBoardWrite />
       {/* <SubWrapper2> 
         <Chat onClick={showChatModal}>
           <ChatIcon src={chatImg} />
