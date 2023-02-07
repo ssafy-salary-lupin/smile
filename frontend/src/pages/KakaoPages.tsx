@@ -9,10 +9,9 @@ function KakaoPages() {
 
   const [token, setToken] = useRecoilState(LoginToken);
   useEffect(() => {
-    setToken("djdjgdfkjl");
     console.log("param 타입 ", typeof params);
     history.push("/");
-  }, []);
+  }, [params]);
 
   return <div></div>;
 }
