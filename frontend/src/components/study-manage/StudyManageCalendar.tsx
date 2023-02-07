@@ -4,15 +4,12 @@ import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
 import { useState, useEffect } from "react";
 import ModalCalendarCommonView from "./ModalCalendarCommonView";
-import {
-  calendarCreateApi,
-  calendarSelectAllApi,
-} from "apis/StudyManageCalendarAPi";
 import { useQuery } from "react-query";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { ScheduleRegist, Schedules } from "atoms/StudyManageCalendarAtom";
 import ModalCalendarRegist from "./ModalCalendarRegist";
 import ModalCalendarMeetingView from "./ModalCalendarMeetingView";
+import { calendarSelectAllApi } from "apis/StudyManageCalendarAPi";
 
 const Wrapper = styled.div`
   margin: 3.889vw 10.833vw;
@@ -111,7 +108,7 @@ function StudyManageCalendar() {
   // missing queryFn 오류
   const { data: commonSchedules } = useQuery<CommonSchedules[]>(
     "allSchedules",
-    calendarSelectAllApi,
+    () => calendarSelectAllApi(),
   );
 
   console.log(" commonSchedules : ", commonSchedules);
