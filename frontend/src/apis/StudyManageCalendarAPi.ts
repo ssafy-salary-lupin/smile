@@ -1,4 +1,5 @@
 import axios from "axios";
+import { IRegistData } from "components/study-manage/ModalCalendarRegist";
 
 const BASE_URL = `https://i8b205.p.ssafy.io/be-api/studies`;
 
@@ -26,13 +27,14 @@ export async function calendarSelectAllApi() {
 }
 
 // 일정 등록 http://localhost:8080/studies/1/schdules
-export async function calendarCreateApi(data: object) {
+export async function calendarCreateApi(data: IRegistData) {
   console.log("일정 POST 실행");
   try {
     console.log("post data", data);
-    await axios.post(`${BASE_URL}/1/schdules`, data, {
+    await axios.post(`${BASE_URL}/1/schdules`, JSON.stringify(data), {
       headers: {
         Authorization: `Bearer ${token}`,
+        "Content-Type": `application/json`,
       },
     });
   } catch (error: any) {
