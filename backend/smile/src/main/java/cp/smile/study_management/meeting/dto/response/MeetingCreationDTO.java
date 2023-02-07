@@ -10,4 +10,9 @@ public class MeetingCreationDTO {
 
     MeetingDTO meeting;
     AttendTokenDTO attend;
+
+    public MeetingCreationDTO(MeetingDTO meeting, AttendTokenDTO attend) {
+        this.meeting = meeting;
+        this.attend = attend;
+    }
 }

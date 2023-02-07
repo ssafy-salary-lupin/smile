@@ -8,6 +8,11 @@ import lombok.Setter;
 @NoArgsConstructor
 public class AttendTokenDTO {
 
-    private int sessionId;
+    private String sessionId;
     private String attendToken;
+
+    public AttendTokenDTO(String sessionId, String attendToken) {
+        this.sessionId = sessionId;
+        this.attendToken = attendToken;
+    }
 }

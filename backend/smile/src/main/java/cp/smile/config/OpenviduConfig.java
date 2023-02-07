@@ -11,8 +11,8 @@ public class OpenviduConfig {
     private final String OPENVIDU_URL;
     private final String OPENVIDU_SECRET;
 
-    public OpenviduConfig(@Value("${openvidu.url}") String url,
-                          @Value("${openvidu.secret}") String secret) {
+    public OpenviduConfig(@Value("${openvidu.https.url}") String url,
+                          @Value("${openvidu.https.secret}") String secret) {
         this.OPENVIDU_URL = url;
         this.OPENVIDU_SECRET = secret;
     }

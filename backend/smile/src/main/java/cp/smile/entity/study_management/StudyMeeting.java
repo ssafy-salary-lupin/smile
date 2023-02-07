@@ -9,11 +9,12 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name = "study_meeting")
+@Table(name = "study_meetings")
 public class StudyMeeting extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +24,9 @@ public class StudyMeeting extends BaseEntity {
     private String name;
     @Column(name = "sm_is_end")
     private int isEnd;
+
+    @Column(name = "sm_start_time")
+    private LocalDateTime startTime = LocalDateTime.now();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "si_id")
