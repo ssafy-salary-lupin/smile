@@ -1,5 +1,6 @@
 // import { Link } from "react-router-dom";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import "../../assets/css/index.css";
 
@@ -28,10 +29,11 @@ const ItemText = styled.ul`
   font-size: 1.12vw;
   display: flex;
   align-items: center;
+  text-decoration: none;
 
   &:hover,
-  active,
-  focus {
+  &:active,
+  &:focus {
     cursor: pointer;
     font-weight: bold;
     color: black;
@@ -53,11 +55,17 @@ function StudyNavBar() {
     <StudyNav>
       <BlankSpace />
       <Items>
-        <ItemText>홈</ItemText>
+        <ItemText>
+          <Link to="/manage">홈</Link>
+        </ItemText>
         <Itemline>|</Itemline>
-        <ItemText>게시판</ItemText>
+        <ItemText>
+          <Link to="/manage/board">게시판</Link>
+        </ItemText>
         <Itemline>|</Itemline>
-        <ItemText>일정관리</ItemText>
+        <ItemText>
+          <Link to="/manage/calendar">일정관리</Link>
+        </ItemText>
         <Itemline>|</Itemline>
         <ItemText>화상 회의</ItemText>
         <Itemline>|</Itemline>

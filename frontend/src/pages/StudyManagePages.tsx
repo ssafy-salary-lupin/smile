@@ -8,54 +8,35 @@ import StudyManageMain from "../components/study-manage/StudyManageMain";
 import chatImg from "../assets/img/chat_icon.png";
 import StudyManageBoardDetail from "components/study-manage/StudyManageBoardDetail";
 import StudyManageBoardWrite from "components/study-manage/StudyManageBoardWrite";
+import { Route, Switch } from "react-router-dom";
 
 // submenu 들어갈 자리
 const SubMenu = styled.div`
   height: 11.667vw;
 `;
 
-const SubWrapper2 = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  padding: 0 2.222vw;
-`;
-
-const Chat = styled.div`
-  width: 3.472vw;
-  height: 3.472vw;
-`;
-
-const ChatIcon = styled.img`
-  width: 100%;
-  &:hover,
-  active,
-  focus {
-    cursor: pointer;
-  }
-`;
-
 function StudyManagePages() {
-  const [chatModalOpen, setChatModalOpen] = useState<boolean>(false);
-  const showChatModal = () => {
-    setChatModalOpen(!chatModalOpen);
-  };
-
   return (
     <>
       <SubMenu>
         <StudyNavBar />
       </SubMenu>
-      {/* <StudyManageMain /> */}
-      <StudyManageCalendar />
-      {/* <StudyManageBoardList /> */}
+      <Switch>
+        <Route exact path="/manage">
+          <StudyManageMain />
+        </Route>
+        <Route path="/manage/board">
+          <StudyManageBoardList />
+        </Route>
+        <Route path="/manage/calendar">
+          <StudyManageCalendar />
+        </Route>
+        {/* 화상회의 */}
+        {/* 스터디원 관리 */}
+      </Switch>
+
       {/* <StudyManageBoardDetail /> */}
       {/* <StudyManageBoardWrite /> */}
-      {/* <SubWrapper2> 
-        <Chat onClick={showChatModal}>
-          <ChatIcon src={chatImg} />
-        </Chat>
-      </SubWrapper2>
-      {chatModalOpen && <ChatModal setModalOpen={setChatModalOpen} />} */}
     </>
   );
 }
