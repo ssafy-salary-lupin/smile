@@ -217,6 +217,10 @@ function ModalBasic(props: PropsType) {
             </HashtagBox>
             <HashtagBox>
               <Hashtag width="10%" height="100%" />
+              <HashtagTxt>마감 시간 : {props.timeEnd}</HashtagTxt>
+            </HashtagBox>
+            <HashtagBox>
+              <Hashtag width="10%" height="100%" />
               <HashtagTxt>{props.type}</HashtagTxt>
             </HashtagBox>
             {props.link && (
