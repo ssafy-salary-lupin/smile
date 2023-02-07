@@ -70,6 +70,9 @@ function StudyManageCalendar() {
 
   // 날짜 클릭 시 일정 등록 모달 띄우기
   const handleDateClick = (arg: any) => {
+    setDateClickState(true);
+    console.log("모달 창 뛰운 후dateclickstate : ", dateClickState);
+
     const endDate = new Date(arg.end);
     const yesterday = new Date(
       endDate.getFullYear(),
@@ -89,8 +92,6 @@ function StudyManageCalendar() {
 
   // 이벤트 클릭시 적합한 모달창 띄우기
   const handleEventClick = (arg: any) => {
-    setDateClickState(true);
-    console.log("모달 창 뛰운 후dateclickstate : ", dateClickState);
     if (arg.event._def.extendedProps.host) {
       // 회의 관련 모달창 띄울 때 => 참여 버튼 있는 모달창
       setMeetingModalOpen(true);
