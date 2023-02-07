@@ -147,6 +147,8 @@ function NavBar(props: UrlProps) {
   const { scrollY } = useScroll();
   const navAnimation = useAnimation();
 
+  const [token, setToken] = useRecoilState(LoginToken);
+
   useEffect(() => {
     if (props.curUrl === "/") {
       scrollY.onChange(() => {
@@ -179,17 +181,16 @@ function NavBar(props: UrlProps) {
             </Link>
           </Item2>
           <Item3 curUrl={props.curUrl}>내 정보</Item3>
-          {/* <Item>
+          {token !== "" ? (
+            <NabBtn>
+              {/* 이 경로로 보내면 server에서 특정 페이지로 redirect */}
+              <a href="https://i8b205.p.ssafy.io/be-api/oauth2/authorization/kakao">
+                로그인
+              </a>
+            </NabBtn>
+          ) : (
             <NabBtn>로그아웃</NabBtn>
-          </Item> 
-          
-          */}
-          <NabBtn>
-            {/* 이 경로로 보내면 server에서 특정 페이지로 redirect */}
-            <a href="https://i8b205.p.ssafy.io/be-api/oauth2/authorization/kakao">
-              로그인
-            </a>
-          </NabBtn>
+          )}
         </Items>
       </LinksContainer>
     </Nav>
