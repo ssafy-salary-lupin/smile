@@ -8,7 +8,11 @@ function KakaoPages() {
   const history = useHistory();
 
   console.log("pramas 타입", typeof params);
+  console.log("params : ", params);
 
+  useEffect(() => {
+    console.log("useEffect 실행");
+  });
   // const [token, setToken] = useRecoilState(LoginToken);
   // useEffect(() => {
   //   console.log("param 타입 ", typeof params);
