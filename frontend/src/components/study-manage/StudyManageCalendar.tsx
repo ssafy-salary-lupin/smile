@@ -121,17 +121,6 @@ function StudyManageCalendar() {
     calendarSelectAllApi(),
   );
 
-  console.log(" commonSchedules data: ", commonSchedules);
-
-  const schdls = useRecoilValue(Selector);
-
-  console.log("현재 스케쥴 목록 : ", schdls);
-
-  console.log("렌더링");
-
-  // 무한 렌더링,, 노션에 정리
-  // useEffect 로 db에섯 data 받아올 떄만 실행할 수 있도록 처리함
-  // 즉, commonSchedules 변화가 있을 때만 아래 실행
   useEffect(() => {
     setSchedules([]);
 
