@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const BASE_URL = `https://i8b205.p.ssafy.io/be-api/studies`;
-//
+
 export async function boardListSelectAllApi(page: number, size: number) {
   try {
     console.log("Get 실행");
