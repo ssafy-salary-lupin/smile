@@ -128,6 +128,8 @@ function StudyManageCalendar() {
     const datas = commonSchedules?.result;
 
     datas?.forEach((el) => {
+      console.log("el : ", el);
+
       const temp = {
         title: el.title,
         start: el.startTime.split("T")[0],
