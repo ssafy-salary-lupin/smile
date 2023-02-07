@@ -221,19 +221,16 @@ const CancelBtn = styled(YellowBtn)`
 function ModalCalendarRegist(props: PropsType) {
   // 이벤트 클릭 상태값
   const [dateClickState, setDateClickState] = useRecoilState(dateState);
-  console.log("dateclickstate : ", dateClickState);
   // 모달 관련 코드 ======================================
   const closeModal = () => {
     props.setModalOpen(false);
     setDateClickState(false);
-    console.log("dateclickstate 모달창 닫히구 : ", dateClickState);
   };
   const modalRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const handler = (event: any) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
         props.setModalOpen(false);
-        setDateClickState(false);
       }
     };
 
