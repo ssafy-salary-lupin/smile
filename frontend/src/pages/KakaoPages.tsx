@@ -1,17 +1,25 @@
-import { LoginToken } from "atoms/LoginAtom";
+import { LoginToken, Selector } from "atoms/LoginAtom";
 import { useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
+
+interface ILoginToken {
+  accessToken: string;
+}
 
 function KakaoPages() {
-  const params = useParams();
+  const params = useParams<ILoginToken>();
   const history = useHistory();
 
   console.log("params : ", params);
 
   const [token, setToken] = useRecoilState(LoginToken);
+  const data = useRecoilValue(Selector);
+
   useEffect(() => {
-    setToken(params);
+    console.log("before data ", data);
+    setToken(params.accessToken);
+    console.log("after data ", data);
     history.push("/");
   }, [params]);
 
