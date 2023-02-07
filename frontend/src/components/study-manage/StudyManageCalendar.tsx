@@ -53,6 +53,8 @@ function StudyManageCalendar() {
   const [host, setHost] = useState<string>("");
   const [start, setStart] = useState<string>("");
   const [end, setEnd] = useState<string>("");
+  const [timeStart, setTimeStart] = useState<string>("");
+  const [timeEnd, setTimeEnd] = useState<string>("");
   const [time, setTime] = useState<string>("");
   const [desc, setDesc] = useState<string>("");
   const [link, setLink] = useState<string>("");
@@ -94,6 +96,7 @@ function StudyManageCalendar() {
       setHost(arg.event._def.extendedProps.host);
     } else if (arg.event._def.extendedProps.desc) {
       // 그냥 일반 일정 관련 모달창 띄울 때 => 단순 조회용 모달창
+      console.log("일정모달띄울때 : ", arg.event._def);
       setCommonModalOpen(true);
       setTitle(arg.event._def.title);
       setDesc(arg.event._def.extendedProps.desc);
@@ -101,6 +104,8 @@ function StudyManageCalendar() {
       setLink(arg.event._def.extendedProps.link);
       setStart(arg.event._def.start);
       setEnd(arg.event._def.end);
+      setTimeStart(arg.event._def.extendedProps.timeStart);
+      setTimeEnd(arg.event._def.extendedProps.timeEnd);
       setTime(arg.event._def.extendedProps.time);
     }
   };
@@ -120,8 +125,6 @@ function StudyManageCalendar() {
 
   useEffect(() => {
     setSchedules([]);
-
-    console.log("useEffect  실행");
     const datas = commonSchedules?.result;
 
     datas?.forEach((el) => {
@@ -129,8 +132,8 @@ function StudyManageCalendar() {
         title: el.title,
         start: el.startTime.split("T")[0],
         end: el.endTime.split("T")[0],
-        // 시작 시간 startTime.split(" ")[1]
-        // 마감 시간 endTime.split(" ")[1]
+        timeStart: el.startTime.split("T")[1],
+        timeEnd: el.endTime.split("T")[1],
         desc: el.description,
         type: el.type.name,
         link: el.url,
@@ -171,6 +174,8 @@ function StudyManageCalendar() {
           desc={desc}
           type={type}
           link={link}
+          timeStart={timeStart}
+          timeEnd={timeEnd}
         />
       )}
       {RegistModalOpen && (
