@@ -374,7 +374,9 @@ function ModalBasic(props: PropsType) {
           <Select name="schedule" onChange={handleType}>
             <Option value="0">-- 유형 --</Option>
             <Option value="1">면접</Option>
-            <Option value="2">채용</Option>
+            <Option value="2">서류</Option>
+            <Option value="3">스터디</Option>
+            <Option value="4">시험</Option>
           </Select>
           <Title placeholder="회의 제목" onChange={handleTitle} />
           <Link placeholder="URL" onChange={handleLink} />
