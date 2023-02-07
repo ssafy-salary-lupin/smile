@@ -10,55 +10,61 @@ export async function calendarSelectAllApi() {
   try {
     console.log("Get 실행");
     // const result = await axios.get(`${BASE_URL}/1/schdules`); => axios 반환타입 어카냐...
-    // const result = await fetch(`${BASE_URL}/1/schdules`, {
-    //   headers: {
-    //     Authorization:
-    //       "eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzU0MTQzNzQsImV4cCI6MTY3NTQxNzk3NH0.3gzXveiuuckxHWzt_-htd-wyPR5H9X2iD9ouPEUdbUuu8oZwBDcQ4-JRkkLJuDW84edrNn9zRubD51Z__eXZyA",
-    //   },
-    // }).then((response) => response.json());
+    const response = await fetch(`${BASE_URL}/1/schedules`, {
+      headers: {
+        Authorization:
+          "eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzU2OTM5MjYsImV4cCI6MTY3NTY5NzUyNn0.85cHzBJlpeBoBsjYd_4mPP6dfYrabyZWIuXTi-SgAqvFP_lAOOpiqTfu9MxUMKzh3i5wSsFpeNUZouLjTYEbRA",
+        Accept: "application / json",
+      },
+      method: "GET",
+    });
+
+    console.log("response : ", response);
+    const data = await response.json();
+    console.log("data  : ", data);
     // console.log("result : ", result);
     // console.log("result Type : ", typeof result);
 
-    const result2 = [
-      {
-        id: "1", //일정 식별자
-        startTime: "2023-02-20 14:00", //일정 시작 일자
-        endTime: "2023-02-28 15:00", //일정 마감일자
-        title: "현대오토에버 공채", //일정 제목
-        description: "현대오토에버 서류",
-        url: "asdf", //일정 url
-        type: {
-          id: "1",
-          name: "서류지원", //유형이름
-        },
-      },
-      {
-        id: "1", //일정 식별자
-        startTime: "2023-02-01 14:00", //일정 시작 일자
-        endTime: "2023-02-04 15:00", //일정 마감일자
-        title: "현대오토에버 공채", //일정 제목
-        description: "현대오토에버 서류",
-        url: "asdf", //일정 url
-        type: {
-          id: "1",
-          name: "서류지원", //유형이름
-        },
-      },
-      {
-        id: "1", //일정 식별자
-        startTime: "2023-02-07 14:00", //일정 시작 일자
-        endTime: "2023-02-09 15:00", //일정 마감일자
-        title: "현대오토에버 공채", //일정 제목
-        description: "현대오토에버 서류",
-        url: "asdf", //일정 url
-        type: {
-          id: "1",
-          name: "서류지원", //유형이름
-        },
-      },
-    ];
+    // const result2 = [
+    //   {
+    //     id: "1", //일정 식별자
+    //     startTime: "2023-02-20 14:00", //일정 시작 일자
+    //     endTime: "2023-02-28 15:00", //일정 마감일자
+    //     title: "현대오토에버 공채", //일정 제목
+    //     description: "현대오토에버 서류",
+    //     url: "asdf", //일정 url
+    //     type: {
+    //       id: "1",
+    //       name: "서류지원", //유형이름
+    //     },
+    //   },
+    //   {
+    //     id: "1", //일정 식별자
+    //     startTime: "2023-02-01 14:00", //일정 시작 일자
+    //     endTime: "2023-02-04 15:00", //일정 마감일자
+    //     title: "현대오토에버 공채", //일정 제목
+    //     description: "현대오토에버 서류",
+    //     url: "asdf", //일정 url
+    //     type: {
+    //       id: "1",
+    //       name: "서류지원", //유형이름
+    //     },
+    //   },
+    //   {
+    //     id: "1", //일정 식별자
+    //     startTime: "2023-02-07 14:00", //일정 시작 일자
+    //     endTime: "2023-02-09 15:00", //일정 마감일자
+    //     title: "현대오토에버 공채", //일정 제목
+    //     description: "현대오토에버 서류",
+    //     url: "asdf", //일정 url
+    //     type: {
+    //       id: "1",
+    //       name: "서류지원", //유형이름
+    //     },
+    //   },
+    // ];
 
-    return result2;
+    return data;
   } catch (error: any) {
     console.log(error);
   }

@@ -1,4 +1,4 @@
-import { atom } from "recoil";
+import { atom, selector } from "recoil";
 
 // recoil 추가..
 export const Schedules = atom({
@@ -12,4 +12,12 @@ export const ScheduleRegist = atom({
   default: {},
 });
 
-//
+// 값 잘 넘어오는 지 테스트용
+export const Selector = selector({
+  key: "selectorTest",
+  get: ({ get }) => {
+    // options의 매개변수에 있는 {get} function 가져오기
+    const data = get(ScheduleRegist);
+    return data;
+  },
+});

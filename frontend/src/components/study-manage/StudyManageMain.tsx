@@ -302,7 +302,7 @@ function StudyManageMain() {
         </Chat>
       </SubWrapper2>
       {modalOpen && <StudyRuleModal setModalOpen={setModalOpen} />}
-      {chatModalOpen && <ChatModal setModalOpen={setModalOpen} />}
+      {chatModalOpen && <ChatModal setModalOpen={setChatModalOpen} />}
     </Wrapper>
   );
 }
