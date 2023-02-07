@@ -31,12 +31,14 @@ function StudyManagePages() {
         <Route path="/manage/calendar">
           <StudyManageCalendar />
         </Route>
+        <Route path="/manage/boardWrite">
+          <StudyManageBoardWrite />
+        </Route>
         {/* 화상회의 */}
         {/* 스터디원 관리 */}
       </Switch>
 
       {/* <StudyManageBoardDetail /> */}
-      {/* <StudyManageBoardWrite /> */}
     </>
   );
 }
