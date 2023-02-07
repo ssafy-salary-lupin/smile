@@ -6,7 +6,8 @@ import styled from "styled-components";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import React, { useState, useEffect, useRef } from "react";
-import ButtonBasic from "../components/common/ButtonBasic";
+// import ButtonBasic from "../components/common/ButtonBasic";
+import { Link } from "react-router-dom";
 
 import * as Icons from "../components/common/Icons";
 
@@ -85,6 +86,20 @@ const Calendar = styled(DatePicker)`
   font-size: 1.389vw;
   margin-bottom: 3.333vw;
   width: 13.889vw;
+`;
+
+const Btn = styled.button.attrs({})`
+  /* margin: 0 32px; */
+  border-radius: 0.347vw;
+  border: none;
+  background-color: ${(props) => props.color};
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 0.556vw 1.111vw;
+  margin: 1.111vw 1.667vw 0vw 0vw;
+  width: 16.667vw;
+  height: 3.473vw;
+  font-size: 1.111vw;
 `;
 
 // 이름과 선택창 합친
@@ -315,17 +330,20 @@ function StudyCreatePages() {
             <Introudce />
           </SelectSmallTotal>
           <BtnBox>
-            {/* <ButtonBasic
-              bgColor="yellow"
-              // Color="Yellow"
-              text="스터디 생성"
-              setModalBasicClose={true}
-            />
-            <ButtonBasic
-              bgColor="blue"
-              text="취소"
-              setModalBasicClose={false}
-            /> */}
+            {/* <Link
+              to={{
+                pathname: `/manage`,
+              }}
+            > */}
+            <Btn color="#F5C82E">스터디 생성</Btn>
+            {/* </Link> */}
+            <Link
+              to={{
+                pathname: `/create`,
+              }}
+            >
+              <Btn color="#314E8D">취소</Btn>
+            </Link>
           </BtnBox>
         </SelectBigTotal>
       </TotalBox>
