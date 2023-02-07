@@ -2,6 +2,7 @@ import { boardListSelectAllApi } from "apis/StudyManageBoardApi";
 import PagiNation from "components/common/Pagination";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
@@ -190,7 +191,9 @@ function StudyManageBoardList() {
     <Wrapper>
       <Head>
         <HeadSub1>총 {totalElements}건</HeadSub1>
-        <HeadSub2>글 쓰기</HeadSub2>
+        <HeadSub2>
+          <Link to="/manage/boardWrite">글 쓰기</Link>
+        </HeadSub2>
       </Head>
 
       {list !== null ? (
