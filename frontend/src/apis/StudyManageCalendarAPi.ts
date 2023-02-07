@@ -31,7 +31,7 @@ export async function calendarCreateApi(data: IRegistData) {
   console.log("일정 POST 실행");
   try {
     console.log("post data", data);
-    await axios.post(`${BASE_URL}/1/schdules`, JSON.stringify(data), {
+    await axios.post(`${BASE_URL}/1/schedules`, JSON.stringify(data), {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": `application/json`,
