@@ -8,7 +8,6 @@ import cp.smile.study_management.chat.dto.ChatRoomDTO;
 import cp.smile.study_management.chat.dto.response.ChatMessageInfoDTO;
 import cp.smile.study_management.chat.service.ChatService;
 import cp.smile.study_management.chat.service.ChatServiceImpl;
-import cp.smile.study_management.chat.service.RedisPublisher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -25,39 +24,34 @@ public class ChatController {
 
     private final ChatService chatService;
     private final ResponseService responseService;
-    private final RedisPublisher redisPublisher;
 
-    //
+    private final SimpMessageSendingOperations messagingTemplate; //메시지를 도착지 까지 보내는 역할
+
     //스터디 아이디에 해당하는 모든 메시지 반환.
     @GetMapping("/studies/{studyId}/chats")
     public DataResponse<List<ChatMessageInfoDTO>> findAllMessage(
             @PathVariable int studyId,
             @AuthenticationPrincipal CustomOAuth2User oAuth2User){
 
-        int userId = oAuth2User.getUserId();
+        //TODO : 테스트를 위해서 잠시 주석
+//        int userId = oAuth2User.getUserId();
+
+        int userId = 1;
 
         List<ChatMessageInfoDTO> chatMessageInfoDTOS = chatService.findAllMessage(userId, studyId);
 
         return responseService.getDataResponse(chatMessageInfoDTOS);
     }
 
-    /* /pub/chat/message 로 들어오는 메시지 처리.*/
     @MessageMapping("/chat/message")
     public void message(ChatMessageDTO chatMessageDTO){
 
         if(ChatMessageDTO.MessageType.ENTER.equals(chatMessageDTO.getType())){
-
-            chatService.enterChatRoom(chatMessageDTO.getRoomId());
-
             // TODO : SenderId는 식별자이므로 이름을 조회해와서 던져주는 로직이 필요하다.
             chatMessageDTO.setMessage(chatMessageDTO.getSenderId() + "님이 입장하셨습니다.");
         }
 
-        //레디스로 데이터 발행.
-        redisPublisher.publish(chatService.getTopic(chatMessageDTO.getRoomId()), chatMessageDTO);
-
-//        messagingTemplate.convertAndSend("/sub/chat/room/" + chatMessageDTO.getRoomId(), chatMessageDTO);
-
+        messagingTemplate.convertAndSend("/sub/chat/room/" + chatMessageDTO.getRoomId(), chatMessageDTO);
     }
 
 }

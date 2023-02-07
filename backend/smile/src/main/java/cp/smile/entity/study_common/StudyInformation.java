@@ -4,7 +4,6 @@ import cp.smile.config.BaseEntity;
 import cp.smile.entity.study_management.ChatMessage;
 import cp.smile.entity.study_management.StudyBoard;
 import cp.smile.entity.user.UserJoinStudy;
-import cp.smile.study_management.chat.dto.ChatRoomDTO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -98,11 +97,25 @@ public class StudyInformation extends BaseEntity {
         this.lastVisitedTime = lastVisitedTime;
     }
 
-    //채팅방 정보 객체 생성.
-    public ChatRoomDTO createChatRoomDTO(){
-
-        return ChatRoomDTO.builder()
-                .roomId(this.id)
-                .name(this.name).build();
+    @Override
+    public String toString() {
+        return "StudyInformation{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", time='" + time + '\'' +
+                ", imgPath='" + imgPath + '\'' +
+                ", currentPerson=" + currentPerson +
+                ", maxPerson=" + maxPerson +
+                ", description='" + description + '\'' +
+                ", viewCount=" + viewCount +
+                ", deadline=" + deadline +
+                ", rule='" + rule + '\'' +
+                ", chatroomId='" + chatroomId + '\'' +
+                ", studyType=" + studyType +
+                ", isEnd=" + isEnd +
+                ", lastVisitedTime=" + lastVisitedTime +
+                '}';
     }
 }
