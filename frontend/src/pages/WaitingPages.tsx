@@ -2,6 +2,7 @@ import styled from "styled-components";
 import * as Icons from "../components/common/Icons";
 import React, { useRef, useState, useEffect } from "react";
 import Webcam from "react-webcam";
+import "../components/video-meeting/toolbar/ToolbarComponent.css";
 import * as DuotonIcons from "components/common/DuotonIcons";
 import ExitMeeting from "components/video-meeting/toolbar/ExitMeeting";
 

@@ -5,9 +5,7 @@ import StudyCreatePages from "./pages/StudyCreatePages";
 import TestPages from "./pages/TestPages";
 import VideoRoomComponent from "components/video-meeting/VideoRoomComponent";
 import WaitingPages from "./pages/WaitingPages";
-import StudyDetailPages from "./pages/StudyDetailPages";
 import KakaoPages from "pages/KakaoPages";
-
 function Router() {
   return (
     <BrowserRouter>
@@ -23,9 +21,6 @@ function Router() {
         </Route>
         <Route path="/create">
           <StudyCreatePages />
-        </Route>
-        <Route path="/detail">
-          <StudyDetailPages />
         </Route>
         <Route path="/test2">
           <VideoRoomComponent />
