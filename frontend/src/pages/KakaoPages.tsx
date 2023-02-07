@@ -11,9 +11,9 @@ function KakaoPages() {
   useEffect(() => {
     console.log("param 타입 ", typeof params);
     history.push("/");
-  }, []);
+  }, [params]);
 
-  return null;
+  return <div></div>;
 }
 
 export default KakaoPages;
