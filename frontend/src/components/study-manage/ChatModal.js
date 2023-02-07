@@ -134,7 +134,7 @@ function ModalBasic(props) {
     // 연결할 때
     console.log("connect 실행");
     client.current = new StompJs.Client({
-      brokerURL: " ws://i8b205.p.ssafy.io/ws-stomp",
+      brokerURL: " ws://i8b205.p.ssafy.io/be-api/ws-stomp",
       onConnect: () => {
         console.log("connect success");
         subscribe(); // 연결 성공 시 구독하는 로직 실행

@@ -4,7 +4,7 @@ module.exports = (app) => {
   app.use(
     "/ws",
     createProxyMiddleware({
-      target: "https://i8b205.p.ssafy.io/ws-stomp",
+      target: "https://i8b205.p.ssafy.io/be-api/ws-stomp",
       ws: true,
     }),
   );
