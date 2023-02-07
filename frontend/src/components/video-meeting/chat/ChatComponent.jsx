@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import IconButton from "@mui/material/IconButton";
 import Fab from "@mui/material/Fab";
 import HighlightOff from "@mui/icons-material/HighlightOff";
@@ -12,47 +12,53 @@ export default function ChatComponent(props) {
   const [message, setMessage] = useState("");
   const chatScroll = React.createRef();
 
+  const scrollToBottom = () => {
+    setTimeout(() => {
+      try {
+        chatScroll.current.scrollTop = chatScroll.current.scrollHeight;
+        console.log(chatScroll.cuttent.scrollTop);
+      } catch (err) {}
+    }, 20);
+  };
+
   useEffect(() => {
     props.user.getStreamManager().stream.session.on("signal:chat", (event) => {
       const data = JSON.parse(event.data);
-      let messageListTemp = messageList;
-      messageListTemp.push({
-        connectionId: event.from.connectionId,
-        nickname: data.nickname,
-        message: data.message,
-      });
-      // setMessageList((prev) => [
-      //   ...prev,
-      //   {
-      //     connectionId: event.from.connectionId,
-      //     nickname: data.nickname,
-      //     message: data.message,
-      //   },
-      // ]);
+      // let messageListTemp = messageList;
+      // messageListTemp.push({
+      //   connectionId: event.from.connectionId,
+      //   nickname: data.nickname,
+      //   message: data.message,
+      // });
+
       const document = window.document;
-      setTimeout(() => {
-        const userImg = document.getElementById(
-          "userImg-" + (messageList.length - 1),
-        );
-        const video = document.getElementById("video-" + data.streamId);
-        const avatar = userImg.getContext("2d");
-        avatar.drawImage(video, 200, 120, 285, 285, 0, 0, 60, 60);
-        props.messageReceived();
-      }, 50);
+      const userImg = undefined;
+      // setTimeout(() => {
+      //   const userImg = document.getElementById(
+      //     "userImg-" + (messageList.length - 1),
+      //   );
+      //   const video = document.getElementById("video-" + data.streamId);
+      //   console.log(userImg.getContest("2d"));
+      //   const avatar = userImg.getContext("2d");
+      //   avatar.drawImage(video, 200, 120, 285, 285, 0, 0, 60, 60);
+      //   props.messageReceived();
+      // }, 50);
       // setState({ messageList: messageList });
-      setMessageList(messageListTemp);
+      // setMessageList(messageListTemp);
+      setMessageList((prev) => [
+        ...prev,
+        {
+          connectionId: event.from.connectionId,
+          nickname: data.nickname,
+          message: data.message,
+        },
+      ]);
       scrollToBottom();
     });
   }, []);
 
   const handleChange = (event) => {
     setMessage(event.target.value);
-  };
-
-  const handlePressKey = (event) => {
-    if (event.key === "Enter") {
-      sendMessage();
-    }
   };
 
   const sendMessage = () => {
@@ -74,12 +80,10 @@ export default function ChatComponent(props) {
     setMessage("");
   };
 
-  const scrollToBottom = () => {
-    setTimeout(() => {
-      try {
-        chatScroll.current.scrollTop = chatScroll.current.scrollHeight;
-      } catch (err) {}
-    }, 20);
+  const handlePressKey = (event) => {
+    if (event.key === "Enter") {
+      sendMessage();
+    }
   };
 
   const close = () => {
