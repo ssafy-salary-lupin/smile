@@ -210,20 +210,22 @@ interface Data {
     ];
     fileCount: number; // 업로드된 파일 수
     files: [
-      fileId: number, // 파일 식별자
-      fileName: string, // 파일 이름
-      soruceUrl: string, // 파일 주소
+      {
+        fileId: number; // 파일 식별자
+        fileName: string; // 파일 이름
+        soruceUrl: string; // 파일 주소
+      },
     ];
   };
 }
 
 function StudyManageBoardDetail() {
-  const param = useParams();
+  const param = useParams<string>();
 
   console.log(typeof param);
 
   const { data: detailData } = useQuery<Data>("detailData", () =>
-    boardSelectApi(param + ""),
+    boardSelectApi(param),
   );
 
   console.log("받아온 data : ", detailData);
@@ -260,15 +262,15 @@ function StudyManageBoardDetail() {
         <FileSub2>
           {detailData?.result.files ? (
             <ul>
-              {/* {detailData?.result.files.map((el) => {
+              {detailData?.result.files.map((el) => {
                 return (
                   <>
                     <li>
-                      <a href="">{el.fileName}</a>
+                      <a href={`${el.soruceUrl}`}>{el.fileName}</a>
                     </li>
                   </>
                 );
-              })} */}
+              })}
             </ul>
           ) : null}
         </FileSub2>
