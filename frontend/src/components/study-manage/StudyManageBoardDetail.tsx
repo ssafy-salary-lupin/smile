@@ -3,7 +3,9 @@ import styled from "styled-components";
 import { ReactComponent as Time } from "../../assets/icon/Time.svg";
 import { ReactComponent as Eye } from "../../assets/icon/Eye.svg";
 import { ReactComponent as Comment } from "../../assets/icon/Comment.svg";
-import ReactMarkdown from "react-markdown";
+import { useParams } from "react-router-dom";
+import { useQuery } from "react-query";
+import { boardSelectApi } from "apis/StudyManageBoardApi";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
@@ -169,42 +171,109 @@ const WriteBtn = styled.button`
 
 const CommentList = styled.div``;
 
+interface Data {
+  isSuccess: boolean;
+  code: number;
+  message: string;
+  result: {
+    studyId: number; // 스터디 식별자
+    boardId: number; // 게시글 식별자
+    boardType: {
+      // 게시글 타입 정보
+      typeId: number; // 게시글 유형 식별자
+      type: string; // 게시글 유형 정보
+    };
+    title: string; // 제목
+    content: string; // 본문
+    writer: {
+      // 작성자 정보
+      writerId: number; // 작성자 유저 식별자
+      nickname: string; // 작성자 닉네임
+      profileImageUrl: string; // 작성자 프로필 이미지
+    };
+    writeAt: string; // 게시글 작성일
+    views: number; // 게시글 조회수
+    commentCount: number; // 댓글 수
+    comments: [
+      // 댓글 정보
+      {
+        commentId: number; // 댓글 식별자
+        content: string; // 댓글 내용
+        writer: {
+          // 댓글 작성자 정보
+          writerId: number; // 댓글 작성자 유저 식별자
+          nickname: string; // 댓글 작성자 닉네임
+          profileImageUrl: string; // 댓글 작성자 프로필 이미지
+        };
+        writeAt: string; // 댓글 작성일
+      },
+    ];
+    fileCount: number; // 업로드된 파일 수
+    files: [
+      {
+        fileId: number; // 파일 식별자
+        fileName: string; // 파일 이름
+        soruceUrl: string; // 파일 주소
+      },
+    ];
+  };
+}
+
 function StudyManageBoardDetail() {
-  const post =
-    "# 안녕\n\n## 안녕\n\n### 안녕\n\n안녕\n\n**안녕**\n\n***안녕***\n\n****안녕****\n\n> ****안녕****\n\n1.  안녕\n\n*   안녕\n\n안녕\n";
+  const param = useParams<string>();
+
+  console.log(param.charAt(0));
+
+  const { data: detailData } = useQuery<Data>("detailData", () =>
+    boardSelectApi(param),
+  );
+
+  console.log("받아온 data : ", detailData);
 
   return (
     <Wrapper>
       <ArticleHeader>
-        <ArticleType>공지</ArticleType>
-        <Title>제목입니다.</Title>
+        <ArticleType></ArticleType>
+        <Title>{detailData?.result.title}</Title>
       </ArticleHeader>
       <ArticleInfo>
         <Writer>
           <ProfileImg width="2.222vw" />
-          <Name>김싸피</Name>
+          <Name>{detailData?.result.writer.nickname}</Name>
         </Writer>
         <SubInfo>
           <Date>
             <Time fill="#898989" width="1.389vw" />
-            <Span>2023-12-23 13:49</Span>
+            <Span>{detailData?.result.writeAt}</Span>
           </Date>
           <Look>
             <Eye stroke="#898989" width="1.667vw" />
-            <Span>15</Span>
+            <Span>{detailData?.result.views}</Span>
           </Look>
           <CommentCnt>
             <Comment fill="#898989" width="1.389vw" />
-            <Span>2</Span>
+            <Span>{detailData?.result.commentCount}</Span>
           </CommentCnt>
         </SubInfo>
       </ArticleInfo>
-      <ArticleContent>
-        <ReactMarkdown>{post}</ReactMarkdown>
-      </ArticleContent>
+      <ArticleContent>{detailData?.result.content}</ArticleContent>
       <FileBox>
         <FileSub1>첨부 파일</FileSub1>
-        <FileSub2>첨부파일 명</FileSub2>
+        <FileSub2>
+          {detailData?.result.files ? (
+            <ul>
+              {detailData?.result.files.map((el) => {
+                return (
+                  <>
+                    <li>
+                      <a href={`${el.soruceUrl}`}>{el.fileName}</a>
+                    </li>
+                  </>
+                );
+              })}
+            </ul>
+          ) : null}
+        </FileSub2>
       </FileBox>
       <ArticleBtn>
         <UpdateBtn>수정</UpdateBtn>

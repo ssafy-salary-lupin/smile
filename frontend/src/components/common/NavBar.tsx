@@ -152,7 +152,7 @@ function NavBar(props: UrlProps) {
   useEffect(() => {
     console.log("props.curUrl : ", props.curUrl);
 
-    if (props.curUrl === "/") {
+    if (props.curUrl === "/" || props.curUrl.includes("/myStudy")) {
       scrollY.onChange(() => {
         if (scrollY.get() > 80) {
           navAnimation.start("scroll");

@@ -7,7 +7,6 @@ const token = localStorage.getItem("kakao-token");
 
 export async function calendarSelectAllApi() {
   try {
-    console.log("token값 : ", token);
     const response = await fetch(`${BASE_URL}/1/schedules`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -25,7 +24,6 @@ export async function calendarSelectAllApi() {
 
 // 일정 등록 http://localhost:8080/studies/1/schdules
 export async function calendarCreateApi(data: IRegistData) {
-  console.log("일정 POST 실행");
   try {
     await axios.post(`${BASE_URL}/1/schedules`, JSON.stringify(data), {
       headers: {

@@ -51,8 +51,6 @@ const Itemline = styled.ul`
 `;
 
 function StudyNavBar() {
-  console.log("스터디 네비바 : ", localStorage.getItem("kakao-token"));
-
   return (
     <StudyNav>
       <BlankSpace />

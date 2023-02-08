@@ -118,8 +118,6 @@ function StudyManageCalendar() {
     }
   };
 
-  console.log("캘린더 페이지 랜더링");
-  console.log("캘린더 페이지 : ", localStorage.getItem("kakao-token"));
   // db에서 전체 일정 데이터 받아오기
   const { data: commonSchedules, refetch } = useQuery<IData>(
     "allSchedules",

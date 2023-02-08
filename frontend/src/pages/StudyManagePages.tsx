@@ -16,11 +16,6 @@ const SubMenu = styled.div`
 `;
 
 function StudyManagePages() {
-  console.log(
-    "스터디 관리 메인 페이지 : ",
-    localStorage.getItem("kakao-token"),
-  );
-
   return (
     <>
       <SubMenu>
@@ -39,11 +34,12 @@ function StudyManagePages() {
         <Route path="/manage/boardWrite">
           <StudyManageBoardWrite />
         </Route>
+        <Route path="/manage/boardDetail/:boardId">
+          <StudyManageBoardDetail />
+        </Route>
         {/* 화상회의 */}
         {/* 스터디원 관리 */}
       </Switch>
-
-      {/* <StudyManageBoardDetail /> */}
     </>
   );
 }
