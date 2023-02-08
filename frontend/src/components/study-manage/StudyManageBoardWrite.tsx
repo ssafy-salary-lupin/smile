@@ -153,7 +153,7 @@ function StudyManageBoardWrite() {
     setTypeId(Number(event.target.value));
   };
 
-  const fileInput = useRef();
+  const fileInput = useRef<HTMLInputElement>();
   const handleFileSelect = (event: any) => {
     setSelectedFile(event.target.files[0]);
     console.log("ref 체크 : ", fileInput.current);
