@@ -158,14 +158,14 @@ function StudyManageBoardWrite() {
   const fileInput = useRef<HTMLInputElement>(null);
   const handleFileSelect = (event: any) => {
     setSelectedFile(event.target.files[0]);
-    console.log("ref 체크 : ", fileInput.current?.value);
+    console.log("ref 체크 : ", fileInput.current);
     console.log("event.target.files[0] : ", event.target.files[0]);
     console.log("event.target.files : ", event.target.files);
 
     const files = event.target.files;
 
     for (let i = 0; i < files.length; i++) {
-      console.log(files[i]);
+      console.log(files[i].name);
     }
   };
 
@@ -262,7 +262,8 @@ function StudyManageBoardWrite() {
             ref={fileInput}
             multiple
           />
-          {fileInput.current?.value ? <FileDeleteBtn>X</FileDeleteBtn> : null}
+          <ul></ul>
+          {/* {fileInput.current?.value ? <FileDeleteBtn>X</FileDeleteBtn> : null} */}
         </Sub2>
       </File>
       <Button>
