@@ -171,8 +171,6 @@ function StudyManageBoardList() {
     boardListSelectAllApi(page, size),
   );
 
-  console.log("가져온 데이타 : ", listData);
-
   useEffect(() => {
     // 1. 가져온 data 값에서 총 게시글 개수 가져와서 set
     if (listData !== undefined) {
@@ -182,8 +180,6 @@ function StudyManageBoardList() {
     if (listData !== undefined) {
       setList(listData?.result.content);
     }
-    console.log("listData.result.content : ", listData?.result.content);
-    console.log("게시글 : ", list);
   }, [listData, page]);
 
   // 페이지 변환시 호출할 메소드 => page값 셋팅
@@ -199,12 +195,11 @@ function StudyManageBoardList() {
           <Link to="/manage/boardWrite">글 쓰기</Link>
         </HeadSub2>
       </Head>
-
-      {list !== null ? (
-        list.map((el) => {
-          return (
-            <BoardListBox>
-              <Tbody>
+      <BoardListBox>
+        <Tbody>
+          {list !== null ? (
+            list.map((el) => {
+              return (
                 <Row>
                   <BoardNum>{el.boardId}</BoardNum>
                   <BoardType>
@@ -222,13 +217,13 @@ function StudyManageBoardList() {
                     {el.writeAt.split("T")[0] + " " + el.writeAt.split("T")[1]}
                   </BoardDate>
                 </Row>
-              </Tbody>
-            </BoardListBox>
-          );
-        })
-      ) : (
-        <NoArticle>글내용이 없습니다.</NoArticle>
-      )}
+              );
+            })
+          ) : (
+            <NoArticle>글내용이 없습니다.</NoArticle>
+          )}{" "}
+        </Tbody>
+      </BoardListBox>
 
       <PagiNation
         page={page}
