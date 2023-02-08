@@ -25,16 +25,20 @@ public class ControllerAdvisor {
     @ExceptionHandler(CustomException.class)
     public CommonResponse exceptionHandler(CustomException customException) {
 
+
         CustomExceptionStatus status = customException.getCustomExceptionStatus();
 
         //로그로 예외발생한 시간과 메시지 남기기
-        log.warn("[" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")) + "]" +" : " + status.getMessage());
+        log.warn("[" +" CustomException - " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")) + "]" +" : " + status.getMessage());
 
         return responseService.getExceptionResponse(status);
     }
 
     @ExceptionHandler(RuntimeException.class)
     public CommonResponse exceptionHandler(Exception e) {
+
+
+        log.warn("["+" RuntimeException - " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")) + "]" +" : " + e.getMessage());
 
         CommonResponse response = new CommonResponse();
         response.setCode(400);

@@ -55,6 +55,17 @@ public enum CustomExceptionStatus {
 
     NOT_FOUND_LOGIN_PROVIDER(false,404, "올바르지 않은 로그인 제공자 유형입니다."),
 
+    /*화상회의 예외*/
+    STUDY_EXISTS_MEETING(false, 409,"해당 스터디에 이미 화상회의가 생성되어있습니다."),
+    NOT_FOUND_MEETING_SESSION(false,404,"존재하지 않는 세션입니다."),
+    OVER_MAX_SIZE_PERSON(false,429, "최대 입장 인원을 초과하였습니다."),
+
+    NOT_FOUND_MEETING(false,404,"해당 미팅정보가 없습니다."),
+
+    /*댓글*/
+    NOT_FOUND_COMMENT(false,404,"존재하지 않는 댓글입니다."),
+
+
     ;
     private final Boolean isSuccess;
 

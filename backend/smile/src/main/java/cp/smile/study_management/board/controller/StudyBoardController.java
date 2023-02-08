@@ -44,13 +44,17 @@ public class StudyBoardController {
     private final UserRepository userRepository;
     private final UserJoinStudyRepository userJoinStudyRepository;
 
+    // TODO : 2023.02.08 - @RequestPart의 파일 부분에 데이터가 들어오지 않는 경우를 처리했는데, 아래 로직에서는 처리가 안되었음.
     @PostMapping
     public CommonResponse write(@AuthenticationPrincipal CustomOAuth2User oAuth2User,
                                 @PathVariable int studyId,
                                 @RequestPart("data") StudyBoardWriteDTO dto,
-                                @RequestPart("files") MultipartFile[] files) {
+                                @RequestPart(value = "files", required = false) MultipartFile[] files) {
+
+
         UserJoinStudy userJoinStudy = userJoinStudyRepository.findByUserIdAndStudyId(oAuth2User.getUserId(), studyId)
-                .orElseThrow(() -> new EntityNotFoundException("잘못된 접근입니다."));
+                .orElseThrow(() -> new CustomException(USER_NOT_ACCESS_STUDY));
+
 
         studyBoardService.write(userJoinStudy, dto, files);
         log.info("스터디 게시글 작성 - 작성자: {} / 스터디: {}",
@@ -67,7 +71,7 @@ public class StudyBoardController {
             @RequestParam(value = "size", required = false) Integer size) {
         // 가입한 스터디의 게시글만 볼 수 있도록 검사
         userJoinStudyRepository.findByUserIdAndStudyId(customOAuth2User.getUserId(), studyId)
-                .orElseThrow(() -> new RuntimeException("가입한 스터디의 게시글만 볼 수 있습니다."));
+                .orElseThrow(() -> new CustomException(USER_NOT_ACCESS_STUDY));
 
         if (page == null) page = 1;
         if (size == null) size = 10;
