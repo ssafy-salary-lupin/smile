@@ -188,11 +188,12 @@ function StudyManageBoardWrite() {
     }
 
     try {
-      const response = await axios.post(
-        `http://localhost:8080/studies/{studyId}/boards`,
+      await axios.post(
+        `https://i8b205.p.ssafy.io/be-api/studies/1/boards`,
         formData,
         {
           headers: {
+            Authorization: `Bearer ${localStorage.getItem("kakao-token")}`,
             "Content-Type": "multipart/form-data",
           },
         },
