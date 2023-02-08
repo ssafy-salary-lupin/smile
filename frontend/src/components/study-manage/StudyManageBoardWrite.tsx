@@ -155,6 +155,8 @@ function StudyManageBoardWrite() {
 
   const handleFileSelect = (event: any) => {
     setSelectedFile(event.target.files[0]);
+    console.log("event.target.files[0] : ", event.target.files[0]);
+    console.log("파일 타입 체크 : ", typeof event.target.files[0]);
   };
 
   const history = useHistory();
@@ -180,8 +182,6 @@ function StudyManageBoardWrite() {
       content: content,
       typeId: typeId,
     };
-
-    console.log(content);
 
     formData.append("data", JSON.stringify(data));
 
