@@ -162,7 +162,7 @@ function StudyManageBoardWrite() {
     console.log("event.target.files[0] : ", event.target.files[0]);
     console.log("event.target.files : ", event.target.files);
 
-    event.target.files.map((el) => console.log(el));
+    event.target.files.map((el: any) => console.log(el));
   };
 
   const history = useHistory();
