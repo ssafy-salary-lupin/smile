@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { MyStudyApi } from "apis/MyStudyApi";
 import { useQuery } from "react-query";
 import { useRecoilValue } from "recoil";
@@ -8,6 +8,9 @@ import styled from "styled-components";
 import Card from "components/common/Card";
 import BlankSpace from "components/common/BlankSpace";
 import SearchComponent from "components/common/SearchComponent";
+import { CaretDown, CaretUp } from "components/common/DuotonIcons";
+import MyStudyNotFound from "components/common/MyStudyNotFound";
+
 const SearchBar = styled.div``;
 
 const Wrapper = styled.div`
@@ -19,6 +22,7 @@ const Wrapper = styled.div`
 const Header = styled.div`
   display: flex;
   flex-direction: column;
+  margin: 3.889vw 0 5.556vw 0;
 `;
 
 const Title = styled.h1`
@@ -54,7 +58,13 @@ const PurposeBox = styled.div`
 
 const PurposeContainer = styled.div``;
 
-const CurrentContainer = styled.div``;
+const StudyContainer = styled.div``;
+
+const StatusTitle = styled.summary`
+  font-size: 2.5vw;
+  font-weight: 600;
+  cursor: pointer;
+`;
 
 const Cards = styled.div<NumberOfCardsProps>`
   display: grid;
@@ -69,8 +79,6 @@ const CardWrapper = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
-const EndContainer = styled.div``;
 
 const SearchContainer = styled.div`
   display: flex;
@@ -146,7 +154,8 @@ interface NumberOfCardsProps {
 export default function MyStudyPages() {
   // 유저 아이디
   const userId = useParams<Iparams>().userId;
-
+  const [isOpenCurrent, setIsOpenCurrent] = useState(false);
+  const [isOpenEnd, setIsOpenEnd] = useState(false);
   // 에러 코드
   //유저의 스터디 목록 API로 받아오기
   const { isLoading: studiesLoading, data: studiesData } = useQuery(
@@ -155,9 +164,17 @@ export default function MyStudyPages() {
   );
   console.log("DATA : ", studiesData);
   console.log(studiesData);
+
+  const foldNOpenCurrent = () => {
+    setIsOpenCurrent(!isOpenCurrent);
+  };
+
+  const foldNOpenEnd = () => {
+    setIsOpenEnd(!isOpenEnd);
+  };
   return (
     <>
-      <BackgroundYellow bgHeight="50vw" />
+      <BackgroundYellow bgHeight="65vw" />
       <BlankSpace />
       <Wrapper>
         <Header>
@@ -177,31 +194,57 @@ export default function MyStudyPages() {
             </PurposeContainer>
           </Additionalection>
         </Header>
-        <CurrentContainer>
-          <SubTitle>진행중 스터디</SubTitle>
-          <Cards NumberOfCards={studiesData ? studiesData.current.length : 0}>
-            {!studiesLoading && studiesData
-              ? studiesData.current.map((study) => (
-                  <CardWrapper>
-                    <Card key={study.studyId} studyInfo={study} />
-                  </CardWrapper>
-                ))
-              : null}
-          </Cards>
-        </CurrentContainer>
-        <EndContainer>
-          <SubTitle>지난 스터디</SubTitle>
-          <SearchContainer>
-            <SearchComponent />
-          </SearchContainer>
-          <Cards NumberOfCards={studiesData ? studiesData.end.length : 0}>
-            {!studiesLoading && studiesData
-              ? studiesData.end.map((study) => (
-                  <Card key={study.studyId} studyInfo={study} />
-                ))
-              : null}
-          </Cards>
-        </EndContainer>
+        {!studiesLoading ? (
+          <>
+            <details open>
+              <StatusTitle onClick={foldNOpenCurrent}>
+                진행중 스터디
+              </StatusTitle>
+              <StudyContainer>
+                {!studiesLoading && studiesData ? (
+                  <Cards
+                    NumberOfCards={studiesData ? studiesData.current.length : 0}
+                  >
+                    (
+                    {studiesData.current.map((study) => (
+                      <CardWrapper>
+                        <Card key={study.studyId} studyInfo={study} />
+                      </CardWrapper>
+                    ))}
+                    )
+                  </Cards>
+                ) : (
+                  <MyStudyNotFound />
+                )}
+              </StudyContainer>
+            </details>
+            <details open>
+              <StatusTitle onClick={foldNOpenEnd}>지난 스터디</StatusTitle>
+              <StudyContainer>
+                {!studiesLoading && studiesData ? (
+                  <>
+                    <SearchContainer>
+                      <SearchComponent />
+                    </SearchContainer>
+                    <Cards
+                      NumberOfCards={studiesData ? studiesData.end.length : 0}
+                    >
+                      (
+                      {studiesData.end.map((study) => (
+                        <Card key={study.studyId} studyInfo={study} />
+                      ))}
+                      )
+                    </Cards>
+                  </>
+                ) : (
+                  <MyStudyNotFound />
+                )}
+              </StudyContainer>
+            </details>{" "}
+          </>
+        ) : (
+          <span>로딩중 이미지 추가</span>
+        )}
       </Wrapper>
     </>
   );
