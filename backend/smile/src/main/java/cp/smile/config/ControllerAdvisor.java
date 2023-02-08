@@ -25,6 +25,7 @@ public class ControllerAdvisor {
     @ExceptionHandler(CustomException.class)
     public CommonResponse exceptionHandler(CustomException customException) {
 
+
         CustomExceptionStatus status = customException.getCustomExceptionStatus();
 
         //로그로 예외발생한 시간과 메시지 남기기
@@ -35,6 +36,7 @@ public class ControllerAdvisor {
 
     @ExceptionHandler(RuntimeException.class)
     public CommonResponse exceptionHandler(Exception e) {
+
 
         CommonResponse response = new CommonResponse();
         response.setCode(400);
