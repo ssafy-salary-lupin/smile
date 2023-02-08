@@ -2,7 +2,7 @@ import BlankSpace from "components/common/BlankSpace";
 import styled from "styled-components";
 import { ReactComponent as HeaderImg } from "assets/icon/StudySearchImg.svg";
 import SearchComponent from "components/common/SearchComponent";
-import { StudySearcAll } from "apis/StudySearchApi";
+import { StudySearchAll } from "apis/StudySearchApi";
 import { useQuery } from "react-query";
 // 스터디 조회 페이지 전체를 감사는 div
 const Wrapper = styled.div`
@@ -48,7 +48,7 @@ export default function StudySearchPages() {
   const { isLoading: studiesLoading, data: studiesData } = useQuery(
     "studies",
     () => {
-      StudySearcAll();
+      StudySearchAll();
     },
   );
   console.log("DATA:", studiesData);
