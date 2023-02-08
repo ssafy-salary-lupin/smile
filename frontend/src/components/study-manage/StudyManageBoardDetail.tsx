@@ -172,11 +172,57 @@ const WriteBtn = styled.button`
 
 const CommentList = styled.div``;
 
+interface Data {
+  isSuccess: boolean;
+  code: number;
+  message: string;
+  result: {
+    studyId: number; // 스터디 식별자
+    boardId: number; // 게시글 식별자
+    boardType: {
+      // 게시글 타입 정보
+      typeId: number; // 게시글 유형 식별자
+      type: string; // 게시글 유형 정보
+    };
+    title: string; // 제목
+    content: string; // 본문
+    writer: {
+      // 작성자 정보
+      writerId: number; // 작성자 유저 식별자
+      nickname: string; // 작성자 닉네임
+      profileImageUrl: string; // 작성자 프로필 이미지
+    };
+    writeAt: string; // 게시글 작성일
+    views: number; // 게시글 조회수
+    commentCount: number; // 댓글 수
+    comments: [
+      // 댓글 정보
+      {
+        commentId: number; // 댓글 식별자
+        content: string; // 댓글 내용
+        writer: {
+          // 댓글 작성자 정보
+          writerId: number; // 댓글 작성자 유저 식별자
+          nickname: string; // 댓글 작성자 닉네임
+          profileImageUrl: string; // 댓글 작성자 프로필 이미지
+        };
+        writeAt: string; // 댓글 작성일
+      },
+    ];
+    fileCount: number; // 업로드된 파일 수
+    files: [
+      fileId: number, // 파일 식별자
+      fileName: string, // 파일 이름
+      soruceUrl: string, // 파일 주소
+    ];
+  };
+}
+
 function StudyManageBoardDetail() {
   const param = useParams();
 
   const { data: detailData } = useQuery("detailData", () =>
-    boardSelectApi(Number(param)),
+    boardSelectApi(param.toString()),
   );
 
   console.log("받아온 data : ", detailData);
@@ -184,7 +230,7 @@ function StudyManageBoardDetail() {
   return (
     <Wrapper>
       <ArticleHeader>
-        <ArticleType>공지</ArticleType>
+        <ArticleType></ArticleType>
         <Title>제목입니다.</Title>
       </ArticleHeader>
       <ArticleInfo>
