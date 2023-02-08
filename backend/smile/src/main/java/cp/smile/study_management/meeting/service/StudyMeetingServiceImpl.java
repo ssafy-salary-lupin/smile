@@ -1,5 +1,7 @@
 package cp.smile.study_management.meeting.service;
 
+import cp.smile.config.response.exception.CustomException;
+import cp.smile.config.response.exception.CustomExceptionStatus;
 import cp.smile.entity.study_common.StudyInformation;
 import cp.smile.entity.study_management.StudyMeeting;
 import cp.smile.entity.study_management.StudyMeetingStatus;
@@ -26,7 +28,7 @@ public class StudyMeetingServiceImpl implements StudyMeetingService{
     @Transactional
     public StudyMeeting createMeeting(User starter, StudyInformation study, MeetingCreationRequestDTO dto) {
         StudyMeetingType studyMeetingType = studyMeetingTypeRepository.findById(dto.getMeetingTypeId())
-                .orElseThrow(() -> new EntityNotFoundException(dto.getMeetingTypeId() + "에 해당하는 타입이 없습니다."));
+                .orElseThrow(() -> new CustomException(CustomExceptionStatus.NOT_FOUND_MEETING));
 
         StudyMeeting meeting = StudyMeeting.builder()
                 .studyMeetingType(studyMeetingType)
