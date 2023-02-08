@@ -5,6 +5,8 @@ import { ReactComponent as Eye } from "../../assets/icon/Eye.svg";
 import { ReactComponent as Comment } from "../../assets/icon/Comment.svg";
 import ReactMarkdown from "react-markdown";
 import { useParams } from "react-router-dom";
+import { useQuery } from "react-query";
+import { boardSelectApi } from "apis/StudyManageBoardApi";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
@@ -173,7 +175,11 @@ const CommentList = styled.div``;
 function StudyManageBoardDetail() {
   const param = useParams();
 
-  console.log("boardId 값 ", param);
+  const { data: detailData } = useQuery("detailData", () =>
+    boardSelectApi(Number(param)),
+  );
+
+  console.log("받아온 data : ", detailData);
 
   return (
     <Wrapper>
