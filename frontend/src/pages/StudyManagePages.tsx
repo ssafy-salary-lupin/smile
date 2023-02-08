@@ -16,11 +16,6 @@ const SubMenu = styled.div`
 `;
 
 function StudyManagePages() {
-  console.log(
-    "스터디 관리 메인 페이지 : ",
-    localStorage.getItem("kakao-token"),
-  );
-
   return (
     <>
       <SubMenu>

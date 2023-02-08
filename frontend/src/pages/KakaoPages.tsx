@@ -19,7 +19,7 @@ function KakaoPages() {
     }
     if (localStorage.getItem("kakao-token")) setTokenState(true);
     // history.push("/");
-    window.location.replace("/");
+    window.location.replace("/"); // 새로고침해야 token null 값 해결 돼서 임시방편으로 바꿈 ㅠ interceptor하는 법 찾아보기
   }, [params]);
 
   return <div></div>;
