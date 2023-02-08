@@ -2,6 +2,7 @@ package cp.smile.study_management.meeting.controller;
 
 import cp.smile.auth.oauth2.CustomOAuth2User;
 import cp.smile.config.response.CommonResponse;
+import cp.smile.config.response.CustomSuccessStatus;
 import cp.smile.config.response.DataResponse;
 import cp.smile.config.response.ResponseService;
 import cp.smile.entity.study_common.StudyInformation;
@@ -24,6 +25,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
+
+import static cp.smile.config.response.CustomSuccessStatus.*;
 
 @RestController
 @RequestMapping("/studies/{studyId}/meetings")
@@ -56,7 +59,7 @@ public class MeetingController {
         MeetingCreationDTO response = new MeetingCreationDTO(
                 new MeetingDTO(sessionId, meeting), new AttendTokenDTO(sessionId, connection));
 
-        return responseService.getDataResponse(response);
+        return responseService.getDataResponse(response, RESPONSE_SUCCESS);
     }
 
     @PostMapping("/connection")
@@ -70,7 +73,7 @@ public class MeetingController {
         String sessionId = String.valueOf(studyId);
         String connection = openViduService.createConnectionToken(sessionId, dto);
 
-        return responseService.getDataResponse(new AttendTokenDTO(sessionId, connection));
+        return responseService.getDataResponse(new AttendTokenDTO(sessionId, connection), RESPONSE_SUCCESS);
     }
 
     @DeleteMapping

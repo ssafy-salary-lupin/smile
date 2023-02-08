@@ -1,5 +1,7 @@
 package cp.smile.study_management.meeting.service;
 
+import cp.smile.config.response.exception.CustomException;
+import cp.smile.config.response.exception.CustomExceptionStatus;
 import cp.smile.study_management.meeting.dto.request.AttendRequestDTO;
 import io.openvidu.java.client.*;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+
+import static cp.smile.config.response.exception.CustomExceptionStatus.*;
 
 @Service
 @Slf4j
@@ -19,7 +23,7 @@ public class OpenViduServiceImpl implements OpenViduService{
     @Override
     public String createSession(String customSessionId) throws OpenViduJavaClientException, OpenViduHttpException {
         if (openVidu.getActiveSession(customSessionId) != null) {
-            throw new RuntimeException("해당 스터디에 이미 화상회의가 생성되어있습니다.");
+            throw new CustomException(STUDY_EXISTS_MEETING);
         }
         SessionProperties properties = SessionProperties.fromJson(null).customSessionId(customSessionId).build();
         return openVidu.createSession(properties).getSessionId();
@@ -29,11 +33,11 @@ public class OpenViduServiceImpl implements OpenViduService{
     public String createConnectionToken(String sessionId, AttendRequestDTO dto) throws OpenViduJavaClientException, OpenViduHttpException {
         Session session = openVidu.getActiveSession(sessionId);
         if (session == null) {
-            throw new RuntimeException("존재하지 않는 세션입니다.");
+            throw new CustomException(NOT_FOUND_MEETING_SESSION);
         }
 
         if (session.getConnections().size() > MAX_ENTER_PERSON) {
-            throw new RuntimeException("최대 입장 인원을 초과하였습니다.");
+            throw new CustomException(OVER_MAX_SIZE_PERSON);
         }
 
         ConnectionProperties properties;
@@ -52,7 +56,7 @@ public class OpenViduServiceImpl implements OpenViduService{
         Session session = openVidu.getActiveSession(sessionId);
 
         if (session == null) {
-            throw new RuntimeException("존재하지 않는 세션입니다.");
+            throw new CustomException(CustomExceptionStatus.NOT_FOUND_MEETING_SESSION);
         }
 
         session.close();
