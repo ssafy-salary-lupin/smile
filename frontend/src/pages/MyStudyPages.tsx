@@ -13,6 +13,7 @@ const SearchBar = styled.div``;
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  margin: 0 2.778vw;
 `;
 
 const Header = styled.div`
@@ -22,12 +23,12 @@ const Header = styled.div`
 
 const Title = styled.h1`
   font-size: 3.333vw;
-  font-weight: 500;
+  font-weight: 600;
 `;
 
 const SubTitle = styled.h2`
   font-size: 2.5vw;
-  font-weight: 500;
+  font-weight: 600;
 `;
 
 const Additionalection = styled.div`
@@ -55,13 +56,26 @@ const PurposeContainer = styled.div``;
 
 const CurrentContainer = styled.div``;
 
-const Cards = styled.div`
-  display: flex;
-  justify-content: space-around;
+const Cards = styled.div<NumberOfCardsProps>`
+  display: grid;
+  grid-template-columns: repeat(3, 31.48vw);
+  /* grid-template-rows: repeat(2, 38.889vw); */
+  grid-template-rows: repeat(${(props) => props.NumberOfCards}, 38.889vw);
   margin-top: 2.8vw;
 `;
 
+const CardWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const EndContainer = styled.div``;
+
+const SearchContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
 
 interface StudiesInterface {
   current: [
@@ -125,19 +139,25 @@ interface Iparams {
 //   };
 // }
 
+interface NumberOfCardsProps {
+  NumberOfCards: number;
+}
+
 export default function MyStudyPages() {
   // 유저 아이디
   const userId = useParams<Iparams>().userId;
+
+  // 에러 코드
   //유저의 스터디 목록 API로 받아오기
-  const { isLoading: studiesLoading, data: studiesData } = useQuery(
-    ["studies", userId],
-    () => MyStudyApi(userId),
-  );
-  // console.log("DATA : ", studiesData.current);
+  const { isLoading: studiesLoading, data: studiesData } = useQuery<
+    boolean,
+    StudiesInterface
+  >(["studies", userId], () => MyStudyApi(userId));
+  console.log("DATA : ", studiesData);
   console.log(studiesData);
   return (
     <>
-      <BackgroundYellow />
+      <BackgroundYellow bgHeight="50vw" />
       <BlankSpace />
       <Wrapper>
         <Header>
@@ -159,18 +179,22 @@ export default function MyStudyPages() {
         </Header>
         <CurrentContainer>
           <SubTitle>진행중 스터디</SubTitle>
-          <Cards>
+          <Cards NumberOfCards={studiesData.current.length()}>
             {!studiesLoading && studiesData
               ? studiesData.current.map((study) => (
-                  <Card key={study.studyId} studyInfo={study} />
+                  <CardWrapper>
+                    <Card key={study.studyId} studyInfo={study} />
+                  </CardWrapper>
                 ))
               : null}
           </Cards>
         </CurrentContainer>
         <EndContainer>
           <SubTitle>지난 스터디</SubTitle>
-          <SearchComponent />
-          <Cards>
+          <SearchContainer>
+            <SearchComponent />
+          </SearchContainer>
+          <Cards NumberOfCards={studiesData.current.length()}>
             {!studiesLoading && studiesData
               ? studiesData.end.map((study) => (
                   <Card key={study.studyId} studyInfo={study} />

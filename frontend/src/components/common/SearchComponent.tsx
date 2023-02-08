@@ -4,6 +4,9 @@ import Select from "./Select";
 
 const Wrapper = styled.div`
   display: flex;
+  div {
+    margin: 0 0.556vw;
+  }
 `;
 
 export default function SearchComponent() {
