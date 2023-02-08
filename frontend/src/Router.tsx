@@ -3,10 +3,10 @@ import LandingPages from "./pages/LandingPages";
 import StudyManagePages from "./pages/StudyManagePages";
 import StudyCreatePages from "./pages/StudyCreatePages";
 import TestPages from "./pages/TestPages";
-import VideoRoomComponent from "components/video-meeting/VideoRoomComponent";
+import VideoRoomComponent from "./components/video-meeting/VideoRoomComponent";
 import WaitingPages from "./pages/WaitingPages";
-import MyStudyPages from "pages/MyStudyPages";
-import KakaoPages from "pages/KakaoPages";
+import MyStudyPages from "./pages/MyStudyPages";
+import KakaoPages from "./pages/KakaoPages";
 function Router() {
   return (
     <Switch>

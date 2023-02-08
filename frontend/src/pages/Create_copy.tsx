@@ -222,6 +222,8 @@ function StudyCreatePages() {
       reader.onloadend = () => {
         if (reader.result) {
           setImgFile(reader.result);
+          // const formDatas = new FormData();
+          // formDatas.append("image", imgFile);
         }
       };
       setIsActivate(true);
