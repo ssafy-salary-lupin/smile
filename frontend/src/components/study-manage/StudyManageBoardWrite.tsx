@@ -44,7 +44,7 @@ const Sub1 = styled.div`
 const Sub2 = styled.div`
   width: 85%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   padding: 0.556vw 1.667vw;
   height: auto;
@@ -178,6 +178,8 @@ function StudyManageBoardWrite() {
       console.log(files[i].name);
       setFileNameList([...fileNameList, files[i].name]);
     }
+
+    console.log("fileNAmeList : ", fileNameList);
   };
 
   const history = useHistory();
@@ -271,7 +273,12 @@ function StudyManageBoardWrite() {
           {fileNameList.length > 0 ? (
             <FileListUl>
               {fileNameList.map((el) => {
-                return <FileListLi>{el}</FileListLi>;
+                return (
+                  <>
+                    <FileListLi>{el}</FileListLi>
+                    <FileDeleteBtn></FileDeleteBtn>
+                  </>
+                );
               })}
             </FileListUl>
           ) : null}
