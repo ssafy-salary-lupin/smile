@@ -5,6 +5,8 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import cp.smile.config.response.exception.CustomException;
+import cp.smile.config.response.exception.CustomExceptionStatus;
 import cp.smile.entity.study_common.StudyComment;
 import cp.smile.entity.study_common.StudyInformation;
 import cp.smile.entity.study_common.StudyReply;
@@ -41,6 +43,7 @@ import java.util.stream.Collectors;
 
 import static cp.smile.config.AwsS3DirectoryName.DEFAULT_STUDY;
 import static cp.smile.config.AwsS3DirectoryName.STUDY_IMG;
+import static cp.smile.config.response.exception.CustomExceptionStatus.*;
 
 @Service
 @RequiredArgsConstructor
@@ -66,9 +69,7 @@ public class StudyCommonServiceImpl implements StudyCommonService{
 
         // TODO : 현재는 단순한 RuntimeException을 던지지만, 추후에 예외에 대한 정리가 끝나면, 조회 데이터가 없다는 예외를 던지는 커스텀 예외를 적용해야됨.
         /*스터디 정보를 전체 조회해옴*/
-        Set<StudyInformation> studyInformations = studyCommonRepository
-                .findAllByStudyInformation()
-                .orElseThrow(RuntimeException::new);
+        Set<StudyInformation> studyInformations = studyCommonRepository.findAllByStudyInformation();
 
 
         List<FindAllStudyDTO> findAllStudyDTOS = new ArrayList<>();
@@ -141,7 +142,7 @@ public class StudyCommonServiceImpl implements StudyCommonService{
             }
             catch(IOException e){
 
-                throw new RuntimeException(e);
+                throw new CustomException(FILE_SAVE_FAIL);
             }
 
             storeFileUrl = amazonS3Client.getUrl(bucket, key).toString(); //저장된 Url

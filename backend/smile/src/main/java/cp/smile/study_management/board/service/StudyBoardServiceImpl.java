@@ -4,6 +4,8 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import cp.smile.config.response.exception.CustomException;
+import cp.smile.config.response.exception.CustomExceptionStatus;
 import cp.smile.entity.study_management.*;
 import cp.smile.entity.user.User;
 import cp.smile.entity.user.UserJoinStudy;
@@ -29,6 +31,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static cp.smile.config.AwsS3DirectoryName.STUDY_FILE;
+import static cp.smile.config.response.exception.CustomExceptionStatus.*;
 
 @Service
 @Slf4j
@@ -49,11 +52,11 @@ public class StudyBoardServiceImpl implements StudyBoardService {
     @Transactional
     public StudyBoard write(UserJoinStudy userJoinStudy, StudyBoardWriteDTO dto, MultipartFile[] files) {
         StudyBoardType boardType = studyBoardTypeRepository.findById(dto.getTypeId())
-                .orElseThrow(() -> new EntityNotFoundException(dto.getTypeId() + "에 해당하는 게시글 유형이 없습니다."));
+                .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY_TYPE));
 
         // 게시글 유형이 공지인 경우 스터디장만 쓸 수있도록 검사
         if (boardType.getName() == StudyBoardTypeName.공지 && !userJoinStudy.getIsLeader()) {
-            throw new RuntimeException("공지는 스터디장만 쓸 수 있습니다.");
+            throw new CustomException(USER_NOT_STUDY_LEADER);
         }
 
         StudyBoard studyBoard = StudyBoard.builder()
@@ -81,7 +84,7 @@ public class StudyBoardServiceImpl implements StudyBoardService {
     @Override
     public StudyBoard findById(int boardId) {
         StudyBoard studyBoard = studyBoardRepository.findByIdWithType(boardId)
-                .orElseThrow(() -> new EntityNotFoundException(boardId + "에 해당하는 게시글이 없습니다."));
+                .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY_BOARD));
 
         List<StudyBoardFile> files = studyBoardFileRepository.findByStudyBoard(studyBoard);
         List<StudyBoardComment> comments = studyBoardCommentRepository.findByStudyBoardWithUser(studyBoard);
@@ -110,7 +113,7 @@ public class StudyBoardServiceImpl implements StudyBoardService {
     @Transactional
     public StudyBoardComment writeComment(User writer, int boardId, String content) {
         StudyBoard studyBoard = studyBoardRepository.findById(boardId)
-                .orElseThrow(() -> new EntityNotFoundException(boardId + "에 해당하는 게시글이 없습니다."));
+                .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY_BOARD));
 
         StudyBoardComment boardComment = StudyBoardComment.builder()
                 .studyBoard(studyBoard)
@@ -147,7 +150,7 @@ public class StudyBoardServiceImpl implements StudyBoardService {
                 amazonS3Client.putObject(new PutObjectRequest(bucket, key, inputStream, objectMetadata)
                         .withCannedAcl(CannedAccessControlList.PublicRead));
             } catch(IOException e){
-                throw new RuntimeException(e);
+                throw new CustomException(FILE_SAVE_FAIL);
             }
 
             uploadedBoardFiles.add(

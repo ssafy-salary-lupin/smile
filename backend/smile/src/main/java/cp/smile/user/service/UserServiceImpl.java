@@ -2,6 +2,8 @@ package cp.smile.user.service;
 
 import cp.smile.auth.oauth2.provider.LoginProviderRepository;
 import cp.smile.auth.oauth2.provider.OAuth2Provider;
+import cp.smile.config.response.exception.CustomException;
+import cp.smile.config.response.exception.CustomExceptionStatus;
 import cp.smile.entity.study_common.StudyInformation;
 import cp.smile.entity.user.LoginProvider;
 import cp.smile.entity.user.User;
@@ -20,6 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
+import static cp.smile.config.response.exception.CustomExceptionStatus.*;
+
 @Service
 @Transactional(readOnly = false)
 @Slf4j
@@ -27,7 +31,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
-    private final StudyCommonRepository studyCommentRepository;
+    private final StudyCommonRepository studyCommonRepository;
     private final LoginProviderRepository loginProviderRepository;
     private final UserJoinStudyRepository userJoinStudyRepository;
 
@@ -42,7 +46,7 @@ public class UserServiceImpl implements UserService{
 
         LoginProvider loginProvider = loginProviderRepository
                 .findByProvider(OAuth2Provider.local)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> new CustomException(NOT_FOUND_LOGIN_PROVIDER));
 
         User user = User.builder()
                 .email(userJoinDTO.getEmail())
@@ -89,12 +93,12 @@ public class UserServiceImpl implements UserService{
     @Override
     public void joinStudy(int userId, int studyId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException(userId + "에 해당하는 유저가 없습니다."));
+                .orElseThrow(() -> new CustomException(ACCOUNT_NOT_FOUND));
 
         log.info("find user: {}", user.getEmail());
 
-        StudyInformation study = studyCommentRepository.findById(studyId)
-                .orElseThrow(() -> new EntityNotFoundException(studyId + "에 해당하는 스터디가 없습니다."));
+        StudyInformation study = studyCommonRepository.findById(studyId)
+                .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY));
 
         log.info("find study: {}", study.getName());
 

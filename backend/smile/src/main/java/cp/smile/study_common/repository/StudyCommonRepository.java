@@ -22,7 +22,7 @@ public interface StudyCommonRepository extends JpaRepository<StudyInformation, I
             "left join fetch ujs.user " +
             "left join fetch s.studyComments sc " +
             "where s.deadline = false and s.isEnd = false and ujs.isLeader = true")
-    Optional<Set<StudyInformation>> findAllByStudyInformation();
+    Set<StudyInformation> findAllByStudyInformation();
 
     /*스터디 생성 */
 

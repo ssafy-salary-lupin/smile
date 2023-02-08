@@ -1,5 +1,7 @@
 package cp.smile.study_management.admin.service;
 
+import cp.smile.config.response.exception.CustomException;
+import cp.smile.config.response.exception.CustomExceptionStatus;
 import cp.smile.entity.study_common.StudyInformation;
 import cp.smile.entity.study_common.StudyType;
 import cp.smile.entity.user.User;
@@ -20,6 +22,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import static cp.smile.config.response.exception.CustomExceptionStatus.*;
+
 @RequiredArgsConstructor
 @Transactional(readOnly = false)
 @Service
@@ -39,11 +43,11 @@ public class StudyAdminServiceImpl implements StudyAdminService {
     public void changeLeader(int currentLeaderId, int studyId, int nextLeaderId) {
 
         UserJoinStudy currentLeader = userJoinStudyRepository.findByUserIdAndStudyId(currentLeaderId, studyId)
-        .orElseThrow(() -> new EntityNotFoundException("잘못된 접근입니다."));
+        .orElseThrow(() -> new CustomException(USER_NOT_ACCESS_STUDY));
 
         if (currentLeader.getIsLeader() == true) { //현재 스터디장
             UserJoinStudy nextLeader = userJoinStudyRepository.findByUserIdAndStudyId(nextLeaderId, studyId)
-                    .orElseThrow(() -> new EntityNotFoundException("잘못된 접근입니다."));
+                    .orElseThrow(() -> new CustomException(USER_NOT_STUDY_LEADER));
 
             if (nextLeader.getIsLeader() == false) { //스터디장 위임대상
                 currentLeader.dismissal();
@@ -56,11 +60,11 @@ public class StudyAdminServiceImpl implements StudyAdminService {
     public void closeStudy(int studyLeaderId, int studyId) {
 
         UserJoinStudy studyLeader = userJoinStudyRepository.findByUserIdAndStudyId(studyLeaderId, studyId)
-                .orElseThrow(() -> new EntityNotFoundException("잘못된 접근입니다."));
+                .orElseThrow(() -> new CustomException(USER_NOT_ACCESS_STUDY));
 
         if (studyLeader.getIsLeader() == true) { //스터디장이 맞으면
             StudyInformation currentStudy = studyCommonRepository.findById(studyId)
-                    .orElseThrow(() -> new EntityNotFoundException("잘못된 접근입니다."));
+                    .orElseThrow(() -> new CustomException(USER_NOT_STUDY_LEADER));
 
             if (currentStudy.isEnd() == false) { //스터디가 진행중이면
                 currentStudy.close();
@@ -71,11 +75,11 @@ public class StudyAdminServiceImpl implements StudyAdminService {
     @Override
     public void recruitStudy(int studyLeaderId, int studyId) {
         UserJoinStudy studyLeader = userJoinStudyRepository.findByUserIdAndStudyId(studyLeaderId, studyId)
-                .orElseThrow(() -> new EntityNotFoundException("잘못된 접근입니다."));
+                .orElseThrow(() -> new CustomException(USER_NOT_ACCESS_STUDY));
 
         if (studyLeader.getIsLeader() == true) { //스터디장이 맞으면
             StudyInformation currentStudy = studyCommonRepository.findById(studyId)
-                    .orElseThrow(() -> new EntityNotFoundException("잘못된 접근입니다."));
+                    .orElseThrow(() -> new CustomException(USER_NOT_STUDY_LEADER));
 
             if (currentStudy.isEnd() == false) { //스터디가 진행중이면
 
@@ -89,11 +93,11 @@ public class StudyAdminServiceImpl implements StudyAdminService {
     @Override
     public void deadlineStudy(int studyLeaderId, int studyId) {
         UserJoinStudy studyLeader = userJoinStudyRepository.findByUserIdAndStudyId(studyLeaderId, studyId)
-                .orElseThrow(() -> new EntityNotFoundException("잘못된 접근입니다."));
+                .orElseThrow(() -> new CustomException(USER_NOT_ACCESS_STUDY));
 
         if (studyLeader.getIsLeader() == true) { //스터디장이 맞으면
             StudyInformation currentStudy = studyCommonRepository.findById(studyId)
-                    .orElseThrow(() -> new EntityNotFoundException("잘못된 접근입니다."));
+                    .orElseThrow(() -> new CustomException(USER_NOT_STUDY_LEADER));
 
             if (currentStudy.isEnd() == false) { //스터디가 진행중이면
                 currentStudy.deadline();
@@ -104,11 +108,11 @@ public class StudyAdminServiceImpl implements StudyAdminService {
     @Override
     public void banUser(int studyLeaderId, int studyId, int userId) {
         UserJoinStudy studyLeader = userJoinStudyRepository.findByUserIdAndStudyId(studyLeaderId, studyId)
-                .orElseThrow(() -> new EntityNotFoundException("잘못된 접근입니다."));
+                .orElseThrow(() -> new CustomException(USER_NOT_ACCESS_STUDY));
 
         if (studyLeader.getIsLeader() == true) {//스터디장이 맞으면
             UserJoinStudy user = userJoinStudyRepository.findByUserIdAndStudyId(userId, studyId)
-                    .orElseThrow(() -> new EntityNotFoundException("잘못된 접근입니다."));
+                    .orElseThrow(() -> new CustomException(USER_NOT_STUDY_LEADER));
 
             if (user.getIsBan() == false) { //해당유저가 강퇴당한 상태가 아니면
                 user.ban();
@@ -119,15 +123,15 @@ public class StudyAdminServiceImpl implements StudyAdminService {
     @Override
     public void updateStudyInfo(int studyLeaderId, int studyId, StudyInfoDTO studyInfoDTO) {
         UserJoinStudy studyLeader = userJoinStudyRepository.findByUserIdAndStudyId(studyLeaderId, studyId)
-                .orElseThrow(() -> new EntityNotFoundException("잘못된 접근입니다."));
+                .orElseThrow(() -> new CustomException(USER_NOT_ACCESS_STUDY));
 
         if (studyLeader.getIsLeader() == true) { // 스터디장이 맞으면
             StudyInformation studyInfo = studyCommonRepository.findById(studyId)
-                    .orElseThrow(() -> new EntityNotFoundException("잘못된 접근입니다."));
+                    .orElseThrow(() -> new CustomException(USER_NOT_STUDY_LEADER));
 
             StudyType studyType = studyTypeRepository
                     .findById(studyInfoDTO.getTypeId())
-                    .orElseThrow(() -> new EntityNotFoundException("잘못된 접근입니다."));
+                    .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY_TYPE));
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일");
 

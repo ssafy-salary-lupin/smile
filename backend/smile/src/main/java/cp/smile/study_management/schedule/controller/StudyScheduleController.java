@@ -2,6 +2,7 @@ package cp.smile.study_management.schedule.controller;
 
 import cp.smile.auth.oauth2.CustomOAuth2User;
 import cp.smile.config.response.CommonResponse;
+import cp.smile.config.response.CustomSuccessStatus;
 import cp.smile.config.response.DataResponse;
 import cp.smile.config.response.ResponseService;
 import cp.smile.study_management.schedule.dto.request.CreateScheduleDTO;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static cp.smile.config.response.CustomSuccessStatus.*;
 
 @Slf4j
 @RestController
@@ -47,8 +50,9 @@ public class StudyScheduleController {
         int userId = oAuth2User.getUserId();
 
         List<ScheduleDTO> scheduleDTOS = studyScheduleService.findAllSchedule(userId, studyId);
+        if(scheduleDTOS.isEmpty()) return responseService.getDataResponse(scheduleDTOS, RESPONSE_NO_CONTENT);
 
-        return responseService.getDataResponse(scheduleDTOS);
+        return responseService.getDataResponse(scheduleDTOS, RESPONSE_SUCCESS);
     }
 
     @GetMapping("/studies/{studyId}/schedules/{scheduleId}")
@@ -61,7 +65,7 @@ public class StudyScheduleController {
 
         ScheduleDTO scheduleDTO = studyScheduleService.findDetailSchedule(userId, studyId, scheduleId);
 
-        return responseService.getDataResponse(scheduleDTO);
+        return responseService.getDataResponse(scheduleDTO, RESPONSE_SUCCESS);
     }
 
     /* 스터디 일정 수정 */
