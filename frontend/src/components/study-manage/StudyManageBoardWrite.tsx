@@ -133,6 +133,7 @@ const FileListLi = styled.li`
   display: flex;
   flex-direction: row;
   font-size: 1.111vw;
+  padding: 0.278vw 0;
 `;
 
 function StudyManageBoardWrite() {
@@ -201,6 +202,19 @@ function StudyManageBoardWrite() {
 
   const deleteFile = (index: any) => {
     console.log("삭제할 index 값 : ", index);
+
+    // 이름 리스트에서 해당 파일 이름 삭제
+    setFileNameList([]);
+    fileNameList.map((el, i) => {
+      if (i !== index) {
+        setFileNameList((old) => [...old, el]);
+      }
+    });
+
+    console.log("new file name list: ", fileNameList);
+    fileNameList.map((el) => console.log(el));
+
+    // 파일 리스트에서 해당 파일 삭제
   };
 
   const history = useHistory();
