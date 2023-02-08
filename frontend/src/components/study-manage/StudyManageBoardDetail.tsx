@@ -221,8 +221,8 @@ interface Data {
 function StudyManageBoardDetail() {
   const param = useParams();
 
-  const { data: detailData } = useQuery("detailData", () =>
-    boardSelectApi(param.toString()),
+  const { data: detailData } = useQuery<Data>("detailData", () =>
+    boardSelectApi(param + ""),
   );
 
   console.log("받아온 data : ", detailData);
@@ -231,12 +231,12 @@ function StudyManageBoardDetail() {
     <Wrapper>
       <ArticleHeader>
         <ArticleType></ArticleType>
-        <Title>제목입니다.</Title>
+        <Title>{detailData?.result.title}</Title>
       </ArticleHeader>
       <ArticleInfo>
         <Writer>
           <ProfileImg width="2.222vw" />
-          <Name>김싸피</Name>
+          <Name>{detailData?.result.writer.nickname}</Name>
         </Writer>
         <SubInfo>
           <Date>
