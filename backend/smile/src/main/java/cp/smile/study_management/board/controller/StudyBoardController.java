@@ -53,7 +53,7 @@ public class StudyBoardController {
 
 
         UserJoinStudy userJoinStudy = userJoinStudyRepository.findByUserIdAndStudyId(oAuth2User.getUserId(), studyId)
-                .orElseThrow(() -> new EntityNotFoundException("잘못된 접근입니다."));
+                .orElseThrow(() -> new CustomException(USER_NOT_ACCESS_STUDY));
 
 
         studyBoardService.write(userJoinStudy, dto, files);
@@ -71,7 +71,7 @@ public class StudyBoardController {
             @RequestParam(value = "size", required = false) Integer size) {
         // 가입한 스터디의 게시글만 볼 수 있도록 검사
         userJoinStudyRepository.findByUserIdAndStudyId(customOAuth2User.getUserId(), studyId)
-                .orElseThrow(() -> new RuntimeException("가입한 스터디의 게시글만 볼 수 있습니다."));
+                .orElseThrow(() -> new CustomException(USER_NOT_ACCESS_STUDY));
 
         if (page == null) page = 1;
         if (size == null) size = 10;
