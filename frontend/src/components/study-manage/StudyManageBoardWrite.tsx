@@ -109,6 +109,8 @@ const CancelBtn = styled(WriteBtn)`
   color: white;
 `;
 
+const FileDeleteBtn = styled.button``;
+
 function StudyManageBoardWrite() {
   const modules = {
     toolbar: {
@@ -208,7 +210,7 @@ function StudyManageBoardWrite() {
       console.log(error);
     }
 
-    // history.push("/manage/board");
+    history.push("/manage/board");
   };
 
   return (
@@ -248,8 +250,13 @@ function StudyManageBoardWrite() {
       <File>
         <Sub1>첨부파일</Sub1>
         <Sub2>
-          <input type="file" onChange={handleFileSelect} ref={fileInput} />
-          {fileInput.current?.value ? <button>X</button> : null}
+          <input
+            type="file"
+            onChange={handleFileSelect}
+            ref={fileInput}
+            multiple
+          />
+          {fileInput.current?.value ? <FileDeleteBtn>X</FileDeleteBtn> : null}
         </Sub2>
       </File>
       <Button>
