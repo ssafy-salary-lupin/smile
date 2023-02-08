@@ -3,10 +3,11 @@ import LandingPages from "./pages/LandingPages";
 import StudyManagePages from "./pages/StudyManagePages";
 import StudyCreatePages from "./pages/StudyCreatePages";
 import TestPages from "./pages/TestPages";
-import VideoRoomComponent from "components/video-meeting/VideoRoomComponent";
 import WaitingPages from "./pages/WaitingPages";
 import MyStudyPages from "pages/MyStudyPages";
 import KakaoPages from "pages/KakaoPages";
+import StudySearchPages from "pages/StudySearchPages";
+import VideoMeetingPages from "pages/VideoMeetingPages";
 function Router() {
   return (
     <Switch>
@@ -25,14 +26,17 @@ function Router() {
       <Route path="/create">
         <StudyCreatePages />
       </Route>
-      <Route path="/test2">
-        <VideoRoomComponent />
+      <Route path="/videoMeeting/:studyId">
+        <VideoMeetingPages />
       </Route>
-      <Route path="/test3">
+      <Route path="/videoMeeting/waiting/:studyId/:userId">
         <WaitingPages />
       </Route>
       <Route path="/kakao/redirect/:accessToken">
         <KakaoPages />
+      </Route>
+      <Route path="/studySearch">
+        <StudySearchPages />
       </Route>
     </Switch>
   );

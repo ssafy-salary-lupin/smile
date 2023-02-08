@@ -306,7 +306,7 @@ function LandingPages() {
 
   return (
     <>
-      <BackgroundYellow bgHeight="40vw" />
+      <BackgroundYellow bgHeight="65vw" />
       <SLandingBody>
         <SContainer>
           <SBanner>
