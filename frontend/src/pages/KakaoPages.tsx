@@ -9,7 +9,7 @@ interface ILoginToken {
 
 function KakaoPages() {
   const params = useParams<ILoginToken>();
-  const history = useHistory();
+  // const history = useHistory();
 
   const [tokenState, setTokenState] = useRecoilState(LoginState);
 
@@ -18,7 +18,8 @@ function KakaoPages() {
       localStorage.setItem("kakao-token", params.accessToken);
     }
     if (localStorage.getItem("kakao-token")) setTokenState(true);
-    history.push("/");
+    // history.push("/");
+    window.location.replace("/");
   }, [params]);
 
   return <div></div>;
