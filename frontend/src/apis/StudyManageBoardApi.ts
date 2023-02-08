@@ -18,8 +18,6 @@ export async function boardListSelectAllApi(page: number, size: number) {
 
     const data = await response.json();
 
-    console.log("받아온 data : ", data);
-
     return data;
   } catch (error: any) {
     console.log(error);
