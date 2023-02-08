@@ -186,7 +186,9 @@ function StudyManageBoardWrite() {
     formData.append("data", JSON.stringify(data));
 
     const files = selectedFile;
+    const temp: any = [];
     if (files !== null) formData.append("files", files);
+    else formData.append("files", temp);
 
     console.log("files : ", files);
 
