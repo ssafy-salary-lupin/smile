@@ -196,6 +196,7 @@ function StudyManageBoardList() {
 
   // 페이지 변환시 호출할 메소드 => page값 셋팅
   const handlePageChange = (page: any) => {
+    console.log("페이지 변환");
     setPage(page);
   };
 
