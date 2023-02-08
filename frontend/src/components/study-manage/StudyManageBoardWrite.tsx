@@ -135,12 +135,6 @@ const FileListLi = styled.li`
   font-size: 1.111vw;
 `;
 
-const FileDeleteBtn = styled.button`
-  border: none;
-  background-color: white;
-  cursor: pointer;
-`;
-
 function StudyManageBoardWrite() {
   const modules = {
     toolbar: {
@@ -307,13 +301,13 @@ function StudyManageBoardWrite() {
                   <>
                     <FileListLi>
                       {el}
-                      <FileDeleteBtn onClick={deleteFile}>
-                        <DeleteIcon
-                          width="1.111vw"
-                          height="1.111vw"
-                          fill="#ff0000"
-                        />
-                      </FileDeleteBtn>
+                      <DeleteIcon
+                        width="1.111vw"
+                        height="1.111vw"
+                        fill="#ff0000"
+                        onClick={deleteFile}
+                        cursor="pointer"
+                      />
                     </FileListLi>
                   </>
                 );
