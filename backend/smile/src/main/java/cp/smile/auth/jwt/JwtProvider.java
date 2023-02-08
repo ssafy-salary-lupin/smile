@@ -19,7 +19,8 @@ public class JwtProvider {
 
     private final String SECRET_KEY;
 
-    private static final Long ACCESS_TOKEN_VALIDATE_TIME = 1000L * 60 * 60; // 1hour
+    //TODO : 1시간으로 돌려놔야됨.
+    private static final Long ACCESS_TOKEN_VALIDATE_TIME = 1000L * 60 * 60 *24; // 1hour
     public static final Long REFRESH_TOKEN_VALIDATE_TIME = 1000L * 60 * 60 * 24 * 7; // 1week
     private final String CLAIM_USER_ID = "userId";
     private final String CLAIM_USER_EMAIL = "userEmail";
