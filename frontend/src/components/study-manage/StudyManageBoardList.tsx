@@ -2,7 +2,7 @@ import { boardListSelectAllApi } from "apis/StudyManageBoardApi";
 import PagiNation from "components/common/Pagination";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
@@ -183,8 +183,10 @@ function StudyManageBoardList() {
   }, [listData, page]);
 
   // 페이지 변환시 호출할 메소드 => page값 셋팅
+  const history = useHistory();
   const handlePageChange = (page: any) => {
     setPage(page);
+    history.push("/manage/board");
   };
 
   return (
