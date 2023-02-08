@@ -138,8 +138,6 @@ const FileListLi = styled.li`
 const FileDeleteBtn = styled.button`
   border: none;
   background-color: white;
-  width: 1.111vw;
-  height: 1.111vw;
   cursor: pointer;
 `;
 
@@ -307,10 +305,16 @@ function StudyManageBoardWrite() {
               {fileNameList.map((el) => {
                 return (
                   <>
-                    <FileListLi>{el}</FileListLi>
-                    <FileDeleteBtn onClick={deleteFile}>
-                      <DeleteIcon width="100%" height="100%" fill="#ff0000" />
-                    </FileDeleteBtn>
+                    <FileListLi>
+                      {el}
+                      <FileDeleteBtn onClick={deleteFile}>
+                        <DeleteIcon
+                          width="1.111vw"
+                          height="1.111vw"
+                          fill="#ff0000"
+                        />
+                      </FileDeleteBtn>
+                    </FileListLi>
                   </>
                 );
               })}
