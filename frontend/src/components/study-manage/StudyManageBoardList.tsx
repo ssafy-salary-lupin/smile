@@ -168,17 +168,20 @@ function StudyManageBoardList() {
   const [list, setList] = useState<ListData[] | null>(null);
   const [queryExec, setQueryExec] = useState(false);
 
-  // useQuery 재호출 하기
-  // setQueryExec(true);
-
-  const { data: listData } = useQuery<Data>(["listData"], () =>
-    boardListSelectAllApi(page, size),
+  const { data: listData } = useQuery<Data>(
+    ["listData"],
+    () => boardListSelectAllApi(page, size),
+    {
+      enabled: queryExec,
+    },
   );
 
   useEffect(() => {
     console.log("useEffect 실행");
     console.log("page : ", page);
     console.log("listData : ", listData);
+
+    setQueryExec(true);
 
     // 1. 가져온 data 값에서 총 게시글 개수 가져와서 set
     if (listData !== undefined) {
@@ -192,7 +195,6 @@ function StudyManageBoardList() {
 
   // 페이지 변환시 호출할 메소드 => page값 셋팅
   const handlePageChange = (page: any) => {
-    console.log("페이지 변환");
     setPage(page);
   };
 
