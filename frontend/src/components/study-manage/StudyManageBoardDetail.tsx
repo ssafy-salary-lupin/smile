@@ -4,6 +4,7 @@ import { ReactComponent as Time } from "../../assets/icon/Time.svg";
 import { ReactComponent as Eye } from "../../assets/icon/Eye.svg";
 import { ReactComponent as Comment } from "../../assets/icon/Comment.svg";
 import ReactMarkdown from "react-markdown";
+import { useParams } from "react-router-dom";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
@@ -170,8 +171,9 @@ const WriteBtn = styled.button`
 const CommentList = styled.div``;
 
 function StudyManageBoardDetail() {
-  const post =
-    "# 안녕\n\n## 안녕\n\n### 안녕\n\n안녕\n\n**안녕**\n\n***안녕***\n\n****안녕****\n\n> ****안녕****\n\n1.  안녕\n\n*   안녕\n\n안녕\n";
+  const param = useParams();
+
+  console.log("boardId 값 ", param);
 
   return (
     <Wrapper>
@@ -200,7 +202,7 @@ function StudyManageBoardDetail() {
         </SubInfo>
       </ArticleInfo>
       <ArticleContent>
-        <ReactMarkdown>{post}</ReactMarkdown>
+        <ReactMarkdown>내용</ReactMarkdown>
       </ArticleContent>
       <FileBox>
         <FileSub1>첨부 파일</FileSub1>

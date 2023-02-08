@@ -213,7 +213,11 @@ function StudyManageBoardList() {
                       <TypeLabel3>{el.boardType.type}</TypeLabel3>
                     )}
                   </BoardType>
-                  <BoardTitle>{el.title}</BoardTitle>
+                  <BoardTitle>
+                    <Link to={`/manage/boardDetail/${el.boardId}`}>
+                      {el.title}
+                    </Link>
+                  </BoardTitle>
                   <BoardWriter>{el.writer.nickname}</BoardWriter>
                   <BoardDate>
                     {el.writeAt.split("T")[0] + " " + el.writeAt.split("T")[1]}
