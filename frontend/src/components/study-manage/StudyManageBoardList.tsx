@@ -55,7 +55,7 @@ const BoardNum = styled.td`
 `;
 
 const BoardType = styled(BoardNum)`
-  width: 15%;
+  width: 20%;
 `;
 
 const TypeLabel1 = styled.div`
@@ -81,7 +81,7 @@ const TypeLabel3 = styled(TypeLabel1)`
 
 const BoardTitle = styled(BoardNum)`
   font-weight: bold;
-  width: 45%;
+  width: 50%;
   text-align: left;
 `;
 
