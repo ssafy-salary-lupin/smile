@@ -149,10 +149,10 @@ export default function MyStudyPages() {
 
   // 에러 코드
   //유저의 스터디 목록 API로 받아오기
-  const { isLoading: studiesLoading, data: studiesData } = useQuery<
-    boolean,
-    StudiesInterface
-  >(["studies", userId], () => MyStudyApi(userId));
+  const { isLoading: studiesLoading, data: studiesData } = useQuery(
+    ["studies", userId],
+    () => MyStudyApi(userId),
+  );
   console.log("DATA : ", studiesData);
   console.log(studiesData);
   return (
@@ -179,7 +179,7 @@ export default function MyStudyPages() {
         </Header>
         <CurrentContainer>
           <SubTitle>진행중 스터디</SubTitle>
-          <Cards NumberOfCards={studiesData.current.length()}>
+          <Cards NumberOfCards={studiesData ? studiesData.current.length : 0}>
             {!studiesLoading && studiesData
               ? studiesData.current.map((study) => (
                   <CardWrapper>
@@ -194,7 +194,7 @@ export default function MyStudyPages() {
           <SearchContainer>
             <SearchComponent />
           </SearchContainer>
-          <Cards NumberOfCards={studiesData.current.length()}>
+          <Cards NumberOfCards={studiesData ? studiesData.end.length : 0}>
             {!studiesLoading && studiesData
               ? studiesData.end.map((study) => (
                   <Card key={study.studyId} studyInfo={study} />
