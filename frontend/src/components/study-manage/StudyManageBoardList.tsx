@@ -205,7 +205,7 @@ function StudyManageBoardList() {
             list.map((el) => {
               return (
                 <Row>
-                  <BoardNum>{el.boardId}</BoardNum>
+                  {/* <BoardNum>{el.boardId}</BoardNum> */}
                   <BoardType>
                     {el.boardType.type === "공지" ? (
                       <TypeLabel1>{el.boardType.type}</TypeLabel1>
