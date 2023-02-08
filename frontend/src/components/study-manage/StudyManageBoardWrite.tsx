@@ -111,20 +111,33 @@ const CancelBtn = styled(WriteBtn)`
 
 const InputFile = styled.input`
   width: 100%;
+  display: none;
+`;
+
+const InputFileBtn = styled.button`
+  background-color: ${(props) => props.theme.subColor};
+  border: none;
+  margin: 0 0.278vw;
+  padding: 0.347vw 0.972vw;
+  cursor: pointer;
+  border-radius: 0.278vw;
+  font-size: 1.111vw;
 `;
 
 const FileListUl = styled.ul`
   width: 100%;
-  border: 1px solid red;
   padding-left: 1.667vw;
 `;
 
-const FileListLi = styled.li``;
+const FileListLi = styled.li`
+  display: flex;
+  flex-direction: row;
+`;
 
 const FileDeleteBtn = styled.button`
   border: none;
   background-color: none;
-  width: 0.556vw;
+  /* width: 0.556vw; */
 `;
 
 function StudyManageBoardWrite() {
@@ -237,6 +250,10 @@ function StudyManageBoardWrite() {
     history.push("/manage/board");
   };
 
+  const onFileInput = () => {
+    document.getElementById("inputFile")?.click();
+  };
+
   return (
     <Wrapper>
       <Bracket>
@@ -274,7 +291,13 @@ function StudyManageBoardWrite() {
       <File>
         <Sub1>첨부파일</Sub1>
         <Sub2>
-          <InputFile type="file" onChange={handleFileSelect} multiple />
+          <InputFile
+            type="file"
+            id="inputFile"
+            onChange={handleFileSelect}
+            multiple
+          />
+          <InputFileBtn onClick={onFileInput}>파일 첨부</InputFileBtn>
           {fileNameList.length > 0 ? (
             <FileListUl>
               {fileNameList.map((el) => {
