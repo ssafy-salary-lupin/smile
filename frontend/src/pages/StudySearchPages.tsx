@@ -92,13 +92,13 @@ export default function StudySearchPages() {
   );
   console.log("DATA:", studiesLoading, studiesData);
 
-  if (studiesData === undefined) {
-  } else if (studiesData.result.length)
-    // 스터디 더보기 클릭 여부를 확인하기 위한 state
-    const [moreStudies, setMoreStudies] = useState<boolean>(false);
+  // if (studiesData === undefined) {
+  // } else if (studiesData.result.length)
+  //   // 스터디 더보기 클릭 여부를 확인하기 위한 state
+  //   const [moreStudies, setMoreStudies] = useState<boolean>(false);
   return (
     <>
-      <BlankSpace />
+      {/* <BlankSpace />
       {studiesLoading ? (
         <Wrapper>
           <Header>
@@ -127,7 +127,7 @@ export default function StudySearchPages() {
         </Wrapper>
       ) : (
         <span>로딩중</span>
-      )}
+      )} */}
     </>
   );
 }
