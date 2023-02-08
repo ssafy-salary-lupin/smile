@@ -101,7 +101,7 @@ const NoArticle = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-top: 3px solid ${(props) => props.theme.blackColor};
+  /* border-top: 3px solid ${(props) => props.theme.blackColor}; */
   border-bottom: 3px solid ${(props) => props.theme.blackColor};
 `;
 
