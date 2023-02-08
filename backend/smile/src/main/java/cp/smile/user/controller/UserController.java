@@ -1,6 +1,7 @@
 
 package cp.smile.user.controller;
 
+import cp.smile.auth.jwt.JwtProvider;
 import cp.smile.auth.oauth2.CustomOAuth2User;
 import cp.smile.config.response.CommonResponse;
 import cp.smile.config.response.DataResponse;
@@ -10,13 +11,20 @@ import cp.smile.user.dto.request.UserJoinDTO;
 import cp.smile.user.dto.request.UserLoginDTO;
 import cp.smile.user.dto.response.UserInfoDTO;
 import cp.smile.user.dto.response.UserJoinedStudies;
+import cp.smile.user.dto.response.UserTokenDTO;
 import cp.smile.user.service.UserService;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -44,11 +52,24 @@ public class UserController {
 
     /* 로그인 */
     @PostMapping("/login")
-    public void login(@RequestBody UserLoginDTO userLoginDTO) {
+    public DataResponse<Map<String, String>> login(@RequestBody UserLoginDTO userLoginDTO, HttpServletResponse response) {
         String email = userLoginDTO.getEmail();
         String password = userLoginDTO.getPassword();
 
-        /////////////////////////////////////////////////
+        UserTokenDTO userTokenDTO = userService.login(email, password);
+
+        ResponseCookie cookie = ResponseCookie.from("refresh", userTokenDTO.getRefreshToken())
+                .httpOnly(true)
+                .maxAge(JwtProvider.REFRESH_TOKEN_VALIDATE_TIME)
+                .path("/")
+                .build();
+
+        response.addHeader("Set-Cookie", cookie.toString());
+
+        Map<String, String> accessToken = new HashMap<>();
+        accessToken.put("accessToken", userTokenDTO.getAccessToken());
+
+        return responseService.getDataResponse(accessToken);
     }
 
     @PostMapping("/users/{userId}/studies/{studyId}")

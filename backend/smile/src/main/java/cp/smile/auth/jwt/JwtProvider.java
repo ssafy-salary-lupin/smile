@@ -49,6 +49,24 @@ public class JwtProvider {
                 .compact();
     }
 
+    /* Local 로그인용 */
+    public String createAccessToken(int id, String email) {
+        Date now = new Date();
+        Date validity = new Date(now.getTime() + ACCESS_TOKEN_VALIDATE_TIME);
+
+        Map<String, Object> claims = new HashMap<>();
+        claims.put(CLAIM_USER_ID, id);
+        claims.put(CLAIM_USER_EMAIL, email);
+
+        return Jwts.builder()
+                .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
+                .addClaims(claims)
+                .setIssuer("issuer")
+                .setIssuedAt(now)
+                .setExpiration(validity)
+                .compact();
+    }
+
     private Map<String, Object> buildUserClaims(CustomOAuth2User oAuth2User, String role) {
         Map<String, Object> claims = new HashMap<>();
         claims.put(CLAIM_USER_ID, oAuth2User.getUserId());
