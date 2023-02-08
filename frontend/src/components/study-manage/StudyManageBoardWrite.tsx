@@ -4,6 +4,7 @@ import "react-quill/dist/quill.snow.css";
 import { useRef, useState } from "react";
 import axios from "axios";
 import Editor, { EditorContentChanged } from "./Editor";
+import { useHistory } from "react-router-dom";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
@@ -156,6 +157,8 @@ function StudyManageBoardWrite() {
     setSelectedFile(event.target.files[0]);
   };
 
+  const history = useHistory();
+
   const submit = async () => {
     if (typeId === 0) {
       alert("유형을 선택해 주세요. ");
@@ -201,6 +204,8 @@ function StudyManageBoardWrite() {
     } catch (error) {
       console.log(error);
     }
+
+    history.push("/manage/board");
   };
 
   return (
