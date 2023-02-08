@@ -1,5 +1,11 @@
 import { atom, selector } from "recoil";
 
+// 이벤트 클릭 상태값
+export const dateState = atom({
+  key: "dateState",
+  default: false,
+});
+
 // recoil 추가..
 export const Schedules = atom({
   key: "isSchedules",
@@ -17,7 +23,7 @@ export const Selector = selector({
   key: "selectorTest",
   get: ({ get }) => {
     // options의 매개변수에 있는 {get} function 가져오기
-    const data = get(Schedules);
+    const data = get(ScheduleRegist);
     return data;
   },
 });

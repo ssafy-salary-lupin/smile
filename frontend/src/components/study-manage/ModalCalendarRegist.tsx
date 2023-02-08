@@ -4,15 +4,25 @@ import { ReactComponent as Close } from "../../assets/icon/Close.svg";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/esm/locale"; //한국어 설정
-
-import { ScheduleRegist, Selector } from "atoms/StudyManageCalendarAtom";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { dateState } from "atoms/StudyManageCalendarAtom";
+import { useRecoilState } from "recoil";
 
 interface PropsType {
   setModalOpen: React.Dispatch<SetStateAction<boolean>>;
   selectStart: string;
   selectEnd: string;
   onRegist: Function;
+}
+
+export interface IRegistData {
+  scheduleTypeId: number;
+  title: string;
+  description: string;
+  startTime: string;
+  endTime: string;
+  url: string;
+  // color : color,
+  // textColor : "#000000"
 }
 
 const ModalContainer = styled.div`
@@ -208,10 +218,13 @@ const CancelBtn = styled(YellowBtn)`
   color: ${(props) => props.theme.blackColorOpacity2};
 `;
 
-function ModalBasic(props: PropsType) {
+function ModalCalendarRegist(props: PropsType) {
+  // 이벤트 클릭 상태값
+  const [dateClickState, setDateClickState] = useRecoilState(dateState);
   // 모달 관련 코드 ======================================
   const closeModal = () => {
     props.setModalOpen(false);
+    setDateClickState(false);
   };
   const modalRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -240,7 +253,7 @@ function ModalBasic(props: PropsType) {
 
   // data set ===============================
   const handleType = (e: any) => {
-    setType(e.target.value);
+    setType(Number(e.target.value));
   };
 
   const handleTitle = (e: any) => {
@@ -275,7 +288,13 @@ function ModalBasic(props: PropsType) {
       ":" +
       ("0" + startDate.getMinutes()).slice(-2).toString(),
     endTime:
-      new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate() + 1)
+      new Date(
+        endDate.getFullYear(),
+        endDate.getMonth(),
+        endDate.getDate() + 1,
+        endDate.getHours(),
+        endDate.getMinutes(),
+      )
         .getFullYear()
         .toString() +
       "-" +
@@ -285,6 +304,8 @@ function ModalBasic(props: PropsType) {
           endDate.getFullYear(),
           endDate.getMonth(),
           endDate.getDate() + 1,
+          endDate.getHours(),
+          endDate.getMinutes(),
         ).getMonth() +
           1)
       )
@@ -297,6 +318,8 @@ function ModalBasic(props: PropsType) {
           endDate.getFullYear(),
           endDate.getMonth(),
           endDate.getDate() + 1,
+          endDate.getHours(),
+          endDate.getMinutes(),
         ).getDate()
       )
         .slice(-2)
@@ -307,7 +330,9 @@ function ModalBasic(props: PropsType) {
         new Date(
           endDate.getFullYear(),
           endDate.getMonth(),
-          endDate.getDate() + 1,
+          endDate.getDate(),
+          endDate.getHours(),
+          endDate.getMinutes(),
         ).getHours()
       )
         .slice(-2)
@@ -318,7 +343,9 @@ function ModalBasic(props: PropsType) {
         new Date(
           endDate.getFullYear(),
           endDate.getMonth(),
-          endDate.getDate() + 1,
+          endDate.getDate(),
+          endDate.getHours(),
+          endDate.getMinutes(),
         ).getMinutes()
       )
         .slice(-2)
@@ -327,9 +354,6 @@ function ModalBasic(props: PropsType) {
     // color : color,
     // textColor : "#000000"
   };
-
-  // 단건 일정 recoil
-  const [schedule, setSchedule] = useRecoilState(ScheduleRegist);
 
   const RegistSchedule = () => {
     // form 빈칸 체크
@@ -346,11 +370,8 @@ function ModalBasic(props: PropsType) {
       return;
     }
 
-    // Recoil data 갱신
-    setSchedule(registData);
-
     // 일정 등록 메소드 실행
-    props.onRegist();
+    props.onRegist(registData);
     closeModal();
   };
 
@@ -368,8 +389,10 @@ function ModalBasic(props: PropsType) {
         <ModalConWrapper>
           <Select name="schedule" onChange={handleType}>
             <Option value="0">-- 유형 --</Option>
-            <Option value="1">서류 지원</Option>
-            <Option value="2">채용 공고</Option>
+            <Option value="1">면접</Option>
+            <Option value="2">서류</Option>
+            <Option value="3">스터디</Option>
+            <Option value="4">시험</Option>
           </Select>
           <Title placeholder="회의 제목" onChange={handleTitle} />
           <Link placeholder="URL" onChange={handleLink} />
@@ -417,4 +440,4 @@ function ModalBasic(props: PropsType) {
     </Backdrop>
   );
 }
-export default ModalBasic;
+export default ModalCalendarRegist;

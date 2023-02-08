@@ -3,6 +3,7 @@ import Footer from "./components/common/Footer";
 import Router from "./Router";
 import { createGlobalStyle } from "styled-components";
 import { BrowserRouter } from "react-router-dom";
+import { useEffect } from "react";
 
 const GlobalStyle = createGlobalStyle`
 /* @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap"); */
@@ -283,6 +284,10 @@ body {
 `;
 
 function App() {
+  useEffect(() => {
+    console.log("APP 렌더링");
+  });
+
   const curPath = window.location.pathname;
   // if (curPath === "/test2") {
   //   const bodyTag = document.querySelector("body");

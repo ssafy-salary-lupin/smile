@@ -3,13 +3,13 @@ import styled from "styled-components";
 import logoImg from "../../assets/img/smile_black.png";
 import "../../assets/css/index.css";
 import { motion, useAnimation, useScroll } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { LoginState } from "atoms/LoginAtom";
 
 const Nav = styled(motion.nav)`
-  position: absolute;
-  top: 0;
+  position: fixed;
+  /* top: 0; */
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -150,7 +150,9 @@ function NavBar(props: UrlProps) {
   const kakaoToken = localStorage.getItem("kakao-token");
 
   useEffect(() => {
-    if (props.curUrl === "/" || "^/myStudy") {
+    console.log("props.curUrl : ", props.curUrl);
+
+    if (props.curUrl === "/") {
       scrollY.onChange(() => {
         if (scrollY.get() > 80) {
           navAnimation.start("scroll");
@@ -163,9 +165,12 @@ function NavBar(props: UrlProps) {
     }
   }, [scrollY, navAnimation, props.curUrl]);
 
+  const history = useHistory();
+
   const signOut = () => {
     localStorage.removeItem("kakao-token");
     setTokenState(false);
+    history.push("/");
   };
 
   return (

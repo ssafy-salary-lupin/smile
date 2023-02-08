@@ -2,6 +2,7 @@ import { boardListSelectAllApi } from "apis/StudyManageBoardApi";
 import PagiNation from "components/common/Pagination";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
@@ -54,7 +55,8 @@ const BoardNum = styled.td`
 `;
 
 const BoardType = styled(BoardNum)`
-  width: 15%;
+  width: 20%;
+  padding-left: 1.111vw;
 `;
 
 const TypeLabel1 = styled.div`
@@ -74,9 +76,13 @@ const TypeLabel2 = styled(TypeLabel1)`
   background-color: #314e8d;
 `;
 
+const TypeLabel3 = styled(TypeLabel1)`
+  background-color: #007c1f;
+`;
+
 const BoardTitle = styled(BoardNum)`
   font-weight: bold;
-  width: 45%;
+  width: 50%;
   text-align: left;
 `;
 
@@ -96,7 +102,7 @@ const NoArticle = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-top: 3px solid ${(props) => props.theme.blackColor};
+  /* border-top: 3px solid ${(props) => props.theme.blackColor}; */
   border-bottom: 3px solid ${(props) => props.theme.blackColor};
 `;
 
@@ -158,18 +164,17 @@ interface ListData {
 //
 function StudyManageBoardList() {
   const [page, setPage] = useState(1);
-  const [size, setSize] = useState(10);
+  const [size, setSize] = useState(7);
   const [totalElements, setTotalElements] = useState(0);
   const [list, setList] = useState<ListData[] | null>(null);
 
-  const { data: listData } = useQuery<Data>(["listData"], () =>
+  const { data: listData, refetch } = useQuery<Data>(["listData"], () =>
     boardListSelectAllApi(page, size),
   );
 
-  console.log("가져온 데이타 : ", listData);
-
   useEffect(() => {
     // 1. 가져온 data 값에서 총 게시글 개수 가져와서 set
+    refetch();
     if (listData !== undefined) {
       setTotalElements(listData?.result.totalElements);
     }
@@ -177,8 +182,6 @@ function StudyManageBoardList() {
     if (listData !== undefined) {
       setList(listData?.result.content);
     }
-    console.log("listData.result.content : ", listData?.result.content);
-    console.log("게시글 : ", list);
   }, [listData, page]);
 
   // 페이지 변환시 호출할 메소드 => page값 셋팅
@@ -190,18 +193,25 @@ function StudyManageBoardList() {
     <Wrapper>
       <Head>
         <HeadSub1>총 {totalElements}건</HeadSub1>
-        <HeadSub2>글 쓰기</HeadSub2>
+        <HeadSub2>
+          <Link to="/manage/boardWrite">글 쓰기</Link>
+        </HeadSub2>
       </Head>
-
-      {list !== null ? (
-        list.map((el) => {
-          return (
-            <BoardListBox>
-              <Tbody>
+      <BoardListBox>
+        <Tbody>
+          {totalElements > 0 && list !== null ? (
+            list.map((el) => {
+              return (
                 <Row>
-                  <BoardNum>{el.boardId}</BoardNum>
+                  {/* <BoardNum>{el.boardId}</BoardNum> */}
                   <BoardType>
-                    <TypeLabel1>{el.boardType.type}</TypeLabel1>
+                    {el.boardType.type === "공지" ? (
+                      <TypeLabel1>{el.boardType.type}</TypeLabel1>
+                    ) : el.boardType.type === "자료" ? (
+                      <TypeLabel2>{el.boardType.type}</TypeLabel2>
+                    ) : (
+                      <TypeLabel3>{el.boardType.type}</TypeLabel3>
+                    )}
                   </BoardType>
                   <BoardTitle>{el.title}</BoardTitle>
                   <BoardWriter>{el.writer.nickname}</BoardWriter>
@@ -209,13 +219,13 @@ function StudyManageBoardList() {
                     {el.writeAt.split("T")[0] + " " + el.writeAt.split("T")[1]}
                   </BoardDate>
                 </Row>
-              </Tbody>
-            </BoardListBox>
-          );
-        })
-      ) : (
-        <NoArticle>글내용이 없습니다.</NoArticle>
-      )}
+              );
+            })
+          ) : list !== null && totalElements === 0 ? (
+            <NoArticle>글내용이 없습니다.</NoArticle>
+          ) : null}
+        </Tbody>
+      </BoardListBox>
 
       <PagiNation
         page={page}

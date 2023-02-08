@@ -10,8 +10,8 @@ interface PropsType {
   title: string;
   start: string;
   end: string;
-  // startTime: string;
-  // endTime: string;
+  timeStart: string;
+  timeEnd: string;
   desc: string;
   type: string;
   link: string;
@@ -167,7 +167,7 @@ const YellowBtn = styled.button`
   font-size: 1vw;
 `;
 
-function ModalBasic(props: PropsType) {
+function ModalCalendarCommonView(props: PropsType) {
   // const [modalOpen, setModalOpen] = useState<boolean>(true);
   // 모달 끄기
   const closeModal = () => {
@@ -213,6 +213,14 @@ function ModalBasic(props: PropsType) {
             <Text>{props.desc}</Text>
             <HashtagBox>
               <Hashtag width="10%" height="100%" />
+              <HashtagTxt>시작 시간 : {props.timeStart}</HashtagTxt>
+            </HashtagBox>
+            <HashtagBox>
+              <Hashtag width="10%" height="100%" />
+              <HashtagTxt>마감 시간 : {props.timeEnd}</HashtagTxt>
+            </HashtagBox>
+            <HashtagBox>
+              <Hashtag width="10%" height="100%" />
               <HashtagTxt>{props.type}</HashtagTxt>
             </HashtagBox>
             {props.link && (
@@ -230,4 +238,4 @@ function ModalBasic(props: PropsType) {
     </Backdrop>
   );
 }
-export default ModalBasic;
+export default ModalCalendarCommonView;

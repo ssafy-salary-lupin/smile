@@ -6,12 +6,8 @@ import { useState, useEffect } from "react";
 import ModalCalendarCommonView from "./ModalCalendarCommonView";
 import { useQuery } from "react-query";
 import { useRecoilState, useRecoilValue } from "recoil";
-import {
-  ScheduleRegist,
-  Schedules,
-  Selector,
-} from "atoms/StudyManageCalendarAtom";
-import ModalCalendarRegist from "./ModalCalendarRegist";
+import { dateState, Schedules } from "atoms/StudyManageCalendarAtom";
+import ModalCalendarRegist, { IRegistData } from "./ModalCalendarRegist";
 import ModalCalendarMeetingView from "./ModalCalendarMeetingView";
 import {
   calendarCreateApi,
@@ -57,6 +53,8 @@ function StudyManageCalendar() {
   const [host, setHost] = useState<string>("");
   const [start, setStart] = useState<string>("");
   const [end, setEnd] = useState<string>("");
+  const [timeStart, setTimeStart] = useState<string>("");
+  const [timeEnd, setTimeEnd] = useState<string>("");
   const [time, setTime] = useState<string>("");
   const [desc, setDesc] = useState<string>("");
   const [link, setLink] = useState<string>("");
@@ -66,11 +64,13 @@ function StudyManageCalendar() {
 
   // 여러 일정 저장된 atom
   const [schedules, setSchedules] = useRecoilState(Schedules);
-  // 단건 일정 저장된 atom
-  const schedule = useRecoilValue(ScheduleRegist);
+
+  // 이벤트 클릭 상태값
+  const [dateClickState, setDateClickState] = useRecoilState(dateState);
 
   // 날짜 클릭 시 일정 등록 모달 띄우기
   const handleDateClick = (arg: any) => {
+    setDateClickState(true);
     const endDate = new Date(arg.end);
     const yesterday = new Date(
       endDate.getFullYear(),
@@ -86,6 +86,11 @@ function StudyManageCalendar() {
     setSelectStart(arg.startStr);
     setSelectEnd(endStr);
     setRegistModalOpen(true);
+  };
+
+  // 날짜 연속 클릭 방지용
+  const handleDateClickBlock = () => {
+    setDateClickState(false);
   };
 
   // 이벤트 클릭시 적합한 모달창 띄우기
@@ -107,26 +112,26 @@ function StudyManageCalendar() {
       setLink(arg.event._def.extendedProps.link);
       setStart(arg.event._def.start);
       setEnd(arg.event._def.end);
+      setTimeStart(arg.event._def.extendedProps.timeStart);
+      setTimeEnd(arg.event._def.extendedProps.timeEnd);
       setTime(arg.event._def.extendedProps.time);
     }
   };
 
-  // 일정 등록시 post요청
-  const onRegist = () => {
-    // post
-    calendarCreateApi(schedule);
-    // 일정 등록 시 바로 달력에 표시되는지 체크
-  };
-
   // db에서 전체 일정 데이터 받아오기
-  // missing queryFn 오류
-  const { data: commonSchedules } = useQuery<IData>("allSchedules", () =>
-    calendarSelectAllApi(),
+  const { data: commonSchedules, refetch } = useQuery<IData>(
+    "allSchedules",
+    () => calendarSelectAllApi(),
   );
+
+  // 일정 등록시 post요청
+  const onRegist = async (registData: IRegistData) => {
+    await calendarCreateApi(registData);
+    refetch();
+  };
 
   useEffect(() => {
     setSchedules([]);
-
     const datas = commonSchedules?.result;
 
     datas?.forEach((el) => {
@@ -134,8 +139,8 @@ function StudyManageCalendar() {
         title: el.title,
         start: el.startTime.split("T")[0],
         end: el.endTime.split("T")[0],
-        // 시작 시간 startTime.split(" ")[1]
-        // 마감 시간 endTime.split(" ")[1]
+        timeStart: el.startTime.split("T")[1],
+        timeEnd: el.endTime.split("T")[1],
         desc: el.description,
         type: el.type.name,
         link: el.url,
@@ -153,8 +158,12 @@ function StudyManageCalendar() {
         events={schedules}
         eventClick={handleEventClick}
         selectable={true}
-        select={handleDateClick}
-        unselect={handleDateClick}
+        select={
+          dateClickState === false ? handleDateClick : handleDateClickBlock
+        }
+        unselect={
+          dateClickState === false ? handleDateClick : handleDateClickBlock
+        }
         droppable={true}
       />
       {MeetingModalOpen && (
@@ -176,6 +185,8 @@ function StudyManageCalendar() {
           desc={desc}
           type={type}
           link={link}
+          timeStart={timeStart}
+          timeEnd={timeEnd}
         />
       )}
       {RegistModalOpen && (

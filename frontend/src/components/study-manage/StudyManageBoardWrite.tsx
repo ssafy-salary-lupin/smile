@@ -4,6 +4,7 @@ import "react-quill/dist/quill.snow.css";
 import { useRef, useState } from "react";
 import axios from "axios";
 import Editor, { EditorContentChanged } from "./Editor";
+import { Link, useHistory } from "react-router-dom";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
@@ -109,35 +110,35 @@ const CancelBtn = styled(WriteBtn)`
 `;
 
 function StudyManageBoardWrite() {
-  // const modules = {
-  //   toolbar: {
-  //     container: [
-  //       ["bold", "italic", "underline", "strike", "blockquote"],
-  //       [{ size: ["small", false, "large", "huge"] }, { color: [] }],
-  //       [
-  //         { list: "ordered" },
-  //         { list: "bullet" },
-  //         { indent: "-1" },
-  //         { indent: "+1" },
-  //         { align: [] },
-  //       ],
-  //     ],
-  //   },
-  //   clipboard: { matchVisual: false },
-  // };
-
-  // react - quill
-  const [editorHtmlValue, setEditorHtmlValue] = useState<string>("");
-  const [editorMarkdownValue, setEditorMarkdownValue] = useState<string>("");
-
-  const onEditorContentChanged = (content: EditorContentChanged) => {
-    setEditorHtmlValue(content.html);
-    setEditorMarkdownValue(content.markdown);
+  const modules = {
+    toolbar: {
+      container: [
+        ["bold", "italic", "underline", "strike", "blockquote"],
+        [{ size: ["small", false, "large", "huge"] }, { color: [] }],
+        [
+          { list: "ordered" },
+          { list: "bullet" },
+          { indent: "-1" },
+          { indent: "+1" },
+          { align: [] },
+        ],
+      ],
+    },
+    clipboard: { matchVisual: false },
   };
 
-  const [title, setTitle] = useState(""); // 글 제목
-  const [content, setContent] = useState(""); // 글 내용
-  const [typeId, setTypeId] = useState(""); // 글 유형
+  // react - quill
+  // const [editorHtmlValue, setEditorHtmlValue] = useState<string>("");
+  // const [editorMarkdownValue, setEditorMarkdownValue] = useState<string>("");
+
+  // const onEditorContentChanged = (content: EditorContentChanged) => {
+  //   setEditorHtmlValue(content.html);
+  //   setEditorMarkdownValue(content.markdown);
+  // };
+
+  const [title, setTitle] = useState<string>(""); // 글 제목
+  const [content, setContent] = useState<string>(""); // 글 내용
+  const [typeId, setTypeId] = useState<number>(0); // 글 유형
   const [selectedFile, setSelectedFile] = useState(null); // 파일
 
   const handleTitle = (event: any) => {
@@ -149,15 +150,21 @@ function StudyManageBoardWrite() {
   };
 
   const handleTypeId = (event: any) => {
-    setTypeId(event.target.value);
+    setTypeId(Number(event.target.value));
   };
 
+  const fileInput = useRef<HTMLInputElement>(null);
   const handleFileSelect = (event: any) => {
     setSelectedFile(event.target.files[0]);
+    console.log("ref 체크 : ", fileInput.current?.value);
+    console.log("event.target.files[0] : ", event.target.files[0]);
+    console.log("파일 타입 체크 : ", typeof event.target.files[0]);
   };
 
+  const history = useHistory();
+
   const submit = async () => {
-    if (typeId === "") {
+    if (typeId === 0) {
       alert("유형을 선택해 주세요. ");
       return;
     }
@@ -173,26 +180,26 @@ function StudyManageBoardWrite() {
     const formData = new FormData();
 
     const data = {
-      title: { title },
-      content: { content },
-      typeId: { typeId },
+      title: title,
+      content: content,
+      typeId: typeId,
     };
-
-    console.log(content);
 
     formData.append("data", JSON.stringify(data));
 
     const files = selectedFile;
-    if (files) {
-      formData.append("files", files);
-    }
+    if (files !== null) formData.append("files", files);
+
+    console.log("files : ", files);
+    console.log("formdata files 값 확인 : ", formData.get("files"));
 
     try {
-      const response = await axios.post(
-        `http://localhost:8080/studies/{studyId}/boards`,
+      await axios.post(
+        `https://i8b205.p.ssafy.io/be-api/studies/1/boards`,
         formData,
         {
           headers: {
+            Authorization: `Bearer ${localStorage.getItem("kakao-token")}`,
             "Content-Type": "multipart/form-data",
           },
         },
@@ -200,6 +207,8 @@ function StudyManageBoardWrite() {
     } catch (error) {
       console.log(error);
     }
+
+    // history.push("/manage/board");
   };
 
   return (
@@ -210,7 +219,8 @@ function StudyManageBoardWrite() {
           <Select name="bracket" onChange={handleTypeId}>
             <Option value="0">-- 말머리 --</Option>
             <Option value="1">공지</Option>
-            <Option value="2">서류</Option>
+            <Option value="2">자료</Option>
+            <Option value="3">일반</Option>
           </Select>
         </Sub2>
       </Bracket>
@@ -226,24 +236,27 @@ function StudyManageBoardWrite() {
       <Content>
         <Sub1>내용</Sub1>
         <Sub2>
-          {/* <ReactQuill
+          <ReactQuill
             theme="snow"
             value={content}
             onChange={handleContent}
             modules={modules}
-          /> */}
-          <Editor onChange={onEditorContentChanged} />
+          />
+          {/* <Editor onChange={onEditorContentChanged} /> */}
         </Sub2>
       </Content>
       <File>
         <Sub1>첨부파일</Sub1>
         <Sub2>
-          <input type="file" onChange={handleFileSelect} />
+          <input type="file" onChange={handleFileSelect} ref={fileInput} />
+          {fileInput.current?.value ? <button>X</button> : null}
         </Sub2>
       </File>
       <Button>
         <WriteBtn onClick={submit}>등록</WriteBtn>
-        <CancelBtn>취소</CancelBtn>
+        <CancelBtn>
+          <Link to="/manage/board">취소</Link>
+        </CancelBtn>
       </Button>
     </Wrapper>
   );
