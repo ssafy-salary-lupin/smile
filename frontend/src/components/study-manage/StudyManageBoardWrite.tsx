@@ -187,11 +187,10 @@ function StudyManageBoardWrite() {
 
     const files = selectedFile;
     const temp: any = [];
-    if (files) {
-      formData.append("files", files);
-    } else {
-      formData.append("files", temp);
-    }
+    if (files !== null) formData.append("files", files);
+    else formData.append("files", temp);
+
+    console.log("files : ", files);
 
     try {
       await axios.post(
@@ -208,7 +207,7 @@ function StudyManageBoardWrite() {
       console.log(error);
     }
 
-    history.push("/manage/board");
+    // history.push("/manage/board");
   };
 
   return (
