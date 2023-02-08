@@ -155,10 +155,9 @@ function StudyManageBoardWrite() {
     setTypeId(Number(event.target.value));
   };
 
-  const fileInput = useRef<HTMLInputElement>(null);
+  const [fileNameList, setFileNameList] = useState<string[]>([]);
   const handleFileSelect = (event: any) => {
     setSelectedFile(event.target.files[0]);
-    console.log("ref 체크 : ", fileInput.current);
     console.log("event.target.files[0] : ", event.target.files[0]);
     console.log("event.target.files : ", event.target.files);
 
@@ -166,6 +165,7 @@ function StudyManageBoardWrite() {
 
     for (let i = 0; i < files.length; i++) {
       console.log(files[i].name);
+      setFileNameList([...fileNameList, files[i].name]);
     }
   };
 
@@ -256,14 +256,14 @@ function StudyManageBoardWrite() {
       <File>
         <Sub1>첨부파일</Sub1>
         <Sub2>
-          <input
-            type="file"
-            onChange={handleFileSelect}
-            ref={fileInput}
-            multiple
-          />
-          <ul></ul>
-          {/* {fileInput.current?.value ? <FileDeleteBtn>X</FileDeleteBtn> : null} */}
+          <input type="file" onChange={handleFileSelect} multiple />
+          {fileNameList.length > 0 ? (
+            <ul>
+              {fileNameList.map((el) => {
+                return <li>el.name</li>;
+              })}
+            </ul>
+          ) : null}
         </Sub2>
       </File>
       <Button>
