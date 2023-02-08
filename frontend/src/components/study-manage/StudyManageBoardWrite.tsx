@@ -186,9 +186,7 @@ function StudyManageBoardWrite() {
     formData.append("data", JSON.stringify(data));
 
     const files = selectedFile;
-    const temp: any = [];
     if (files !== null) formData.append("files", files);
-    else formData.append("files", temp);
 
     console.log("files : ", files);
     console.log("formdata files 값 확인 : ", formData.get("files"));
@@ -254,7 +252,7 @@ function StudyManageBoardWrite() {
       <Button>
         <WriteBtn onClick={submit}>등록</WriteBtn>
         <CancelBtn>
-          <Link to="/manage/boar">취소</Link>
+          <Link to="/manage/board">취소</Link>
         </CancelBtn>
       </Button>
     </Wrapper>
