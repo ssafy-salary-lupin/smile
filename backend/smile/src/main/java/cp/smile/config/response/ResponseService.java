@@ -1,5 +1,6 @@
 package cp.smile.config.response;
 
+import cp.smile.config.response.exception.CustomExceptionStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,27 +16,28 @@ public class ResponseService {
         return response;
     }
 
+
     //응답 데이터가 있는 경우
-    public <T> DataResponse<T> getDataResponse(T data){
+    public <T> DataResponse<T> getDataResponse(T data,CustomSuccessStatus status){
 
         DataResponse<T> response = new DataResponse<>();
         response.setResult(data);
-        response.setIsSuccess(true);
-        response.setCode(200);
-        response.setMessage("요청에 성공했습니다.");
+        response.setIsSuccess(status.getIsSuccess());
+        response.setCode(status.getCode());
+        response.setMessage(status.getMessages());
 
         return response;
 
     }
 
     //예외 응답
-//    public CommonResponse getExceptionResponse(){
-//        CommonResponse response = new CommonResponse();
-//        response.setIsSuccess(false);
-//        response.setCode(400);
-//        response.setMessage("요청에 실패했습니다.");
-//
-//        return response;
-//
-//    }
+    public CommonResponse getExceptionResponse(CustomExceptionStatus status){
+        CommonResponse response = new CommonResponse();
+        response.setIsSuccess(status.getIsSuccess());
+        response.setCode(status.getCode());
+        response.setMessage(status.getMessage());
+
+        return response;
+
+    }
 }

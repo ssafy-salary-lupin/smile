@@ -2,6 +2,7 @@ package cp.smile.study_management.admin.controller;
 
 import cp.smile.auth.oauth2.CustomOAuth2User;
 import cp.smile.config.response.CommonResponse;
+import cp.smile.config.response.CustomSuccessStatus;
 import cp.smile.config.response.DataResponse;
 import cp.smile.config.response.ResponseService;
 import cp.smile.entity.user.User;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static cp.smile.config.response.CustomSuccessStatus.*;
 
 @Slf4j
 @RestController
@@ -47,7 +50,9 @@ public class StudyAdminController {
                     .isLeader(userJoinStudy.getIsLeader()).build());
         }
 
-        return responseService.getDataResponse(FindStudyJoinedUserDTOS);
+        if(FindStudyJoinedUserDTOS.isEmpty()) return responseService.getDataResponse(FindStudyJoinedUserDTOS, RESPONSE_NO_CONTENT);
+
+        return responseService.getDataResponse(FindStudyJoinedUserDTOS, RESPONSE_SUCCESS);
     }
 
     /* 스터디장 위임 */

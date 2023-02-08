@@ -1,5 +1,9 @@
 package cp.smile.auth.jwt;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -19,17 +23,35 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+    public static final String TOKEN_EXCEPTION_KEY = "exception";
+    public static final String TOKEN_INVALID = "invalid";
+    public static final String TOKEN_EXPIRE = "expire";
+    public static final String TOKEN_UNSUPPORTED = "unsupported";
+    public static final String TOKEN_ILLEGAL = "illegal";
+
     private final JwtProvider jwtProvider;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = parseBearerToken(request);
 
-        if (StringUtils.hasText(token) && jwtProvider.validateToken(token)) {
-            Authentication authentication = jwtProvider.getAuthentication(token);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-        } else {
-            log.info("유효한 JWT 토큰이 없습니다.");
+        try {
+            if (StringUtils.hasText(token) && jwtProvider.validateToken(token)) {
+                Authentication authentication = jwtProvider.getAuthentication(token);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
+        } catch (SignatureException | MalformedJwtException e) {
+            log.info("유효하지 않은 토큰입니다.");
+            request.setAttribute(TOKEN_EXCEPTION_KEY, TOKEN_INVALID);
+        } catch (ExpiredJwtException e) {
+            log.info("만료된 토큰입니다.");
+            request.setAttribute(TOKEN_EXCEPTION_KEY, TOKEN_EXPIRE);
+        } catch (UnsupportedJwtException e) {
+            log.info("지원하지 않는 토큰입니다.");
+            request.setAttribute(TOKEN_EXCEPTION_KEY, TOKEN_UNSUPPORTED);
+        } catch (IllegalStateException e) {
+            log.info("잘못된 토큰입니다.");
+            request.setAttribute(TOKEN_EXCEPTION_KEY, TOKEN_ILLEGAL);
         }
 
         filterChain.doFilter(request, response);

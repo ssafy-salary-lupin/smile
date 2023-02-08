@@ -4,8 +4,10 @@ package cp.smile.user.controller;
 import cp.smile.auth.jwt.JwtProvider;
 import cp.smile.auth.oauth2.CustomOAuth2User;
 import cp.smile.config.response.CommonResponse;
+import cp.smile.config.response.CustomSuccessStatus;
 import cp.smile.config.response.DataResponse;
 import cp.smile.config.response.ResponseService;
+import cp.smile.config.response.exception.CustomException;
 import cp.smile.entity.user.UserJoinStudy;
 import cp.smile.user.dto.request.UserJoinDTO;
 import cp.smile.user.dto.request.UserLoginDTO;
@@ -25,6 +27,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static cp.smile.config.response.CustomSuccessStatus.*;
 
 @Slf4j
 @RestController
@@ -47,7 +51,7 @@ public class UserController {
     @GetMapping("/users/{userId}")
     public DataResponse<UserInfoDTO> findDetailUser(@PathVariable int userId) {
 
-        return responseService.getDataResponse(userService.findDetailUser(userId));
+        return responseService.getDataResponse(userService.findDetailUser(userId), RESPONSE_SUCCESS);
     }
 
     /* 로그인 */
@@ -69,7 +73,7 @@ public class UserController {
         Map<String, String> accessToken = new HashMap<>();
         accessToken.put("accessToken", userTokenDTO.getAccessToken());
 
-        return responseService.getDataResponse(accessToken);
+        return responseService.getDataResponse(accessToken, RESPONSE_SUCCESS);
     }
 
     @PostMapping("/users/{userId}/studies/{studyId}")
@@ -85,8 +89,9 @@ public class UserController {
     @GetMapping("/users/{userId}/studies")
     public DataResponse<UserJoinedStudies> findJoinStudies(@PathVariable int userId) {
         List<UserJoinStudy> studies = userService.findJoinStudies(userId);
-        UserJoinedStudies dto = UserJoinedStudies.of(studies);
 
-        return responseService.getDataResponse(dto);
+        UserJoinedStudies userJoinedStudies = UserJoinedStudies.of(studies);
+
+        return responseService.getDataResponse(userJoinedStudies, RESPONSE_SUCCESS);
     }
 }

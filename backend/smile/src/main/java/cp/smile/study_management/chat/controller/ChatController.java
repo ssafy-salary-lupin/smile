@@ -1,6 +1,7 @@
 package cp.smile.study_management.chat.controller;
 
 import cp.smile.auth.oauth2.CustomOAuth2User;
+import cp.smile.config.response.CustomSuccessStatus;
 import cp.smile.config.response.DataResponse;
 import cp.smile.config.response.ResponseService;
 import cp.smile.study_management.chat.dto.ChatMessageDTO;
@@ -17,6 +18,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static cp.smile.config.response.CustomSuccessStatus.*;
 
 @Slf4j
 @RestController
@@ -38,7 +41,9 @@ public class ChatController {
 
         List<ChatMessageInfoDTO> chatMessageInfoDTOS = chatService.findAllMessage(userId, studyId);
 
-        return responseService.getDataResponse(chatMessageInfoDTOS);
+        if(chatMessageInfoDTOS.isEmpty()) return responseService.getDataResponse(chatMessageInfoDTOS,RESPONSE_NO_CONTENT);
+
+        return responseService.getDataResponse(chatMessageInfoDTOS, RESPONSE_SUCCESS);
     }
 
     /* /pub/chat/message 로 들어오는 메시지 처리.*/

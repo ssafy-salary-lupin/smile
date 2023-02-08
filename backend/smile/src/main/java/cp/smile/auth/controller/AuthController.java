@@ -2,6 +2,7 @@ package cp.smile.auth.controller;
 
 import cp.smile.auth.oauth2.CustomOAuth2User;
 import cp.smile.auth.service.AuthService;
+import cp.smile.config.response.CustomSuccessStatus;
 import cp.smile.config.response.DataResponse;
 import cp.smile.config.response.ResponseService;
 import cp.smile.util.CookieUtils;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
+
+import static cp.smile.config.response.CustomSuccessStatus.*;
 
 @RestController
 @RequestMapping("/auth")
@@ -40,7 +43,7 @@ public class AuthController {
         Map<String, String> response = new HashMap<>();
         response.put("accessToken", authService.reissueAccessToken(oldAccessToken, refreshToken));
 
-        return responseService.getDataResponse(response);
+        return responseService.getDataResponse(response, RESPONSE_SUCCESS);
     }
 
     @GetMapping("/permitall")

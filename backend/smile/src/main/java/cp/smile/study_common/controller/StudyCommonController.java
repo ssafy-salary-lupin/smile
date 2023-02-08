@@ -3,6 +3,7 @@ package cp.smile.study_common.controller;
 
 import cp.smile.auth.oauth2.CustomOAuth2User;
 import cp.smile.config.response.CommonResponse;
+import cp.smile.config.response.CustomSuccessStatus;
 import cp.smile.config.response.DataResponse;
 import cp.smile.config.response.ResponseService;
 import cp.smile.study_common.dto.request.CreateCommentDTO;
@@ -20,6 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+import static cp.smile.config.response.CustomSuccessStatus.*;
+
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -34,12 +37,16 @@ public class StudyCommonController {
 
         List<FindAllStudyDTO> findAllStudyDTOS = studyCommonService.findAllStudy();
 
-        return responseService.getDataResponse(findAllStudyDTOS);
+        /*조회된 데이터가 없으면 204 응답*/
+        if(findAllStudyDTOS.size() == 0) return responseService.getDataResponse(findAllStudyDTOS,RESPONSE_NO_CONTENT);
+
+        return responseService.getDataResponse(findAllStudyDTOS, RESPONSE_SUCCESS);
     }
 
 
     // TODO : 스터디 생성이 되면 스터디 아이디를 반환해주어야 함.
     @PostMapping(value = "/studies", consumes = {"multipart/form-data"})
+    @ResponseStatus()
     public CommonResponse createStudy(
             @RequestPart("data") CreateStudyDTO createStudyDTO,
             @RequestPart("file") MultipartFile multipartFile,
@@ -57,7 +64,7 @@ public class StudyCommonController {
     @GetMapping("/studies/{studyId}")
     public DataResponse<FindDetailStudyDTO> findDetailStudy(@PathVariable int studyId){
 
-        return responseService.getDataResponse(studyCommonService.findDetailStudy(studyId));
+        return responseService.getDataResponse(studyCommonService.findDetailStudy(studyId),RESPONSE_SUCCESS);
     }
 
 
