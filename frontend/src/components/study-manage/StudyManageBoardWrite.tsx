@@ -109,6 +109,17 @@ const CancelBtn = styled(WriteBtn)`
   color: white;
 `;
 
+const InputFile = styled.input`
+  width: 100%;
+`;
+
+const FileListUl = styled.ul`
+  width: 100%;
+  border: 1px sold red;
+`;
+
+const FileListLi = styled.li``;
+
 const FileDeleteBtn = styled.button``;
 
 function StudyManageBoardWrite() {
@@ -256,13 +267,13 @@ function StudyManageBoardWrite() {
       <File>
         <Sub1>첨부파일</Sub1>
         <Sub2>
-          <input type="file" onChange={handleFileSelect} multiple />
+          <InputFile type="file" onChange={handleFileSelect} multiple />
           {fileNameList.length > 0 ? (
-            <ul>
+            <FileListUl>
               {fileNameList.map((el) => {
-                return <li>el.name</li>;
+                return <FileListLi>{el}</FileListLi>;
               })}
-            </ul>
+            </FileListUl>
           ) : null}
         </Sub2>
       </File>
