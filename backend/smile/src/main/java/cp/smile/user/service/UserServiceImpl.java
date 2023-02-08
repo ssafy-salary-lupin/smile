@@ -69,7 +69,6 @@ public class UserServiceImpl implements UserService{
                 .password(userJoinDTO.getPassword())
                 .imagePath("123")
                 .isDeleted(false)
-                .refreshToken("123")
                 .loginProvider(loginProvider)
                 .build();
 
@@ -157,6 +156,14 @@ public class UserServiceImpl implements UserService{
             return UserTokenDTO.builder()
                     .accessToken(accessToken)
                     .refreshToken(refreshToken).build();
+    }
+
+    @Override
+    public void logout(int userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException(userId + "에 해당하는 유저가 없습니다."));
+
+        user.updateRefreshToken(null);
     }
 
 }
