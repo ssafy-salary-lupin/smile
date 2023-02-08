@@ -191,6 +191,7 @@ function StudyManageBoardWrite() {
     else formData.append("files", temp);
 
     console.log("files : ", files);
+    console.log("formdata files 값 확인 : ", formData.get("files"));
 
     try {
       await axios.post(
