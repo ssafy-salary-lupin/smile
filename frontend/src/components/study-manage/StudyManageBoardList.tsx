@@ -245,7 +245,7 @@ function StudyManageBoardList() {
         totalElements={totalElements}
         handlePageChange={handlePageChange}
       />
-      <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
+      <ReactQueryDevtools initialIsOpen={true} position="bottom-right" />
     </Wrapper>
   );
 }
