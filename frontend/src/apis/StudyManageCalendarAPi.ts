@@ -6,6 +6,8 @@ const BASE_URL = `https://i8b205.p.ssafy.io/be-api/studies`;
 const token = localStorage.getItem("kakao-token");
 
 export async function calendarSelectAllApi() {
+  console.log("로컬스토리지 길이 : ", localStorage.length);
+
   try {
     console.log("token값 : ", token);
     const response = await fetch(`${BASE_URL}/1/schedules`, {
@@ -16,6 +18,7 @@ export async function calendarSelectAllApi() {
     });
 
     const data = await response.json();
+    console.log(data);
 
     return data;
   } catch (error: any) {
