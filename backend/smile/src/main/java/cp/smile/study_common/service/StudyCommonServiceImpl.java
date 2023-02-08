@@ -156,7 +156,7 @@ public class StudyCommonServiceImpl implements StudyCommonService{
         //스터디 유형 조회.
         StudyType studyType = studyTypeRepository
                 .findById(createStudyDTO.getTypeId())
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY_TYPE));
 
 
         //스터디 테이블 넣기
@@ -183,7 +183,7 @@ public class StudyCommonServiceImpl implements StudyCommonService{
         //유저 객체 조회
         User user = userRepository
                 .findById(userId)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> new CustomException(ACCOUNT_NOT_FOUND));
 
         //유저 스터디 가입정보 복합키 생성
         UserJoinStudyId userJoinStudyId = UserJoinStudyId.builder()
@@ -215,7 +215,7 @@ public class StudyCommonServiceImpl implements StudyCommonService{
         //스터디 테이블 조회 - 스터디 아이디로 조회하는데 없다면 잘못된 요청이므로 예외던짐.
         StudyInformation studyInformation = studyCommonRepository
                 .findById(id)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY));
 
 
         //댓글 대댓글 조회 - 대댓글은 없을 수도 있기 때문에 null리턴.
@@ -250,12 +250,12 @@ public class StudyCommonServiceImpl implements StudyCommonService{
         //유저 조회
         User user = userRepository
                 .findById(createCommentDTO.getUserId())
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> new CustomException(ACCOUNT_NOT_FOUND));
 
         //스터디 조회
         StudyInformation studyInformation = studyCommonRepository
                 .findById(createCommentDTO.getStudyId())
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY));
 
         //댓글 엔티티에 저장.
         StudyComment studyComment = StudyComment.builder()
@@ -276,12 +276,12 @@ public class StudyCommonServiceImpl implements StudyCommonService{
         //유저 조회
         User user = userRepository
                 .findById(createReplyDTO.getUserId())
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> new CustomException(ACCOUNT_NOT_FOUND));
 
         //댓글 조회
         StudyComment studyComment = studyCommentRepository
                 .findById(createReplyDTO.getCommentId())
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> new CustomException(NOT_FOUND_COMMENT));
 
 
         //대댓글 엔티티 생성

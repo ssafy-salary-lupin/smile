@@ -44,11 +44,12 @@ public class StudyBoardController {
     private final UserRepository userRepository;
     private final UserJoinStudyRepository userJoinStudyRepository;
 
+    // TODO : 2023.02.08 - @RequestPart의 파일 부분에 데이터가 들어오지 않는 경우를 처리했는데, 아래 로직에서는 처리가 안되었음.
     @PostMapping
     public CommonResponse write(@AuthenticationPrincipal CustomOAuth2User oAuth2User,
                                 @PathVariable int studyId,
                                 @RequestPart("data") StudyBoardWriteDTO dto,
-                                @RequestPart("files") MultipartFile[] files) {
+                                @RequestPart(value = "files",required = false) MultipartFile[] files) {
         UserJoinStudy userJoinStudy = userJoinStudyRepository.findByUserIdAndStudyId(oAuth2User.getUserId(), studyId)
                 .orElseThrow(() -> new EntityNotFoundException("잘못된 접근입니다."));
 
