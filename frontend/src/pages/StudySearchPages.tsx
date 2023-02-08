@@ -51,7 +51,15 @@ export default function StudySearchPages() {
       StudySearchAll();
     },
   );
-  console.log("DATA:", studiesData);
+  let n = 1;
+  console.log("DATA:", studiesLoading, studiesData);
+  console.log(
+    "DATA:",
+    useQuery(["study", n], () => {
+      StudySearchAll();
+      n += 1;
+    }),
+  );
   return (
     <>
       <BlankSpace />
