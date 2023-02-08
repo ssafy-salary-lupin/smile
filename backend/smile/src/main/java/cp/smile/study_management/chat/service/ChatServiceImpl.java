@@ -2,6 +2,8 @@ package cp.smile.study_management.chat.service;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import cp.smile.config.response.exception.CustomException;
+import cp.smile.config.response.exception.CustomExceptionStatus;
 import cp.smile.entity.study_common.StudyComment;
 import cp.smile.entity.study_common.StudyInformation;
 import cp.smile.entity.study_management.ChatMessage;
@@ -23,8 +25,11 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static cp.smile.config.response.exception.CustomExceptionStatus.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -53,7 +58,7 @@ public class ChatServiceImpl implements ChatService{
         //스터디 id로 스터디 이름 조회 - 조회시에 없으면 종료.
         StudyInformation studyInformation = studyCommonRepository
                 .findById(studyId)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY));
 
         //방 정보 객체 생성
         ChatRoomDTO chatRoomDTO = studyInformation.createChatRoomDTO();
@@ -84,7 +89,7 @@ public class ChatServiceImpl implements ChatService{
         //방을 조회 - 없다면 잘못된 조회이므로 예외 던짐.
         ChatRoomDTO chatRoomDTO = chatRepository
                 .findChatRoomById(String.valueOf(studyId))
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> new CustomException(NOT_FOUND_CHAT_ROOM));
 
         return chatRoomDTO;
     }
@@ -109,12 +114,12 @@ public class ChatServiceImpl implements ChatService{
         //유저 정보와 스터디를 확인했을때 없다면 예외 던짐.
         userJoinStudyRepository
                 .findById(userJoinStudyId)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> new CustomException(USER_NOT_ACCESS_STUDY));
 
         /*채팅 메시지 조회*/
         List<ChatMessage> chatMessages = chatMessageRepository
                 .findAllByChatMessages(studyId)
-                .orElseThrow(RuntimeException::new);
+                .orElse(new ArrayList<>());
 
         //조회한 데이터를 DTO로 변환.
         List<ChatMessageInfoDTO> chatMessageInfoDTOs = chatMessages.stream()

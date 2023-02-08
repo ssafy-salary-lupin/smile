@@ -19,7 +19,8 @@ public class JwtProvider {
 
     private final String SECRET_KEY;
 
-    private static final Long ACCESS_TOKEN_VALIDATE_TIME = 1000L * 60 * 60; // 1hour
+    //TODO : 1시간으로 돌려놔야됨.
+    private static final Long ACCESS_TOKEN_VALIDATE_TIME = 1000L * 60 * 60 *24; // 1hour
     public static final Long REFRESH_TOKEN_VALIDATE_TIME = 1000L * 60 * 60 * 24 * 7; // 1week
     private final String CLAIM_USER_ID = "userId";
     private final String CLAIM_USER_EMAIL = "userEmail";
@@ -42,6 +43,24 @@ public class JwtProvider {
         return Jwts.builder()
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
                 .addClaims(buildUserClaims(oAuth2User, role))
+                .setIssuer("issuer")
+                .setIssuedAt(now)
+                .setExpiration(validity)
+                .compact();
+    }
+
+    /* Local 로그인용 */
+    public String createAccessToken(int id, String email) {
+        Date now = new Date();
+        Date validity = new Date(now.getTime() + ACCESS_TOKEN_VALIDATE_TIME);
+
+        Map<String, Object> claims = new HashMap<>();
+        claims.put(CLAIM_USER_ID, id);
+        claims.put(CLAIM_USER_EMAIL, email);
+
+        return Jwts.builder()
+                .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
+                .addClaims(claims)
                 .setIssuer("issuer")
                 .setIssuedAt(now)
                 .setExpiration(validity)
@@ -93,17 +112,7 @@ public class JwtProvider {
     }
 
     public boolean validateToken(String token) {
-        try {
-            Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
-            return true;
-        } catch (ExpiredJwtException e) {
-            log.info("만료된 토큰입니다.");
-        } catch (UnsupportedJwtException e) {
-            log.info("지원되지 않는 토큰입니다.");
-        } catch (IllegalStateException e) {
-            log.info("토큰이 잘못되었습니다.");
-        }
-
-        return false;
+        Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
+        return true;
     }
 }

@@ -19,10 +19,11 @@ public class StudyMeetingType extends BaseEntity {
     @Column(name = "smt_id")
     private int id;
     @Column(name = "smt_name")
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private StudyMeetingTypeName name;
 
     @Builder
-    public StudyMeetingType(int id, String name) {
+    public StudyMeetingType(int id, StudyMeetingTypeName name) {
         this.id = id;
         this.name = name;
     }

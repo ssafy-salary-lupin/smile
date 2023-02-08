@@ -1,7 +1,10 @@
 package cp.smile.user.service;
 
+import cp.smile.auth.jwt.JwtProvider;
 import cp.smile.auth.oauth2.provider.LoginProviderRepository;
 import cp.smile.auth.oauth2.provider.OAuth2Provider;
+import cp.smile.config.response.exception.CustomException;
+import cp.smile.config.response.exception.CustomExceptionStatus;
 import cp.smile.entity.study_common.StudyInformation;
 import cp.smile.entity.user.LoginProvider;
 import cp.smile.entity.user.User;
@@ -10,11 +13,13 @@ import cp.smile.entity.user.UserJoinStudyId;
 import cp.smile.study_common.repository.StudyCommonRepository;
 import cp.smile.user.dto.request.UserJoinDTO;
 import cp.smile.user.dto.response.UserInfoDTO;
+import cp.smile.user.dto.response.UserTokenDTO;
 import cp.smile.user.repository.UserJoinStudyRepository;
 import cp.smile.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 
@@ -24,7 +29,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
+
+import static cp.smile.config.response.exception.CustomExceptionStatus.*;
 
 @Service
 @Transactional(readOnly = false)
@@ -35,8 +43,10 @@ public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final StudyCommonRepository studyCommentRepository;
+    private final StudyCommonRepository studyCommonRepository;
     private final LoginProviderRepository loginProviderRepository;
     private final UserJoinStudyRepository userJoinStudyRepository;
+    private final JwtProvider jwtProvider;
 
     @Override
     public User join(User user) {
@@ -49,7 +59,7 @@ public class UserServiceImpl implements UserService{
 
         LoginProvider loginProvider = loginProviderRepository
                 .findByProvider(OAuth2Provider.local)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> new CustomException(NOT_FOUND_LOGIN_PROVIDER));
 
         userJoinDTO.setPassword(passwordEncoder.encode(userJoinDTO.getPassword()));
 
@@ -99,12 +109,12 @@ public class UserServiceImpl implements UserService{
     @Override
     public void joinStudy(int userId, int studyId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException(userId + "에 해당하는 유저가 없습니다."));
+                .orElseThrow(() -> new CustomException(ACCOUNT_NOT_FOUND));
 
         log.info("find user: {}", user.getEmail());
 
-        StudyInformation study = studyCommentRepository.findById(studyId)
-                .orElseThrow(() -> new EntityNotFoundException(studyId + "에 해당하는 스터디가 없습니다."));
+        StudyInformation study = studyCommonRepository.findById(studyId)
+                .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY));
 
         log.info("find study: {}", study.getName());
 
@@ -130,9 +140,23 @@ public class UserServiceImpl implements UserService{
         return userJoinStudyRepository.findByUserId(userId);
     }
 
-    public void login(String email, String password) {
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(email, password);
+    @Override
+    public UserTokenDTO login(String email, String password) {
+            User user = userRepository.findByEmail(email)
+                    .orElseThrow(() -> new EntityNotFoundException(email + "에 해당하는 유저가 없습니다."));
 
-        Authentication authentication =
+            if (!passwordEncoder.matches(password, user.getPassword())) {
+                throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
+            }
+
+            String accessToken = jwtProvider.createAccessToken(user.getId(), email);
+            String refreshToken = jwtProvider.createRefreshToken(null);
+
+            user.updateRefreshToken(refreshToken);
+
+            return UserTokenDTO.builder()
+                    .accessToken(accessToken)
+                    .refreshToken(refreshToken).build();
     }
+
 }
