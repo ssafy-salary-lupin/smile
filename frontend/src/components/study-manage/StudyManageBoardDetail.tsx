@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { ReactComponent as Time } from "../../assets/icon/Time.svg";
 import { ReactComponent as Eye } from "../../assets/icon/Eye.svg";
 import { ReactComponent as Comment } from "../../assets/icon/Comment.svg";
-import ReactMarkdown from "react-markdown";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { boardSelectApi } from "apis/StudyManageBoardApi";
@@ -221,6 +220,8 @@ interface Data {
 function StudyManageBoardDetail() {
   const param = useParams();
 
+  console.log(typeof param);
+
   const { data: detailData } = useQuery<Data>("detailData", () =>
     boardSelectApi(param + ""),
   );
@@ -241,24 +242,36 @@ function StudyManageBoardDetail() {
         <SubInfo>
           <Date>
             <Time fill="#898989" width="1.389vw" />
-            <Span>2023-12-23 13:49</Span>
+            <Span>{detailData?.result.writeAt}</Span>
           </Date>
           <Look>
             <Eye stroke="#898989" width="1.667vw" />
-            <Span>15</Span>
+            <Span>{detailData?.result.views}</Span>
           </Look>
           <CommentCnt>
             <Comment fill="#898989" width="1.389vw" />
-            <Span>2</Span>
+            <Span>{detailData?.result.commentCount}</Span>
           </CommentCnt>
         </SubInfo>
       </ArticleInfo>
-      <ArticleContent>
-        <ReactMarkdown>내용</ReactMarkdown>
-      </ArticleContent>
+      <ArticleContent>{detailData?.result.content}</ArticleContent>
       <FileBox>
         <FileSub1>첨부 파일</FileSub1>
-        <FileSub2>첨부파일 명</FileSub2>
+        <FileSub2>
+          {detailData?.result.files ? (
+            <ul>
+              {/* {detailData?.result.files.map((el) => {
+                return (
+                  <>
+                    <li>
+                      <a href="">{el.fileName}</a>
+                    </li>
+                  </>
+                );
+              })} */}
+            </ul>
+          ) : null}
+        </FileSub2>
       </FileBox>
       <ArticleBtn>
         <UpdateBtn>수정</UpdateBtn>
