@@ -163,23 +163,16 @@ interface ListData {
 //
 function StudyManageBoardList() {
   const [page, setPage] = useState(1);
-  const [size, setSize] = useState(10);
+  const [size, setSize] = useState(7);
   const [totalElements, setTotalElements] = useState(0);
   const [list, setList] = useState<ListData[] | null>(null);
-
-  console.log("렌더링");
 
   const { data: listData, refetch } = useQuery<Data>(["listData"], () =>
     boardListSelectAllApi(page, size),
   );
 
   useEffect(() => {
-    console.log("useEffect 실행");
-    console.log("page : ", page);
-    console.log("listData : ", listData);
-
     refetch();
-
     // 1. 가져온 data 값에서 총 게시글 개수 가져와서 set
     if (listData !== undefined) {
       setTotalElements(listData?.result.totalElements);
