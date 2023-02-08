@@ -2,9 +2,8 @@ import { boardListSelectAllApi } from "apis/StudyManageBoardApi";
 import PagiNation from "components/common/Pagination";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { ReactQueryDevtools } from "react-query/devtools";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
@@ -167,16 +166,11 @@ function StudyManageBoardList() {
   const [size, setSize] = useState(10);
   const [totalElements, setTotalElements] = useState(0);
   const [list, setList] = useState<ListData[] | null>(null);
-  const [queryExec, setQueryExec] = useState(false);
 
   console.log("렌더링");
 
-  const { data: listData } = useQuery<Data>(
-    ["listData"],
-    () => boardListSelectAllApi(page, size),
-    {
-      enabled: queryExec,
-    },
+  const { data: listData, refetch } = useQuery<Data>(["listData"], () =>
+    boardListSelectAllApi(page, size),
   );
 
   useEffect(() => {
@@ -184,7 +178,7 @@ function StudyManageBoardList() {
     console.log("page : ", page);
     console.log("listData : ", listData);
 
-    setQueryExec(true);
+    refetch();
 
     // 1. 가져온 data 값에서 총 게시글 개수 가져와서 set
     if (listData !== undefined) {
@@ -245,7 +239,6 @@ function StudyManageBoardList() {
         totalElements={totalElements}
         handlePageChange={handlePageChange}
       />
-      <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
     </Wrapper>
   );
 }
