@@ -174,6 +174,7 @@ function StudyManageBoardList() {
   useEffect(() => {
     console.log("useEffect 실행");
     console.log("page : ", page);
+    console.log("listData : ", listData);
 
     // 1. 가져온 data 값에서 총 게시글 개수 가져와서 set
     if (listData !== undefined) {
