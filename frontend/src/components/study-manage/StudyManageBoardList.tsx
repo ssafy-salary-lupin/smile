@@ -169,14 +169,10 @@ function StudyManageBoardList() {
   const [queryExec, setQueryExec] = useState(false);
 
   // useQuery 재호출 하기
-  setQueryExec(true);
+  // setQueryExec(true);
 
-  const { data: listData } = useQuery<Data>(
-    ["listData"],
-    () => boardListSelectAllApi(page, size),
-    {
-      enabled: queryExec,
-    },
+  const { data: listData } = useQuery<Data>(["listData"], () =>
+    boardListSelectAllApi(page, size),
   );
 
   useEffect(() => {
