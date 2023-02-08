@@ -14,14 +14,28 @@ public class UpdateScheduleDTO {
     private String endTime;
     private Integer typeId;
     private String name;
+    private String url;
     private String description;
 
     @Builder
-    public UpdateScheduleDTO(String startTime, String endTime, Integer typeId, String name, String description) {
+    public UpdateScheduleDTO(String startTime, String endTime, Integer typeId, String name, String url,String description) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.typeId = typeId;
         this.name = name;
+        this.url = url;
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "UpdateScheduleDTO{" +
+                "startTime='" + startTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                ", typeId=" + typeId +
+                ", name='" + name + '\'' +
+                ", url='" + url + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

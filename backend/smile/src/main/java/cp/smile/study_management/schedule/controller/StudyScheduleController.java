@@ -74,13 +74,15 @@ public class StudyScheduleController {
 
         int userId = oAuth2User.getUserId();
 
+        System.out.println(updateScheduleDTO);
+
         studyScheduleService.updateStudySchedule(userId, studyId, scheduleId, updateScheduleDTO);
 
         return responseService.getSuccessResponse();
     }
 
     /* 스터디 일정 삭제 */
-    @PatchMapping("/studies/{studyId}/schedules/{scheduleId}/delete")
+    @DeleteMapping("/studies/{studyId}/schedules/{scheduleId}")
     public CommonResponse deleteStudySchedule(
             @PathVariable int studyId,
             @PathVariable int scheduleId,

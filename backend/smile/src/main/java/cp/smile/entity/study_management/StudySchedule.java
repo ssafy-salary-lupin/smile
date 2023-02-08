@@ -3,18 +3,22 @@ package cp.smile.entity.study_management;
 
 import cp.smile.config.BaseEntity;
 import cp.smile.entity.study_common.StudyInformation;
+import cp.smile.study_management.schedule.dto.request.UpdateScheduleDTO;
 import cp.smile.study_management.schedule.dto.response.ScheduleDTO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 @Getter
 @NoArgsConstructor
+@DynamicUpdate //변경되는 값만 쿼리가 날아가도록 수정.
 @Entity
 @Table(name = "study_schedules")
 public class StudySchedule extends BaseEntity {
@@ -90,7 +94,11 @@ public class StudySchedule extends BaseEntity {
         this.description = description;
     }
 
+    public void updateUrl(String url) { this.url = url; }
+
     public void deleteSchedule() {
         this.isDeleted = true;
     }
+
+
 }
