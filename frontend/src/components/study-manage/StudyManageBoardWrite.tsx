@@ -160,7 +160,7 @@ function StudyManageBoardWrite() {
     setSelectedFile(event.target.files[0]);
     console.log("ref 체크 : ", fileInput.current?.value);
     console.log("event.target.files[0] : ", event.target.files[0]);
-    console.log("파일 타입 체크 : ", typeof event.target.files[0]);
+    console.log("event.target : ", event.target);
   };
 
   const history = useHistory();
