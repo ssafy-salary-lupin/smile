@@ -2,8 +2,11 @@ package cp.smile.study_management.board.controller;
 
 import cp.smile.auth.oauth2.CustomOAuth2User;
 import cp.smile.config.response.CommonResponse;
+import cp.smile.config.response.CustomSuccessStatus;
 import cp.smile.config.response.DataResponse;
 import cp.smile.config.response.ResponseService;
+import cp.smile.config.response.exception.CustomException;
+import cp.smile.config.response.exception.CustomExceptionStatus;
 import cp.smile.dto.response.PageDTO;
 import cp.smile.entity.study_management.StudyBoard;
 import cp.smile.entity.user.User;
@@ -26,6 +29,9 @@ import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static cp.smile.config.response.CustomSuccessStatus.*;
+import static cp.smile.config.response.exception.CustomExceptionStatus.*;
 
 @RestController
 @RequestMapping("/studies/{studyId}/boards")
@@ -76,7 +82,9 @@ public class StudyBoardController {
                 .map(SimpleBoardDTO::of)
                 .collect(Collectors.toList());
 
-        return responseService.getDataResponse(PageDTO.of(result, content));
+        if(content.isEmpty()) return responseService.getDataResponse(PageDTO.of(result, content), RESPONSE_NO_CONTENT);
+
+        return responseService.getDataResponse(PageDTO.of(result, content), RESPONSE_SUCCESS);
     }
 
     @PostMapping("/{boardId}/comments")
@@ -85,7 +93,7 @@ public class StudyBoardController {
             @PathVariable int boardId,
             @RequestBody Map<String, String> body) {
         User writer = userRepository.findById(oAuth2User.getUserId())
-                .orElseThrow(() -> new EntityNotFoundException(oAuth2User.getUserId() + "에 해당하는 사용자가 없습니다."));
+                .orElseThrow(() -> new CustomException(ACCOUNT_NOT_FOUND));
 
         studyBoardService.writeComment(writer, boardId, body.get("content"));
 
@@ -94,6 +102,6 @@ public class StudyBoardController {
 
     @GetMapping("/{boardId}")
     public DataResponse<DetailBoardDTO> getStudyBoardDetail(@PathVariable int boardId) {
-        return responseService.getDataResponse(DetailBoardDTO.of(studyBoardService.findByIdForView(boardId)));
+        return responseService.getDataResponse(DetailBoardDTO.of(studyBoardService.findByIdForView(boardId)), RESPONSE_NO_CONTENT);
     }
 }
