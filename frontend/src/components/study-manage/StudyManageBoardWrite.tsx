@@ -173,9 +173,9 @@ function StudyManageBoardWrite() {
     const formData = new FormData();
 
     const data = {
-      title: { title },
-      content: { content },
-      typeId: { typeId },
+      title: title,
+      content: content,
+      typeId: typeId,
     };
 
     console.log(content);
