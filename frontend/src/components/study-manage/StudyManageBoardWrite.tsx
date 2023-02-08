@@ -308,9 +308,8 @@ function StudyManageBoardWrite() {
                         width="1.111vw"
                         height="1.111vw"
                         fill="#ff0000"
-                        onClick={deleteFile(index)}
                         cursor="pointer"
-                        key={index}
+                        onClick={() => deleteFile(index)}
                       />
                     </FileListLi>
                   </>
