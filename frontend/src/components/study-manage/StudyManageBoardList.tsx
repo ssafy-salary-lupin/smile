@@ -56,6 +56,8 @@ const BoardNum = styled.td`
 
 const BoardType = styled(BoardNum)`
   width: 20%;
+  display: flex;
+  align-items: center;
 `;
 
 const TypeLabel1 = styled.div`
