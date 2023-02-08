@@ -164,7 +164,7 @@ interface ListData {
 //
 function StudyManageBoardList() {
   const [page, setPage] = useState(1);
-  const [size, setSize] = useState(20);
+  const [size, setSize] = useState(7);
   const [totalElements, setTotalElements] = useState(0);
   const [list, setList] = useState<ListData[] | null>(null);
 
