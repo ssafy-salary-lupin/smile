@@ -249,6 +249,7 @@ function StudyManageBoardWrite() {
         <Sub1>첨부파일</Sub1>
         <Sub2>
           <input type="file" onChange={handleFileSelect} ref={fileInput} />
+          {fileInput.current?.value ? <button>X</button> : null}
         </Sub2>
       </File>
       <Button>
