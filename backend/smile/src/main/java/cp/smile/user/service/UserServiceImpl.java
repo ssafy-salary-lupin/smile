@@ -135,21 +135,23 @@ public class UserServiceImpl implements UserService{
         return userJoinStudyRepository.findByUserId(userId);
     }
 
+    @Override
     public UserTokenDTO login(String email, String password) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new EntityNotFoundException(email + "에 해당하는 유저가 없습니다."));
+            User user = userRepository.findByEmail(email)
+                    .orElseThrow(() -> new EntityNotFoundException(email + "에 해당하는 유저가 없습니다."));
 
-        if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
-        }
+            if (!passwordEncoder.matches(password, user.getPassword())) {
+                throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
+            }
 
-        String accessToken = jwtProvider.createAccessToken(user.getId(), email);
-        String refreshToken = jwtProvider.createRefreshToken(null);
+            String accessToken = jwtProvider.createAccessToken(user.getId(), email);
+            String refreshToken = jwtProvider.createRefreshToken(null);
 
-        user.updateRefreshToken(refreshToken);
+            user.updateRefreshToken(refreshToken);
 
-        return UserTokenDTO.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken).build();
+            return UserTokenDTO.builder()
+                    .accessToken(accessToken)
+                    .refreshToken(refreshToken).build();
     }
+
 }
