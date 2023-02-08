@@ -1,7 +1,7 @@
 import ReactQuill from "react-quill";
 import styled from "styled-components";
 import "react-quill/dist/quill.snow.css";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import Editor, { EditorContentChanged } from "./Editor";
 import { Link, useHistory } from "react-router-dom";
@@ -132,12 +132,15 @@ const FileListUl = styled.ul`
 const FileListLi = styled.li`
   display: flex;
   flex-direction: row;
+  font-size: 1.111vw;
 `;
 
 const FileDeleteBtn = styled.button`
   border: none;
-  background-color: none;
-  /* width: 0.556vw; */
+  background-color: white;
+  width: 1.111vw;
+  height: 1.111vw;
+  cursor: pointer;
 `;
 
 function StudyManageBoardWrite() {
@@ -186,14 +189,13 @@ function StudyManageBoardWrite() {
 
   const [fileNameList, setFileNameList] = useState<string[]>([]);
   const handleFileSelect = (event: any) => {
-    setSelectedFile(event.target.files[0]);
+    setSelectedFile(event.target.files);
     console.log("event.target.files[0] : ", event.target.files[0]);
     console.log("event.target.files : ", event.target.files);
 
     const files = event.target.files;
 
     for (let i = 0; i < files.length; i++) {
-      console.log(files[i].name);
       setFileNameList((oldDatas) => [...oldDatas, files[i].name]);
     }
 
@@ -254,6 +256,8 @@ function StudyManageBoardWrite() {
     document.getElementById("inputFile")?.click();
   };
 
+  const deleteFile = () => {};
+
   return (
     <Wrapper>
       <Bracket>
@@ -304,7 +308,7 @@ function StudyManageBoardWrite() {
                 return (
                   <>
                     <FileListLi>{el}</FileListLi>
-                    <FileDeleteBtn>
+                    <FileDeleteBtn onClick={deleteFile}>
                       <DeleteIcon width="100%" height="100%" fill="#ff0000" />
                     </FileDeleteBtn>
                   </>
