@@ -1,5 +1,7 @@
 import styled, { keyframes } from "styled-components";
 import ProfileImg from "./ProfileImg";
+import defaultStudyImg from "assets/img/card_photo_1.png";
+import defaultprofileImg from "assets/img/userDefaultImg.png";
 
 const CardHover = keyframes`
   from {
@@ -162,9 +164,14 @@ export default function Card(props: studyImgProps) {
   const visitedCount = visitedCountInput
     .toString()
     .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const profileImgUrl = props.studyInfo.studyLeader.profileImageUrl;
+  const studyImgUrl = props.studyInfo.imageUrl;
+
   return (
     <SContainer>
-      <SCardImg src={props.studyInfo.imageUrl} />
+      <SCardImg
+        src={studyImgUrl.includes("/root") ? defaultStudyImg : studyImgUrl}
+      />
       <SCardItem>
         <SCardInfo>
           <SCardInfoItem>
@@ -186,7 +193,9 @@ export default function Card(props: studyImgProps) {
         </SCardDescription>
         <SCardUser>
           <ProfileImg
-            imgUrl={props.studyInfo.studyLeader.profileImageUrl}
+            imgUrl={
+              profileImgUrl !== "/root" ? profileImgUrl : defaultprofileImg
+            }
             width="3.36vw"
             height="3.36vw"
           />

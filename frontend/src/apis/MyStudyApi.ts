@@ -56,9 +56,10 @@ export async function MyStudyApi(userId: string) {
       end: studies?.filter((study) => study.end === true),
     };
 
+    console.log("TEST:", studyObj);
+
     return studyObj;
   } catch (error: any) {
     console.log(error);
-    return false;
   }
 }
