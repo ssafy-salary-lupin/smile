@@ -4,7 +4,7 @@ import "react-quill/dist/quill.snow.css";
 import { useRef, useState } from "react";
 import axios from "axios";
 import Editor, { EditorContentChanged } from "./Editor";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
@@ -186,8 +186,11 @@ function StudyManageBoardWrite() {
     formData.append("data", JSON.stringify(data));
 
     const files = selectedFile;
+    const temp: any = [];
     if (files) {
       formData.append("files", files);
+    } else {
+      formData.append("files", temp);
     }
 
     try {
@@ -250,7 +253,9 @@ function StudyManageBoardWrite() {
       </File>
       <Button>
         <WriteBtn onClick={submit}>등록</WriteBtn>
-        <CancelBtn>취소</CancelBtn>
+        <CancelBtn>
+          <Link to="/manage/boar">취소</Link>
+        </CancelBtn>
       </Button>
     </Wrapper>
   );
