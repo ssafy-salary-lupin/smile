@@ -135,9 +135,9 @@ function StudyManageBoardWrite() {
   //   setEditorMarkdownValue(content.markdown);
   // };
 
-  const [title, setTitle] = useState(""); // 글 제목
-  const [content, setContent] = useState(""); // 글 내용
-  const [typeId, setTypeId] = useState(""); // 글 유형
+  const [title, setTitle] = useState<string>(""); // 글 제목
+  const [content, setContent] = useState<string>(""); // 글 내용
+  const [typeId, setTypeId] = useState<number>(0); // 글 유형
   const [selectedFile, setSelectedFile] = useState(null); // 파일
 
   const handleTitle = (event: any) => {
@@ -149,7 +149,7 @@ function StudyManageBoardWrite() {
   };
 
   const handleTypeId = (event: any) => {
-    setTypeId(event.target.value);
+    setTypeId(Number(event.target.value));
   };
 
   const handleFileSelect = (event: any) => {
@@ -157,7 +157,7 @@ function StudyManageBoardWrite() {
   };
 
   const submit = async () => {
-    if (typeId === "") {
+    if (typeId === 0) {
       alert("유형을 선택해 주세요. ");
       return;
     }
