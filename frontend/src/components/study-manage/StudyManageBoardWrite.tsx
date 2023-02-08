@@ -153,8 +153,10 @@ function StudyManageBoardWrite() {
     setTypeId(Number(event.target.value));
   };
 
+  const fileInput = useRef();
   const handleFileSelect = (event: any) => {
     setSelectedFile(event.target.files[0]);
+    console.log("ref 체크 : ", fileInput.current);
     console.log("event.target.files[0] : ", event.target.files[0]);
     console.log("파일 타입 체크 : ", typeof event.target.files[0]);
   };
@@ -246,7 +248,7 @@ function StudyManageBoardWrite() {
       <File>
         <Sub1>첨부파일</Sub1>
         <Sub2>
-          <input type="file" onChange={handleFileSelect} />
+          <input type="file" onChange={handleFileSelect} ref={fileInput} />
         </Sub2>
       </File>
       <Button>
