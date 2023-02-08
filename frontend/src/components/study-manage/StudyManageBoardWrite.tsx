@@ -165,7 +165,6 @@ function StudyManageBoardWrite() {
   const [title, setTitle] = useState<string>(""); // 글 제목
   const [content, setContent] = useState<string>(""); // 글 내용
   const [typeId, setTypeId] = useState<number>(0); // 글 유형
-  const [selectedFile, setSelectedFile] = useState(null); // 파일
 
   const handleTitle = (event: any) => {
     setTitle(event.target.value);
@@ -179,19 +178,29 @@ function StudyManageBoardWrite() {
     setTypeId(Number(event.target.value));
   };
 
+  const [selectedFile, setSelectedFile] = useState(null); // 파일
   const [fileNameList, setFileNameList] = useState<string[]>([]);
   const handleFileSelect = (event: any) => {
-    setSelectedFile(event.target.files);
     console.log("event.target.files[0] : ", event.target.files[0]);
     console.log("event.target.files : ", event.target.files);
 
     const files = event.target.files;
+
+    setSelectedFile(files);
 
     for (let i = 0; i < files.length; i++) {
       setFileNameList((oldDatas) => [...oldDatas, files[i].name]);
     }
 
     fileNameList.map((el) => console.log(el));
+  };
+
+  const onFileInput = () => {
+    document.getElementById("inputFile")?.click();
+  };
+
+  const deleteFile = (index: any) => {
+    console.log("삭제할 index 값 : ", index);
   };
 
   const history = useHistory();
@@ -241,14 +250,8 @@ function StudyManageBoardWrite() {
       console.log(error);
     }
 
-    history.push("/manage/board");
+    // history.push("/manage/board");
   };
-
-  const onFileInput = () => {
-    document.getElementById("inputFile")?.click();
-  };
-
-  const deleteFile = () => {};
 
   return (
     <Wrapper>
@@ -296,7 +299,7 @@ function StudyManageBoardWrite() {
           <InputFileBtn onClick={onFileInput}>파일 첨부</InputFileBtn>
           {fileNameList.length > 0 ? (
             <FileListUl>
-              {fileNameList.map((el) => {
+              {fileNameList.map((el, index) => {
                 return (
                   <>
                     <FileListLi>
@@ -305,8 +308,9 @@ function StudyManageBoardWrite() {
                         width="1.111vw"
                         height="1.111vw"
                         fill="#ff0000"
-                        onClick={deleteFile}
+                        onClick={deleteFile(index)}
                         cursor="pointer"
+                        key={index}
                       />
                     </FileListLi>
                   </>
