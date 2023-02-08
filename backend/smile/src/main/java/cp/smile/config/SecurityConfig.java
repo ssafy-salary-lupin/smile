@@ -26,11 +26,11 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable().cors(cors -> cors.disable());; // TODO : 나중에 빼야 됨.
+        http.csrf().disable();
         http.authorizeHttpRequests()
-                .antMatchers("/auth/authenticated").authenticated()
-                .antMatchers(HttpMethod.POST, "/users/{userId}/studies/{studyId}").authenticated()
-                .anyRequest().permitAll()
+                .antMatchers(HttpMethod.POST, "/log-in", "/users").permitAll()
+                .antMatchers(HttpMethod.GET, "/studies").permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .oauth2Login()
                 .successHandler(oAuth2LoginSuccessHandler)
