@@ -52,7 +52,7 @@ public class StudyBoardServiceImpl implements StudyBoardService {
                 .orElseThrow(() -> new EntityNotFoundException(dto.getTypeId() + "에 해당하는 게시글 유형이 없습니다."));
 
         // 게시글 유형이 공지인 경우 스터디장만 쓸 수있도록 검사
-        if (boardType.getName() == StudyBoardTypeName.notice && !userJoinStudy.getIsLeader()) {
+        if (boardType.getName() == StudyBoardTypeName.공지 && !userJoinStudy.getIsLeader()) {
             throw new RuntimeException("공지는 스터디장만 쓸 수 있습니다.");
         }
 
