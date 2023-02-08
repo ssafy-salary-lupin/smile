@@ -57,6 +57,7 @@ public class UserController {
     /* 로그인 */
     @PostMapping("/log-in")
     public DataResponse<Map<String, String>> login(@RequestBody UserLoginDTO userLoginDTO, HttpServletResponse response) {
+
         String email = userLoginDTO.getEmail();
         String password = userLoginDTO.getPassword();
 
@@ -74,6 +75,19 @@ public class UserController {
         accessToken.put("accessToken", userTokenDTO.getAccessToken());
 
         return responseService.getDataResponse(accessToken, RESPONSE_SUCCESS);
+    }
+
+    /* 로그아웃 */
+    @PostMapping("/log-out")
+    public CommonResponse logout(HttpServletRequest request) {
+
+        ///////////////////////////////////////////
+
+        System.out.println("request = " + request);
+
+//        userService.logout(oAuth2User.getUserId());
+
+        return responseService.getSuccessResponse();
     }
 
     @PostMapping("/users/{userId}/studies/{studyId}")

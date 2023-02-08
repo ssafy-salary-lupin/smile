@@ -26,4 +26,6 @@ public interface UserService {
     List<UserJoinStudy> findJoinStudies(int userId);
 
     UserTokenDTO login(String email, String password);
+
+    void logout(int userId);
 }

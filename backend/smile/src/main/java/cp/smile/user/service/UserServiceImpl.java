@@ -158,4 +158,12 @@ public class UserServiceImpl implements UserService{
                     .refreshToken(refreshToken).build();
     }
 
+    @Override
+    public void logout(int userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException(userId + "에 해당하는 유저가 없습니다."));
+
+        user.updateRefreshToken(null);
+    }
+
 }
