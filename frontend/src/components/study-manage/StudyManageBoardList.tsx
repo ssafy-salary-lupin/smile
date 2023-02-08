@@ -168,6 +168,8 @@ function StudyManageBoardList() {
   const [list, setList] = useState<ListData[] | null>(null);
   const [queryExec, setQueryExec] = useState(false);
 
+  console.log("렌더링");
+
   const { data: listData } = useQuery<Data>(
     ["listData"],
     () => boardListSelectAllApi(page, size),
