@@ -179,7 +179,7 @@ function StudyManageBoardWrite() {
     setTypeId(Number(event.target.value));
   };
 
-  const [selectedFile, setSelectedFile] = useState(null); // 파일
+  const [selectedFile, setSelectedFile] = useState<string | Blob | null>(null); // 파일
   const [fileNameList, setFileNameList] = useState<string[]>([]);
   const handleFileSelect = (event: any) => {
     console.log("event.target.files[0] : ", event.target.files[0]);
@@ -203,6 +203,7 @@ function StudyManageBoardWrite() {
   const deleteFile = (index: any) => {
     console.log("삭제할 index 값 : ", index);
 
+    const size = fileNameList.length;
     // 이름 리스트에서 해당 파일 이름 삭제
     setFileNameList([]);
     fileNameList.map((el, i) => {
@@ -211,10 +212,16 @@ function StudyManageBoardWrite() {
       }
     });
 
-    console.log("new file name list: ", fileNameList);
-    fileNameList.map((el) => console.log(el));
-
     // 파일 리스트에서 해당 파일 삭제
+
+    // if (selectedFile !== null) {
+    //   const tempFileList = [];
+    //   setSelectedFile(null);
+    //   for (let i = 0; i < size; i++) {
+    //     tempFileList.push;
+    //   }
+    //   setSelectedFile(tempFileList);
+    // }
   };
 
   const history = useHistory();
