@@ -201,7 +201,7 @@ function StudyManageBoardList() {
       </Head>
       <BoardListBox>
         <Tbody>
-          {list !== null ? (
+          {totalElements > 0 && list !== null ? (
             list.map((el) => {
               return (
                 <Row>
@@ -223,9 +223,9 @@ function StudyManageBoardList() {
                 </Row>
               );
             })
-          ) : (
+          ) : list !== null && totalElements === 0 ? (
             <NoArticle>글내용이 없습니다.</NoArticle>
-          )}{" "}
+          ) : null}
         </Tbody>
       </BoardListBox>
 
