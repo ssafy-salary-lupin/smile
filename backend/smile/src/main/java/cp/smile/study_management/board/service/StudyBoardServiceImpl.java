@@ -92,6 +92,7 @@ public class StudyBoardServiceImpl implements StudyBoardService {
         return studyBoard;
     }
 
+
     /**
      * 게시글 ID로 게시글 조회하며 `조회수가 증가`
      * 조회시 해당 게시글의 댓글과 업로드된 파일 목록을 함께 조회
