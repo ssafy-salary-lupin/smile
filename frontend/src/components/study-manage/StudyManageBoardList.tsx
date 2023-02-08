@@ -174,6 +174,7 @@ function StudyManageBoardList() {
 
   useEffect(() => {
     // 1. 가져온 data 값에서 총 게시글 개수 가져와서 set
+    refetch();
     if (listData !== undefined) {
       setTotalElements(listData?.result.totalElements);
     }
@@ -185,7 +186,6 @@ function StudyManageBoardList() {
 
   // 페이지 변환시 호출할 메소드 => page값 셋팅
   const handlePageChange = (page: any) => {
-    refetch();
     setPage(page);
   };
 
