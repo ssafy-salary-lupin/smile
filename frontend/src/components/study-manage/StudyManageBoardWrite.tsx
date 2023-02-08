@@ -109,31 +109,31 @@ const CancelBtn = styled(WriteBtn)`
 `;
 
 function StudyManageBoardWrite() {
-  // const modules = {
-  //   toolbar: {
-  //     container: [
-  //       ["bold", "italic", "underline", "strike", "blockquote"],
-  //       [{ size: ["small", false, "large", "huge"] }, { color: [] }],
-  //       [
-  //         { list: "ordered" },
-  //         { list: "bullet" },
-  //         { indent: "-1" },
-  //         { indent: "+1" },
-  //         { align: [] },
-  //       ],
-  //     ],
-  //   },
-  //   clipboard: { matchVisual: false },
-  // };
+  const modules = {
+    toolbar: {
+      container: [
+        ["bold", "italic", "underline", "strike", "blockquote"],
+        [{ size: ["small", false, "large", "huge"] }, { color: [] }],
+        [
+          { list: "ordered" },
+          { list: "bullet" },
+          { indent: "-1" },
+          { indent: "+1" },
+          { align: [] },
+        ],
+      ],
+    },
+    clipboard: { matchVisual: false },
+  };
 
   // react - quill
-  const [editorHtmlValue, setEditorHtmlValue] = useState<string>("");
-  const [editorMarkdownValue, setEditorMarkdownValue] = useState<string>("");
+  // const [editorHtmlValue, setEditorHtmlValue] = useState<string>("");
+  // const [editorMarkdownValue, setEditorMarkdownValue] = useState<string>("");
 
-  const onEditorContentChanged = (content: EditorContentChanged) => {
-    setEditorHtmlValue(content.html);
-    setEditorMarkdownValue(content.markdown);
-  };
+  // const onEditorContentChanged = (content: EditorContentChanged) => {
+  //   setEditorHtmlValue(content.html);
+  //   setEditorMarkdownValue(content.markdown);
+  // };
 
   const [title, setTitle] = useState(""); // 글 제목
   const [content, setContent] = useState(""); // 글 내용
@@ -226,13 +226,13 @@ function StudyManageBoardWrite() {
       <Content>
         <Sub1>내용</Sub1>
         <Sub2>
-          {/* <ReactQuill
+          <ReactQuill
             theme="snow"
             value={content}
             onChange={handleContent}
             modules={modules}
-          /> */}
-          <Editor onChange={onEditorContentChanged} />
+          />
+          {/* <Editor onChange={onEditorContentChanged} /> */}
         </Sub2>
       </Content>
       <File>
