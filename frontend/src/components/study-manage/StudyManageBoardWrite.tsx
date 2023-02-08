@@ -211,7 +211,8 @@ function StudyManageBoardWrite() {
           <Select name="bracket" onChange={handleTypeId}>
             <Option value="0">-- 말머리 --</Option>
             <Option value="1">공지</Option>
-            <Option value="2">서류</Option>
+            <Option value="2">자료</Option>
+            <Option value="3">일반</Option>
           </Select>
         </Sub2>
       </Bracket>

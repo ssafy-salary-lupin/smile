@@ -75,6 +75,10 @@ const TypeLabel2 = styled(TypeLabel1)`
   background-color: #314e8d;
 `;
 
+const TypeLabel3 = styled(TypeLabel1)`
+  background-color: #007c1f;
+`;
+
 const BoardTitle = styled(BoardNum)`
   font-weight: bold;
   width: 45%;
@@ -204,7 +208,13 @@ function StudyManageBoardList() {
                 <Row>
                   <BoardNum>{el.boardId}</BoardNum>
                   <BoardType>
-                    <TypeLabel1>{el.boardType.type}</TypeLabel1>
+                    {el.boardType.type === "공지" ? (
+                      <TypeLabel1>{el.boardType.type}</TypeLabel1>
+                    ) : el.boardType.type === "자료" ? (
+                      <TypeLabel2>{el.boardType.type}</TypeLabel2>
+                    ) : (
+                      <TypeLabel3>{el.boardType.type}</TypeLabel3>
+                    )}
                   </BoardType>
                   <BoardTitle>{el.title}</BoardTitle>
                   <BoardWriter>{el.writer.nickname}</BoardWriter>
