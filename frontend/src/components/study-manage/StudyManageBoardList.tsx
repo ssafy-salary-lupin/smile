@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
+import { ReactQueryDevtools } from "react-query/devtools";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
@@ -244,6 +245,7 @@ function StudyManageBoardList() {
         totalElements={totalElements}
         handlePageChange={handlePageChange}
       />
+      <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
     </Wrapper>
   );
 }
