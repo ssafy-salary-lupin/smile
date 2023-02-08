@@ -55,7 +55,7 @@ public class UserController {
     }
 
     /* 로그인 */
-    @PostMapping("/login")
+    @PostMapping("/log-in")
     public DataResponse<Map<String, String>> login(@RequestBody UserLoginDTO userLoginDTO, HttpServletResponse response) {
         String email = userLoginDTO.getEmail();
         String password = userLoginDTO.getPassword();

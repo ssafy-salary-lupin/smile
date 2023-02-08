@@ -69,7 +69,6 @@ public class UserServiceImpl implements UserService{
                 .password(userJoinDTO.getPassword())
                 .imagePath("123")
                 .isDeleted(false)
-                .refreshToken("123")
                 .loginProvider(loginProvider)
                 .build();
 
