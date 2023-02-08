@@ -112,9 +112,9 @@ public class StudyCommonServiceImpl implements StudyCommonService{
     /*스터디 생성*/
     public void createStudy(int userId, CreateStudyDTO createStudyDTO, MultipartFile multipartFile) {
         String storeFileUrl = ""; //AWS S3 이미지 url
-
+        
         //파일이 없다면 디폴트 경로 넣어줌.
-        if(multipartFile.getSize() == 0){
+        if(multipartFile != null && multipartFile.getSize() == 0){
             storeFileUrl = DEFAULT_STUDY;
         }
         //파일이 있으면 s3에 저장.

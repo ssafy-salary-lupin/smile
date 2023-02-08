@@ -47,7 +47,6 @@ public class StudyCommonController {
     // TODO : 스터디 생성이 되면 스터디 아이디를 반환해주어야 함.
     // TODO : 2023.02.08 - @RequestPart의 파일 부분에 데이터가 들어오지 않는 경우를 처리했는데, 아래 로직에서는 처리가 안되었음.
     @PostMapping(value = "/studies", consumes = {"multipart/form-data"})
-    @ResponseStatus()
     public CommonResponse createStudy(
             @RequestPart("data") CreateStudyDTO createStudyDTO,
             @RequestPart(value = "file",required = false) MultipartFile multipartFile,
