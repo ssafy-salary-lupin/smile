@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 import axios from "axios";
 import Editor, { EditorContentChanged } from "./Editor";
 import { Link, useHistory } from "react-router-dom";
+import { ReactComponent as DeleteIcon } from "../../assets/icon/Delete.svg";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
@@ -45,7 +46,6 @@ const Sub2 = styled.div`
   width: 85%;
   display: flex;
   flex-direction: column;
-  align-items: center;
   padding: 0.556vw 1.667vw;
   height: auto;
 `;
@@ -115,12 +115,17 @@ const InputFile = styled.input`
 
 const FileListUl = styled.ul`
   width: 100%;
-  border: 1px sold red;
+  border: 1px solid red;
+  padding-left: 1.667vw;
 `;
 
 const FileListLi = styled.li``;
 
-const FileDeleteBtn = styled.button``;
+const FileDeleteBtn = styled.button`
+  border: none;
+  background-color: none;
+  width: 0.556vw;
+`;
 
 function StudyManageBoardWrite() {
   const modules = {
@@ -176,10 +181,10 @@ function StudyManageBoardWrite() {
 
     for (let i = 0; i < files.length; i++) {
       console.log(files[i].name);
-      setFileNameList([...fileNameList, files[i].name]);
+      setFileNameList((oldDatas) => [...oldDatas, files[i].name]);
     }
 
-    console.log("fileNAmeList : ", fileNameList);
+    fileNameList.map((el) => console.log(el));
   };
 
   const history = useHistory();
@@ -276,7 +281,9 @@ function StudyManageBoardWrite() {
                 return (
                   <>
                     <FileListLi>{el}</FileListLi>
-                    <FileDeleteBtn></FileDeleteBtn>
+                    <FileDeleteBtn>
+                      <DeleteIcon width="100%" height="100%" fill="#ff0000" />
+                    </FileDeleteBtn>
                   </>
                 );
               })}
