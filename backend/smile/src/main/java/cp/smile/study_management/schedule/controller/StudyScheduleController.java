@@ -74,6 +74,8 @@ public class StudyScheduleController {
 
         int userId = oAuth2User.getUserId();
 
+        System.out.println(updateScheduleDTO);
+
         studyScheduleService.updateStudySchedule(userId, studyId, scheduleId, updateScheduleDTO);
 
         return responseService.getSuccessResponse();

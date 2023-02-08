@@ -26,4 +26,16 @@ public class UpdateScheduleDTO {
         this.url = url;
         this.description = description;
     }
+
+    @Override
+    public String toString() {
+        return "UpdateScheduleDTO{" +
+                "startTime='" + startTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                ", typeId=" + typeId +
+                ", name='" + name + '\'' +
+                ", url='" + url + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

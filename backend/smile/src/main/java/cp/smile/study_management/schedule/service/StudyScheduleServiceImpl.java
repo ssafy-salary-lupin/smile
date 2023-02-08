@@ -140,24 +140,24 @@ public class StudyScheduleServiceImpl implements StudyScheduleService{
         StudySchedule studySchedule = studyScheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> new EntityNotFoundException("잘못된 접근입니다."));
 
-        ScheduleType scheduleType = studyScheduleTypeRepository.findById(updateScheduleDTO.getTypeId())
-                .orElseThrow(() -> new EntityNotFoundException("잘못된 접근입니다."));
+
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-        LocalDateTime startTime = LocalDateTime.parse(updateScheduleDTO.getStartTime(),formatter);
-        LocalDateTime endTime = LocalDateTime.parse(updateScheduleDTO.getEndTime(),formatter);
 
-
+        // TODO : 엔티티 안으로 넣도록 수정.
         if (updateScheduleDTO.getStartTime() != null) {
+            LocalDateTime startTime = LocalDateTime.parse(updateScheduleDTO.getStartTime(),formatter);
             studySchedule.updateStartTime(startTime);
         }
-
         if (updateScheduleDTO.getEndTime() != null) {
+            LocalDateTime endTime = LocalDateTime.parse(updateScheduleDTO.getEndTime(),formatter);
             studySchedule.updateEndTime(endTime);
         }
 
-        if (scheduleType != null) {
+        if (updateScheduleDTO.getTypeId() != null) {
+            ScheduleType scheduleType = studyScheduleTypeRepository.findById(updateScheduleDTO.getTypeId())
+                    .orElseThrow(() -> new EntityNotFoundException("잘못된 접근입니다."));
             studySchedule.updateScheduleType(scheduleType);
         }
 
