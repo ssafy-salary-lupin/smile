@@ -167,8 +167,12 @@ function StudyManageBoardList() {
   const [totalElements, setTotalElements] = useState(0);
   const [list, setList] = useState<ListData[] | null>(null);
 
-  const { data: listData } = useQuery<Data>(["listData"], () =>
-    boardListSelectAllApi(page, size),
+  const { data: listData } = useQuery<Data>(
+    ["listData"],
+    () => boardListSelectAllApi(page, size),
+    {
+      enabled: true,
+    },
   );
 
   useEffect(() => {
