@@ -7,7 +7,7 @@ import ProfileImg from "../components/common/ProfileImg";
 import introductionImg1 from "assets/img/introduction_img1.png";
 import defaultprofileImg from "assets/img/userDefaultImg.png";
 import * as Icons from "../components/common/Icons";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 
@@ -109,17 +109,20 @@ const Area = styled.div`
   width: 50.667vw;
   margin-bottom: 2vw;
 `;
-interface studyDetailData {
-  studyInfo: {
+interface Data {
+  isSuccess: boolean;
+  code: number;
+  message: string;
+  result: {
     id: number;
     name: string; //스터디 이름
     startDate: string; //스터디 시작 일자
-    endDatee: string; //스터디 종료 일자
+    endDate: string; //스터디 종료 일자
     time: string; //스터디 시간
     imgPath: string; //스터디 대표 이미지
-    currrentPerson: string; //스터디 현재 가입 인원
-    maxPerson: string; //스터디 최대 가입 인원
-    viewCount: string; //스터디 조회수
+    currrentPerson: number; //스터디 현재 가입 인원
+    maxPerson: number; //스터디 최대 가입 인원
+    viewCount: number; //스터디 조회수
     type: {
       id: number; //스터디 유형 식별자
       name: string; //스터디 유형 이름
@@ -154,13 +157,13 @@ function StudyDetailPages() {
   const BASE_URL = `https://i8b205.p.ssafy.io/be-api/studies`;
 
   const token = localStorage.getItem("kakao-token");
-  const [list, setList] = useState<studyDetailData[] | null>(null);
+  // const [list, setList] = useState<studyDetailData[] | null>(null);
 
   const StudyDataApi = async () => {
     console.log("실행");
 
     try {
-      const response = await axios.get(`${BASE_URL}/1`, {
+      const response = await fetch(`${BASE_URL}/1`, {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: "application/json",
@@ -168,15 +171,21 @@ function StudyDetailPages() {
       });
 
       console.log("data : ", response);
-      return response;
+      const data = await response.json();
+      return data;
     } catch (error: any) {
       console.log(error);
     }
 
-    console.log("받아온 data : ", studyDetailData);
+    // console.log("받아온 data : ", response);
   };
   // console.log("TTTTTT");
-  const { data: studyDetailData } = useQuery("studyDetailData", StudyDataApi);
+  const { data: detailStudy } = useQuery<Data>("StudyDataApi", () =>
+    StudyDataApi(),
+  );
+  console.log("detailStudy", detailStudy);
+
+  // const data = det;
   return (
     <div>
       <Wrapper>
@@ -187,10 +196,10 @@ function StudyDetailPages() {
           목록으로
         </Text>
         <Top>
-          <TextBig>d</TextBig>
-          {/* <Link to={{ pathname: `/manage` }}> */}
-          <Btn color="#F5C82E">참여하기</Btn>
-          {/* </Link> */}
+          <TextBig>{detailStudy?.result.name}</TextBig>
+          <Link to={{ pathname: `/1` }}>
+            <Btn color="#F5C82E">참여하기</Btn>
+          </Link>
         </Top>
         <StudyDetail>
           <Card src={introductionImg1} id="item1" />
