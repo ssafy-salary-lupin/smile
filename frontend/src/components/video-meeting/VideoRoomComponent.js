@@ -14,9 +14,8 @@ import styled from "styled-components";
 var localUser = new UserModel();
 
 // OPENVIDU_SERVER_URL: 오픈비두 서버쪽 URL (포트번호는 변경될 수 있음)
-const APPLICATION_SERVER_URL =
-  // process.env.NODE_ENV === "production" ? "" : "https://i8b205.p.ssafy.io/";
-  process.env.NODE_ENV === "https://i8b205.p.ssafy.io/";
+const APPLICATION_SERVER_URL = "https://i8b205.p.ssafy.io/";
+// process.env.NODE_ENV === "production" ? "" : "https://i8b205.p.ssafy.io/";
 
 const Wrapper = styled.div`
   /* position: static; */
@@ -751,7 +750,9 @@ class VideoRoomComponent extends Component {
   // createSession: 세션 생성 함수 (주의! promise를 반환!!) - 서버에 세션아이디를 요청해서 세션을 생성해서 id값을 받아오는 함수
   async createSession(sessionId) {
     // be-api/studies/{id}/meetings -> 세션 요청 -> 방장이 들어갈 수 있는 토큰
-
+    console.log(
+      APPLICATION_SERVER_URL + "be-api/studies/" + sessionId + "/meetings",
+    );
     const response = await axios.post(
       // APPLICATION_SERVER_URL + "api/sessions",
       APPLICATION_SERVER_URL + "be-api/studies/" + sessionId + "/meetings",
