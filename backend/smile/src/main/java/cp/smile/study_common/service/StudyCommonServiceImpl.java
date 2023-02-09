@@ -14,6 +14,7 @@ import cp.smile.entity.study_common.StudyType;
 import cp.smile.entity.user.User;
 import cp.smile.entity.user.UserJoinStudy;
 import cp.smile.entity.user.UserJoinStudyId;
+import cp.smile.study_common.dto.FindFilter;
 import cp.smile.study_common.dto.request.CreateCommentDTO;
 import cp.smile.study_common.dto.request.CreateReplyDTO;
 import cp.smile.study_common.dto.request.CreateStudyDTO;
@@ -28,6 +29,7 @@ import cp.smile.study_management.chat.service.ChatServiceImpl;
 import cp.smile.user.repository.UserJoinStudyRepository;
 import cp.smile.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,6 +47,7 @@ import static cp.smile.config.AwsS3DirectoryName.DEFAULT_STUDY;
 import static cp.smile.config.AwsS3DirectoryName.STUDY_IMG;
 import static cp.smile.config.response.exception.CustomExceptionStatus.*;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = false)
@@ -64,20 +67,44 @@ public class StudyCommonServiceImpl implements StudyCommonService{
 
     /*전체 조회.*/
     @Override
-    public List<FindAllStudyDTO> findAllStudy()  {
+    public List<FindAllStudyDTO> findAllStudy(FindFilter findFilter)  {
 
 
-        // TODO : 현재는 단순한 RuntimeException을 던지지만, 추후에 예외에 대한 정리가 끝나면, 조회 데이터가 없다는 예외를 던지는 커스텀 예외를 적용해야됨.
+
+        // TODO : QueryDsl을 사용하지 않아서 동적쿼리 짜기가 어려움 - 당장은 개별 쿼리로 짜고, 추후에 querydsl을 활용해서 수정 필요
+
         /*스터디 정보를 전체 조회해옴*/
-        Set<StudyInformation> studyInformations = studyCommonRepository.findAllByStudyInformation();
 
+        Set<StudyInformation> studyInformations = null;
+        /**검색 조건이 없을때*/
+        if(findFilter.getName() == null && findFilter.getType() == 0){
+
+            studyInformations = studyCommonRepository.findAllByStudyInformation();
+
+        }
+
+        /**검색조건이 name 하나일때*/
+        else if(findFilter.getName() != null && findFilter.getType() == 0){
+
+            studyInformations = studyCommonRepository.findAllByNameIsContaining(findFilter.getName());
+        }
+        /** 검색 조건이 type 하나일 때*/
+        else if(findFilter.getName() == null && findFilter.getType() != 0){
+
+            studyInformations = studyCommonRepository.findAllByStudyType(findFilter.getType());
+        }
+        /** 검색 조건이 둘다 일때.*/
+        else{
+
+            studyInformations = studyCommonRepository
+                    .findAllByNameIsContainingAndStudyType(findFilter.getName(),findFilter.getType());
+        }
 
         List<FindAllStudyDTO> findAllStudyDTOS = new ArrayList<>();
 
         // TODO : 스트림으로 코드를 좀 더 깔끔하게 처리할 필요가 있음, - 또는 디비구조를 개편해서 코드를 줄이는 방법 생각(join을 안쓸 순 없음.)
         /*조인 한 결과를 response DTO에 담음.*/
         for(StudyInformation studyInformation : studyInformations){
-
             //스터디 타입 객체 매핑
             StudyTypeDTO studyTypeDTO = studyInformation.getStudyType().createStudyTypeDTO();
 
@@ -89,10 +116,10 @@ public class StudyCommonServiceImpl implements StudyCommonService{
                     .filter((comment) -> comment.isDeleted() == false)
                     .count();
 
-
             //스터디 전체 조회시에 프론트로 리턴할 객체.
             FindAllStudyDTO findAllStudyDTO = FindAllStudyDTO.builder()
                     .id(studyInformation.getId())
+                    .name(studyInformation.getName())
                     .imgPath(studyInformation.getImgPath())
                     .person(studyInformation.getCurrentPerson())
                     .maxPerson(studyInformation.getMaxPerson())
@@ -106,6 +133,7 @@ public class StudyCommonServiceImpl implements StudyCommonService{
             findAllStudyDTOS.add(findAllStudyDTO);
         }
 
+
         return findAllStudyDTOS;
     }
 
@@ -114,7 +142,7 @@ public class StudyCommonServiceImpl implements StudyCommonService{
         String storeFileUrl = ""; //AWS S3 이미지 url
 
         //파일이 없다면 디폴트 경로 넣어줌.
-        if(multipartFile.getSize() == 0){
+        if(multipartFile == null || multipartFile.getSize() == 0){
             storeFileUrl = DEFAULT_STUDY;
         }
         //파일이 있으면 s3에 저장.
@@ -219,9 +247,7 @@ public class StudyCommonServiceImpl implements StudyCommonService{
 
 
         //댓글 대댓글 조회 - 대댓글은 없을 수도 있기 때문에 null리턴.
-        Set<StudyComment> studyComments = studyCommentRepository
-                .findAllCommentAndReply(studyInformation)
-                .orElse(null);
+        Set<StudyComment> studyComments = studyCommentRepository.findAllCommentAndReply(studyInformation);
 
         //댓글 DTO 채우기 & 대댓글 DTO 채우기
         List<StudyCommentDTO> StudyCommentDTOS = studyComments.stream()
