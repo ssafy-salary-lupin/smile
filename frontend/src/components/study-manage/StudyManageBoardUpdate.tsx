@@ -252,9 +252,15 @@ function StudyManageBoardUpdate() {
     clipboard: { matchVisual: false },
   };
 
-  const [title, setTitle] = useState<string>(""); // 글 제목
-  const [content, setContent] = useState<string>(""); // 글 내용
-  const [typeId, setTypeId] = useState<number>(0); // 글 유형
+  const [title, setTitle] = useState<string | undefined>(
+    detailData?.result.title,
+  ); // 글 제목
+  const [content, setContent] = useState<string | undefined>(
+    detailData?.result.content,
+  ); // 글 내용
+  const [typeId, setTypeId] = useState<number | undefined>(
+    detailData?.result.boardType.typeId,
+  ); // 글 유형
   const [selectedFile, setSelectedFile] = useState<any>(
     detailData?.result.files,
   ); // 파일
@@ -368,9 +374,27 @@ function StudyManageBoardUpdate() {
         <Sub2>
           <Select name="bracket" onChange={handleTypeId}>
             <Option value="0">-- 말머리 --</Option>
-            <Option value="1">공지</Option>
-            <Option value="2">자료</Option>
-            <Option value="3">일반</Option>
+            {detailData?.result.boardType.typeId === 1 ? (
+              <Option value="1" selected>
+                공지
+              </Option>
+            ) : (
+              <Option value="1">공지</Option>
+            )}
+            {detailData?.result.boardType.typeId === 2 ? (
+              <Option value="2" selected>
+                자료
+              </Option>
+            ) : (
+              <Option value="2">자료</Option>
+            )}
+            {detailData?.result.boardType.typeId === 3 ? (
+              <Option value="3" selected>
+                일반
+              </Option>
+            ) : (
+              <Option value="3">일반</Option>
+            )}
           </Select>
         </Sub2>
       </Bracket>
@@ -428,7 +452,7 @@ function StudyManageBoardUpdate() {
         </Sub2>
       </File>
       <Button>
-        <WriteBtn onClick={submit}>등록</WriteBtn>
+        <WriteBtn onClick={submit}>수정 완료</WriteBtn>
         <CancelBtn>
           <Link to="/manage/board">취소</Link>
         </CancelBtn>
