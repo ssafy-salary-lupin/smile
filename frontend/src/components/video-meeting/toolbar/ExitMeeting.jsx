@@ -20,7 +20,7 @@ const Container = styled.div`
   justify-content: space-between;
   width: 100%;
   height: 100%;
-  padding: 32px 0;
+  padding: 2.222vw 0;
 `;
 
 // 제목
@@ -31,7 +31,7 @@ const Title = styled.div`
   width: 100%;
   height: 100%;
   span {
-    font-size: 32px;
+    font-size: 2.222vw;
     font-weight: 500;
     color: #061c3d;
   }
