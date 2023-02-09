@@ -21,6 +21,7 @@ public class StudyType extends BaseEntity {
     @Column(name = "st_id")
     private int id;
     @Column(name = "st_name")
+    @Enumerated(EnumType.STRING)
     private String name;
 
     @Builder

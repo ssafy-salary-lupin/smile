@@ -32,8 +32,22 @@ public class StudyCommonController {
     private final ResponseService responseService;
 
 
+    //쿼리 스트링으로 검색조건 넣을 수 있음.
+
+    /**
+     * 스터디 분류 id => type
+     * 스터디 제목 키워드 => title
+     * @param title
+     * @param type
+     * @return
+     */
+
     @GetMapping("/studies")
-    public DataResponse<List<FindAllStudyDTO>> findAllStudy(){
+    public DataResponse<List<FindAllStudyDTO>> findAllStudy(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) int type
+
+    ){
 
         List<FindAllStudyDTO> findAllStudyDTOS = studyCommonService.findAllStudy();
 
