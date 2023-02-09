@@ -9,6 +9,11 @@ const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
   display: flex;
   flex-direction: column;
+
+  a {
+    text-decoration: none;
+    color: ${(props) => props.theme.blackColor};
+  }
 `;
 
 const Head = styled.div`

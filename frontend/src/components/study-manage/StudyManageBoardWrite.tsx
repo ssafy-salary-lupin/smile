@@ -3,9 +3,9 @@ import styled from "styled-components";
 import "react-quill/dist/quill.snow.css";
 import { useState } from "react";
 import axios from "axios";
-import Editor, { EditorContentChanged } from "./Editor";
 import { Link, useHistory } from "react-router-dom";
 import { ReactComponent as DeleteIcon } from "../../assets/icon/Delete.svg";
+// import "../../assets/css/boardWriteQuill.css";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
@@ -48,6 +48,30 @@ const Sub2 = styled.div`
   flex-direction: column;
   padding: 0.556vw 1.667vw;
   height: auto;
+
+  .quill {
+    height: 27.778vw;
+    width: 100%;
+    text-align: center;
+  }
+
+  .ql-toolbar.ql-snow {
+    border: 1px solid #000000ae;
+    height: 2.778vw;
+    background-color: #f6f6f6;
+  }
+
+  .ql-container.ql-snow {
+    border: 1px solid #000000ae;
+    height: 25vw;
+    background-color: white;
+  }
+
+  blockquote {
+    border-left: 0.556vw solid #ccc;
+    margin: 0.694vw;
+    padding-left: 0.694vw;
+  }
 `;
 
 const Select = styled.select`
@@ -134,6 +158,7 @@ const FileListLi = styled.li`
   flex-direction: row;
   font-size: 1.111vw;
   padding: 0.278vw 0;
+  list-style: none;
 `;
 
 function StudyManageBoardWrite() {
@@ -154,15 +179,6 @@ function StudyManageBoardWrite() {
     clipboard: { matchVisual: false },
   };
 
-  // react - quill
-  // const [editorHtmlValue, setEditorHtmlValue] = useState<string>("");
-  // const [editorMarkdownValue, setEditorMarkdownValue] = useState<string>("");
-
-  // const onEditorContentChanged = (content: EditorContentChanged) => {
-  //   setEditorHtmlValue(content.html);
-  //   setEditorMarkdownValue(content.markdown);
-  // };
-
   const [title, setTitle] = useState<string>(""); // 글 제목
   const [content, setContent] = useState<string>(""); // 글 내용
   const [typeId, setTypeId] = useState<number>(0); // 글 유형
@@ -179,7 +195,7 @@ function StudyManageBoardWrite() {
     setTypeId(Number(event.target.value));
   };
 
-  const [selectedFile, setSelectedFile] = useState<string | Blob | null>(null); // 파일
+  const [selectedFile, setSelectedFile] = useState(null); // 파일
   const [fileNameList, setFileNameList] = useState<string[]>([]);
   const handleFileSelect = (event: any) => {
     console.log("event.target.files[0] : ", event.target.files[0]);
@@ -257,16 +273,14 @@ function StudyManageBoardWrite() {
     console.log("formdata files 값 확인 : ", formData.get("files"));
 
     try {
-      await axios.post(
-        `https://i8b205.p.ssafy.io/be-api/studies/1/boards`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("kakao-token")}`,
-            "Content-Type": "multipart/form-data",
-          },
+      // https://i8b205.p.ssafy.io/be-api/studies/1/boards
+      await axios.post(`/be-api/studies/1/boards`, formData, {
+        headers: {
+          // Authorization: `Bearer ${localStorage.getItem("kakao-token")}`,
+          Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzU5MDIwNzUsImV4cCI6MTY3NTk4ODQ3NX0.hipxLmlwQVai65rVc4T2NEIYG-XlhlRN-gR8sVlbz73wd7-4SqKNBR687z_lJK20xQ0Wx_riJzCtKWMT2-LJ7A`,
+          "Content-Type": "multipart/form-data",
         },
-      );
+      });
     } catch (error) {
       console.log(error);
     }
@@ -305,7 +319,6 @@ function StudyManageBoardWrite() {
             onChange={handleContent}
             modules={modules}
           />
-          {/* <Editor onChange={onEditorContentChanged} /> */}
         </Sub2>
       </Content>
       <File>

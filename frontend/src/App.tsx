@@ -257,30 +257,7 @@ body {
   /* pagination  end ====================================== */
 
 
-  /* editor =============================================== */
-  .quill{
-    height: 27.778vw;
-    width: 100%;
-    text-align: center;
-  }
-
-  .ql-toolbar.ql-snow{
-    border: 1px solid #000000ae;
-    height:2.778vw;
-    background-color: #f6f6f6;;
-  }
-
-  .ql-container.ql-snow {
-    border: 1px solid #000000ae;  
-    height: 25vw;
-    background-color: white;
-  }
-
-  blockquote{
-    border-left: 0.556vw solid #ccc;
-    margin: 0.694vw;
-    padding-left:0.694vw; 
-  }
+ 
 `;
 
 function App() {

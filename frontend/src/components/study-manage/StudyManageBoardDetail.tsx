@@ -6,6 +6,8 @@ import { ReactComponent as Comment } from "../../assets/icon/Comment.svg";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { boardSelectApi } from "apis/StudyManageBoardApi";
+import ReactQuill from "react-quill";
+// import "../../assets/css/boardDetailQuill.css";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
@@ -31,6 +33,14 @@ const ArticleType = styled.div`
   align-items: center;
   height: 1.944vw;
   margin-right: 1.667vw;
+`;
+
+const ArticleType2 = styled(ArticleType)`
+  background-color: #314e8d;
+`;
+
+const ArticleType3 = styled(ArticleType)`
+  background-color: #007c1f;
 `;
 
 const Title = styled.div`
@@ -89,24 +99,55 @@ const ArticleContent = styled.div`
   padding: 1.667vw 2.778vw;
   font-size: 1.111vw;
   line-height: 1.667vw;
+
+  .quill {
+    /* height: 27.778vw; */
+    width: 100%;
+    text-align: center;
+  }
+
+  .ql-container.ql-snow {
+    border: 1px solid white;
+    /* height: 25vw; */
+    background-color: white;
+  }
+
+  blockquote {
+    border-left: 0.556vw solid #ccc;
+    margin: 0.694vw;
+    padding-left: 0.694vw;
+  }
 `;
 
 const FileBox = styled.div`
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-direction: column;
+  /* align-items: center; */
 `;
 
 const FileSub1 = styled.div`
-  width: 10%;
-  background-color: ${(props) => props.theme.blackColorOpacity3};
+  width: 15%;
+  background-color: ${(props) => props.theme.subColor};
   text-align: center;
   padding: 0.556vw;
-  border-radius: 3.472vw;
+  border-radius: 0.278vw;
   margin-right: 0.556vw;
+  font-size: 1.111vw;
 `;
 
 const FileSub2 = styled.div``;
+
+const FileListLi = styled.li`
+  display: flex;
+  flex-direction: row;
+  font-size: 1.111vw;
+  padding: 0.278vw 0.556vw;
+  list-style: none;
+`;
+
+const FileLink = styled.a`
+  text-decoration: none;
+`;
 
 const ArticleBtn = styled.div`
   display: flex;
@@ -213,7 +254,7 @@ interface Data {
       {
         fileId: number; // 파일 식별자
         fileName: string; // 파일 이름
-        soruceUrl: string; // 파일 주소
+        sourceUrl: string; // 파일 주소
       },
     ];
   };
@@ -226,18 +267,27 @@ type Params = {
 function StudyManageBoardDetail() {
   const { boardId } = useParams<Params>();
 
-  // console.log(type of );
-
   const { data: detailData } = useQuery<Data>("detailData", () =>
     boardSelectApi(boardId),
   );
 
   console.log("받아온 data : ", detailData);
 
+  const modules = {
+    toolbar: false,
+  };
+
   return (
     <Wrapper>
       <ArticleHeader>
-        <ArticleType></ArticleType>
+        {detailData?.result.boardType.type === "공지" ? (
+          <ArticleType>{detailData?.result.boardType.type}</ArticleType>
+        ) : detailData?.result.boardType.type === "자료" ? (
+          <ArticleType2>{detailData?.result.boardType.type}</ArticleType2>
+        ) : (
+          <ArticleType3>{detailData?.result.boardType.type}</ArticleType3>
+        )}
+
         <Title>{detailData?.result.title}</Title>
       </ArticleHeader>
       <ArticleInfo>
@@ -260,7 +310,14 @@ function StudyManageBoardDetail() {
           </CommentCnt>
         </SubInfo>
       </ArticleInfo>
-      <ArticleContent>{detailData?.result.content}</ArticleContent>
+      <ArticleContent>
+        <ReactQuill
+          theme="snow"
+          value={detailData?.result.content}
+          readOnly
+          modules={modules}
+        />
+      </ArticleContent>
       <FileBox>
         <FileSub1>첨부 파일</FileSub1>
         <FileSub2>
@@ -269,9 +326,11 @@ function StudyManageBoardDetail() {
               {detailData?.result.files.map((el) => {
                 return (
                   <>
-                    <li>
-                      <a href={`${el.soruceUrl}`}>{el.fileName}</a>
-                    </li>
+                    <FileListLi>
+                      <FileLink href={`${el.sourceUrl}`}>
+                        {el.fileName}
+                      </FileLink>
+                    </FileListLi>
                   </>
                 );
               })}

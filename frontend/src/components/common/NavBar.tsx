@@ -16,6 +16,14 @@ const Nav = styled(motion.nav)`
   // padding: 0.784vw; //0.7rem
   align-items: center;
   z-index: 9999;
+  a,
+  a:link,
+  a:visited,
+  a:hover,
+  a:active {
+    text-decoration: none;
+    color: ${(props) => props.theme.blackColor};
+  }
 `;
 
 const NavHeader = styled.div`
@@ -185,6 +193,11 @@ function NavBar(props: UrlProps) {
           <Item1 curUrl={props.curUrl}>
             {/* <Link to="">스터디 조회</Link> */} 스터디 조회
           </Item1>
+          <Item2 curUrl={props.curUrl}>
+            <Link to="/manage" style={{ textDecoration: "none" }}>
+              내 스터디
+            </Link>
+          </Item2>
           {kakaoToken ? (
             <Item2 curUrl={props.curUrl}>
               <Link to="/manage" style={{ textDecoration: "none" }}>
