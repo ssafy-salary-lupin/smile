@@ -160,7 +160,7 @@ const FileListLi = styled.li`
   list-style: none;
 `;
 
-function StudyManageBoardWrite() {
+function StudyManageBoardUpdate() {
   const modules = {
     toolbar: {
       container: [
@@ -272,7 +272,7 @@ function StudyManageBoardWrite() {
     try {
       // https://i8b205.p.ssafy.io/be-api/studies/1/boards
       await axios.post(
-        `https://i8b205.p.ssafy.io/be-api/studies/1/boards`,
+        ` https://i8b205.p.ssafy.io/be-api/studies/1/boards`,
         formData,
         {
           headers: {
@@ -364,4 +364,4 @@ function StudyManageBoardWrite() {
   );
 }
 
-export default StudyManageBoardWrite;
+export default StudyManageBoardUpdate;

@@ -7,7 +7,6 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { boardSelectApi } from "apis/StudyManageBoardApi";
 import ReactQuill from "react-quill";
-// import "../../assets/css/boardDetailQuill.css";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
@@ -340,7 +339,15 @@ function StudyManageBoardDetail() {
       </FileBox>
       <ArticleBtn>
         <UpdateBtn>수정</UpdateBtn>
-        <DeleteBtn>삭제</DeleteBtn>
+        <DeleteBtn
+          onClick={() => {
+            if (confirm("작성한 글을 삭제하시겠습니까?")) {
+            } else {
+            }
+          }}
+        >
+          삭제
+        </DeleteBtn>
         <ListBtn>목록</ListBtn>
       </ArticleBtn>
       <CommentHeader>댓글</CommentHeader>
