@@ -12,6 +12,14 @@ const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
   display: flex;
   flex-direction: column;
+  a,
+  a:link,
+  a:visited,
+  a:hover,
+  a:active {
+    text-decoration: none;
+    color: inherit;
+  }
 `;
 
 const ArticleHeader = styled.div`
@@ -131,7 +139,7 @@ const FileSub1 = styled.div`
   padding: 0.556vw;
   border-radius: 0.278vw;
   margin-right: 0.556vw;
-  font-size: 1.111vw;
+  font-size: 0.972vw;
 `;
 
 const FileSub2 = styled.div``;
@@ -139,7 +147,7 @@ const FileSub2 = styled.div``;
 const FileListLi = styled.li`
   display: flex;
   flex-direction: row;
-  font-size: 1.111vw;
+  font-size: 0.972vw;
   padding: 0.278vw 0.556vw;
   list-style: none;
 `;
