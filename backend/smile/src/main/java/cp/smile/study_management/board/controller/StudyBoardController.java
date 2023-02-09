@@ -49,14 +49,9 @@ public class StudyBoardController {
     public CommonResponse write(@AuthenticationPrincipal CustomOAuth2User oAuth2User,
                                 @PathVariable int studyId,
                                 @RequestPart("data") StudyBoardWriteDTO dto,
-                                @RequestPart(value = "files") List<MultipartFile> files2) {
-        log.info("[***file - check***] : {}" , files2);
+                                @RequestPart(value = "files", required = false) MultipartFile[] files) {
 
-
-        MultipartFile[] files = new MultipartFile[files2.size()];
-        for(int i = 0; i < files2.size(); i++){
-            files[i] = files2.get(i);
-        }
+        log.info("[***file - check***] : {}" , files);
 
         UserJoinStudy userJoinStudy = userJoinStudyRepository.findByUserIdAndStudyId(oAuth2User.getUserId(), studyId)
                 .orElseThrow(() -> new CustomException(USER_NOT_ACCESS_STUDY));
