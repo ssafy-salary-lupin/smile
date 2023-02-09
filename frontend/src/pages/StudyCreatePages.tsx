@@ -217,9 +217,10 @@ function StudyCreatePages() {
   const saveImgFile = () => {
     if (imgRef.current?.files !== undefined && imgRef.current?.files !== null) {
       const file = imgRef.current?.files[0];
-      const form = new FormData();
-      // form.append("file", file);
-      console.log("form", file);
+      const Form = new FormData();
+      Form.append("file", file);
+      console.log(Form);
+      console.log(file.name);
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onloadend = () => {
@@ -282,7 +283,7 @@ function StudyCreatePages() {
           description: study_description,
           time: time,
         },
-        file: study_file,
+        file: Form,
       })
       .then(function (response) {
         console.log(response.data);
