@@ -75,7 +75,7 @@ public class StudyInformation extends BaseEntity {
     Set<ChatMessage> chatMessages = new HashSet<>(); //채팅 메시지 테이블
 
     @OneToMany(mappedBy = "studyInformation", fetch = FetchType.LAZY)
-    List<StudyBoard> studyBoards = new ArrayList<>();
+    Set<StudyBoard> studyBoards = new HashSet<>();
 
 
     @Builder
@@ -150,4 +150,5 @@ public class StudyInformation extends BaseEntity {
     public void addPerson() {
         this.currentPerson += 1;
     }
+
 }
