@@ -211,6 +211,7 @@ class VideoRoomComponent extends Component {
 
   // connect: 토큰을 매개변수로 받아서 실제 세션에 접속하게 해주는 함수
   connect(token) {
+    console.log(token, { clientData: this.state.myUserName });
     this.state.session
       .connect(token, { clientData: this.state.myUserName })
       .then(() => {
