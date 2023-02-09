@@ -179,7 +179,7 @@ const BtnBox = styled.div`
 `;
 
 function StudyCreatePages() {
-  const selectType = ["미정", "면접", "자격증", "외국어"];
+  const selectType = ["면접", "자격증", "외국어"];
   const selectPeople = ["미정", "3명", "4명", "5명", "6명"];
   const selectTime = [
     "미정",
@@ -354,8 +354,8 @@ function StudyCreatePages() {
               스터디 유형<RedStar>*</RedStar>
             </SelectName>
             <SelectBox onChange={Change_typeId}>
-              {selectType.map((item) => (
-                <option value={item} key={item}>
+              {selectType.map((item, index) => (
+                <option value={index + 1} key={item}>
                   {item}
                 </option>
               ))}
