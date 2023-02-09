@@ -181,7 +181,7 @@ function StudyManageBoardWrite() {
   const [title, setTitle] = useState<string>(""); // 글 제목
   const [content, setContent] = useState<string>(""); // 글 내용
   const [typeId, setTypeId] = useState<number>(0); // 글 유형
-  const [selectedFile, setSelectedFile] = useState(null); // 파일
+  const [selectedFile, setSelectedFile] = useState<any>(null); // 파일
   const [fileNameList, setFileNameList] = useState<string[]>([]); // 파일 이름
 
   const handleTitle = (event: any) => {
@@ -202,7 +202,7 @@ function StudyManageBoardWrite() {
     console.log("event.target.files : ", event.target.files);
 
     // const files = event.target.files;
-    setSelectedFile(event.target.files[0]);
+    setSelectedFile(event.target.files);
 
     const files = event.target.files;
     for (let i = 0; i < files.length; i++) {
@@ -262,12 +262,14 @@ function StudyManageBoardWrite() {
 
     formData.append("data", JSON.stringify(data));
 
-    // const files = selectedFile;
     if (selectedFile !== null) {
-      formData.append("files", selectedFile);
-      console.log("files : ", selectedFile);
-      // console.log("formdata files 값 확인 : ", formData.get("files")[0]);
+      selectedFile.foreach((el: any) => {
+        formData.append("files", el);
+      });
     }
+
+    console.log("selectedFile : ", selectedFile);
+    console.log("files : ", formData.get("files"));
 
     try {
       // https://i8b205.p.ssafy.io/be-api/studies/1/boards
