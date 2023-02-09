@@ -202,13 +202,11 @@ function StudyManageBoardWrite() {
     console.log("event.target.files : ", event.target.files);
 
     const files = event.target.files;
-
     setSelectedFile(files);
 
     for (let i = 0; i < files.length; i++) {
       setFileNameList((oldDatas) => [...oldDatas, files[i].name]);
     }
-
     fileNameList.map((el) => console.log(el));
   };
 
@@ -217,8 +215,6 @@ function StudyManageBoardWrite() {
   };
 
   const deleteFile = (index: any) => {
-    console.log("삭제할 index 값 : ", index);
-
     const size = fileNameList.length;
     // 이름 리스트에서 해당 파일 이름 삭제
     setFileNameList([]);
@@ -229,7 +225,6 @@ function StudyManageBoardWrite() {
     });
 
     // 파일 리스트에서 해당 파일 삭제
-
     // if (selectedFile !== null) {
     //   const tempFileList = [];
     //   setSelectedFile(null);
@@ -267,9 +262,12 @@ function StudyManageBoardWrite() {
     formData.append("data", JSON.stringify(data));
 
     const files = selectedFile;
-    if (files !== null) formData.append("files", files);
+    if (files !== null) {
+      formData.append("files", files);
+      console.log("null이 아님");
+      console.log("files : ", files);
+    }
 
-    console.log("files : ", files);
     console.log("formdata files 값 확인 : ", formData.get("files"));
 
     try {
