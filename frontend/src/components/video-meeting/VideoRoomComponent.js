@@ -751,11 +751,17 @@ class VideoRoomComponent extends Component {
   async createSession(sessionId) {
     // be-api/studies/{id}/meetings -> 세션 요청 -> 방장이 들어갈 수 있는 토큰
     console.log(
-      APPLICATION_SERVER_URL + "be-api/studies/" + sessionId + "/meetings",
+      APPLICATION_SERVER_URL +
+        "openvidu-api/studies/" +
+        sessionId +
+        "/meetings",
     );
     const response = await axios.post(
       // APPLICATION_SERVER_URL + "api/sessions",
-      APPLICATION_SERVER_URL + "be-api/studies/" + sessionId + "/meetings",
+      APPLICATION_SERVER_URL +
+        "openvidu-api/studies/" +
+        sessionId +
+        "/meetings",
       { customSessionId: sessionId },
       {
         headers: {
@@ -770,12 +776,13 @@ class VideoRoomComponent extends Component {
   // createToken: 특정 sessionId에 대해서 오픈비두 서버에 토큰을 요청해서 받아오는 함수 (주의! Promise 반환!)
   async createToken(sessionId) {
     console.log("TEST", this.state.token);
+    console.log("ID", sessionId);
     // be-api/studies/{id}/meetings/connection/ -> 토큰 요청
     const response = await axios.post(
       // APPLICATION_SERVER_URL + "api/sessions/" + sessionId + "/connections",
       APPLICATION_SERVER_URL +
-        "be-api/studies/" +
-        sessionId +
+        "openvidu-api/studies/" +
+        "1" +
         "/meetings/connection",
       {},
       {
