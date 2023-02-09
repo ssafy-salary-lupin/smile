@@ -16,7 +16,7 @@ public interface StudyCommonRepository extends JpaRepository<StudyInformation, I
 //    Optional<List<StudyInformation>> findAllByDeadlineAndIsEnd( boolean deadline, boolean isEnd);
 
 
-    //스터디 전체 조회2
+    //스터디 전체 조회
     @Query(value = "select s from StudyInformation s " +
             "left join fetch s.studyType st " +
             "left join fetch s.userJoinStudies ujs " +
@@ -25,12 +25,36 @@ public interface StudyCommonRepository extends JpaRepository<StudyInformation, I
             "where s.deadline = false and s.isEnd = false and ujs.isLeader = true")
     Set<StudyInformation> findAllByStudyInformation();
 
+
     /**검색조건이 name 하나일때*/
-    Set<StudyInformation> findAllByNameIsContaining(String name);
+    @Query(value = "select s from StudyInformation s " +
+            "left join fetch s.studyType st " +
+            "left join fetch s.userJoinStudies ujs " +
+            "left join fetch s.studyComments sc " +
+            "left join fetch ujs.user " +
+            "where s.deadline = false and s.isEnd = false and ujs.isLeader = true " +
+            "and s.name like %:name%")
+    Set<StudyInformation> findAllByNameIsContaining(@Param("name") String name);
+
 
     /** 검색 조건이 type 하나일 때*/
-    Set<StudyInformation> findAllByStudyType(StudyType studyType);
+    @Query(value = "select s from StudyInformation s " +
+            "left join fetch s.studyType st " +
+            "left join fetch s.userJoinStudies ujs " +
+            "left join fetch s.studyComments sc " +
+            "left join fetch ujs.user " +
+            "where s.deadline = false and s.isEnd = false and ujs.isLeader = true " +
+            "and st.id = :typeId")
+    Set<StudyInformation> findAllByStudyType(@Param("typeId") int studyTypeId);
+
 
     /** 검색 조건이 둘다 일때.*/
-    Set<StudyInformation> findAllByNameIsContainingAndStudyType(String name, StudyType studyType);
+    @Query(value = "select s from StudyInformation s " +
+            "left join fetch s.studyType st " +
+            "left join fetch s.userJoinStudies ujs " +
+            "left join fetch s.studyComments sc " +
+            "left join fetch ujs.user " +
+            "where s.deadline = false and s.isEnd = false and ujs.isLeader = true " +
+            "and s.name like %:name% and st.id = :typeId")
+    Set<StudyInformation> findAllByNameIsContainingAndStudyType(@Param("name") String name, @Param("typeId") int studyTypeId);
 }

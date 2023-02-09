@@ -91,20 +91,13 @@ public class StudyCommonServiceImpl implements StudyCommonService{
         /** 검색 조건이 type 하나일 때*/
         else if(findFilter.getName() == null && findFilter.getType() != 0){
 
-            StudyType studyType = studyTypeRepository
-                    .findById(findFilter.getType())
-                    .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY_TYPE));
-
-
-            studyInformations = studyCommonRepository.findAllByStudyType(studyType);
+            studyInformations = studyCommonRepository.findAllByStudyType(findFilter.getType());
         }
         /** 검색 조건이 둘다 일때.*/
         else{
 
-            StudyType studyType = studyTypeRepository
-                    .findById(findFilter.getType())
-                    .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY_TYPE));
-            studyInformations = studyCommonRepository.findAllByNameIsContainingAndStudyType(findFilter.getName(), studyType);
+            studyInformations = studyCommonRepository
+                    .findAllByNameIsContainingAndStudyType(findFilter.getName(),findFilter.getType());
         }
 
         List<FindAllStudyDTO> findAllStudyDTOS = new ArrayList<>();
