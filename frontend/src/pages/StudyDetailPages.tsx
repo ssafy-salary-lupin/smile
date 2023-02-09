@@ -111,7 +111,7 @@ function StudyDetailPages() {
               <TextSmall>자격증 스터디</TextSmall>
             </TextSmallBox>
             <TextSmallBox>
-              <Text>모집 인원</Text>
+              {/* <Text>모집 인원</Text> */}
               <TextSmall>자격증 스터디</TextSmall>
             </TextSmallBox>
             <TextSmallBox>
