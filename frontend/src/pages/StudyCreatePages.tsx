@@ -217,6 +217,9 @@ function StudyCreatePages() {
   const saveImgFile = () => {
     if (imgRef.current?.files !== undefined && imgRef.current?.files !== null) {
       const file = imgRef.current?.files[0];
+      const form = new FormData();
+      // form.append("file", file);
+      console.log("form", file);
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onloadend = () => {
@@ -238,7 +241,7 @@ function StudyCreatePages() {
   const time = startTime?.toString() + " ~ " + endTime?.toString();
   // console.log("시간 : ", time);
 
-  const BASE_URL = `/users/studies`;
+  const BASE_URL = `https://i8b205.p.ssafy.io/be-api/studies`;
 
   const token = localStorage.getItem("kakao-token");
   // console.log("가져온 데이타 : ", StudyData);
