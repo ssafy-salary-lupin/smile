@@ -1,7 +1,10 @@
-import { SetStateAction } from "react";
+import { SetStateAction, useState } from "react";
 import styled from "styled-components";
 import ModalNone from "components/common/ModalNone";
 import { Close as CloseIcon } from "components/common/Icons";
+import { useRecoilState } from "recoil";
+import { StudyRuleAtom } from "atoms/StudyManageMainAtom";
+import ReactQuill from "react-quill";
 
 // 모달의 크기 설정
 const Wrapper = styled.div`
@@ -54,19 +57,50 @@ const Section = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
+  /* width: 53.611vw; */
+  height: 29.236vw;
   /* height: 100%; */
-  margin: 1.667vw 0px;
+  /* margin: 1.667vw 0px; */
+  background-color: ${(props) => props.theme.subColor};
+
+  .quill {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+  }
+
+  .ql-container.ql-snow {
+    border: 1px solid transparent;
+    height: 29.236vw;
+    background-color: ${(props) => props.theme.subColor};
+    /* box-shadow: 0px 0px 2vw #666b70; */
+  }
+
+  .ql-container.ql-snow:focus {
+  }
+
+  blockquote {
+    border-left: 0.556vw solid #ccc;
+    margin: 0.694vw;
+    padding-left: 0.694vw;
+  }
 `;
 
 // 텍스트 에디터로 나중에 대체
 const TextEditer = styled.textarea`
   width: 53.611vw;
   height: 29.236vw;
+  resize: none;
   border: 1px solid rgba(0, 0, 0, 0.5);
   font-size: 1.667vw;
-  :focus {
-    background-color: ${(props) => props.theme.subColor};
-    box-shadow: 0px 0px 2vw #666b70;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    height: 17%;
+    background-color: ${(props) => props.theme.subColor2};
+    border-radius: 10px;
   }
 `;
 
@@ -106,6 +140,18 @@ function StudyRuleModal(props: IPropsType) {
   const closeModal = () => {
     props.setModalOpen(false);
   };
+
+  const [studyRule, setStudyRule] = useRecoilState(StudyRuleAtom);
+  const [rule, setRule] = useState("");
+
+  const registRule = () => {
+    setStudyRule(rule);
+  };
+
+  const modules = {
+    toolbar: false,
+  };
+
   return (
     <Wrapper>
       <ModalNone setModalOpen={props.setModalOpen}>
@@ -117,11 +163,18 @@ function StudyRuleModal(props: IPropsType) {
             <Close onClick={closeModal} width="2.778vw" height="2.778vw" />
           </Header>
           <Section>
-            <TextEditer />
+            {/* <TextEditer /> */}
+            <ReactQuill
+              theme="snow"
+              onChange={(el: any) => {
+                setRule(el.target.value);
+              }}
+              modules={modules}
+            />
           </Section>
           <Hr />
           <Footer>
-            <SumitBtn>
+            <SumitBtn onClick={registRule}>
               <span>작성 완료</span>
             </SumitBtn>
           </Footer>
