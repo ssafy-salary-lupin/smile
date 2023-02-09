@@ -9,6 +9,7 @@ import chatImg from "../assets/img/chat_icon.png";
 import StudyManageBoardDetail from "components/study-manage/StudyManageBoardDetail";
 import StudyManageBoardWrite from "components/study-manage/StudyManageBoardWrite";
 import { Route, Switch } from "react-router-dom";
+import StudyManageBoardUpdate from "components/study-manage/StudyManageBoardUpdate";
 
 // submenu 들어갈 자리
 const SubMenu = styled.div`
@@ -36,6 +37,9 @@ function StudyManagePages() {
         </Route>
         <Route path="/manage/boardDetail/:boardId">
           <StudyManageBoardDetail />
+        </Route>
+        <Route path="/manage/boardUpdate/:boardId">
+          <StudyManageBoardUpdate />
         </Route>
         {/* 화상회의 */}
         {/* 스터디원 관리 */}
