@@ -146,7 +146,7 @@ const Introudce = styled.input`
   margin-bottom: 3.333vw;
 `;
 // const IntroduceBox = styled.div``;
-const Form = styled.form`
+const Forms = styled.form`
   .signup-profileImg-label {
     margin: 5px 0 20px 0;
     font-weight: bold;
@@ -209,7 +209,7 @@ function StudyCreatePages() {
     "24:00",
   ];
 
-  const [imgFile, setImgFile] = useState<string | ArrayBuffer>();
+  const [imgFile, setImgFile] = useState<any>();
   const imgRef = useRef<HTMLInputElement>(null);
   const [isActive, setIsActivate] = useState<boolean>(false);
 
@@ -217,10 +217,8 @@ function StudyCreatePages() {
   const saveImgFile = () => {
     if (imgRef.current?.files !== undefined && imgRef.current?.files !== null) {
       const file = imgRef.current?.files[0];
-      const Form = new FormData();
-      Form.append("file", file);
-      console.log(Form);
-      console.log(file.name);
+      // console.log(FormDatas);
+      // console.log(file.name);
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onloadend = () => {
@@ -259,6 +257,25 @@ function StudyCreatePages() {
     CreateStudyApi();
   }, []);
 
+  const formData = new FormData();
+
+  const data = {
+    name: study_name,
+    // typeId: study_typeId,
+    typeId: study_typeId,
+    // maxPerson: study_maxPerson,
+    maxPerson: study_maxPerson,
+    startDate: changeFormat(startDate, "yyyy.MM.DD"),
+    endDate: changeFormat(endDate, "yyyy.MM.DD"),
+    description: study_description,
+    time: time,
+  };
+
+  // console.log(Form.append("file", file));
+  formData.append("data", JSON.stringify(data));
+
+  formData.append("file", imgFile);
+
   const CreateStudyApi = async () => {
     // async function CreateStudyApi() {
     // event.prevenDefault();
@@ -266,24 +283,15 @@ function StudyCreatePages() {
     // const handleType = (e) => {
     //   e.preventDefault();
     // };
+
+    console.log("토큰 : ", token);
+
     await axios
-      .post(`${BASE_URL}`, {
+      .post(`${BASE_URL}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
         },
-        data: {
-          name: study_name,
-          // typeId: study_typeId,
-          typeId: study_typeId,
-          // maxPerson: study_maxPerson,
-          maxPerson: study_maxPerson,
-          startDate: changeFormat(startDate, "yyyy.MM.DD"),
-          endDate: changeFormat(endDate, "yyyy.MM.DD"),
-          description: study_description,
-          time: time,
-        },
-        file: Form,
       })
       .then(function (response) {
         console.log(response.data);
@@ -422,7 +430,7 @@ function StudyCreatePages() {
           </SelectSmallTotal>
           <SelectSmallTotal>
             <SelectName>대표 이미지</SelectName>
-            <Form>
+            <Forms>
               <label className="signup-profileImg-label" htmlFor="profileImg">
                 <ImgBox>
                   {isActive && typeof imgFile == "string" ? (
@@ -440,7 +448,7 @@ function StudyCreatePages() {
                 onChange={saveImgFile}
                 ref={imgRef}
               />
-            </Form>
+            </Forms>
           </SelectSmallTotal>
           <SelectSmallTotal>
             <SelectName>스터디 설명</SelectName>
