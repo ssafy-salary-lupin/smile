@@ -79,13 +79,9 @@ public class UserController {
 
     /* 로그아웃 */
     @PostMapping("/log-out")
-    public CommonResponse logout(HttpServletRequest request) {
+    public CommonResponse logout(@AuthenticationPrincipal CustomOAuth2User oAuth2User) {
 
-        ///////////////////////////////////////////
-
-        System.out.println("request = " + request);
-
-//        userService.logout(oAuth2User.getUserId());
+        userService.logout(oAuth2User.getUserId());
 
         return responseService.getSuccessResponse();
     }
