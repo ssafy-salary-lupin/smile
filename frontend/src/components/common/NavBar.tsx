@@ -22,7 +22,7 @@ const Nav = styled(motion.nav)`
   a:hover,
   a:active {
     text-decoration: none;
-    color: ${(props) => props.theme.blackColor};
+    color: inherit;
   }
 `;
 
@@ -119,10 +119,14 @@ const NabBtn = styled.button`
   font-size: 1.12vw;
 
   &:hover,
-  active,
-  focus {
+  &:active,
+  &:focus {
     background: ${(props) => props.theme.subColorHover};
   }
+`;
+
+const NabBtnLink = styled.a`
+  color: white;
 `;
 
 const Img = styled.img`
@@ -193,11 +197,6 @@ function NavBar(props: UrlProps) {
           <Item1 curUrl={props.curUrl}>
             {/* <Link to="">스터디 조회</Link> */} 스터디 조회
           </Item1>
-          <Item2 curUrl={props.curUrl}>
-            <Link to="/manage" style={{ textDecoration: "none" }}>
-              내 스터디
-            </Link>
-          </Item2>
           {kakaoToken ? (
             <Item2 curUrl={props.curUrl}>
               <Link to="/manage" style={{ textDecoration: "none" }}>
@@ -212,9 +211,9 @@ function NavBar(props: UrlProps) {
           ) : (
             <NabBtn>
               {/* 이 경로로 보내면 server에서 특정 페이지로 redirect */}
-              <a href="https://i8b205.p.ssafy.io/be-api/oauth2/authorization/kakao">
+              <NabBtnLink href="https://i8b205.p.ssafy.io/be-api/oauth2/authorization/kakao">
                 로그인
-              </a>
+              </NabBtnLink>
             </NabBtn>
           )}
         </Items>

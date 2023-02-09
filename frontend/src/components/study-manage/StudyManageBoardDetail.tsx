@@ -3,16 +3,24 @@ import styled from "styled-components";
 import { ReactComponent as Time } from "../../assets/icon/Time.svg";
 import { ReactComponent as Eye } from "../../assets/icon/Eye.svg";
 import { ReactComponent as Comment } from "../../assets/icon/Comment.svg";
-import { useParams } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { boardSelectApi } from "apis/StudyManageBoardApi";
 import ReactQuill from "react-quill";
-// import "../../assets/css/boardDetailQuill.css";
+import axios from "axios";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
   display: flex;
   flex-direction: column;
+  a,
+  a:link,
+  a:visited,
+  a:hover,
+  a:active {
+    text-decoration: none;
+    color: inherit;
+  }
 `;
 
 const ArticleHeader = styled.div`
@@ -132,7 +140,7 @@ const FileSub1 = styled.div`
   padding: 0.556vw;
   border-radius: 0.278vw;
   margin-right: 0.556vw;
-  font-size: 1.111vw;
+  font-size: 0.972vw;
 `;
 
 const FileSub2 = styled.div``;
@@ -140,7 +148,7 @@ const FileSub2 = styled.div``;
 const FileListLi = styled.li`
   display: flex;
   flex-direction: row;
-  font-size: 1.111vw;
+  font-size: 0.972vw;
   padding: 0.278vw 0.556vw;
   list-style: none;
 `;
@@ -271,10 +279,36 @@ function StudyManageBoardDetail() {
     boardSelectApi(boardId),
   );
 
-  console.log("받아온 data : ", detailData);
+  const date = detailData?.result.writeAt.split("T")[0];
+  const time = detailData?.result.writeAt.split("T")[1];
+  let writeAt = "";
+  if (time !== undefined) {
+    writeAt = date + time;
+  }
 
   const modules = {
     toolbar: false,
+  };
+
+  const history = useHistory();
+
+  const onDelete = async () => {
+    if (window.confirm("삭제하시겠습니까?")) {
+      try {
+        await axios.delete(
+          `https://i8b205.p.ssafy.io/be-api/studies/1/boards/${boardId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("kakao-token")}`,
+            },
+          },
+        );
+      } catch (error) {
+        console.log(error);
+      }
+
+      history.push("/manage/board");
+    }
   };
 
   return (
@@ -298,7 +332,7 @@ function StudyManageBoardDetail() {
         <SubInfo>
           <Date>
             <Time fill="#898989" width="1.389vw" />
-            <Span>{detailData?.result.writeAt}</Span>
+            <Span>{writeAt}</Span>
           </Date>
           <Look>
             <Eye stroke="#898989" width="1.667vw" />
@@ -339,9 +373,15 @@ function StudyManageBoardDetail() {
         </FileSub2>
       </FileBox>
       <ArticleBtn>
-        <UpdateBtn>수정</UpdateBtn>
-        <DeleteBtn>삭제</DeleteBtn>
-        <ListBtn>목록</ListBtn>
+        <UpdateBtn>
+          <Link to={`/manage/boardUpdate/${detailData?.result.boardId}`}>
+            수정
+          </Link>
+        </UpdateBtn>
+        <DeleteBtn onClick={onDelete}>삭제</DeleteBtn>
+        <ListBtn>
+          <Link to="/manage/board">목록</Link>
+        </ListBtn>
       </ArticleBtn>
       <CommentHeader>댓글</CommentHeader>
       <CommentInput>

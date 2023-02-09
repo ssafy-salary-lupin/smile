@@ -14,10 +14,8 @@ import styled from "styled-components";
 var localUser = new UserModel();
 
 // OPENVIDU_SERVER_URL: 오픈비두 서버쪽 URL (포트번호는 변경될 수 있음)
-const APPLICATION_SERVER_URL =
-  process.env.NODE_ENV === "production"
-    ? ""
-    : "https://i8b205.p.ssafy.io:5000/";
+const APPLICATION_SERVER_URL = "https://i8b205.p.ssafy.io/";
+// process.env.NODE_ENV === "production" ? "" : "https://i8b205.p.ssafy.io/";
 
 const Wrapper = styled.div`
   /* position: static; */
@@ -77,6 +75,8 @@ class VideoRoomComponent extends Component {
       subscribers: [],
       chatDisplay: "none",
       currentVideoDevice: undefined,
+      token:
+        "eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoib3RoNTQ0N0BuYXZlci5jb20iLCJ1c2VySWQiOjYsImlzcyI6Imlzc3VlciIsImlhdCI6MTY3NTkxOTIyNiwiZXhwIjoxNjc2MDA1NjI2fQ.CodfaQfCfvEgeidUV98AQpDyE1uiJ3LrcjW9_AG60oVWnUH679vx5KhFcE1wIJe8HgKYvi9Ogb0eA2vjzzh-RQ",
     };
 
     // joinSession: 세션 접속
@@ -189,7 +189,7 @@ class VideoRoomComponent extends Component {
     } else {
       try {
         var token = await this.getToken();
-        console.log(token);
+        console.log("TOKEN1", token);
         this.connect(token);
       } catch (error) {
         console.error(
@@ -213,7 +213,7 @@ class VideoRoomComponent extends Component {
   // connect: 토큰을 매개변수로 받아서 실제 세션에 접속하게 해주는 함수
   connect(token) {
     this.state.session
-      .connect(token, { clientData: this.state.myUserName })
+      .connect(token.result.attendToken, { clientData: this.state.myUserName })
       .then(() => {
         this.connectWebCam();
       })
@@ -750,11 +750,21 @@ class VideoRoomComponent extends Component {
 
   // createSession: 세션 생성 함수 (주의! promise를 반환!!) - 서버에 세션아이디를 요청해서 세션을 생성해서 id값을 받아오는 함수
   async createSession(sessionId) {
+    // be-api/studies/{id}/meetings -> 세션 요청 -> 방장이 들어갈 수 있는 토큰
+    console.log("ID", sessionId);
+
     const response = await axios.post(
-      APPLICATION_SERVER_URL + "api/sessions",
+      // APPLICATION_SERVER_URL + "api/sessions",
+      APPLICATION_SERVER_URL +
+        "be-api/studies/" +
+        this.props.sessionName +
+        "/meetings",
       { customSessionId: sessionId },
       {
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          Authorization: `Bearer ${this.state.token}`,
+          "Content-Type": "application/json",
+        },
       },
     );
     return response.data; // The sessionId
@@ -762,11 +772,21 @@ class VideoRoomComponent extends Component {
 
   // createToken: 특정 sessionId에 대해서 오픈비두 서버에 토큰을 요청해서 받아오는 함수 (주의! Promise 반환!)
   async createToken(sessionId) {
+    console.log("TEST", this.state.token);
+    console.log("ID", sessionId);
+    // be-api/studies/{id}/meetings/connection/ -> 토큰 요청
     const response = await axios.post(
-      APPLICATION_SERVER_URL + "api/sessions/" + sessionId + "/connections",
+      // APPLICATION_SERVER_URL + "api/sessions/" + sessionId + "/connections",
+      APPLICATION_SERVER_URL +
+        "be-api/studies/" +
+        this.props.sessionName +
+        "/meetings/connection",
       {},
       {
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          Authorization: `Bearer ${this.state.token}`,
+          "Content-Type": "application/json",
+        },
       },
     );
     return response.data; // The token

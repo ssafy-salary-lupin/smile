@@ -1,10 +1,12 @@
 import ReactQuill from "react-quill";
 import styled from "styled-components";
 import "react-quill/dist/quill.snow.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import { ReactComponent as DeleteIcon } from "../../assets/icon/Delete.svg";
+import { useQuery } from "react-query";
+import { boardSelectApi } from "apis/StudyManageBoardApi";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
@@ -168,7 +170,71 @@ const FileListLi = styled.li`
   list-style: none;
 `;
 
-function StudyManageBoardWrite() {
+interface Data {
+  isSuccess: boolean;
+  code: number;
+  message: string;
+  result: {
+    studyId: number; // 스터디 식별자
+    boardId: number; // 게시글 식별자
+    boardType: {
+      // 게시글 타입 정보
+      typeId: number; // 게시글 유형 식별자
+      type: string; // 게시글 유형 정보
+    };
+    title: string; // 제목
+    content: string; // 본문
+    writer: {
+      // 작성자 정보
+      writerId: number; // 작성자 유저 식별자
+      nickname: string; // 작성자 닉네임
+      profileImageUrl: string; // 작성자 프로필 이미지
+    };
+    writeAt: string; // 게시글 작성일
+    views: number; // 게시글 조회수
+    commentCount: number; // 댓글 수
+    comments: [
+      // 댓글 정보
+      {
+        commentId: number; // 댓글 식별자
+        content: string; // 댓글 내용
+        writer: {
+          // 댓글 작성자 정보
+          writerId: number; // 댓글 작성자 유저 식별자
+          nickname: string; // 댓글 작성자 닉네임
+          profileImageUrl: string; // 댓글 작성자 프로필 이미지
+        };
+        writeAt: string; // 댓글 작성일
+      },
+    ];
+    fileCount: number; // 업로드된 파일 수
+    files: [
+      {
+        fileId: number; // 파일 식별자
+        fileName: string; // 파일 이름
+        sourceUrl: string; // 파일 주소
+      },
+    ];
+  };
+}
+
+type Params = {
+  boardId: string;
+};
+
+function StudyManageBoardUpdate() {
+  const { boardId } = useParams<Params>();
+
+  const { data: detailData } = useQuery<Data>("detailData", () =>
+    boardSelectApi(boardId),
+  );
+
+  useEffect(() => {
+    for (let i = 0; i < selectedFile.length; i++) {
+      setFileNameList((oldDatas) => [...oldDatas, selectedFile[i].fileName]);
+    }
+  }, []);
+
   const modules = {
     toolbar: {
       container: [
@@ -186,10 +252,18 @@ function StudyManageBoardWrite() {
     clipboard: { matchVisual: false },
   };
 
-  const [title, setTitle] = useState<string>(""); // 글 제목
-  const [content, setContent] = useState<string>(""); // 글 내용
-  const [typeId, setTypeId] = useState<number>(0); // 글 유형
-  const [selectedFile, setSelectedFile] = useState<any>(null); // 파일
+  const [title, setTitle] = useState<string | undefined>(
+    detailData?.result.title,
+  ); // 글 제목
+  const [content, setContent] = useState<string | undefined>(
+    detailData?.result.content,
+  ); // 글 내용
+  const [typeId, setTypeId] = useState<number | undefined>(
+    detailData?.result.boardType.typeId,
+  ); // 글 유형
+  const [selectedFile, setSelectedFile] = useState<any>(
+    detailData?.result.files,
+  ); // 파일
   const [fileNameList, setFileNameList] = useState<string[]>([]); // 파일 이름
 
   const handleTitle = (event: any) => {
@@ -205,8 +279,12 @@ function StudyManageBoardWrite() {
   };
 
   const handleFileSelect = (event: any) => {
-    setSelectedFile(event.target.files);
+    console.log("선택한 파일 : ", event.target.files);
 
+    // 파일 추가
+    setSelectedFile((old: any) => [...old, ...event.target.files]);
+
+    // 파일 이름
     const files = event.target.files;
     for (let i = 0; i < files.length; i++) {
       setFileNameList((oldDatas) => [...oldDatas, files[i].name]);
@@ -255,38 +333,40 @@ function StudyManageBoardWrite() {
       return;
     }
 
-    const formData = new FormData();
+    if (window.confirm("수정 하시겠습니까?")) {
+      const formData = new FormData();
 
-    const data = {
-      title: title,
-      content: content,
-      typeId: typeId,
-    };
+      const data = {
+        title: title,
+        content: content,
+        typeId: typeId,
+      };
 
-    formData.append("data", JSON.stringify(data));
+      formData.append("data", JSON.stringify(data));
 
-    if (selectedFile !== null) {
-      for (let i = 0; i < selectedFile.length; i++) {
-        formData.append("files", selectedFile[i]);
+      if (selectedFile !== null) {
+        for (let i = 0; i < selectedFile.length; i++) {
+          formData.append("files", selectedFile[i]);
+        }
       }
-    }
 
-    try {
-      await axios.post(
-        `https://i8b205.p.ssafy.io/be-api/studies/1/boards`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("kakao-token")}`,
-            "Content-Type": "multipart/form-data",
+      try {
+        await axios.patch(
+          `https://i8b205.p.ssafy.io/be-api/studies/1/boards/${boardId}`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("kakao-token")}`,
+              "Content-Type": "multipart/form-data",
+            },
           },
-        },
-      );
-    } catch (error) {
-      console.log(error);
-    }
+        );
+      } catch (error) {
+        console.log(error);
+      }
 
-    history.push("/manage/board");
+      history.push("/manage/board");
+    }
   };
 
   return (
@@ -296,9 +376,27 @@ function StudyManageBoardWrite() {
         <Sub2>
           <Select name="bracket" onChange={handleTypeId}>
             <Option value="0">-- 말머리 --</Option>
-            <Option value="1">공지</Option>
-            <Option value="2">자료</Option>
-            <Option value="3">일반</Option>
+            {detailData?.result.boardType.typeId === 1 ? (
+              <Option value="1" selected>
+                공지
+              </Option>
+            ) : (
+              <Option value="1">공지</Option>
+            )}
+            {detailData?.result.boardType.typeId === 2 ? (
+              <Option value="2" selected>
+                자료
+              </Option>
+            ) : (
+              <Option value="2">자료</Option>
+            )}
+            {detailData?.result.boardType.typeId === 3 ? (
+              <Option value="3" selected>
+                일반
+              </Option>
+            ) : (
+              <Option value="3">일반</Option>
+            )}
           </Select>
         </Sub2>
       </Bracket>
@@ -308,6 +406,7 @@ function StudyManageBoardWrite() {
           <TitleInput
             placeholder="제목을 입력해주세요."
             onChange={handleTitle}
+            value={detailData?.result.title}
           />
         </Sub2>
       </Title>
@@ -316,7 +415,7 @@ function StudyManageBoardWrite() {
         <Sub2>
           <ReactQuill
             theme="snow"
-            value={content}
+            value={detailData?.result.content}
             onChange={handleContent}
             modules={modules}
           />
@@ -355,7 +454,7 @@ function StudyManageBoardWrite() {
         </Sub2>
       </File>
       <Button>
-        <WriteBtn onClick={submit}>등록</WriteBtn>
+        <WriteBtn onClick={submit}>수정 완료</WriteBtn>
         <CancelBtn>
           <Link to="/manage/board">취소</Link>
         </CancelBtn>
@@ -364,4 +463,4 @@ function StudyManageBoardWrite() {
   );
 }
 
-export default StudyManageBoardWrite;
+export default StudyManageBoardUpdate;
