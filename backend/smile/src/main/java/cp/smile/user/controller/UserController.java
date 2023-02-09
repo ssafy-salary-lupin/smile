@@ -6,9 +6,11 @@ import cp.smile.auth.oauth2.CustomOAuth2User;
 import cp.smile.config.response.CommonResponse;
 import cp.smile.config.response.DataResponse;
 import cp.smile.config.response.ResponseService;
+import cp.smile.config.response.exception.CustomException;
 import cp.smile.entity.user.UserJoinStudy;
 import cp.smile.user.dto.request.UserJoinDTO;
 import cp.smile.user.dto.request.UserLoginDTO;
+import cp.smile.user.dto.request.UserUpdateDTO;
 import cp.smile.user.dto.response.UserInfoDTO;
 import cp.smile.user.dto.response.UserJoinedStudies;
 import cp.smile.user.dto.response.UserTokenDTO;
@@ -25,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 import static cp.smile.config.response.CustomSuccessStatus.*;
+import static cp.smile.config.response.exception.CustomExceptionStatus.ACCOUNT_NOT_VALID;
 
 @Slf4j
 @RestController
@@ -43,12 +46,33 @@ public class UserController {
         return responseService.getSuccessResponse();
     }
 
-    /* 회원 조회 */
+    /* 회원 정보 조회 */
     @GetMapping("/users/{userId}")
     public DataResponse<UserInfoDTO> findDetailUser(@PathVariable int userId) {
 
         return responseService.getDataResponse(userService.findDetailUser(userId), RESPONSE_SUCCESS);
     }
+
+    /* 회원 정보 수정 */
+    @PatchMapping("/users/{userId}")
+    public CommonResponse updateUserInfo(
+            @PathVariable int userId,
+            @RequestBody UserUpdateDTO userUpdateDTO,
+            @AuthenticationPrincipal CustomOAuth2User oAuth2User) {
+
+        int oAuthUserId = oAuth2User.getUserId();
+
+        if (userId != oAuthUserId) {
+            throw new CustomException(ACCOUNT_NOT_VALID);
+        }
+
+        userService.updateUserInfo(userId, userUpdateDTO);
+
+        return responseService.getSuccessResponse();
+    }
+
+    /* 회원 탈퇴 */
+    
 
     /* 로그인 */
     @PostMapping("/log-in")

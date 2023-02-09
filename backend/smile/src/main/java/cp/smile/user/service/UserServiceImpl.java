@@ -11,6 +11,7 @@ import cp.smile.entity.user.UserJoinStudy;
 import cp.smile.entity.user.UserJoinStudyId;
 import cp.smile.study_common.repository.StudyCommonRepository;
 import cp.smile.user.dto.request.UserJoinDTO;
+import cp.smile.user.dto.request.UserUpdateDTO;
 import cp.smile.user.dto.response.UserInfoDTO;
 import cp.smile.user.dto.response.UserTokenDTO;
 import cp.smile.user.repository.UserJoinStudyRepository;
@@ -159,5 +160,27 @@ public class UserServiceImpl implements UserService{
 
         user.updateRefreshToken(null);
     }
+
+    @Override
+    public void updateUserInfo(int userId, UserUpdateDTO userUpdateDTO) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ACCOUNT_NOT_FOUND));
+
+        if (userUpdateDTO.getNickname() != null) {
+            user.updateNickname(userUpdateDTO.getNickname());
+        }
+
+        if (userUpdateDTO.getPassword() != null) {
+            userUpdateDTO.setPassword(passwordEncoder.encode(userUpdateDTO.getPassword()));
+
+            user.updatePassword(userUpdateDTO.getPassword());
+        }
+
+        if (userUpdateDTO.getImagePath() != null) {
+            user.updateImagePath(userUpdateDTO.getImagePath());
+        }
+    }
+
+
 
 }

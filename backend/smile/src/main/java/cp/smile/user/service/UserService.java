@@ -3,6 +3,7 @@ package cp.smile.user.service;
 import cp.smile.entity.user.User;
 import cp.smile.entity.user.UserJoinStudy;
 import cp.smile.user.dto.request.UserJoinDTO;
+import cp.smile.user.dto.request.UserUpdateDTO;
 import cp.smile.user.dto.response.UserInfoDTO;
 import cp.smile.user.dto.response.UserTokenDTO;
 
@@ -28,4 +29,6 @@ public interface UserService {
     UserTokenDTO login(String email, String password);
 
     void logout(int userId);
+
+    void updateUserInfo(int userId, UserUpdateDTO userUpdateDTO);
 }
