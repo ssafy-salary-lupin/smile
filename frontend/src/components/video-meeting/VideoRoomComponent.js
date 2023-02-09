@@ -752,12 +752,10 @@ class VideoRoomComponent extends Component {
   async createSession(sessionId) {
     // be-api/studies/{id}/meetings -> 세션 요청 -> 방장이 들어갈 수 있는 토큰
     console.log("ID", sessionId);
-    console.log(
-      APPLICATION_SERVER_URL + "be-api/studies/" + sessionId + "/meetings",
-    );
+
     const response = await axios.post(
       // APPLICATION_SERVER_URL + "api/sessions",
-      APPLICATION_SERVER_URL + "be-api/studies/" + sessionId + "/meetings",
+      APPLICATION_SERVER_URL + "be-api/studies/" + "10" + "/meetings",
       { customSessionId: sessionId },
       {
         headers: {
@@ -776,7 +774,10 @@ class VideoRoomComponent extends Component {
     // be-api/studies/{id}/meetings/connection/ -> 토큰 요청
     const response = await axios.post(
       // APPLICATION_SERVER_URL + "api/sessions/" + sessionId + "/connections",
-      APPLICATION_SERVER_URL + "be-api/studies/" + "1" + "/meetings/connection",
+      APPLICATION_SERVER_URL +
+        "be-api/studies/" +
+        "10" +
+        "/meetings/connection",
       {},
       {
         headers: {
