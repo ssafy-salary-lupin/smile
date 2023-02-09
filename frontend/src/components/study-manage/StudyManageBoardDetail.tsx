@@ -220,9 +220,9 @@ interface Data {
 }
 
 function StudyManageBoardDetail() {
-  const param = useParams<string>();
+  const param = useParams();
 
-  console.log(param.charAt(0));
+  // console.log(type of );
 
   const { data: detailData } = useQuery<Data>("detailData", () =>
     boardSelectApi(param),
