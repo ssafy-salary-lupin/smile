@@ -205,13 +205,11 @@ export default function MyStudyPages() {
                   <Cards
                     NumberOfCards={studiesData ? studiesData.current.length : 0}
                   >
-                    (
                     {studiesData.current.map((study) => (
                       <CardWrapper>
                         <Card key={study.studyId} studyInfo={study} />
                       </CardWrapper>
                     ))}
-                    )
                   </Cards>
                 ) : (
                   <MyStudyNotFound />
@@ -229,11 +227,9 @@ export default function MyStudyPages() {
                     <Cards
                       NumberOfCards={studiesData ? studiesData.end.length : 0}
                     >
-                      (
                       {studiesData.end.map((study) => (
                         <Card key={study.studyId} studyInfo={study} />
                       ))}
-                      )
                     </Cards>
                   </>
                 ) : (
