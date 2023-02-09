@@ -180,7 +180,7 @@ const BtnBox = styled.div`
 
 function StudyCreatePages() {
   const selectType = ["미정", "면접", "자격증", "외국어"];
-  const selectPeople = ["미정", "3명", "4명", "5명", "6명"];
+  const selectPeople = [3, 4, 5, 6];
   const selectTime = [
     "미정",
     "01:00",
@@ -253,9 +253,9 @@ function StudyCreatePages() {
   // const [study_time, setStudy_time] = useState<string>("");
   const [study_file, setStudy_file] = useState<string>("");
 
-  useEffect(() => {
-    CreateStudyApi();
-  }, []);
+  // useEffect(() => {
+  //   CreateStudyApi();
+  // }, []);
 
   const formData = new FormData();
 
