@@ -236,9 +236,8 @@ function Select(props: ISelectProps) {
       {/* {isActive && ( */}
       <SOptionList>
         {props.optionObj.optionList.map((optionItem, index) => (
-          <SOptionContainer>
+          <SOptionContainer key={index + 1}>
             <SSelectInput
-              key={index + 1}
               id={optionItem}
               checked={checkedList.includes(index + 1)}
               onChange={(e) => checkHandler(e, index + 1)}

@@ -1,8 +1,10 @@
 import axios from "axios";
 
-const BASE_URL = `https://i8b205.p.ssafy.io/be-api/users`;
-// const BASE_URL = `/be-api/users`;
-const token = localStorage.getItem("kakao-token");
+// const BASE_URL = `https://i8b205.p.ssafy.io/be-api/users`;
+const BASE_URL = `/be-api/users`;
+// const token = localStorage.getItem("kakao-token");
+const token =
+  "eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoib3RoNTQ0N0BuYXZlci5jb20iLCJ1c2VySWQiOjYsImlzcyI6Imlzc3VlciIsImlhdCI6MTY3NTkyNzY1NywiZXhwIjoxNjc2MDE0MDU3fQ.o-ZrZL6i3jnBiZsiPc0Y1fSf_cb3BJVxUg5Ks4y_30iosfPWxTuMC5r6TRUJrRHh2sWF8QfUErmz_kry3p649g";
 interface StudiesData {
   config: object;
   data: {
