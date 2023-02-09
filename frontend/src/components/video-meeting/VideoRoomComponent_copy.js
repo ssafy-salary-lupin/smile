@@ -215,10 +215,12 @@ class VideoRoomComponent extends Component {
     console.log(token, { clientData: this.state.myUserName });
     console.log("HERE", this.state.session);
     console.log("TOKEN1111", token);
+    const customToken = `wss://i8b205.p.ssafy.io:8443?sessionId=${this.props.sessionName}&token=${token.result.attendToken}`;
+    console.log("customToken", customToken);
     this.state.session
-      .connect(token, { clientData: this.state.myUserName })
+      .connect(customToken, { clientData: this.state.myUserName })
       .then(() => {
-        console.log("TOKEN1111", token);
+        console.log("TOKEN1111", customToken);
         this.connectWebCam();
       })
       .catch((error) => {
@@ -759,7 +761,10 @@ class VideoRoomComponent extends Component {
 
     const response = await axios.post(
       // APPLICATION_SERVER_URL + "api/sessions",
-      APPLICATION_SERVER_URL + "be-api/studies/" + "1" + "/meetings",
+      APPLICATION_SERVER_URL +
+        "be-api/studies/" +
+        this.props.sessionName +
+        "/meetings",
       { customSessionId: sessionId },
       {
         headers: {
@@ -778,7 +783,10 @@ class VideoRoomComponent extends Component {
     // be-api/studies/{id}/meetings/connection/ -> 토큰 요청
     const response = await axios.post(
       // APPLICATION_SERVER_URL + "api/sessions/" + sessionId + "/connections",
-      APPLICATION_SERVER_URL + "be-api/studies/" + "1" + "/meetings/connection",
+      APPLICATION_SERVER_URL +
+        "be-api/studies/" +
+        this.props.sessionName +
+        "/meetings/connection",
       {},
       {
         headers: {

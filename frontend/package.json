@@ -33,7 +33,7 @@
     "http-proxy-middleware": "^2.0.6",
     "jquery": "3.5.0",
     "moment": "^2.29.4",
-    "openvidu-browser": "^2.23.0",
+    "openvidu-browser": "^2.24.0",
     "query": "^0.2.0",
     "quill-emoji": "^0.2.0",
     "react": "^18.2.0",
