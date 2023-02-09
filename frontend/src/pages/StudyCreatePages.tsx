@@ -179,7 +179,7 @@ const BtnBox = styled.div`
 `;
 
 function StudyCreatePages() {
-  const selectType = ["면접", "자격증", "외국어"];
+  const selectType = ["미정", "면접", "자격증", "외국어"];
   const selectPeople = ["미정", "3명", "4명", "5명", "6명"];
   const selectTime = [
     "미정",
@@ -410,8 +410,8 @@ function StudyCreatePages() {
               </SelectBox>
               <TextSmall>~</TextSmall>
               <SelectBox onChange={Change_endTime}>
-                {selectTime.map((item) => (
-                  <option value={item} key={item}>
+                {selectTime.map((item, index) => (
+                  <option value={index} key={item}>
                     {item}
                   </option>
                 ))}
