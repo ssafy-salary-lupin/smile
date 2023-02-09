@@ -16,4 +16,13 @@ public enum StudyMeetingStatus {
     public int getCode() {
         return code;
     }
+
+    public static StudyMeetingStatus valueOf(int code) {
+        for (StudyMeetingStatus status : StudyMeetingStatus.values()) {
+            if (status.getCode() ==  code) {
+                return status;
+            }
+        }
+        return null;
+    }
 }

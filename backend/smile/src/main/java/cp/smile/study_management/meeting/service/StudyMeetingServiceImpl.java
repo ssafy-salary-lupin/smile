@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +24,17 @@ public class StudyMeetingServiceImpl implements StudyMeetingService{
 
     private final StudyMeetingRepository studyMeetingRepository;
     private final StudyMeetingTypeRepository studyMeetingTypeRepository;
+
+    @Override
+    public List<StudyMeeting> findByStudyId(int studyId) {
+        return studyMeetingRepository.findByStudyIdWithStarterAndType(studyId);
+    }
+
+    @Override
+    public StudyMeeting findById(int meetingId) {
+        return studyMeetingRepository.findByIdWithStarterAndType(meetingId)
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 미팅입니다."));
+    }
 
     @Override
     @Transactional
@@ -39,5 +51,14 @@ public class StudyMeetingServiceImpl implements StudyMeetingService{
                 .build();
 
         return studyMeetingRepository.save(meeting);
+    }
+
+    @Override
+    @Transactional
+    public void closeMeeting(int studyId) {
+        StudyMeeting meeting = studyMeetingRepository.findByStudyInformationIdAndIsEnd(studyId, StudyMeetingStatus.proceeding.getCode())
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 미팅입니다."));
+
+        meeting.close();
     }
 }

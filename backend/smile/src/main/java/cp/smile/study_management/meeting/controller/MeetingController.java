@@ -25,6 +25,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static cp.smile.config.response.CustomSuccessStatus.*;
 
@@ -39,6 +43,35 @@ public class MeetingController {
     private final UserJoinStudyRepository userJoinStudyRepository;
     private final StudyMeetingService studyMeetingService;
     private final OpenViduService openViduService;
+
+    @GetMapping
+    public DataResponse<Map<String, Object>> getAllMeeting(
+            @AuthenticationPrincipal CustomOAuth2User oAuth2User,
+            @PathVariable int studyId) {
+        checkIsJoinedStudy(oAuth2User.getUserId(), studyId);
+
+        List<MeetingDTO> list = studyMeetingService.findByStudyId(studyId)
+                .stream().map(sm -> new MeetingDTO(String.valueOf(studyId), sm))
+                .collect(Collectors.toList());
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("meetings", list);
+
+        CustomSuccessStatus status = list.isEmpty() ? RESPONSE_NO_CONTENT : RESPONSE_SUCCESS;
+
+        return responseService.getDataResponse(result, status);
+    }
+
+    @GetMapping("/{meetingId}")
+    public DataResponse<MeetingDTO> getById(
+            @AuthenticationPrincipal CustomOAuth2User oAuth2User,
+            @PathVariable int studyId,
+            @PathVariable int meetingId
+    ) {
+        checkIsJoinedStudy(oAuth2User.getUserId(), studyId);
+        StudyMeeting meeting = studyMeetingService.findById(meetingId);
+        return responseService.getDataResponse(new MeetingDTO(String.valueOf(studyId), meeting), RESPONSE_SUCCESS);
+    }
 
     @PostMapping
     public DataResponse<MeetingCreationDTO> createMeeting(
@@ -77,8 +110,9 @@ public class MeetingController {
     }
 
     @DeleteMapping
-    public CommonResponse closeMeeting(@PathVariable String studyId) throws OpenViduJavaClientException, OpenViduHttpException {
-        openViduService.closeSession(studyId);
+    public CommonResponse closeMeeting(@PathVariable int studyId) throws OpenViduJavaClientException, OpenViduHttpException {
+        openViduService.closeSession(String.valueOf(studyId));
+        studyMeetingService.closeMeeting(studyId);
         return responseService.getSuccessResponse();
     }
 
