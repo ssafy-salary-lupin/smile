@@ -218,7 +218,6 @@ function StudyManageBoardWrite() {
   };
 
   const deleteFile = (index: any) => {
-    const size = fileNameList.length;
     // 이름 리스트에서 해당 파일 이름 삭제
     setFileNameList([]);
     fileNameList.map((el, i) => {
@@ -230,7 +229,7 @@ function StudyManageBoardWrite() {
     // 파일 리스트에서 해당 파일 삭제
     if (selectedFile !== null) {
       const tempFileList: any = [];
-      for (let i = 0; i < size; i++) {
+      for (let i = 0; i < selectedFile.length; i++) {
         if (i !== index) {
           tempFileList.push(selectedFile[i]);
         }
@@ -289,7 +288,7 @@ function StudyManageBoardWrite() {
       console.log(error);
     }
 
-    // history.push("/manage/board");
+    history.push("/manage/board");
   };
 
   return (

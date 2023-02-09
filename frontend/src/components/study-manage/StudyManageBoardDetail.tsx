@@ -278,7 +278,12 @@ function StudyManageBoardDetail() {
     boardSelectApi(boardId),
   );
 
-  console.log("받아온 data : ", detailData);
+  const date = detailData?.result.writeAt.split("T")[0];
+  const time = detailData?.result.writeAt.split("T")[1];
+  let writeAt = "";
+  if (time !== undefined) {
+    writeAt = date + time;
+  }
 
   const modules = {
     toolbar: false,
@@ -305,7 +310,7 @@ function StudyManageBoardDetail() {
         <SubInfo>
           <Date>
             <Time fill="#898989" width="1.389vw" />
-            <Span>{detailData?.result.writeAt}</Span>
+            <Span>{writeAt}</Span>
           </Date>
           <Look>
             <Eye stroke="#898989" width="1.667vw" />
