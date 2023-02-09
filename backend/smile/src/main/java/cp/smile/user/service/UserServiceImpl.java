@@ -98,7 +98,7 @@ public class UserServiceImpl implements UserService{
                 .id(user.getId())
                 .nickname(user.getNickname())
                 .email(user.getEmail())
-                .imgPath(user.getImagePath())
+                .imagePath(user.getImagePath())
                 .isDeleted(user.getIsDeleted()).build();
     }
 
