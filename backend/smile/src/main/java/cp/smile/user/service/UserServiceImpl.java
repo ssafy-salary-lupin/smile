@@ -1,10 +1,10 @@
 package cp.smile.user.service;
 
+import com.sun.xml.bind.v2.TODO;
 import cp.smile.auth.jwt.JwtProvider;
 import cp.smile.auth.oauth2.provider.LoginProviderRepository;
 import cp.smile.auth.oauth2.provider.OAuth2Provider;
 import cp.smile.config.response.exception.CustomException;
-import cp.smile.config.response.exception.CustomExceptionStatus;
 import cp.smile.entity.study_common.StudyInformation;
 import cp.smile.entity.user.LoginProvider;
 import cp.smile.entity.user.User;
@@ -12,6 +12,7 @@ import cp.smile.entity.user.UserJoinStudy;
 import cp.smile.entity.user.UserJoinStudyId;
 import cp.smile.study_common.repository.StudyCommonRepository;
 import cp.smile.user.dto.request.UserJoinDTO;
+import cp.smile.user.dto.request.UserUpdateDTO;
 import cp.smile.user.dto.response.UserInfoDTO;
 import cp.smile.user.dto.response.UserTokenDTO;
 import cp.smile.user.repository.UserJoinStudyRepository;
@@ -20,8 +21,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -29,9 +28,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
 import java.util.List;
 
+import static cp.smile.config.AwsS3DirectoryName.DEFAULT_PROFILE;
 import static cp.smile.config.response.exception.CustomExceptionStatus.*;
 
 @Service
@@ -42,7 +41,6 @@ public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final StudyCommonRepository studyCommentRepository;
     private final StudyCommonRepository studyCommonRepository;
     private final LoginProviderRepository loginProviderRepository;
     private final UserJoinStudyRepository userJoinStudyRepository;
@@ -55,8 +53,6 @@ public class UserServiceImpl implements UserService{
 
     public void join(UserJoinDTO userJoinDTO) {
 
-        // TODO: 2023-01-31 프로필이미지 경로 처리
-
         LoginProvider loginProvider = loginProviderRepository
                 .findByProvider(OAuth2Provider.local)
                 .orElseThrow(() -> new CustomException(NOT_FOUND_LOGIN_PROVIDER));
@@ -67,7 +63,7 @@ public class UserServiceImpl implements UserService{
                 .email(userJoinDTO.getEmail())
                 .nickname(userJoinDTO.getNickname())
                 .password(userJoinDTO.getPassword())
-                .imagePath("123")
+                .imagePath(DEFAULT_PROFILE)
                 .isDeleted(false)
                 .loginProvider(loginProvider)
                 .build();
@@ -165,5 +161,42 @@ public class UserServiceImpl implements UserService{
 
         user.updateRefreshToken(null);
     }
+
+    @Override
+    public void updateUserInfo(int userId, UserUpdateDTO userUpdateDTO) {
+
+        // TODO 이미지 경로 처리
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ACCOUNT_NOT_FOUND));
+
+        if (userUpdateDTO.getNickname() != null) {
+            user.updateNickname(userUpdateDTO.getNickname());
+        }
+
+        if (userUpdateDTO.getPassword() != null) {
+            userUpdateDTO.setPassword(passwordEncoder.encode(userUpdateDTO.getPassword()));
+
+            user.updatePassword(userUpdateDTO.getPassword());
+        }
+
+        if (userUpdateDTO.getImagePath() != null) {
+            user.updateImagePath(userUpdateDTO.getImagePath());
+        }
+    }
+
+    @Override
+    public void deleteUser(int userId) {
+
+        // TODO 탈퇴는 isDelete만 true로 바꿔주면 끝???
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ACCOUNT_NOT_FOUND));
+
+        if (user.getIsDeleted() == false) {
+            user.deleteUser();
+        }
+    }
+
 
 }

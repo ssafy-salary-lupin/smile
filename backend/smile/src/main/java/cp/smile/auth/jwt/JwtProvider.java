@@ -57,6 +57,7 @@ public class JwtProvider {
         Map<String, Object> claims = new HashMap<>();
         claims.put(CLAIM_USER_ID, id);
         claims.put(CLAIM_USER_EMAIL, email);
+        claims.put(CLAIM_USER_ROLE, "ROLE_USER");
 
         return Jwts.builder()
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
