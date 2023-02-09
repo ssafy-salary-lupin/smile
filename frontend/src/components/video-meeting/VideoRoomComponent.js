@@ -75,6 +75,7 @@ class VideoRoomComponent extends Component {
       subscribers: [],
       chatDisplay: "none",
       currentVideoDevice: undefined,
+      token: localStorage.getItem("kakao-token"),
     };
 
     // joinSession: 세션 접속
@@ -755,7 +756,10 @@ class VideoRoomComponent extends Component {
       APPLICATION_SERVER_URL + "be-api/studies/" + sessionId + "/meetings",
       { customSessionId: sessionId },
       {
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          Authorization: `Bearer ${this.state.token}`,
+          "Content-Type": "application/json",
+        },
       },
     );
     return response.data; // The sessionId
@@ -763,6 +767,7 @@ class VideoRoomComponent extends Component {
 
   // createToken: 특정 sessionId에 대해서 오픈비두 서버에 토큰을 요청해서 받아오는 함수 (주의! Promise 반환!)
   async createToken(sessionId) {
+    console.log("TEST", this.state.token);
     // be-api/studies/{id}/meetings/connection/ -> 토큰 요청
     const response = await axios.post(
       // APPLICATION_SERVER_URL + "api/sessions/" + sessionId + "/connections",
@@ -772,7 +777,10 @@ class VideoRoomComponent extends Component {
         "/meetings/connection",
       {},
       {
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          Authorization: `Bearer ${this.state.token}`,
+          "Content-Type": "application/json",
+        },
       },
     );
     return response.data; // The token
