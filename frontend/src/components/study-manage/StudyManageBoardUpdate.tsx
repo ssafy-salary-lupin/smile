@@ -364,7 +364,7 @@ function StudyManageBoardUpdate() {
       console.log(error);
     }
 
-    // history.push("/manage/board");
+    history.push("/manage/board");
   };
 
   return (
