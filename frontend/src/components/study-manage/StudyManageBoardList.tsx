@@ -1,10 +1,8 @@
 import { boardListSelectAllApi } from "apis/StudyManageBoardApi";
-import { PageAtom, SizeAtom } from "atoms/StudyManageBoardAtom";
 import PagiNation from "components/common/Pagination";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
-import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
@@ -170,8 +168,8 @@ interface ListData {
 
 //
 function StudyManageBoardList() {
-  const [page, setPage] = useRecoilState(PageAtom);
-  const size = useRecoilValue(SizeAtom);
+  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(7);
   const [totalElements, setTotalElements] = useState(0);
   const [list, setList] = useState<ListData[] | null>(null);
 
