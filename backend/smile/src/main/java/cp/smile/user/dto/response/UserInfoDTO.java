@@ -10,15 +10,15 @@ public class UserInfoDTO {
     private int id;
     private String nickname;
     private String email;
-    private String imgPath;
+    private String imagePath;
     private boolean isDeleted;
 
     @Builder
-    public UserInfoDTO(int id, String nickname, String email, String imgPath, boolean isDeleted) {
+    public UserInfoDTO(int id, String nickname, String email, String imagePath, boolean isDeleted) {
         this.id = id;
         this.nickname = nickname;
         this.email = email;
-        this.imgPath = imgPath;
+        this.imagePath = imagePath;
         this.isDeleted = isDeleted;
     }
 }
