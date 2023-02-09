@@ -230,6 +230,8 @@ class VideoRoomComponent extends Component {
           "There was an error connecting to the session:",
           error.code,
           error.message,
+          token,
+          { clientData: this.state.myUserName },
         );
       });
   }
