@@ -44,3 +44,7 @@ export async function boardSelectApi(boardId: string) {
     console.log(error);
   }
 }
+
+// 게시글 수정
+
+// 게시글 입력

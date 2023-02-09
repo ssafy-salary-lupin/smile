@@ -3,10 +3,11 @@ import styled from "styled-components";
 import { ReactComponent as Time } from "../../assets/icon/Time.svg";
 import { ReactComponent as Eye } from "../../assets/icon/Eye.svg";
 import { ReactComponent as Comment } from "../../assets/icon/Comment.svg";
-import { Link, useParams } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { boardSelectApi } from "apis/StudyManageBoardApi";
 import ReactQuill from "react-quill";
+import axios from "axios";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
@@ -289,6 +290,27 @@ function StudyManageBoardDetail() {
     toolbar: false,
   };
 
+  const history = useHistory();
+
+  const onDelete = async () => {
+    if (window.confirm("삭제하시겠습니까?")) {
+      try {
+        await axios.delete(
+          `https://i8b205.p.ssafy.io/be-api/studies/1/boards/${boardId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("kakao-token")}`,
+            },
+          },
+        );
+      } catch (error) {
+        console.log(error);
+      }
+
+      history.push("/manage/board");
+    }
+  };
+
   return (
     <Wrapper>
       <ArticleHeader>
@@ -356,7 +378,7 @@ function StudyManageBoardDetail() {
             수정
           </Link>
         </UpdateBtn>
-        <DeleteBtn>삭제</DeleteBtn>
+        <DeleteBtn onClick={onDelete}>삭제</DeleteBtn>
         <ListBtn>목록</ListBtn>
       </ArticleBtn>
       <CommentHeader>댓글</CommentHeader>

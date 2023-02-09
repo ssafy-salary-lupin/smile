@@ -333,38 +333,40 @@ function StudyManageBoardUpdate() {
       return;
     }
 
-    const formData = new FormData();
+    if (window.confirm("수정 하시겠습니까?")) {
+      const formData = new FormData();
 
-    const data = {
-      title: title,
-      content: content,
-      typeId: typeId,
-    };
+      const data = {
+        title: title,
+        content: content,
+        typeId: typeId,
+      };
 
-    formData.append("data", JSON.stringify(data));
+      formData.append("data", JSON.stringify(data));
 
-    if (selectedFile !== null) {
-      for (let i = 0; i < selectedFile.length; i++) {
-        formData.append("files", selectedFile[i]);
+      if (selectedFile !== null) {
+        for (let i = 0; i < selectedFile.length; i++) {
+          formData.append("files", selectedFile[i]);
+        }
       }
-    }
 
-    try {
-      await axios.patch(
-        `https://i8b205.p.ssafy.io/be-api/studies/1/boards/${boardId}`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("kakao-token")}`,
-            "Content-Type": "multipart/form-data",
+      try {
+        await axios.patch(
+          `https://i8b205.p.ssafy.io/be-api/studies/1/boards/${boardId}`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("kakao-token")}`,
+              "Content-Type": "multipart/form-data",
+            },
           },
-        },
-      );
-    } catch (error) {
-      console.log(error);
-    }
+        );
+      } catch (error) {
+        console.log(error);
+      }
 
-    history.push("/manage/board");
+      history.push("/manage/board");
+    }
   };
 
   return (
