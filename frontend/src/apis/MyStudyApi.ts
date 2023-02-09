@@ -40,7 +40,7 @@ interface StudiesData {
 // 내 스터디 목록 불러오기
 export async function MyStudyApi(userId: string) {
   console.log("MY-STUDY-API START");
-  console.log(token);
+  console.log("TOKEN: ", token);
   try {
     console.log(`${BASE_URL}/${userId}/studies`);
     const response: StudiesData = await axios.get(
