@@ -14,7 +14,7 @@ import styled from "styled-components";
 var localUser = new UserModel();
 
 // OPENVIDU_SERVER_URL: 오픈비두 서버쪽 URL (포트번호는 변경될 수 있음)
-const APPLICATION_SERVER_URL = "/";
+const APPLICATION_SERVER_URL = "https://i8b205.p.ssafy.io/";
 // process.env.NODE_ENV === "production" ? "" : "https://i8b205.p.ssafy.io/";
 
 const Wrapper = styled.div`
@@ -212,15 +212,9 @@ class VideoRoomComponent extends Component {
 
   // connect: 토큰을 매개변수로 받아서 실제 세션에 접속하게 해주는 함수
   connect(token) {
-    console.log(token, { clientData: this.state.myUserName });
-    console.log("HERE", this.state.session);
-    console.log("TOKEN1111", token);
-    const customToken = `wss://i8b205.p.ssafy.io:8443?sessionId=${this.props.sessionName}&token=${token.result.attendToken}`;
-    console.log("customToken", customToken);
     this.state.session
-      .connect(customToken, { clientData: this.state.myUserName })
+      .connect(token.result.attendToken, { clientData: this.state.myUserName })
       .then(() => {
-        console.log("TOKEN1111", customToken);
         this.connectWebCam();
       })
       .catch((error) => {
