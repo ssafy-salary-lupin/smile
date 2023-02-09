@@ -263,6 +263,12 @@ function StudyManageBoardWrite() {
     formData.append("data", JSON.stringify(data));
 
     if (selectedFile !== null) {
+      console.log("파일 길이 : ", selectedFile.length);
+
+      selectedFile.forEach((element: any) => {
+        console.log("요소 : ", element);
+      });
+
       selectedFile.foreach((el: any) => {
         formData.append("files", el);
       });
