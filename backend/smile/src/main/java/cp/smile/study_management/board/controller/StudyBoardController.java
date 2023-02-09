@@ -49,7 +49,7 @@ public class StudyBoardController {
     public CommonResponse write(@AuthenticationPrincipal CustomOAuth2User oAuth2User,
                                 @PathVariable int studyId,
                                 @RequestPart("data") StudyBoardWriteDTO dto,
-                                @RequestPart(value = "files", required = false) List<MultipartFile> files2) {
+                                @RequestPart(value = "files") List<MultipartFile> files2) {
         log.info("[***file - check***] : {}" , files2);
 
 
