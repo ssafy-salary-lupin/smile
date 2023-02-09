@@ -215,7 +215,8 @@ class VideoRoomComponent extends Component {
     console.log(token, { clientData: this.state.myUserName });
     console.log("HERE", this.state.session);
     console.log("TOKEN1111", token);
-    const customToken = `wss://i8b205.p.ssafy.io:8443?sessionId=1&token=${token.result.attendToken}`;
+    const customToken = `wss://i8b205.p.ssafy.io:8443?sessionId=${this.props.sessionName}&token=${token.result.attendToken}`;
+    console.log("customToken", customToken);
     this.state.session
       .connect(customToken, { clientData: this.state.myUserName })
       .then(() => {
