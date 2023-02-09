@@ -51,6 +51,7 @@ public class StudyBoardController {
                                 @RequestPart("data") StudyBoardWriteDTO dto,
                                 @RequestPart(value = "files", required = false) MultipartFile[] files) {
 
+        log.info("[***file - check***] : {}" , files);
 
         UserJoinStudy userJoinStudy = userJoinStudyRepository.findByUserIdAndStudyId(oAuth2User.getUserId(), studyId)
                 .orElseThrow(() -> new CustomException(USER_NOT_ACCESS_STUDY));
