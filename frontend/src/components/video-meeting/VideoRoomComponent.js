@@ -75,8 +75,7 @@ class VideoRoomComponent extends Component {
       subscribers: [],
       chatDisplay: "none",
       currentVideoDevice: undefined,
-      token:
-        "eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoib3RoNTQ0N0BuYXZlci5jb20iLCJ1c2VySWQiOjYsImlzcyI6Imlzc3VlciIsImlhdCI6MTY3NTkxOTIyNiwiZXhwIjoxNjc2MDA1NjI2fQ.CodfaQfCfvEgeidUV98AQpDyE1uiJ3LrcjW9_AG60oVWnUH679vx5KhFcE1wIJe8HgKYvi9Ogb0eA2vjzzh-RQ",
+      token: localStorage.getItem("kakao-token"),
     };
 
     // joinSession: 세션 접속
