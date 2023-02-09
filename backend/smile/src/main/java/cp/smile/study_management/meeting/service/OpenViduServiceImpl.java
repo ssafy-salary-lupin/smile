@@ -48,7 +48,7 @@ public class OpenViduServiceImpl implements OpenViduService{
 
         log.info("ConnectionProperties: {}", properties);
 
-        return session.createConnection(properties).getConnectionId();
+        return session.createConnection(properties).getToken();
     }
 
     @Override
