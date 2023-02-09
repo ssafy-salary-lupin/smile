@@ -206,8 +206,8 @@ export default function MyStudyPages() {
                     NumberOfCards={studiesData ? studiesData.current.length : 0}
                   >
                     {studiesData.current.map((study) => (
-                      <CardWrapper>
-                        <Card key={study.studyId} studyInfo={study} />
+                      <CardWrapper key={study.studyId}>
+                        <Card studyInfo={study} />
                       </CardWrapper>
                     ))}
                   </Cards>
@@ -236,7 +236,7 @@ export default function MyStudyPages() {
                   <MyStudyNotFound />
                 )}
               </StudyContainer>
-            </details>{" "}
+            </details>
           </>
         ) : (
           <span>로딩중 이미지 추가</span>
