@@ -379,7 +379,9 @@ function StudyManageBoardDetail() {
           </Link>
         </UpdateBtn>
         <DeleteBtn onClick={onDelete}>삭제</DeleteBtn>
-        <ListBtn>목록</ListBtn>
+        <ListBtn>
+          <Link to="/manage/board">목록</Link>
+        </ListBtn>
       </ArticleBtn>
       <CommentHeader>댓글</CommentHeader>
       <CommentInput>
