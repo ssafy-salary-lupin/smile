@@ -14,6 +14,7 @@ import cp.smile.entity.study_common.StudyType;
 import cp.smile.entity.user.User;
 import cp.smile.entity.user.UserJoinStudy;
 import cp.smile.entity.user.UserJoinStudyId;
+import cp.smile.study_common.dto.FindFilter;
 import cp.smile.study_common.dto.request.CreateCommentDTO;
 import cp.smile.study_common.dto.request.CreateReplyDTO;
 import cp.smile.study_common.dto.request.CreateStudyDTO;
@@ -64,13 +65,37 @@ public class StudyCommonServiceImpl implements StudyCommonService{
 
     /*전체 조회.*/
     @Override
-    public List<FindAllStudyDTO> findAllStudy()  {
+    public List<FindAllStudyDTO> findAllStudy(FindFilter findFilter)  {
 
+        // TODO : QueryDsl을 사용하지 않아서 동적쿼리 짜기가 어려움 - 당장은 개별 쿼리로 짜고, 추후에 querydsl을 활용해서 수정 필요
 
-        // TODO : 현재는 단순한 RuntimeException을 던지지만, 추후에 예외에 대한 정리가 끝나면, 조회 데이터가 없다는 예외를 던지는 커스텀 예외를 적용해야됨.
         /*스터디 정보를 전체 조회해옴*/
-        Set<StudyInformation> studyInformations = studyCommonRepository.findAllByStudyInformation();
+        List<StudyInformation> studyInformations = null;
+        /**검색 조건이 없을때*/
+        if(findFilter.getName() == null && findFilter.getType() == 0){
+            studyInformations = studyCommonRepository.findAllByStudyInformation();
+        }
 
+        /**검색조건이 name 하나일때*/
+        else if(findFilter.getName() != null && findFilter.getType() == 0){
+            studyInformations = studyCommonRepository.findAllByNameIsContaining(findFilter.getName());
+        }
+        /** 검색 조건이 type 하나일 때*/
+        else if(findFilter.getName() == null && findFilter.getType() != 0){
+
+            StudyType studyType = studyTypeRepository
+                    .findById(findFilter.getType())
+                    .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY_TYPE));
+
+            studyInformations = studyCommonRepository.findAllByStudyType(studyType);;
+        }
+        /** 검색 조건이 둘다 일때.*/
+        else{
+            StudyType studyType = studyTypeRepository
+                    .findById(findFilter.getType())
+                    .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY_TYPE));
+            studyInformations = studyCommonRepository.findAllByNameIsContainingAndStudyType(findFilter.getName(), studyType);
+        }
 
         List<FindAllStudyDTO> findAllStudyDTOS = new ArrayList<>();
 
@@ -219,9 +244,7 @@ public class StudyCommonServiceImpl implements StudyCommonService{
 
 
         //댓글 대댓글 조회 - 대댓글은 없을 수도 있기 때문에 null리턴.
-        Set<StudyComment> studyComments = studyCommentRepository
-                .findAllCommentAndReply(studyInformation)
-                .orElse(null);
+        List<StudyComment> studyComments = studyCommentRepository.findAllCommentAndReply(studyInformation);
 
         //댓글 DTO 채우기 & 대댓글 DTO 채우기
         List<StudyCommentDTO> StudyCommentDTOS = studyComments.stream()

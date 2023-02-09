@@ -1,11 +1,13 @@
 package cp.smile.study_common.controller;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import cp.smile.auth.oauth2.CustomOAuth2User;
 import cp.smile.config.response.CommonResponse;
 import cp.smile.config.response.CustomSuccessStatus;
 import cp.smile.config.response.DataResponse;
 import cp.smile.config.response.ResponseService;
+import cp.smile.study_common.dto.FindFilter;
 import cp.smile.study_common.dto.request.CreateCommentDTO;
 import cp.smile.study_common.dto.request.CreateReplyDTO;
 import cp.smile.study_common.dto.request.CreateStudyDTO;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 import static cp.smile.config.response.CustomSuccessStatus.*;
 
@@ -37,19 +40,20 @@ public class StudyCommonController {
     /**
      * 스터디 분류 id => type
      * 스터디 제목 키워드 => title
-     * @param title
-     * @param type
-     * @return
      */
 
     @GetMapping("/studies")
     public DataResponse<List<FindAllStudyDTO>> findAllStudy(
-            @RequestParam(required = false) String title,
-            @RequestParam(required = false) int type
+            @RequestParam(required = false)Map<String,String> searchParam
+            ){
 
-    ){
+        //쿼리 스트링으로 받은 파라미터를 필터 객체에 넣음.
+        ObjectMapper objectMapper = new ObjectMapper();
+        FindFilter findFilter = objectMapper.convertValue(searchParam,FindFilter.class);
 
-        List<FindAllStudyDTO> findAllStudyDTOS = studyCommonService.findAllStudy();
+        log.info("queryString test = {}", findFilter.toString());
+
+        List<FindAllStudyDTO> findAllStudyDTOS = studyCommonService.findAllStudy(findFilter);
 
         /*조회된 데이터가 없으면 204 응답*/
         if(findAllStudyDTOS.size() == 0) return responseService.getDataResponse(findAllStudyDTOS,RESPONSE_NO_CONTENT);

@@ -2,6 +2,7 @@ package cp.smile.study_common.service;
 
 
 import cp.smile.entity.study_common.StudyInformation;
+import cp.smile.study_common.dto.FindFilter;
 import cp.smile.study_common.dto.request.CreateCommentDTO;
 import cp.smile.study_common.dto.request.CreateReplyDTO;
 import cp.smile.study_common.dto.request.CreateStudyDTO;
@@ -19,7 +20,7 @@ import java.util.List;
 public interface StudyCommonService {
 
 
-    List<FindAllStudyDTO> findAllStudy();
+    List<FindAllStudyDTO> findAllStudy(FindFilter findFilter);
     void createStudy(int userId,CreateStudyDTO createStudyDTO, MultipartFile multipartFile); //스터디 생성
 
 

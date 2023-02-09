@@ -1,6 +1,7 @@
 package cp.smile.study_common.repository;
 
 import cp.smile.entity.study_common.StudyInformation;
+import cp.smile.entity.study_common.StudyType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -22,21 +23,14 @@ public interface StudyCommonRepository extends JpaRepository<StudyInformation, I
             "left join fetch ujs.user " +
             "left join fetch s.studyComments sc " +
             "where s.deadline = false and s.isEnd = false and ujs.isLeader = true")
-    Set<StudyInformation> findAllByStudyInformation();
+    List<StudyInformation> findAllByStudyInformation();
 
-    /*스터디 생성 */
+    /**검색조건이 name 하나일때*/
+    List<StudyInformation> findAllByNameIsContaining(String name);
 
-    //스터디 정보 테이블에 넣기 - save 함수가 구현되어있음.
+    /** 검색 조건이 type 하나일 때*/
+    List<StudyInformation> findAllByStudyType(StudyType studyType);
 
-    //유저 스터디 가입 정보 테이블에 넣기.
-
-
-    /*스터디 상세 조회*/
-
-    //스터디 id로 스터디 정보, 스터디장 조회.
-
-    //스터디 id에 해당하는 댓글 - 대댓글 정보 가져오기.
-
-
-
+    /** 검색 조건이 둘다 일때.*/
+    List<StudyInformation> findAllByNameIsContainingAndStudyType(String name, StudyType studyType);
 }

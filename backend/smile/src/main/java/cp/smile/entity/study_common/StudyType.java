@@ -22,10 +22,10 @@ public class StudyType extends BaseEntity {
     private int id;
     @Column(name = "st_name")
     @Enumerated(EnumType.STRING)
-    private String name;
+    private StudyTypeName name;
 
     @Builder
-    public StudyType(int id, String name) {
+    public StudyType(int id, StudyTypeName name) {
         this.id = id;
         this.name = name;
     }
@@ -33,6 +33,6 @@ public class StudyType extends BaseEntity {
     public StudyTypeDTO createStudyTypeDTO(){
         return StudyTypeDTO.builder()
                 .id(this.id)
-                .name(this.name).build();
+                .name(this.name.toString()).build();
     }
 }
