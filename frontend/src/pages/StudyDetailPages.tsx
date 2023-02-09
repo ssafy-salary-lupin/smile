@@ -160,7 +160,7 @@ function StudyDetailPages() {
   const token = localStorage.getItem("kakao-token");
   // const [list, setList] = useState<studyDetailData[] | null>(null);
 
-  const StudyDataApi = async (studyid: number) => {
+  const StudyDataApi = async () => {
     console.log("실행");
 
     try {
@@ -186,21 +186,22 @@ function StudyDetailPages() {
   console.log("detailStudy", detailStudy);
 
   const formData = new FormData();
+  //-----------------------------------------------\
   //-----------------------------------------------
   // 여기부터 스터디가입 post
-  const [userid, setUserid] = useState<number>(0);
-  const [usernickname, setUsernickname] = useState("");
-  const [useremail, setUseremail] = useState("");
-  const [userimg, setUserimg] = useState("");
-  const [userdeleted, setUserdeleted] = useState<number>(0);
+  // const [userid, setUserid] = useState<number>(0);
+  // const [usernickname, setUsernickname] = useState("");
+  // const [useremail, setUseremail] = useState("");
+  // const [userimg, setUserimg] = useState("");
+  // const [userdeleted, setUserdeleted] = useState<number>(0);
 
-  const data = {
-    id: userid, // 유저 식별자
-    nickname: usernickname, // 닉네임
-    email: useremail, // 이메일
-    imagePath: userimg, // 프로필 이미지
-    isDeleted: userdeleted,
-  };
+  // const data = {
+  //   id: userid, // 유저 식별자
+  //   nickname: usernickname, // 닉네임
+  //   email: useremail, // 이메일
+  //   imagePath: userimg, // 프로필 이미지
+  //   isDeleted: userdeleted,
+  // };
   // console.log("TTTTTT");
 
   var base64Payload = token?.split(".")[1];
@@ -210,21 +211,21 @@ function StudyDetailPages() {
     console.log("result", result);
   }
 
-  // const studyJoinApi = async () => {
-  //   await axios
-  //     .post(`${BASE_URL}/users/${user}`, userData, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //         "Content-Type": "multipart/form-data",
-  //       },
-  //     })
-  //     .then(function (response) {
-  //       console.log(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
+  const studyJoinApi = async () => {
+    await axios
+      .post(`${BASE_URL}`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then(function (response) {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   // const data = det;
   return (
     <div>
