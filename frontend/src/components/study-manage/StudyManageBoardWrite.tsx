@@ -274,13 +274,17 @@ function StudyManageBoardWrite() {
 
     try {
       // https://i8b205.p.ssafy.io/be-api/studies/1/boards
-      await axios.post(`/be-api/studies/1/boards`, formData, {
-        headers: {
-          // Authorization: `Bearer ${localStorage.getItem("kakao-token")}`,
-          Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzU5MDIwNzUsImV4cCI6MTY3NTk4ODQ3NX0.hipxLmlwQVai65rVc4T2NEIYG-XlhlRN-gR8sVlbz73wd7-4SqKNBR687z_lJK20xQ0Wx_riJzCtKWMT2-LJ7A`,
-          "Content-Type": "multipart/form-data",
+      await axios.post(
+        ` https://i8b205.p.ssafy.io/be-api/studies/1/boards`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("kakao-token")}`,
+            // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzU5MDIwNzUsImV4cCI6MTY3NTk4ODQ3NX0.hipxLmlwQVai65rVc4T2NEIYG-XlhlRN-gR8sVlbz73wd7-4SqKNBR687z_lJK20xQ0Wx_riJzCtKWMT2-LJ7A`,
+            "Content-Type": "multipart/form-data",
+          },
         },
-      });
+      );
     } catch (error) {
       console.log(error);
     }
