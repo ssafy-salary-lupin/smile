@@ -4,7 +4,6 @@ import cp.smile.auth.jwt.JwtProvider;
 import cp.smile.auth.oauth2.provider.LoginProviderRepository;
 import cp.smile.auth.oauth2.provider.OAuth2Provider;
 import cp.smile.config.response.exception.CustomException;
-import cp.smile.config.response.exception.CustomExceptionStatus;
 import cp.smile.entity.study_common.StudyInformation;
 import cp.smile.entity.user.LoginProvider;
 import cp.smile.entity.user.User;
@@ -20,8 +19,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -29,9 +26,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
 import java.util.List;
 
+import static cp.smile.config.AwsS3DirectoryName.DEFAULT_PROFILE;
 import static cp.smile.config.response.exception.CustomExceptionStatus.*;
 
 @Service
@@ -42,7 +39,6 @@ public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final StudyCommonRepository studyCommentRepository;
     private final StudyCommonRepository studyCommonRepository;
     private final LoginProviderRepository loginProviderRepository;
     private final UserJoinStudyRepository userJoinStudyRepository;
@@ -55,8 +51,6 @@ public class UserServiceImpl implements UserService{
 
     public void join(UserJoinDTO userJoinDTO) {
 
-        // TODO: 2023-01-31 프로필이미지 경로 처리
-
         LoginProvider loginProvider = loginProviderRepository
                 .findByProvider(OAuth2Provider.local)
                 .orElseThrow(() -> new CustomException(NOT_FOUND_LOGIN_PROVIDER));
@@ -67,7 +61,7 @@ public class UserServiceImpl implements UserService{
                 .email(userJoinDTO.getEmail())
                 .nickname(userJoinDTO.getNickname())
                 .password(userJoinDTO.getPassword())
-                .imagePath("123")
+                .imagePath(DEFAULT_PROFILE)
                 .isDeleted(false)
                 .loginProvider(loginProvider)
                 .build();
