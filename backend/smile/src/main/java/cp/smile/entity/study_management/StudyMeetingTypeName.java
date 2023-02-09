@@ -1,5 +1,5 @@
 package cp.smile.entity.study_management;
 
 public enum StudyMeetingTypeName {
-    general, interview,
+    일반, 면접,
 }
