@@ -49,7 +49,7 @@ public class StudyBoardController {
     public CommonResponse write(@AuthenticationPrincipal CustomOAuth2User oAuth2User,
                                 @PathVariable int studyId,
                                 @RequestPart("data") StudyBoardWriteDTO dto,
-                                @RequestPart(value = "files", required = false) MultipartFile[] files) {
+                                @RequestPart(value = "files") MultipartFile[] files) {
         log.info("[***file - check***] : {}" , files);
 
         UserJoinStudy userJoinStudy = userJoinStudyRepository.findByUserIdAndStudyId(oAuth2User.getUserId(), studyId)
