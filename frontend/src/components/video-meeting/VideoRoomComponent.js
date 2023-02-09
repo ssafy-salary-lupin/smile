@@ -755,7 +755,7 @@ class VideoRoomComponent extends Component {
 
     const response = await axios.post(
       // APPLICATION_SERVER_URL + "api/sessions",
-      APPLICATION_SERVER_URL + "be-api/studies/" + "10" + "/meetings",
+      APPLICATION_SERVER_URL + "be-api/studies/" + "1" + "/meetings",
       { customSessionId: sessionId },
       {
         headers: {
@@ -774,10 +774,7 @@ class VideoRoomComponent extends Component {
     // be-api/studies/{id}/meetings/connection/ -> 토큰 요청
     const response = await axios.post(
       // APPLICATION_SERVER_URL + "api/sessions/" + sessionId + "/connections",
-      APPLICATION_SERVER_URL +
-        "be-api/studies/" +
-        "10" +
-        "/meetings/connection",
+      APPLICATION_SERVER_URL + "be-api/studies/" + "1" + "/meetings/connection",
       {},
       {
         headers: {
