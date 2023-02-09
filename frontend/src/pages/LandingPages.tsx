@@ -11,50 +11,13 @@ import arrowR from "../assets/img/arrow_right.png";
 import introductionImg1 from "../assets/img/introduction_img1.png";
 import introductionImg2 from "../assets/img/introduction_img2.png";
 import { useEffect, useState } from "react";
-
-// const Nav = styled.div`
-//   height: 80px;
-//   border: solid 1px black;
-// `;
-
-// const Footer = styled.div`
-//   height: 240px;
-//   border: solid 1px black;
-//   background-color: black;
-// `;
-// interface IHeaderProps {
-//   nbPosition: number;
-//   isActive: boolean;
-// }
-
-// const SHeader = styled.div<{ nbPosition: number }>`
-//   nav {
-//     /* background-color: #ffffff00; */
-//     /* box-shadow: 0 5px 5px rgb(0 0 0 / 0%); */
-//     background-color: ${(props) => {
-//       if (props.nbPosition === 0) {
-//       }
-//     }};
-//     /* box-shadow: 0 5px 5px rgb(0 0 0 / 0%); */
-//   }
-// `;
+import { BackgroundYellow } from "components/common/BackgroundYellow";
 
 const SLandingBody = styled.div`
   @import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap");
   font-family: "Noto Sans", sans-serif;
   /* @import url("https://fonts.googleapis.com/css2?family=Noto+Sans&family=Noto+Sans+KR&display=swap");
   font-family: "Noto Sans KR", sans-serif; */
-`;
-const SBackground = styled.div`
-  position: absolute;
-  z-index: -1;
-  background-image: linear-gradient(
-    to bottom,
-    ${(props) => props.theme.mainColor},
-    white
-  );
-  height: 40vw;
-  width: 100vw;
 `;
 
 const SContainer = styled.div`
@@ -298,49 +261,52 @@ function LandingPages() {
   // console.log("Y:", position);
   const studyList = [
     {
-      si_id: 1,
-      si_img: studyImg1,
-      si_person: 4,
-      si_max_person: 5,
-      si_desc: "다 같이 열심히 공부해요~",
-      si_view: 2729,
-      si_leader: {
-        si_leader_id: 1,
-        si_leader_img: profileImg1,
-        si_leader_nickname: "이싸피",
+      studyId: 1,
+      imageUrl: studyImg1,
+      person: 4,
+      maxPerson: 5,
+      description: "다 같이 열심히 공부해요~",
+      views: 2729,
+      lastVisitTime: "2023-02-02T05:15:34", //최근 방문 시간.
+      studyLeader: {
+        userId: 1,
+        profileImageUrl: profileImg1,
+        nickname: "이싸피",
       },
     },
     {
-      si_id: 2,
-      si_img: studyImg2,
-      si_person: 3,
-      si_max_person: 5,
-      si_desc: "매일 같이 공부하실분!!",
-      si_view: 1234,
-      si_leader: {
-        si_leader_id: 2,
-        si_leader_img: profileImg2,
-        si_leader_nickname: "김싸피",
+      studyId: 2,
+      imageUrl: studyImg2,
+      person: 3,
+      maxPerson: 5,
+      description: "매일 같이 공부하실분!!",
+      views: 1234,
+      lastVisitTime: "2023-02-02T05:15:34", //최근 방문 시간.
+      studyLeader: {
+        userId: 2,
+        profileImageUrl: profileImg2,
+        nickname: "김싸피",
       },
     },
     {
-      si_id: 3,
-      si_img: studyImg3,
-      si_person: 2,
-      si_max_person: 4,
-      si_desc: "싸피 면접 스터디 같이하시죠!",
-      si_view: 3529,
-      si_leader: {
-        si_leader_id: 3,
-        si_leader_img: profileImg3,
-        si_leader_nickname: "박대전",
+      studyId: 3,
+      imageUrl: studyImg3,
+      person: 2,
+      maxPerson: 4,
+      description: "싸피 면접 스터디 같이하시죠!",
+      views: 3529,
+      lastVisitTime: "2023-02-02T05:15:34", //최근 방문 시간.
+      studyLeader: {
+        userId: 3,
+        profileImageUrl: profileImg3,
+        nickname: "박대전",
       },
     },
   ];
 
   return (
     <>
-      <SBackground />
+      <BackgroundYellow bgHeight="65vw" />
       <SLandingBody>
         <SContainer>
           <SBanner>
@@ -359,7 +325,7 @@ function LandingPages() {
                 <img src={arrowL} alt="" />
               </SArrow>
               {studyList.map((study) => (
-                <Card key={study.si_id} studyInfo={study} />
+                <Card key={study.studyId} studyInfo={study} />
               ))}
               <SArrow>
                 <img src={arrowR} alt="" />

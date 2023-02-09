@@ -297,9 +297,9 @@ function App() {
     <>
       <BrowserRouter>
         <GlobalStyle />
-        {curPath !== "/test2" && <NavBar curUrl={curPath} />}
+        {!curPath.includes("videoMeeting") && <NavBar curUrl={curPath} />}
         <Router />
-        {curPath !== "/test2" && <Footer />}
+        {!curPath.includes("videoMeeting") && <Footer />}
       </BrowserRouter>
     </>
   );

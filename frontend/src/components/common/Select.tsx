@@ -83,7 +83,7 @@ const SSelectContainer = styled.div<{ isActive: boolean }>`
       background: #303030;
     }
     ${(props) =>
-      props.isActive ? "max-height: 500px;" : "transition: 0.3s ease-out;"};
+      props.isActive ? "max-height: 500px;" : "transition: 0.7s ease-out;"};
     animation: ${(props) => (props.isActive ? null : fold)} 1s forwards;
   }
   li {
@@ -120,14 +120,14 @@ const SLabelBtn = styled.button`
 
 const SOptionList = styled.ul`
   position: absolute;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  top: 3.472vw;
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* justify-content: center; */
+  /* align-items: flex-start; */
+  /* top: 3.472vw; */
   left: 0;
   width: 100%;
-  height: 13.889vw;
+  /* height: 13.889vw; */
   /* background: lightcoral; */
   background: white;
   color: black;
@@ -137,8 +137,9 @@ const SOptionList = styled.ul`
   border-radius: 0.417vw;
   overflow: hidden;
   max-height: 0;
-  transition: 0.3s ease-in;
+  transition: 0.7s ease-in;
   border: 1px solid rgba(0, 0, 0, 0.5);
+  margin: 0;
 `;
 
 const SOptionContainer = styled.div`

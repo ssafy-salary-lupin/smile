@@ -1,19 +1,71 @@
 import axios from "axios";
 
 const BASE_URL = `https://i8b205.p.ssafy.io/be-api/users`;
+// const BASE_URL = `/be-api/users`;
+const token = localStorage.getItem("kakao-token");
+interface StudiesData {
+  config: object;
+  data: {
+    isSuccess: boolean;
+    code: number;
+    message: string;
+    result: {
+      studiesCount: number;
+      studies: [
+        {
+          studyId: number;
+          name: string;
+          imageUrl: string;
+          description: string;
+          person: number;
+          maxPerson: number;
+          views: number;
+          lastVisitTime: string;
+          studyLeader: {
+            userId: number;
+            profileImageUrl: string;
+            nickname: string;
+          };
+          end: boolean;
+        },
+      ];
+    };
+  };
+  headers: object;
+  request: object;
+  status: number;
+  statusText: string;
+}
 
 // 내 스터디 목록 불러오기
-export async function MyStudyAllApi(userId: number) {
+export async function MyStudyApi(userId: string) {
+  console.log("MY-STUDY-API START");
+  console.log(token);
   try {
-    console.log("Get 실행");
     console.log(`${BASE_URL}/${userId}/studies`);
-    const data = await axios.get(`${BASE_URL}/${userId}/studies`);
+    const response: StudiesData = await axios.get(
+      `${BASE_URL}/${userId}/studies`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      },
+    );
+    console.log(response);
 
-    console.log("data : ", data);
-    // const data = await response.json();
-    // console.log("data  : ", data);
+    const studies = response.data.result.studies;
 
-    return data;
+    console.log(studies);
+
+    const studyObj = {
+      current: studies?.filter((study) => study.end === false),
+      end: studies?.filter((study) => study.end === true),
+    };
+
+    console.log("TEST:", studyObj);
+
+    return studyObj;
   } catch (error: any) {
     console.log(error);
   }
