@@ -8,5 +8,4 @@ import lombok.Setter;
 public class UserUpdateDTO {
     private String nickname;
     private String password;
-    private String imagePath;
 }
