@@ -26,7 +26,7 @@ export async function boardListSelectAllApi(page: number, size: number) {
 }
 
 // 게시판 상세 조회
-export async function boardSelectApi(boardId: string) {
+export async function boardSelectApi(boardId: any) {
   try {
     const response = await fetch(`${BASE_URL}/1/boards/${boardId}`, {
       headers: {
