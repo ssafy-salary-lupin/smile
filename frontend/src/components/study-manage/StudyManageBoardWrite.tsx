@@ -261,11 +261,11 @@ function StudyManageBoardWrite() {
 
     formData.append("data", JSON.stringify(data));
 
-    const files = selectedFile;
-    if (files !== null) {
-      formData.append("files", files);
+    // const files = selectedFile;
+    if (selectedFile !== null) {
+      formData.append("files", selectedFile);
       console.log("null이 아님");
-      console.log("files : ", files);
+      console.log("files : ", selectedFile);
     }
 
     console.log("formdata files 값 확인 : ", formData.get("files"));
