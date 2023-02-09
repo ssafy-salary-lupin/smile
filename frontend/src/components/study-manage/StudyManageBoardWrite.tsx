@@ -10,6 +10,14 @@ const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
   display: flex;
   flex-direction: column;
+  a,
+  a:link,
+  a:visited,
+  a:hover,
+  a:active {
+    text-decoration: none;
+    color: inherit;
+  }
 `;
 
 const Bracket = styled.div`
@@ -197,18 +205,12 @@ function StudyManageBoardWrite() {
   };
 
   const handleFileSelect = (event: any) => {
-    console.log("handleFileSelect() 실행");
-    console.log("event.target.files[0] : ", event.target.files[0]);
-    console.log("event.target.files : ", event.target.files);
-
-    // const files = event.target.files;
     setSelectedFile(event.target.files);
 
     const files = event.target.files;
     for (let i = 0; i < files.length; i++) {
       setFileNameList((oldDatas) => [...oldDatas, files[i].name]);
     }
-    fileNameList.map((el) => console.log(el));
   };
 
   const onFileInput = () => {
@@ -226,14 +228,16 @@ function StudyManageBoardWrite() {
     });
 
     // 파일 리스트에서 해당 파일 삭제
-    // if (selectedFile !== null) {
-    //   const tempFileList = [];
-    //   setSelectedFile(null);
-    //   for (let i = 0; i < size; i++) {
-    //     tempFileList.push;
-    //   }
-    //   setSelectedFile(tempFileList);
-    // }
+    if (selectedFile !== null) {
+      const tempFileList: any = [];
+      for (let i = 0; i < size; i++) {
+        if (i !== index) {
+          tempFileList.push(selectedFile[i]);
+        }
+      }
+      setSelectedFile(null);
+      setSelectedFile(tempFileList);
+    }
   };
 
   const history = useHistory();
@@ -263,19 +267,10 @@ function StudyManageBoardWrite() {
     formData.append("data", JSON.stringify(data));
 
     if (selectedFile !== null) {
-      console.log("파일 길이 : ", selectedFile.length);
-
-      for (let i = 0; i < selectedFile.length; i++) {
-        console.log("요소 : ", selectedFile[i]);
-      }
-
       for (let i = 0; i < selectedFile.length; i++) {
         formData.append("files", selectedFile[i]);
       }
     }
-
-    console.log("selectedFile : ", selectedFile);
-    console.log("files : ", formData.get("files"));
 
     try {
       // https://i8b205.p.ssafy.io/be-api/studies/1/boards
