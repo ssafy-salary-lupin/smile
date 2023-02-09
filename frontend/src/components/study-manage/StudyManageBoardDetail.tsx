@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { ReactComponent as Time } from "../../assets/icon/Time.svg";
 import { ReactComponent as Eye } from "../../assets/icon/Eye.svg";
 import { ReactComponent as Comment } from "../../assets/icon/Comment.svg";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { boardSelectApi } from "apis/StudyManageBoardApi";
 import ReactQuill from "react-quill";
@@ -338,16 +338,12 @@ function StudyManageBoardDetail() {
         </FileSub2>
       </FileBox>
       <ArticleBtn>
-        <UpdateBtn>수정</UpdateBtn>
-        <DeleteBtn
-          onClick={() => {
-            if (confirm("작성한 글을 삭제하시겠습니까?")) {
-            } else {
-            }
-          }}
-        >
-          삭제
-        </DeleteBtn>
+        <UpdateBtn>
+          <Link to={`/manage/boardUpdate/${detailData?.result.boardId}`}>
+            수정
+          </Link>
+        </UpdateBtn>
+        <DeleteBtn>삭제</DeleteBtn>
         <ListBtn>목록</ListBtn>
       </ArticleBtn>
       <CommentHeader>댓글</CommentHeader>

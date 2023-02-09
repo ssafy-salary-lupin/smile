@@ -197,12 +197,14 @@ function StudyManageBoardWrite() {
   const [selectedFile, setSelectedFile] = useState(null); // 파일
   const [fileNameList, setFileNameList] = useState<string[]>([]);
   const handleFileSelect = (event: any) => {
+    console.log("handleFileSelect() 실행");
     console.log("event.target.files[0] : ", event.target.files[0]);
     console.log("event.target.files : ", event.target.files);
 
-    const files = event.target.files;
-    setSelectedFile(files);
+    // const files = event.target.files;
+    setSelectedFile(event.target.files);
 
+    const files = event.target.files;
     for (let i = 0; i < files.length; i++) {
       setFileNameList((oldDatas) => [...oldDatas, files[i].name]);
     }
@@ -263,11 +265,9 @@ function StudyManageBoardWrite() {
     // const files = selectedFile;
     if (selectedFile !== null) {
       formData.append("files", selectedFile);
-      console.log("null이 아님");
       console.log("files : ", selectedFile);
+      // console.log("formdata files 값 확인 : ", formData.get("files")[0]);
     }
-
-    console.log("formdata files 값 확인 : ", formData.get("files"));
 
     try {
       // https://i8b205.p.ssafy.io/be-api/studies/1/boards
@@ -277,7 +277,7 @@ function StudyManageBoardWrite() {
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("kakao-token")}`,
-            // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzU5MDIwNzUsImV4cCI6MTY3NTk4ODQ3NX0.hipxLmlwQVai65rVc4T2NEIYG-XlhlRN-gR8sVlbz73wd7-4SqKNBR687z_lJK20xQ0Wx_riJzCtKWMT2-LJ7A`,
+            // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzU5MTUwMjUsImV4cCI6MTY3NjAwMTQyNX0.S9Oh0nZbIuiVembIlMbHnOkYddjwDCk-O91uij5fmCr1YtxbcZSAk-9a10ODoozjzk2-RrCzY9K7j7HHUkdMlA`,
             "Content-Type": "multipart/form-data",
           },
         },
