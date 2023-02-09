@@ -197,40 +197,42 @@ function StudyDetailPages() {
         </Text>
         <Top>
           <TextBig>{detailStudy?.result.name}</TextBig>
-          <Link to={{ pathname: `/1` }}>
+          <Link to={{ pathname: `/studies/1` }}>
             <Btn color="#F5C82E">참여하기</Btn>
           </Link>
         </Top>
         <StudyDetail>
-          <Card src={introductionImg1} id="item1" />
+          <Card src={detailStudy?.result.imgPath} id="item1" />
           <TextBigBox>
             <TextSmallBox>
               <ProfileImg
                 imgUrl={
-                  introductionImg1 !== "/root"
-                    ? introductionImg1
+                  detailStudy?.result.imgPath !== "/root"
+                    ? detailStudy?.result.imgPath
                     : defaultprofileImg
                 }
                 width="48.379px"
                 height="48.379px"
               />
-              <TextBig>이싸피</TextBig>
+              {/* <TextBig>{detailStudy?.result.}</TextBig> */}
             </TextSmallBox>
             <TextSmallBox>
               <Text>모집 유형 </Text>
-              <TextSmall>자격증 스터디</TextSmall>
+              <TextSmall>{detailStudy?.result.type.name}</TextSmall>
             </TextSmallBox>
             <TextSmallBox>
               <Text>모집 인원 </Text>
-              <TextSmall>6명</TextSmall>
+              <TextSmall>{detailStudy?.result.maxPerson}명</TextSmall>
             </TextSmallBox>
             <TextSmallBox>
               <Text>예상 기간 </Text>
-              <TextSmall></TextSmall>
+              <TextSmall>
+                {detailStudy?.result.startDate} ~ {detailStudy?.result.endDate}
+              </TextSmall>
             </TextSmallBox>
             <TextSmallBox>
-              <Text>모집 유형 </Text>
-              <TextSmall>자격증 스터디</TextSmall>
+              <Text>스터디 시간</Text>
+              <TextSmall>{detailStudy?.result.time}</TextSmall>
             </TextSmallBox>
           </TextBigBox>
         </StudyDetail>
