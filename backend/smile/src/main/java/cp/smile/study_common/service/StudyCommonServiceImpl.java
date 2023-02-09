@@ -120,8 +120,8 @@ public class StudyCommonServiceImpl implements StudyCommonService{
             FindAllStudyDTO findAllStudyDTO = FindAllStudyDTO.builder()
                     .id(studyInformation.getId())
                     .name(studyInformation.getName())
-                    .imgPath(studyInformation.getImgPath())
-                    .person(studyInformation.getCurrentPerson())
+                    .imagePath(studyInformation.getImgPath())
+                    .currentPerson(studyInformation.getCurrentPerson())
                     .maxPerson(studyInformation.getMaxPerson())
                     .description(studyInformation.getDescription())
                     .viewCount(studyInformation.getViewCount())
@@ -245,6 +245,15 @@ public class StudyCommonServiceImpl implements StudyCommonService{
                 .findById(id)
                 .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY));
 
+        //스터디 리더 조회
+        UserJoinStudy userJoinStudy = userJoinStudyRepository
+                .findByStudyInformationAndIsLeaderTrue(studyInformation)
+                .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY));
+
+        User user = userRepository
+                .findById(userJoinStudy.getUser().getId())
+                .orElseThrow(() -> new CustomException(ACCOUNT_NOT_FOUND));
+
 
         //댓글 대댓글 조회 - 대댓글은 없을 수도 있기 때문에 null리턴.
         Set<StudyComment> studyComments = studyCommentRepository.findAllCommentAndReply(studyInformation);
@@ -261,11 +270,13 @@ public class StudyCommonServiceImpl implements StudyCommonService{
                 .startDate(studyInformation.getStartDate())
                 .endDate(studyInformation.getEndDate())
                 .time(studyInformation.getTime())
-                .imgPath(studyInformation.getImgPath())
+                .imagePath(studyInformation.getImgPath())
                 .currentPerson(studyInformation.getCurrentPerson())
                 .maxPerson(studyInformation.getMaxPerson())
                 .viewCount(studyInformation.getViewCount())
+                .description(studyInformation.getDescription())
                 .type(studyInformation.getStudyType().createStudyTypeDTO())
+                .leader(user.createUserProfileDTO())
                 .comments(StudyCommentDTOS).build();
     }
 

@@ -67,7 +67,7 @@ public class User extends BaseEntity {
     public UserProfileDTO createUserProfileDTO() {
         return UserProfileDTO.builder()
                 .id(this.id)
-                .imgPath(this.imagePath)
+                .imagePath(this.imagePath)
                 .nickname(this.nickname).build();
     }
 
