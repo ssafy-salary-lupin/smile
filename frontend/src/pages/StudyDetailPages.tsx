@@ -68,7 +68,7 @@ const TextBig = styled.div`
   display: flex;
   align-items: center;
   /* font-size: 1.667vw; */
-  font-size: 24;
+  font-size: 32;
   font-weight: bold;
   padding-bottom: 1.111vw;
 `;
@@ -151,7 +151,7 @@ interface studyDetailData {
 function StudyDetailPages() {
   // const profileImgUrl = props.studyInfo.studyLeader.profileImageUrl;
   // const studyImgUrl = props.studyInfo.imageUrl;
-  const BASE_URL = `/studies`;
+  const BASE_URL = `https://i8b205.p.ssafy.io/be-api/studies`;
 
   const token = localStorage.getItem("kakao-token");
   const [list, setList] = useState<studyDetailData[] | null>(null);
