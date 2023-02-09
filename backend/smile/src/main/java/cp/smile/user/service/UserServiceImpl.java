@@ -1,5 +1,6 @@
 package cp.smile.user.service;
 
+import com.sun.xml.bind.v2.TODO;
 import cp.smile.auth.jwt.JwtProvider;
 import cp.smile.auth.oauth2.provider.LoginProviderRepository;
 import cp.smile.auth.oauth2.provider.OAuth2Provider;
@@ -163,6 +164,9 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void updateUserInfo(int userId, UserUpdateDTO userUpdateDTO) {
+
+        // TODO 이미지 경로 처리
+
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ACCOUNT_NOT_FOUND));
 
@@ -181,6 +185,18 @@ public class UserServiceImpl implements UserService{
         }
     }
 
+    @Override
+    public void deleteUser(int userId) {
+
+        // TODO 탈퇴는 isDelete만 true로 바꿔주면 끝???
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ACCOUNT_NOT_FOUND));
+
+        if (user.getIsDeleted() == false) {
+            user.deleteUser();
+        }
+    }
 
 
 }

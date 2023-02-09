@@ -20,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
@@ -57,7 +58,8 @@ public class UserController {
     @PatchMapping("/users/{userId}")
     public CommonResponse updateUserInfo(
             @PathVariable int userId,
-            @RequestBody UserUpdateDTO userUpdateDTO,
+            @RequestPart("data") UserUpdateDTO userUpdateDTO,
+            @RequestPart(value = "file",required = false) MultipartFile multipartFile,
             @AuthenticationPrincipal CustomOAuth2User oAuth2User) {
 
         int oAuthUserId = oAuth2User.getUserId();
@@ -72,7 +74,21 @@ public class UserController {
     }
 
     /* 회원 탈퇴 */
-    
+    @PatchMapping("/users/{userId}/delete")
+    public CommonResponse deleteUser(
+            @PathVariable int userId,
+            @AuthenticationPrincipal CustomOAuth2User oAuth2User) {
+
+        int oAuthUserId = oAuth2User.getUserId();
+
+        if (userId != oAuthUserId) {
+            throw new CustomException(ACCOUNT_NOT_VALID);
+        }
+
+        userService.deleteUser(userId);
+
+        return responseService.getSuccessResponse();
+    }
 
     /* 로그인 */
     @PostMapping("/log-in")

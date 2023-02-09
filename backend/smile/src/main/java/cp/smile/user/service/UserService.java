@@ -31,4 +31,6 @@ public interface UserService {
     void logout(int userId);
 
     void updateUserInfo(int userId, UserUpdateDTO userUpdateDTO);
+
+    void deleteUser(int userId);
 }
