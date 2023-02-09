@@ -215,10 +215,11 @@ class VideoRoomComponent extends Component {
     console.log(token, { clientData: this.state.myUserName });
     console.log("HERE", this.state.session);
     console.log("TOKEN1111", token);
+    const customToken = `wss://i8b205.p.ssafy.io:8443?sessionId=1&token=${token.result.attendToken}`;
     this.state.session
-      .connect(token, { clientData: this.state.myUserName })
+      .connect(customToken, { clientData: this.state.myUserName })
       .then(() => {
-        console.log("TOKEN1111", token);
+        console.log("TOKEN1111", customToken);
         this.connectWebCam();
       })
       .catch((error) => {
