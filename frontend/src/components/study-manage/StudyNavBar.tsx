@@ -8,6 +8,17 @@ const StudyNav = styled.div`
   align-items: center;
   /* height: 3.192vw; */
   /* margin: 3.192vw; */
+  a,
+  a:link,
+  a:visited,
+  a:active {
+    text-decoration: none;
+    color: ${(props) => props.theme.blackColorOpacity4};
+  }
+
+  a:hover {
+    color: ${(props) => props.theme.blackColor};
+  }
 `;
 
 const BlankSpace = styled.div`
@@ -67,9 +78,13 @@ function StudyNavBar() {
           <Link to="/manage/calendar">일정관리</Link>
         </ItemText>
         <Itemline>|</Itemline>
-        <ItemText>화상 회의</ItemText>
+        <ItemText>
+          <Link to="">화상 회의</Link>
+        </ItemText>
         <Itemline>|</Itemline>
-        <ItemText>스터디 관리</ItemText>
+        <ItemText>
+          <Link to="">스터디 관리</Link>
+        </ItemText>
       </Items>
     </StudyNav>
   );
