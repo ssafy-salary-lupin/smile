@@ -219,13 +219,17 @@ interface Data {
   };
 }
 
+type Params = {
+  boardId: string;
+};
+
 function StudyManageBoardDetail() {
-  const param = useParams();
+  const { boardId } = useParams<Params>();
 
   // console.log(type of );
 
   const { data: detailData } = useQuery<Data>("detailData", () =>
-    boardSelectApi(param),
+    boardSelectApi(boardId),
   );
 
   console.log("받아온 data : ", detailData);
