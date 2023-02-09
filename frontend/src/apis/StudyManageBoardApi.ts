@@ -33,7 +33,7 @@ export async function boardSelectApi(boardId: string) {
     const response = await fetch(`${BASE_URL}/1/boards/${boardId}`, {
       headers: {
         // Authorization: `Bearer ${token}`,
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzU5MDIwNzUsImV4cCI6MTY3NTk4ODQ3NX0.hipxLmlwQVai65rVc4T2NEIYG-XlhlRN-gR8sVlbz73wd7-4SqKNBR687z_lJK20xQ0Wx_riJzCtKWMT2-LJ7A`,
+        Authorization: `Bearer ${token}`,
         Accept: "application/json",
       },
     });
