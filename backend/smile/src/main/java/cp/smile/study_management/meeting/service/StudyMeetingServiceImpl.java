@@ -29,7 +29,7 @@ public class StudyMeetingServiceImpl implements StudyMeetingService{
     public StudyMeeting createMeeting(User starter, StudyInformation study, MeetingCreationRequestDTO dto) {
         StudyMeetingType studyMeetingType = studyMeetingTypeRepository.findById(dto.getMeetingTypeId())
                 .orElseThrow(() -> new CustomException(CustomExceptionStatus.NOT_FOUND_MEETING_TYPE));
-        System.out.println(studyMeetingType);
+
         StudyMeeting meeting = StudyMeeting.builder()
                 .studyMeetingType(studyMeetingType)
                 .name(dto.getMeetingName())
