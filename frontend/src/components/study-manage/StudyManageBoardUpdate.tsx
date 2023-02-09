@@ -1,15 +1,25 @@
 import ReactQuill from "react-quill";
 import styled from "styled-components";
 import "react-quill/dist/quill.snow.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import { ReactComponent as DeleteIcon } from "../../assets/icon/Delete.svg";
+import { useQuery } from "react-query";
+import { boardSelectApi } from "apis/StudyManageBoardApi";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
   display: flex;
   flex-direction: column;
+  a,
+  a:link,
+  a:visited,
+  a:hover,
+  a:active {
+    text-decoration: none;
+    color: inherit;
+  }
 `;
 
 const Bracket = styled.div`
@@ -160,7 +170,71 @@ const FileListLi = styled.li`
   list-style: none;
 `;
 
+interface Data {
+  isSuccess: boolean;
+  code: number;
+  message: string;
+  result: {
+    studyId: number; // 스터디 식별자
+    boardId: number; // 게시글 식별자
+    boardType: {
+      // 게시글 타입 정보
+      typeId: number; // 게시글 유형 식별자
+      type: string; // 게시글 유형 정보
+    };
+    title: string; // 제목
+    content: string; // 본문
+    writer: {
+      // 작성자 정보
+      writerId: number; // 작성자 유저 식별자
+      nickname: string; // 작성자 닉네임
+      profileImageUrl: string; // 작성자 프로필 이미지
+    };
+    writeAt: string; // 게시글 작성일
+    views: number; // 게시글 조회수
+    commentCount: number; // 댓글 수
+    comments: [
+      // 댓글 정보
+      {
+        commentId: number; // 댓글 식별자
+        content: string; // 댓글 내용
+        writer: {
+          // 댓글 작성자 정보
+          writerId: number; // 댓글 작성자 유저 식별자
+          nickname: string; // 댓글 작성자 닉네임
+          profileImageUrl: string; // 댓글 작성자 프로필 이미지
+        };
+        writeAt: string; // 댓글 작성일
+      },
+    ];
+    fileCount: number; // 업로드된 파일 수
+    files: [
+      {
+        fileId: number; // 파일 식별자
+        fileName: string; // 파일 이름
+        sourceUrl: string; // 파일 주소
+      },
+    ];
+  };
+}
+
+type Params = {
+  boardId: string;
+};
+
 function StudyManageBoardUpdate() {
+  const { boardId } = useParams<Params>();
+
+  const { data: detailData } = useQuery<Data>("detailData", () =>
+    boardSelectApi(boardId),
+  );
+
+  useEffect(() => {
+    for (let i = 0; i < selectedFile.length; i++) {
+      setFileNameList((oldDatas) => [...oldDatas, selectedFile[i].fileName]);
+    }
+  }, []);
+
   const modules = {
     toolbar: {
       container: [
@@ -181,6 +255,10 @@ function StudyManageBoardUpdate() {
   const [title, setTitle] = useState<string>(""); // 글 제목
   const [content, setContent] = useState<string>(""); // 글 내용
   const [typeId, setTypeId] = useState<number>(0); // 글 유형
+  const [selectedFile, setSelectedFile] = useState<any>(
+    detailData?.result.files,
+  ); // 파일
+  const [fileNameList, setFileNameList] = useState<string[]>([]); // 파일 이름
 
   const handleTitle = (event: any) => {
     setTitle(event.target.value);
@@ -194,19 +272,17 @@ function StudyManageBoardUpdate() {
     setTypeId(Number(event.target.value));
   };
 
-  const [selectedFile, setSelectedFile] = useState(null); // 파일
-  const [fileNameList, setFileNameList] = useState<string[]>([]);
   const handleFileSelect = (event: any) => {
-    console.log("event.target.files[0] : ", event.target.files[0]);
-    console.log("event.target.files : ", event.target.files);
+    console.log("선택한 파일 : ", event.target.files);
 
+    // 파일 추가
+    setSelectedFile((old: any) => [...old, ...event.target.files]);
+
+    // 파일 이름
     const files = event.target.files;
-    setSelectedFile(files);
-
     for (let i = 0; i < files.length; i++) {
       setFileNameList((oldDatas) => [...oldDatas, files[i].name]);
     }
-    fileNameList.map((el) => console.log(el));
   };
 
   const onFileInput = () => {
@@ -214,7 +290,6 @@ function StudyManageBoardUpdate() {
   };
 
   const deleteFile = (index: any) => {
-    const size = fileNameList.length;
     // 이름 리스트에서 해당 파일 이름 삭제
     setFileNameList([]);
     fileNameList.map((el, i) => {
@@ -224,14 +299,16 @@ function StudyManageBoardUpdate() {
     });
 
     // 파일 리스트에서 해당 파일 삭제
-    // if (selectedFile !== null) {
-    //   const tempFileList = [];
-    //   setSelectedFile(null);
-    //   for (let i = 0; i < size; i++) {
-    //     tempFileList.push;
-    //   }
-    //   setSelectedFile(tempFileList);
-    // }
+    if (selectedFile !== null) {
+      const tempFileList: any = [];
+      for (let i = 0; i < selectedFile.length; i++) {
+        if (i !== index) {
+          tempFileList.push(selectedFile[i]);
+        }
+      }
+      setSelectedFile(null);
+      setSelectedFile(tempFileList);
+    }
   };
 
   const history = useHistory();
@@ -260,24 +337,19 @@ function StudyManageBoardUpdate() {
 
     formData.append("data", JSON.stringify(data));
 
-    // const files = selectedFile;
     if (selectedFile !== null) {
-      formData.append("files", selectedFile);
-      console.log("null이 아님");
-      console.log("files : ", selectedFile);
+      for (let i = 0; i < selectedFile.length; i++) {
+        formData.append("files", selectedFile[i]);
+      }
     }
 
-    console.log("formdata files 값 확인 : ", formData.get("files"));
-
     try {
-      // https://i8b205.p.ssafy.io/be-api/studies/1/boards
-      await axios.post(
-        ` https://i8b205.p.ssafy.io/be-api/studies/1/boards`,
+      await axios.patch(
+        `https://i8b205.p.ssafy.io/be-api/studies/1/boards/${boardId}`,
         formData,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("kakao-token")}`,
-            // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzU5MDIwNzUsImV4cCI6MTY3NTk4ODQ3NX0.hipxLmlwQVai65rVc4T2NEIYG-XlhlRN-gR8sVlbz73wd7-4SqKNBR687z_lJK20xQ0Wx_riJzCtKWMT2-LJ7A`,
             "Content-Type": "multipart/form-data",
           },
         },
@@ -308,6 +380,7 @@ function StudyManageBoardUpdate() {
           <TitleInput
             placeholder="제목을 입력해주세요."
             onChange={handleTitle}
+            value={detailData?.result.title}
           />
         </Sub2>
       </Title>
@@ -316,7 +389,7 @@ function StudyManageBoardUpdate() {
         <Sub2>
           <ReactQuill
             theme="snow"
-            value={content}
+            value={detailData?.result.content}
             onChange={handleContent}
             modules={modules}
           />
