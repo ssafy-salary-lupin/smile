@@ -265,13 +265,13 @@ function StudyManageBoardWrite() {
     if (selectedFile !== null) {
       console.log("파일 길이 : ", selectedFile.length);
 
-      selectedFile.forEach((element: any) => {
-        console.log("요소 : ", element);
-      });
+      for (let i = 0; i < selectedFile.length; i++) {
+        console.log("요소 : ", selectedFile[i]);
+      }
 
-      selectedFile.foreach((el: any) => {
-        formData.append("files", el);
-      });
+      for (let i = 0; i < selectedFile.length; i++) {
+        formData.append("files", selectedFile[i]);
+      }
     }
 
     console.log("selectedFile : ", selectedFile);
