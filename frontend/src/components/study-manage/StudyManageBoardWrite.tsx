@@ -181,6 +181,8 @@ function StudyManageBoardWrite() {
   const [title, setTitle] = useState<string>(""); // 글 제목
   const [content, setContent] = useState<string>(""); // 글 내용
   const [typeId, setTypeId] = useState<number>(0); // 글 유형
+  const [selectedFile, setSelectedFile] = useState(null); // 파일
+  const [fileNameList, setFileNameList] = useState<string[]>([]); // 파일 이름
 
   const handleTitle = (event: any) => {
     setTitle(event.target.value);
@@ -194,15 +196,13 @@ function StudyManageBoardWrite() {
     setTypeId(Number(event.target.value));
   };
 
-  const [selectedFile, setSelectedFile] = useState(null); // 파일
-  const [fileNameList, setFileNameList] = useState<string[]>([]);
   const handleFileSelect = (event: any) => {
     console.log("handleFileSelect() 실행");
     console.log("event.target.files[0] : ", event.target.files[0]);
     console.log("event.target.files : ", event.target.files);
 
     // const files = event.target.files;
-    setSelectedFile(event.target.files);
+    setSelectedFile(event.target.files[0]);
 
     const files = event.target.files;
     for (let i = 0; i < files.length; i++) {
