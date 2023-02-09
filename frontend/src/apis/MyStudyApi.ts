@@ -2,7 +2,7 @@ import axios from "axios";
 
 const BASE_URL = `https://i8b205.p.ssafy.io/be-api/users`;
 // const BASE_URL = `/be-api/users`;
-
+const token = localStorage.getItem("kakao-token");
 interface StudiesData {
   config: object;
   data: {
@@ -39,11 +39,18 @@ interface StudiesData {
 
 // 내 스터디 목록 불러오기
 export async function MyStudyApi(userId: string) {
+  console.log("MY-STUDY-API START");
+  console.log("TOKEN: ", token);
   try {
-    console.log("Get 실행");
     console.log(`${BASE_URL}/${userId}/studies`);
     const response: StudiesData = await axios.get(
       `${BASE_URL}/${userId}/studies`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      },
     );
     console.log(response);
 

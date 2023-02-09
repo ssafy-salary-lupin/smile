@@ -1,6 +1,6 @@
 import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
-import React, { Component } from "react";
+import React, { useState, Component } from "react";
 import ChatComponent from "./chat/ChatComponent";
 import DialogExtensionComponent from "./dialog-extension/DialogExtension";
 import StreamComponent from "./stream/StreamComponent";
@@ -19,9 +19,29 @@ const APPLICATION_SERVER_URL =
     ? ""
     : "https://i8b205.p.ssafy.io:5000/";
 
+const Wrapper = styled.div`
+  /* position: static; */
+  display: flex;
+  /* top: 0;
+  width: 100%; */
+`;
+
 const VideoContainer = styled.div`
-  height: 80vh;
-  position: static;
+  /* position: relative; */
+  left: 0px;
+  top: 0px;
+  /* right: 0px; */
+  width: 100vw;
+  height: 85vh;
+  /* position: static; */
+`;
+
+const ChatContainer = styled.div`
+  /* position: relative; */
+  right: 0px;
+  top: 0px;
+  width: 30vw;
+  height: 85vh;
 `;
 
 class VideoRoomComponent extends Component {
@@ -636,6 +656,7 @@ class VideoRoomComponent extends Component {
   }
 
   render() {
+    // const [play, setPlay] = useState<boolean>(false);
     const mySessionId = this.state.mySessionId;
     const localUser = this.state.localUser;
     var chatDisplay = { display: this.state.chatDisplay };
@@ -646,47 +667,64 @@ class VideoRoomComponent extends Component {
           showDialog={this.state.showExtensionDialog}
           cancelClicked={this.closeDialogExtension}
         />
-
-        <div id="layout" className="bounds">
-          {/* <VideoContainer id="VVVTEST"> */}
-          {localUser !== undefined &&
-            localUser.getStreamManager() !== undefined && (
-              <div className="OT_root OT_publisher custom-class" id="localUser">
-                <StreamComponent
-                  user={localUser} // 내 화면
-                  handleNickname={this.nicknameChanged}
-                />
-              </div>
-            )}
-          {/* //map을 쓴건 여러명이 들어올수 있어서인건가 */}
-          {this.state.subscribers.map((sub, i) => (
-            <div
-              key={i}
-              className="OT_root OT_publisher custom-class"
-              id="remoteUsers"
-            >
-              <StreamComponent
-                user={sub} // 상대편 화면
-                streamId={sub.streamManager.stream.streamId}
-              />
-            </div>
-          ))}
-          {localUser !== undefined &&
+        <Wrapper>
+          <VideoContainer id="VVVTEST">
+            <div id="layout" className="bounds">
+              {localUser !== undefined &&
+                localUser.getStreamManager() !== undefined && (
+                  <div className="OT_root OT_publisher custom-class">
+                    <StreamComponent
+                      user={localUser} // 내 화면
+                      handleNickname={this.nicknameChanged}
+                    />
+                  </div>
+                )}
+              {/* //map을 쓴건 여러명이 들어올수 있어서인건가 */}
+              {this.state.subscribers.map((sub, i) => (
+                <div
+                  key={i}
+                  className="OT_root OT_publisher custom-class"
+                  id="remoteUsers"
+                >
+                  <StreamComponent
+                    user={sub} // 상대편 화면
+                    streamId={sub.streamManager.stream.streamId}
+                  />
+                </div>
+              ))}
+              {/* {localUser !== undefined &&
             localUser.getStreamManager() !== undefined && (
               <div
-                className="OT_root OT_publisher custom-class"
-                style={chatDisplay}
+              className="OT_root OT_publisher custom-class"
+              style={chatDisplay}
               >
-                <ChatComponent
-                  user={localUser}
-                  chatDisplay={this.state.chatDisplay}
-                  close={this.toggleChat}
-                  messageReceived={this.checkNotification}
-                />
+              <ChatComponent
+              user={localUser}
+              chatDisplay={this.state.chatDisplay}
+              close={this.toggleChat}
+              messageReceived={this.checkNotification}
+              />
               </div>
-            )}
-          {/* </VideoContainer> */}
-        </div>
+            )} */}
+            </div>
+          </VideoContainer>
+          <ChatContainer>
+            {localUser !== undefined &&
+              localUser.getStreamManager() !== undefined && (
+                <div
+                  className="OT_root OT_publisher custom-class"
+                  style={chatDisplay}
+                >
+                  <ChatComponent
+                    user={localUser}
+                    chatDisplay={this.state.chatDisplay}
+                    close={this.toggleChat}
+                    messageReceived={this.checkNotification}
+                  />
+                </div>
+              )}
+          </ChatContainer>
+        </Wrapper>
         <ToolbarComponent
           sessionId={mySessionId}
           user={localUser}

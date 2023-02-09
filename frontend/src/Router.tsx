@@ -4,8 +4,9 @@ import StudyManagePages from "./pages/StudyManagePages";
 import StudyCreatePages from "./pages/StudyCreatePages";
 import TestPages from "./pages/TestPages";
 import WaitingPages from "./pages/WaitingPages";
-import MyStudyPages from "pages/MyStudyPages";
-import KakaoPages from "pages/KakaoPages";
+import MyStudyPages from "./pages/MyStudyPages";
+import KakaoPages from "./pages/KakaoPages";
+import StudyDetailPages from "./pages/StudyDetailPages";
 import StudySearchPages from "pages/StudySearchPages";
 import VideoMeetingPages from "pages/VideoMeetingPages";
 function Router() {
@@ -25,6 +26,9 @@ function Router() {
       </Route>
       <Route path="/create">
         <StudyCreatePages />
+      </Route>
+      <Route path="/detail">
+        <StudyDetailPages />
       </Route>
       <Route path="/videoMeeting/:studyId">
         <VideoMeetingPages />
