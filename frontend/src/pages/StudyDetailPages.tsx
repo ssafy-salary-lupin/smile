@@ -107,7 +107,7 @@ function StudyDetailPages() {
               <TextBig>이싸피</TextBig>
             </TextSmallBox>
             <TextSmallBox>
-              <Text>모집 유형</Text>
+              {/* <Text>모집 유형</Text> */}
               <TextSmall>자격증 스터디</TextSmall>
             </TextSmallBox>
             <TextSmallBox>
