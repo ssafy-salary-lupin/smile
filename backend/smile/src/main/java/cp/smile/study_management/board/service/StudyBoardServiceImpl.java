@@ -69,10 +69,11 @@ public class StudyBoardServiceImpl implements StudyBoardService {
         studyBoard.addTo(userJoinStudy.getStudyInformation());
         studyBoardRepository.save(studyBoard);
 
-        log.info("file length check : {}" , files.length);
+
 
         //파일이 있을때 파일 저장.
         if (files != null && files[0].getSize() != 0) {
+
             List<StudyBoardFile> uploadedFiles = uploadFiles(studyBoard, files);
             studyBoardFileRepository.saveAll(uploadedFiles);
         }
