@@ -35,4 +35,12 @@ public class StudyType extends BaseEntity {
                 .id(this.id)
                 .name(this.name.toString()).build();
     }
+
+    @Override
+    public String toString() {
+        return "StudyType{" +
+                "id=" + id +
+                ", name=" + name +
+                '}';
+    }
 }

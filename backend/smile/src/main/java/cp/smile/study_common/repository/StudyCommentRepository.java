@@ -18,7 +18,7 @@ public interface StudyCommentRepository extends JpaRepository<StudyComment,Integ
             "left join fetch s.studyRelies sr " +
             "left join fetch sr.user " +
             "where s.isDeleted = false and s.studyInformation = :studyId")
-    List<StudyComment> findAllCommentAndReply(@Param(value = "studyId") StudyInformation studyInformation);
+    Set<StudyComment> findAllCommentAndReply(@Param(value = "studyId") StudyInformation studyInformation);
 
 
 

@@ -20,17 +20,17 @@ public interface StudyCommonRepository extends JpaRepository<StudyInformation, I
     @Query(value = "select s from StudyInformation s " +
             "left join fetch s.studyType st " +
             "left join fetch s.userJoinStudies ujs " +
-            "left join fetch ujs.user " +
             "left join fetch s.studyComments sc " +
+            "left join fetch ujs.user " +
             "where s.deadline = false and s.isEnd = false and ujs.isLeader = true")
-    List<StudyInformation> findAllByStudyInformation();
+    Set<StudyInformation> findAllByStudyInformation();
 
     /**검색조건이 name 하나일때*/
-    List<StudyInformation> findAllByNameIsContaining(String name);
+    Set<StudyInformation> findAllByNameIsContaining(String name);
 
     /** 검색 조건이 type 하나일 때*/
-    List<StudyInformation> findAllByStudyType(StudyType studyType);
+    Set<StudyInformation> findAllByStudyType(StudyType studyType);
 
     /** 검색 조건이 둘다 일때.*/
-    List<StudyInformation> findAllByNameIsContainingAndStudyType(String name, StudyType studyType);
+    Set<StudyInformation> findAllByNameIsContainingAndStudyType(String name, StudyType studyType);
 }
