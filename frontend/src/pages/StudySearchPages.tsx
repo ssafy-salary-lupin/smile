@@ -6,6 +6,7 @@ import { StudySearchAll } from "apis/StudySearchApi";
 import { useQuery } from "react-query";
 import { useState } from "react";
 import Card from "components/common/Card";
+import { AxiosError } from "axios";
 // 스터디 조회 페이지 전체를 감사는 div
 const Wrapper = styled.div`
   display: flex;
@@ -68,7 +69,7 @@ const Cards = styled.div<CardsProps>`
   display: grid;
   grid-template-columns: repeat(3, 31.48vw);
   /* grid-template-rows: repeat(2, 38.889vw); */
-  grid-template-rows: repeat(${(props) => props.NumberOfCards}, 38.889vw);
+  grid-template-rows: repeat(${(props) => props.NumberOfCards} / 3, 38.889vw);
   margin-top: 2.8vw;
 `;
 
@@ -82,24 +83,61 @@ interface CardsProps {
   NumberOfCards: number;
 }
 
+interface StudiesDataType {
+  id: number;
+  imgPath: string;
+  person: number;
+  maxPerson: number;
+  description: string;
+  viewCount: number;
+  lastVisitedTime: string;
+  type: {
+    id: number;
+    name: string;
+  };
+  commentCount: number;
+  leader: {
+    id: number;
+    imgPath: string;
+    nickname: string;
+  };
+}
 export default function StudySearchPages() {
   // API 불러오기
-  const { isLoading: studiesLoading, data: studiesData } = useQuery(
-    "studies",
-    () => {
-      StudySearchAll();
-    },
-  );
-  console.log("DATA:", studiesLoading, studiesData);
+  const { isLoading, data } = useQuery("studies", StudySearchAll.get);
+  console.log("DATA:", isLoading, data);
 
   // if (studiesData === undefined) {
-  // } else if (studiesData.result.length)
-  //   // 스터디 더보기 클릭 여부를 확인하기 위한 state
-  //   const [moreStudies, setMoreStudies] = useState<boolean>(false);
+  // } else if (studiesData.result.length) {}
+
+  // 스터디 더보기 클릭 여부를 확인하기 위한 state
+  const [isClickMore, setIsClickMore] = useState<boolean>(false);
+  // 스터디 더보기 필요 유 / 무
+  const [moreStudies, setMoreStudies] = useState<boolean>(false);
+  // 검색 할 스터디의 개수
+  const [studiesNumber, setStudiesNumber] = useState<number>(0);
+  // 스터디 리스트
+  const [StudyList, setStudyList] = useState<StudiesDataType[]>(
+    data?.data.result,
+  );
+  // 더 보기 스터디 리스트
+  const [moreStudyList, setMoreStudyList] = useState<object[]>();
+  console.log(data);
+  const cardNumber = StudyList.length;
+  if (!data) {
+    setStudiesNumber(0);
+  } else if (cardNumber <= 9) {
+    setStudiesNumber(cardNumber);
+  } else {
+    setStudiesNumber(9);
+    setMoreStudies(true);
+    setMoreStudyList(StudyList.slice(10));
+    setStudyList(StudyList.slice(0, 10));
+  }
   return (
     <>
-      {/* <BlankSpace />
-      {studiesLoading ? (
+      <BlankSpace />
+      {!isLoading ? (
         <Wrapper>
           <Header>
             <div>
@@ -113,21 +151,38 @@ export default function StudySearchPages() {
             <button>스터디 생성</button>
           </CreateBtnWrapper>
           <Section>
-            <Cards NumberOfCards={studiesData ? studiesData.current.length : 0}>
-              (
-              {studiesData.current.map((study) => (
+            <Cards NumberOfCards={studiesNumber}>
+              {/* (
+              {StudyList.map((study: StudiesDataType) => (
                 <CardWrapper>
-                  <Card key={study.studyId} studyInfo={study} />
+                  <Card key={study.id} studyInfo={study} />
                 </CardWrapper>
               ))}
-              )
+              ) */}
             </Cards>
-            {moreStudies ? null : <></>}
+            {moreStudies ? (
+              <>
+                {isClickMore ? (
+                  <Cards NumberOfCards={studiesNumber}>
+                    {/* (
+                    {StudyList.map((study: StudiesDataType) => (
+                      <CardWrapper>
+                        {console.log(study)}
+                        <Card key={study.id} studyInfo={study} />
+                      </CardWrapper>
+                    ))}
+                    ) */}
+                  </Cards>
+                ) : (
+                  <></>
+                )}
+              </>
+            ) : null}
           </Section>
         </Wrapper>
       ) : (
         <span>로딩중</span>
-      )} */}
+      )}
     </>
   );
 }

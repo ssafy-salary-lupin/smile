@@ -45,7 +45,7 @@ const GraphContainer = styled.div``;
 const GraphBox = styled.div`
   width: 41.667vw;
   height: 27.778vw;
-  background-color: white;
+  background-color: #fffbf0;
   border-radius: 15px;
 `;
 
@@ -129,24 +129,6 @@ interface Iparams {
   userId: string;
 }
 
-// interface CardProps {
-//   studyInfo: {
-//     id: number; //스터디 식별자
-//     imgPath: string; //스터디 대표이미지 url
-//     person: number; //현재 가입한 스터디원
-//     max_person: number; //스터디 최대 가입 인원
-//     description: string; //스터디 설명
-//     viewCount: number; //스터디 조회수
-//     lastVisitedTime: string; //최근 방문 시간.
-//     leader: {
-//       // 스터디장에 대한 정보
-//       id: number; //스터디장 유저 식별자
-//       imgPath: string; //스터디장 프로필 이미지 url
-//       nickname: string; //스터디장 닉네임
-//     };
-//   };
-// }
-
 interface NumberOfCardsProps {
   NumberOfCards: number;
 }
@@ -183,13 +165,13 @@ export default function MyStudyPages() {
             <GraphContainer>
               <SubTitle>다른 내용</SubTitle>
               <GraphBox>
-                <span>그래프</span>
+                <span></span>
               </GraphBox>
             </GraphContainer>
             <PurposeContainer>
               <SubTitle>내 목표</SubTitle>
               <PurposeBox>
-                <span>오늘 공부한 시간</span>
+                <span></span>
               </PurposeBox>
             </PurposeContainer>
           </Additionalection>
@@ -206,13 +188,16 @@ export default function MyStudyPages() {
                     NumberOfCards={studiesData ? studiesData.current.length : 0}
                   >
                     {studiesData.current.map((study) => (
-                      <CardWrapper key={study.studyId}>
+                      <CardWrapper key={study.id}>
                         <Card studyInfo={study} />
                       </CardWrapper>
                     ))}
                   </Cards>
                 ) : (
-                  <MyStudyNotFound />
+                  <MyStudyNotFound>
+                    <h3>스터디를 찾을 수 없습니다.</h3>
+                    <span>(나중에 이미지 혹은 무언가 추가)</span>
+                  </MyStudyNotFound>
                 )}
               </StudyContainer>
             </details>
@@ -228,7 +213,7 @@ export default function MyStudyPages() {
                       NumberOfCards={studiesData ? studiesData.end.length : 0}
                     >
                       {studiesData.end.map((study) => (
-                        <Card key={study.studyId} studyInfo={study} />
+                        <Card key={study.id} studyInfo={study} />
                       ))}
                     </Cards>
                   </>

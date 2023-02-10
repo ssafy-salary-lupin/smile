@@ -13,6 +13,14 @@ import introductionImg2 from "../assets/img/introduction_img2.png";
 import { useEffect, useState } from "react";
 import { BackgroundYellow } from "components/common/BackgroundYellow";
 
+const Wrapper = styled.div`
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
 const SLandingBody = styled.div`
   @import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap");
   font-family: "Noto Sans", sans-serif;
@@ -163,6 +171,17 @@ const slideRightReverse = keyframes`
   }
 `;
 
+const imgOpacity = keyframes`
+  from {
+    
+    opacity: 1;
+  }
+  to {
+    
+    opacity: 0;
+  }
+`;
+
 const SIntroductionItem = styled.div<SIntroductionItemTextProps>`
   display: flex;
   align-items: center;
@@ -177,13 +196,15 @@ const SIntroductionItem = styled.div<SIntroductionItemTextProps>`
     z-index: -1;
     ${(props) => (props.direction === "L" ? "left: -50vw;" : "right: -50vw")};
     animation: ${(props) =>
-        props.top <= 900
-          ? props.direction === "L"
-            ? slideLeft
-            : slideRight
-          : props.direction === "L"
-          ? slideLeftReverse
-          : slideRightReverse}
+        props.top !== 0
+          ? props.top <= 900
+            ? props.direction === "L"
+              ? slideLeft
+              : slideRight
+            : props.direction === "L"
+            ? slideLeftReverse
+            : slideRightReverse
+          : imgOpacity}
       2s forwards ease-in;
   }
   div {
@@ -261,51 +282,54 @@ function LandingPages() {
   // console.log("Y:", position);
   const studyList = [
     {
-      studyId: 1,
-      imageUrl: studyImg1,
-      person: 4,
+      id: 1,
+      name: "SSAFY 스터디",
+      imagePath: studyImg1,
+      currentPerson: 4,
       maxPerson: 5,
       description: "다 같이 열심히 공부해요~",
-      views: 2729,
+      viewCount: 2729,
       lastVisitTime: "2023-02-02T05:15:34", //최근 방문 시간.
-      studyLeader: {
-        userId: 1,
-        profileImageUrl: profileImg1,
+      leader: {
+        id: 1,
+        imagePath: profileImg1,
         nickname: "이싸피",
       },
     },
     {
-      studyId: 2,
-      imageUrl: studyImg2,
-      person: 3,
+      id: 2,
+      name: "SSAFY 스터디",
+      imagePath: studyImg2,
+      currentPerson: 3,
       maxPerson: 5,
       description: "매일 같이 공부하실분!!",
-      views: 1234,
+      viewCount: 1234,
       lastVisitTime: "2023-02-02T05:15:34", //최근 방문 시간.
-      studyLeader: {
-        userId: 2,
-        profileImageUrl: profileImg2,
+      leader: {
+        id: 2,
+        imagePath: profileImg2,
         nickname: "김싸피",
       },
     },
     {
-      studyId: 3,
-      imageUrl: studyImg3,
-      person: 2,
+      id: 3,
+      name: "SSAFY 스터디",
+      imagePath: studyImg3,
+      currentPerson: 2,
       maxPerson: 4,
       description: "싸피 면접 스터디 같이하시죠!",
-      views: 3529,
+      viewCount: 3529,
       lastVisitTime: "2023-02-02T05:15:34", //최근 방문 시간.
-      studyLeader: {
-        userId: 3,
-        profileImageUrl: profileImg3,
+      leader: {
+        id: 3,
+        imagePath: profileImg3,
         nickname: "박대전",
       },
     },
   ];
 
   return (
-    <>
+    <Wrapper>
       <BackgroundYellow bgHeight="65vw" />
       <SLandingBody>
         <SContainer>
@@ -325,7 +349,7 @@ function LandingPages() {
                 <img src={arrowL} alt="" />
               </SArrow>
               {studyList.map((study) => (
-                <Card key={study.studyId} studyInfo={study} />
+                <Card key={study.id} studyInfo={study} />
               ))}
               <SArrow>
                 <img src={arrowR} alt="" />
@@ -348,7 +372,7 @@ function LandingPages() {
           </SIntroductionItem>
         </SContainer>
       </SLandingBody>
-    </>
+    </Wrapper>
   );
 }
 
