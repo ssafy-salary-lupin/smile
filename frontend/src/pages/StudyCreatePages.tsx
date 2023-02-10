@@ -333,7 +333,7 @@ function StudyCreatePages() {
   const studyTypeApi = async () => {
     // console.log("실행");
     try {
-      const response = await fetch(`${BASE_URL}/studies/types`, {
+      const response = await fetch(`${BASE_URL}studies/types`, {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: "application/json",
@@ -368,7 +368,7 @@ function StudyCreatePages() {
     // console.log("실행");
 
     try {
-      const response = await fetch(`${BASE_URL}/studies/1`, {
+      const response = await fetch(`${BASE_URL}studies/1`, {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: "application/json",
@@ -391,7 +391,7 @@ function StudyCreatePages() {
   //-------------------------------------------------------------------
   // console.log("가져온 데이타 : ", StudyData);
   const [study_name, setStudy_name] = useState<string>("");
-  const [study_typeId, setStudy_typeId] = useState<string>("");
+  const [study_typeId, setStudy_typeId] = useState<number>();
   const [study_maxPerson, setStudy_maxPerson] = useState<string>("");
   // const [study_startDate, setStudy_startDate] = useState<string>("");
   // const [study_endDate, setStudy_endDate] = useState<string>("");
