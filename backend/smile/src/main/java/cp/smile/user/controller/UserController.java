@@ -55,7 +55,7 @@ public class UserController {
     }
 
     /* 회원 정보 수정 */
-    @PatchMapping("/users/{userId}")
+    @PatchMapping(value = "/users/{userId}", consumes = {"multipart/form-data"})
     public CommonResponse updateUserInfo(
             @PathVariable int userId,
             @RequestPart("data") UserUpdateDTO userUpdateDTO,
@@ -68,7 +68,7 @@ public class UserController {
             throw new CustomException(ACCOUNT_NOT_VALID);
         }
 
-        userService.updateUserInfo(userId, userUpdateDTO);
+        userService.updateUserInfo(userId, userUpdateDTO, multipartFile);
 
         return responseService.getSuccessResponse();
     }

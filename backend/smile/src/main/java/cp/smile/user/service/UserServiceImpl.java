@@ -1,5 +1,9 @@
 package cp.smile.user.service;
 
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.sun.xml.bind.v2.TODO;
 import cp.smile.auth.jwt.JwtProvider;
 import cp.smile.auth.oauth2.provider.LoginProviderRepository;
@@ -20,17 +24,22 @@ import cp.smile.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+import java.util.UUID;
 
-import static cp.smile.config.AwsS3DirectoryName.DEFAULT_PROFILE;
+import static cp.smile.config.AwsS3DirectoryName.*;
 import static cp.smile.config.response.exception.CustomExceptionStatus.*;
 
 @Service
@@ -45,6 +54,9 @@ public class UserServiceImpl implements UserService{
     private final LoginProviderRepository loginProviderRepository;
     private final UserJoinStudyRepository userJoinStudyRepository;
     private final JwtProvider jwtProvider;
+    private final AmazonS3Client amazonS3Client;
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
 
     @Override
     public User join(User user) {
@@ -163,7 +175,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void updateUserInfo(int userId, UserUpdateDTO userUpdateDTO) {
+    public void updateUserInfo(int userId, UserUpdateDTO userUpdateDTO, MultipartFile multipartFile) {
 
         // TODO 이미지 경로 처리
 
@@ -180,8 +192,44 @@ public class UserServiceImpl implements UserService{
             user.updatePassword(userUpdateDTO.getPassword());
         }
 
-        if (userUpdateDTO.getImagePath() != null) {
-            user.updateImagePath(userUpdateDTO.getImagePath());
+//        //파일이 없다면 디폴트 경로 넣어줌.
+//        if (multipartFile == null || multipartFile.getSize() == 0){
+//            storeFileUrl = DEFAULT_PROFILE;
+//        }
+
+        //파일이 있으면 s3에 저장.
+        if (multipartFile != null && multipartFile.getSize() != 0) {
+
+            String storeFileUrl = ""; //AWS S3 이미지 url
+
+            /*파일 저장*/
+            ObjectMetadata objectMetadata = new ObjectMetadata();
+            objectMetadata.setContentType(multipartFile.getContentType());
+            objectMetadata.setContentLength(multipartFile.getSize());
+
+            String originFileName = multipartFile.getOriginalFilename();
+
+            int index = originFileName.lastIndexOf(".");
+            String ext = originFileName.substring(index+1);//확장자
+
+            String storeFileName = UUID.randomUUID().toString() + "." + ext; // 저장할 이름- 중복되지 않도록 하기 위해 uuid 사용(이름 중복이면 덮어씀.)
+
+            String key  = PROFILE_IMG + storeFileName; //파일 저장위치.
+
+//            System.out.println(bucket);
+
+            try (InputStream inputStream = multipartFile.getInputStream()) {
+                amazonS3Client.putObject(new PutObjectRequest(bucket, key, inputStream, objectMetadata)
+                        .withCannedAcl(CannedAccessControlList.PublicRead));
+            }
+            catch(IOException e){
+
+                throw new CustomException(FILE_SAVE_FAIL);
+            }
+
+            storeFileUrl = amazonS3Client.getUrl(bucket, key).toString(); //저장된 Url
+
+            user.updateImagePath(storeFileUrl);
         }
     }
 

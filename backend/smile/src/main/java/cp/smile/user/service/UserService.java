@@ -6,6 +6,7 @@ import cp.smile.user.dto.request.UserJoinDTO;
 import cp.smile.user.dto.request.UserUpdateDTO;
 import cp.smile.user.dto.response.UserInfoDTO;
 import cp.smile.user.dto.response.UserTokenDTO;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -30,7 +31,7 @@ public interface UserService {
 
     void logout(int userId);
 
-    void updateUserInfo(int userId, UserUpdateDTO userUpdateDTO);
+    void updateUserInfo(int userId, UserUpdateDTO userUpdateDTO, MultipartFile multipartFile);
 
     void deleteUser(int userId);
 }
