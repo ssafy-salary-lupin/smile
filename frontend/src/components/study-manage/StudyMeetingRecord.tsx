@@ -205,24 +205,26 @@ interface IData {
   code: number;
   isSuccess: boolean;
   message: string;
-  result: [
-    {
-      meetingId: number;
-      name: string;
-      sessionId: number;
-      startTime: string;
-      starter: {
-        nickname: string;
-        profileImageUrl: string;
-        starterId: number;
-      };
-      status: string;
-      type: {
-        id: number;
+  result: {
+    meetings: [
+      {
+        meetingId: number;
         name: string;
-      };
-    },
-  ];
+        sessionId: number;
+        startTime: string;
+        starter: {
+          nickname: string;
+          profileImageUrl: string;
+          starterId: number;
+        };
+        status: string;
+        type: {
+          id: number;
+          name: string;
+        };
+      },
+    ];
+  };
 }
 
 function StudyMeetingRecord() {
@@ -268,7 +270,7 @@ function StudyMeetingRecord() {
       </StudyTitle>
       <CreatedBox>
         <BoxMain2>
-          {meetingList?.result.map((el: any) => {
+          {meetingList?.result.meetings.map((el: any) => {
             return (
               <MeetingCard>
                 <MeetingImg
