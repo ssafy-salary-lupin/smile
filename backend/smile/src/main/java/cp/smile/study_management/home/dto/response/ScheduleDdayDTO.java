@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 @Getter
 public class ScheduleDdayDTO {
 
+
     private int id; //일정 식별자
     private int day; //날짜
     private String title; //일정 제목
