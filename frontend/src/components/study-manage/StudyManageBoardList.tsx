@@ -137,8 +137,8 @@ interface Data {
         };
         boardType: {
           // 게시글 유형 정보
-          typeId: number; // 게시글 유형 식별자
-          type: string; // 게시글 유형
+          id: number; // 게시글 유형 식별자
+          name: string; // 게시글 유형
         };
         writeAt: string; // 게시글 작성일
       },
@@ -160,8 +160,8 @@ interface ListData {
   };
   boardType: {
     // 게시글 유형 정보
-    typeId: number; // 게시글 유형 식별자
-    type: string; // 게시글 유형
+    id: number; // 게시글 유형 식별자
+    name: string; // 게시글 유형
   };
   writeAt: string; // 게시글 작성일
 }
@@ -212,12 +212,12 @@ function StudyManageBoardList() {
                 <Row>
                   {/* <BoardNum>{el.boardId}</BoardNum> */}
                   <BoardType>
-                    {el.boardType.type === "공지" ? (
-                      <TypeLabel1>{el.boardType.type}</TypeLabel1>
-                    ) : el.boardType.type === "자료" ? (
-                      <TypeLabel2>{el.boardType.type}</TypeLabel2>
+                    {el.boardType.name === "공지" ? (
+                      <TypeLabel1>{el.boardType.name}</TypeLabel1>
+                    ) : el.boardType.name === "자료" ? (
+                      <TypeLabel2>{el.boardType.name}</TypeLabel2>
                     ) : (
-                      <TypeLabel3>{el.boardType.type}</TypeLabel3>
+                      <TypeLabel3>{el.boardType.name}</TypeLabel3>
                     )}
                   </BoardType>
                   <BoardTitle>
