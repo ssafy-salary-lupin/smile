@@ -224,7 +224,7 @@ function StudyDetailPages() {
   const studyJoinApi = async () => {
     await axios
       .post(
-        `${BASE_URL}/${decoded?.userId}/studies/${detailStudy?.result.id}`,
+        `${BASE_URL}/users/${decoded?.userId}/studies/${detailStudy?.result.id}`,
         formData,
         {
           headers: {
