@@ -1,6 +1,7 @@
 package cp.smile.study_management.meeting.dto.response;
 
 import cp.smile.entity.study_management.StudyMeeting;
+import cp.smile.entity.study_management.StudyMeetingStatus;
 import cp.smile.entity.study_management.StudyMeetingType;
 import cp.smile.entity.user.User;
 import lombok.Getter;
@@ -13,18 +14,23 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class MeetingDTO {
 
+    private int meetingId;
     private String name;
     private String sessionId;
     private LocalDateTime startTime;
     private MeetingTypeDTO type;
     private MeetingStarterDTO starter;
+    private StudyMeetingStatus status;
 
     public MeetingDTO(String sessionId, StudyMeeting meeting) {
         this.sessionId = sessionId;
+        this.meetingId = meeting.getId();
         this.name = meeting.getName();
         this.startTime = meeting.getCreateTime();
         this.type = MeetingTypeDTO.of(meeting.getStudyMeetingType());
         this.starter = MeetingStarterDTO.of(meeting.getUser());
+        this.status = StudyMeetingStatus.valueOf(meeting.getIsEnd());
+
     }
 
     @Getter @Setter

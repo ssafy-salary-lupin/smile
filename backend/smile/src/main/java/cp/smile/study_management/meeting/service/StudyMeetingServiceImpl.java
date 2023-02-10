@@ -26,6 +26,17 @@ public class StudyMeetingServiceImpl implements StudyMeetingService{
     private final StudyMeetingTypeRepository studyMeetingTypeRepository;
 
     @Override
+    public List<StudyMeeting> findByStudyId(int studyId) {
+        return studyMeetingRepository.findByStudyIdWithStarterAndType(studyId);
+    }
+
+    @Override
+    public StudyMeeting findById(int meetingId) {
+        return studyMeetingRepository.findByIdWithStarterAndType(meetingId)
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 미팅입니다."));
+    }
+
+    @Override
     @Transactional
     public StudyMeeting createMeeting(User starter, StudyInformation study, MeetingCreationRequestDTO dto) {
         StudyMeetingType studyMeetingType = studyMeetingTypeRepository.findById(dto.getMeetingTypeId())
@@ -43,6 +54,14 @@ public class StudyMeetingServiceImpl implements StudyMeetingService{
     }
 
     @Override
+    @Transactional
+    public void closeMeeting(int studyId) {
+        StudyMeeting meeting = studyMeetingRepository.findByStudyInformationIdAndIsEnd(studyId, StudyMeetingStatus.proceeding.getCode())
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 미팅입니다."));
+
+        meeting.close();
+    }
+
     public List<StudyMeetingType> findAllType() {
         return studyMeetingTypeRepository.findAll();
     }
