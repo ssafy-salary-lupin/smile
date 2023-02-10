@@ -315,8 +315,10 @@ function StudyCreatePages() {
     }
   };
 
-  const [startDate, setStartDate] = useState<Date | string>(new Date());
-  const [endDate, setEndDate] = useState<Date | string>(new Date());
+  const [startDate, setStartDate] = useState<Date | null | undefined>(
+    new Date(),
+  );
+  const [endDate, setEndDate] = useState<Date | null | undefined>(new Date());
   // 시작 시간
   const [startTime, setStartTime] = useState<Date | null>();
   // 종료 시간
