@@ -444,6 +444,7 @@ function StudyCreatePages() {
   };
   const Change_typeId = (e: any) => {
     e.preventDefault();
+    console.log(e.target);
     console.log(e.target.value);
     setStudy_typeId(e.target.value);
   };
