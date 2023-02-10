@@ -69,7 +69,7 @@ const TextBig = styled.div`
   display: flex;
   align-items: center;
   /* font-size: 1.667vw; */
-  font-size: 32;
+  font-size: large;
   font-weight: bold;
   padding-bottom: 1.111vw;
 `;
@@ -81,19 +81,20 @@ const TextBigBox = styled.div`
 `;
 
 const TextSmallBox = styled.div`
-  width: 317.995px;
+  width: 400.995px;
   display: flex;
   margin-bottom: 1.111vw;
 `;
 
 const Text = styled.div`
-  font-size: 12;
+  font-size: smaller;
   font-weight: bold;
   margin-bottom: 1.389vw;
 `;
 
 const TextSmall = styled.div`
   margin-left: 3.472vw;
+  /* width: 100px; */
 `;
 
 const StudyData = styled.div``;
@@ -259,7 +260,7 @@ function StudyDetailPages() {
         </Text>
         <Top>
           <TextBig>{detailStudy?.result.name}</TextBig>
-          <Link to={{ pathname: `/${detailStudy?.result.id}` }}>
+          <Link to={{ pathname: `/studies/${detailStudy?.result.id}` }}>
             <Btn color="#F5C82E" onClick={studyJoinApi}>
               참여하기
             </Btn>
