@@ -124,9 +124,15 @@ interface Data {
     currrentPerson: number; //스터디 현재 가입 인원
     maxPerson: number; //스터디 최대 가입 인원
     viewCount: number; //스터디 조회수
+    description: string;
     type: {
       id: number; //스터디 유형 식별자
       name: string; //스터디 유형 이름
+    };
+    leader: {
+      id: number;
+      imagePath: null;
+      nickname: string;
     };
     comments: [
       {
@@ -254,7 +260,9 @@ function StudyDetailPages() {
         <Top>
           <TextBig>{detailStudy?.result.name}</TextBig>
           <Link to={{ pathname: `/${detailStudy?.result.id}` }}>
-            <Btn color="#F5C82E">참여하기</Btn>
+            <Btn color="#F5C82E" onClick={studyJoinApi}>
+              참여하기
+            </Btn>
           </Link>
         </Top>
         <StudyDetail>
@@ -295,7 +303,7 @@ function StudyDetailPages() {
         <hr />
         <Introduce>
           <Text>스터디 소개</Text>
-          <Area></Area>
+          <Area>{detailStudy?.result.description}</Area>
         </Introduce>
         <Text>댓글</Text>
       </Wrapper>
