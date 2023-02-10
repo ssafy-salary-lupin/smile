@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const BASE_URL = `https://i8b2ies`;
-// const BASE_URL = `/be-api`;05.p.ssafy.io/be-api/stud
+// const BASE_URL = `https://i8b205.p.ssafy.io/be-api/studies`;
+const BASE_URL = `/be-api`;
 const token = localStorage.getItem("kakao-token");
 
 const api = axios.create({
@@ -12,23 +12,25 @@ const api = axios.create({
     accept: "application/json,",
   },
 });
-// console.log(1);
-// export const StudySearchAll = () => {
-//   const res = api.get("/studies");
-//   console.log(res);
-//   return res;
+// export const StudySearchAll = async () => {
+//   const { data } = await api.get("/studies");
+//   console.log("data", data);
+//   return data;
 // };
+export const StudySearchAll = {
+  get: api.get("/studies"),
+};
 
-export async function StudySearchAll() {
-  try {
-    console.log("API 시작");
-    const res = await api.get("/studies");
-    const data = res.data.result;
-    console.log("RES: ", data);
-    return data;
-  } catch (error) {
-    // 에러 발생 시
-    console.log(error);
-    return error;
-  }
-}
+// export async function StudySearchAll() {
+//   try {
+//     console.log("API 시작");
+//     const res = await api.get("/studies");
+//     const data = res.data.result;
+//     console.log("RES: ", data);
+//     return data;
+//   } catch (error) {
+//     // 에러 발생 시
+//     console.log(error);
+//     return error;
+//   }
+// }
