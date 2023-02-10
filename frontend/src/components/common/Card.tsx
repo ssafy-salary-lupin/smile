@@ -2,6 +2,7 @@ import styled, { keyframes } from "styled-components";
 import ProfileImg from "./ProfileImg";
 import defaultStudyImg from "assets/img/card_photo_1.png";
 import defaultprofileImg from "assets/img/userDefaultImg.png";
+import { Link } from "react-router-dom";
 
 const CardHover = keyframes`
   from {
@@ -155,7 +156,8 @@ interface PropsType {
     currentPerson: number; // 현재 가입 인원
     maxPerson: number; // 최대 가입 인원
     viewCount: number; // 조회수
-    lastVisitTime: string; // 마지막 방문 시간
+    lastVisitTime?: string; // 마지막 방문 시간
+    lastVisitedTime?: string; // 마지막 방문 시간
     commentCount?: number;
     type?: {
       id?: number;
@@ -170,54 +172,63 @@ interface PropsType {
     end?: boolean; // 스터디 종료 여부
   };
 }
-export default function Card(studyInfo: PropsType) {
+
+export default function Card(props: PropsType) {
   const visitedTime = 1;
-  const visitedCountInput = studyInfo.studyInfo.viewCount;
+  const visitedCountInput = props.studyInfo.viewCount;
   const visitedCount = visitedCountInput
     .toString()
     .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  const profileImgUrl = studyInfo.studyInfo.leader.imagePath;
-  const studyImgUrl = studyInfo.studyInfo.imagePath;
+  const profileImgUrl = props.studyInfo.leader.imagePath;
+  const studyImgUrl = props.studyInfo.imagePath;
 
   return (
-    <SContainer>
-      <SCardImg
-        src={studyImgUrl.includes("/root") ? defaultStudyImg : studyImgUrl}
-      />
-      <SCardItem>
-        <SCardInfo>
-          <SCardInfoItem>
-            <img src={require("../../assets/img/Door.png")} />
-            <span>
-              {visitedCount}
-              <span>View</span>
-            </span>
-          </SCardInfoItem>
-          <SCardInfoItem>
-            <img src={require("../../assets/img/Users.png")} />
-            <span>
-              {studyInfo.studyInfo.currentPerson}/
-              {studyInfo.studyInfo.maxPerson}
-            </span>
-          </SCardInfoItem>
-        </SCardInfo>
-        <SCardDescription>
-          <span>{studyInfo.studyInfo.description}</span>
-        </SCardDescription>
-        <SCardUser>
-          <ProfileImg
-            imgUrl={
-              profileImgUrl !== "/root" ? profileImgUrl : defaultprofileImg
-            }
-            width="3.36vw"
-            height="3.36vw"
-          />
-          <SCardUserItem>
-            <span>{studyInfo.studyInfo.leader.nickname}</span>
-            <span>{visitedTime} min read</span>
-          </SCardUserItem>
-        </SCardUser>
-      </SCardItem>
-    </SContainer>
+    <Link
+      style={{ textDecoration: "none", color: "black" }}
+      to={{
+        pathname: `/studyDetail/${props.studyInfo.id}`, // 스터디 상세 조회 페이지 주소 입력하기
+      }}
+    >
+      <SContainer>
+        <SCardImg
+          src={studyImgUrl.includes("/root") ? defaultStudyImg : studyImgUrl}
+        />
+        <SCardItem>
+          <SCardInfo>
+            <SCardInfoItem>
+              <img src={require("../../assets/img/Door.png")} />
+              <span>
+                {visitedCount}
+                <span>View</span>
+              </span>
+            </SCardInfoItem>
+            <SCardInfoItem>
+              <img src={require("../../assets/img/Users.png")} />
+              <span>
+                {props.studyInfo.currentPerson}/{props.studyInfo.maxPerson}
+              </span>
+            </SCardInfoItem>
+          </SCardInfo>
+          <SCardDescription>
+            <span>{props.studyInfo.description}</span>
+          </SCardDescription>
+          <SCardUser>
+            <ProfileImg
+              imgUrl={
+                profileImgUrl && profileImgUrl.includes("/root")
+                  ? profileImgUrl
+                  : defaultprofileImg
+              }
+              width="3.36vw"
+              height="3.36vw"
+            />
+            <SCardUserItem>
+              <span>{props.studyInfo.leader.nickname}</span>
+              <span>{visitedTime} min read</span>
+            </SCardUserItem>
+          </SCardUser>
+        </SCardItem>
+      </SContainer>
+    </Link>
   );
 }
