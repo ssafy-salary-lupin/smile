@@ -104,7 +104,7 @@ interface StudiesDataType {
 }
 export default function StudySearchPages() {
   // API 불러오기
-  const res = useQuery("studies", StudySearchAll.get);
+  const res = useQuery("studies", StudySearchAll);
   console.log("DATA:", res.isLoading, res.data);
 
   // 스터디 더보기 클릭 여부를 확인하기 위한 state
