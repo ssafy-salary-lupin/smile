@@ -10,7 +10,7 @@ import * as Icons from "../components/common/Icons";
 import axios, { AxiosError } from "axios";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
-import { aW } from "@fullcalendar/core/internal-common";
+import jwt_decode from "jwt-decode";
 
 const BlankSpace = styled.div`
   height: 7.383vw;
@@ -204,12 +204,20 @@ function StudyDetailPages() {
   // };
   // console.log("TTTTTT");
 
-  var base64Payload = token?.split(".")[1];
-  if (base64Payload !== undefined) {
-    var payload = Buffer.from(base64Payload, "base64");
-    var result = JSON.parse(payload.toString());
-    console.log("result", result);
+  // var base64Payload = token?.split(".")[1];
+  // if (base64Payload !== undefined) {
+  //   var payload = Buffer.from(base64Payload, "base64");
+  //   var result = JSON.parse(payload.toString());
+  //   console.log("result", result);
+  // }
+  //token
+  if (token !== null) {
+    var decoded = jwt_decode(token);
+  } else {
+    console.log("none");
   }
+
+  console.log(decoded);
 
   const studyJoinApi = async () => {
     await axios
