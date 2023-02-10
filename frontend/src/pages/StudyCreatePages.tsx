@@ -410,14 +410,15 @@ function StudyCreatePages() {
     typeId: study_typeId,
     // maxPerson: study_maxPerson,
     maxPerson: study_maxPerson,
-    startDate: changeFormat(startDate, "yyyy.MM.DD"),
+    startDate: changeFormat(startDate, "yyyy-MM-DD"),
     // startDate: startDate.format(DateTimeFormatter.ofPattern("MM월 dd일(E)"),
     // endDate: changeFormat(endDate, "yyyy.MM.DD"),
-    endDate: changeFormat(endDate, "yyyy.MM.DD"),
+    endDate: changeFormat(endDate, "yyyy-MM-DD"),
     description: study_description,
     time: time,
   };
 
+  console.log("data : ", data);
   // console.log(Form.append("file", file));
   formData.append("data", JSON.stringify(data));
 
