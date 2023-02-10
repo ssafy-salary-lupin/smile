@@ -162,8 +162,6 @@ public class StudyCommonServiceImpl implements StudyCommonService{
 
             String key  = STUDY_IMG + storeFileName; //파일 저장위치.
 
-            System.out.println(bucket);
-
             try (InputStream inputStream = multipartFile.getInputStream()) {
                 amazonS3Client.putObject(new PutObjectRequest(bucket, key, inputStream, objectMetadata)
                         .withCannedAcl(CannedAccessControlList.PublicRead));
@@ -177,7 +175,7 @@ public class StudyCommonServiceImpl implements StudyCommonService{
         }
 
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         String uuid = UUID.randomUUID().toString();
 
