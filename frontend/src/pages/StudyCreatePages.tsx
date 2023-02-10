@@ -178,6 +178,28 @@ const BtnBox = styled.div`
   justify-content: center;
 `;
 
+interface StudyType {
+  isSuccess: true;
+  code: 200;
+  message: "요청에 성공했습니다.";
+  result: {
+    types: [
+      {
+        id: 1; // 스터디 유형 식별자
+        name: "면접"; // 스터디 유형 이름
+      },
+      {
+        id: 2;
+        name: "자격증";
+      },
+      {
+        id: 3;
+        name: "외국어";
+      },
+    ];
+  };
+}
+
 function StudyCreatePages() {
   const selectType = ["미정", "면접", "자격증", "외국어"];
   const selectPeople = [3, 4, 5, 6];
@@ -240,9 +262,36 @@ function StudyCreatePages() {
   const time = startTime?.toString() + " ~ " + endTime?.toString();
   // console.log("시간 : ", time);
 
-  const BASE_URL = `https://i8b205.p.ssafy.io/be-api/studies`;
+  const BASE_URL = `https://i8b205.p.ssafy.io/be-api/`;
 
   const token = localStorage.getItem("kakao-token");
+  // const [list, setList] = useState<studyDetailData[] | null>(null);
+
+  const studyTypeApi = async () => {
+    // console.log("실행");
+    try {
+      const response = await fetch(`${BASE_URL}/studies/1`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      });
+
+      // console.log("data : ", response);
+      const data = await response.json();
+      return data;
+    } catch (error: any) {
+      console.log(error);
+    }
+
+    // console.log("받아온 data : ", response);
+  };
+  const { data: studyType } = useQuery<StudyType>("studyTypeApi", () =>
+    studyTypeApi(),
+  );
+
+  const TType: any = studyType?.result.types;
+  //-------------------------------------------------------------------
   // console.log("가져온 데이타 : ", StudyData);
   const [study_name, setStudy_name] = useState<string>("");
   const [study_typeId, setStudy_typeId] = useState<string>("");
@@ -256,7 +305,6 @@ function StudyCreatePages() {
   // useEffect(() => {
   //   CreateStudyApi();
   // }, []);
-
   const formData = new FormData();
 
   const data = {
@@ -277,13 +325,6 @@ function StudyCreatePages() {
   formData.append("file", imgFile);
 
   const CreateStudyApi = async () => {
-    // async function CreateStudyApi() {
-    // event.prevenDefault();
-
-    // const handleType = (e) => {
-    //   e.preventDefault();
-    // };
-
     console.log("토큰 : ", token);
 
     await axios
@@ -353,10 +394,10 @@ function StudyCreatePages() {
             <SelectName>
               스터디 유형<RedStar>*</RedStar>
             </SelectName>
-            <SelectBox onChange={Change_typeId}>
-              {selectType.map((item, index) => (
-                <option value={index + 1} key={item}>
-                  {item}
+            <SelectBox onChange={studyTypeApi}>
+              {TType.map((name: string, id: number) => (
+                <option value={id + 1} key={name}>
+                  {name}
                 </option>
               ))}
             </SelectBox>
@@ -458,15 +499,15 @@ function StudyCreatePages() {
             />
           </SelectSmallTotal>
           <BtnBox>
-            {/* <Link
+            <Link
               to={{
-                pathname: `/manage`,
+                pathname: `studies/${detailStudy?.result.id}`,
               }}
-            > */}
-            <Btn color="#F5C82E" onClick={CreateStudyApi}>
-              스터디 생성
-            </Btn>
-            {/* </Link> */}
+            >
+              <Btn color="#F5C82E" onClick={CreateStudyApi}>
+                스터디 생성
+              </Btn>
+            </Link>
             <Link
               to={{
                 pathname: `/create`,
