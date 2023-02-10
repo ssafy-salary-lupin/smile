@@ -357,10 +357,10 @@ function StudyCreatePages() {
 
   // const TType = studyType?.result.types;
   // const TType = new Array<number | string>();
-  function GenericReturnFunc<T>(arg: T): T {
-    return arg;
-  }
-  let TType = GenericReturnFunc<any>(studyType?.result.types);
+  // function GenericReturnFunc<T>(arg: T): T {
+  //   return arg;
+  // }
+  let TType = studyType?.result.types;
   console.log("TType", TType);
 
   //-------------------------------------------------------------
@@ -425,7 +425,7 @@ function StudyCreatePages() {
     console.log("토큰 : ", token);
 
     await axios
-      .post(`${BASE_URL}`, formData, {
+      .post(`${BASE_URL}/studies`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
@@ -492,9 +492,9 @@ function StudyCreatePages() {
               스터디 유형<RedStar>*</RedStar>
             </SelectName>
             <SelectBox onChange={Change_typeId}>
-              {TType.map((name: string, id: number) => (
-                <option value={id + 1} key={name}>
-                  {name}
+              {TType?.map((item) => (
+                <option value={item.name} key={item.id}>
+                  {item.name}
                 </option>
               ))}
             </SelectBox>
@@ -598,9 +598,14 @@ function StudyCreatePages() {
           <BtnBox>
             <Link
               to={{
-                pathname: `studies/${detailStudy?.result.id}`,
+                pathname: `studies/1`,
               }}
             >
+              {/* <Link
+              to={{
+                pathname: `studies/${detailStudy?.result.id}`,
+              }}
+            > */}
               <Btn color="#F5C82E" onClick={CreateStudyApi}>
                 스터디 생성
               </Btn>
