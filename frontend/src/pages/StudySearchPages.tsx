@@ -107,9 +107,6 @@ export default function StudySearchPages() {
   const { isLoading, data } = useQuery("studies", StudySearchAll.get);
   console.log("DATA:", isLoading, data);
 
-  // if (studiesData === undefined) {
-  // } else if (studiesData.result.length) {}
-
   // 스터디 더보기 클릭 여부를 확인하기 위한 state
   const [isClickMore, setIsClickMore] = useState<boolean>(false);
   // 스터디 더보기 필요 유 / 무
@@ -122,23 +119,28 @@ export default function StudySearchPages() {
   );
   // 더 보기 스터디 리스트
   const [moreStudyList, setMoreStudyList] = useState<object[]>();
-  console.log(data);
-  const cardNumber = StudyList.length;
-  if (!data) {
-    setStudiesNumber(0);
-  } else if (cardNumber <= 9) {
-    setStudiesNumber(cardNumber);
-  } else {
-    setStudiesNumber(9);
-    setMoreStudies(true);
-    setMoreStudyList(StudyList.slice(10));
-    setStudyList(StudyList.slice(0, 10));
-  }
 
-  return (
-    <>
-      <BlankSpace />
-      {!isLoading ? (
+  const cardNumber = StudyList ? StudyList.length : 0;
+
+  if (isLoading) {
+    return <span>로딩중...</span>;
+  } else {
+    console.log(data);
+
+    if (!data) {
+      setStudiesNumber(0);
+    } else if (cardNumber <= 9) {
+      setStudiesNumber(cardNumber);
+    } else {
+      setStudiesNumber(9);
+      setMoreStudies(true);
+      setMoreStudyList(StudyList.slice(10));
+      setStudyList(StudyList.slice(0, 10));
+    }
+
+    return (
+      <>
+        <BlankSpace />
         <Wrapper>
           <Header>
             <div>
@@ -181,9 +183,7 @@ export default function StudySearchPages() {
             ) : null}
           </Section>
         </Wrapper>
-      ) : (
-        <span>로딩중</span>
-      )}
-    </>
-  );
+      </>
+    );
+  }
 }
