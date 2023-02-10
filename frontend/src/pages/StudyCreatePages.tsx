@@ -178,6 +178,22 @@ const BtnBox = styled.div`
   justify-content: center;
 `;
 
+// interface studyTypeData {
+//   [{
+//   id: 1; // 스터디 유형 식별자
+//   name: "면접"; // 스터디 유형 이름
+// },
+// {
+//   id: 2;
+//   name: "자격증";
+// },
+// {
+//   id: 3;
+//   name: "외국어";
+// }]
+
+// }
+
 interface StudyType {
   isSuccess: true;
   code: 200;
@@ -185,16 +201,16 @@ interface StudyType {
   result: {
     types: [
       {
-        id: 1; // 스터디 유형 식별자
-        name: "면접"; // 스터디 유형 이름
+        id: number; // 스터디 유형 식별자
+        name: string; // 스터디 유형 이름
       },
       {
-        id: 2;
-        name: "자격증";
+        id: number;
+        name: string;
       },
       {
-        id: 3;
-        name: "외국어";
+        id: number;
+        name: string;
       },
     ];
   };
@@ -247,7 +263,6 @@ interface Data {
     ];
   };
 }
-
 function StudyCreatePages() {
   const selectType = ["미정", "면접", "자격증", "외국어"];
   const selectPeople = [3, 4, 5, 6];
@@ -318,7 +333,7 @@ function StudyCreatePages() {
   const studyTypeApi = async () => {
     // console.log("실행");
     try {
-      const response = await fetch(`${BASE_URL}/studies/1`, {
+      const response = await fetch(`${BASE_URL}/studies/types`, {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: "application/json",
@@ -327,6 +342,7 @@ function StudyCreatePages() {
 
       // console.log("data : ", response);
       const data = await response.json();
+      console.log(data);
       return data;
     } catch (error: any) {
       console.log(error);
@@ -337,8 +353,15 @@ function StudyCreatePages() {
   const { data: studyType } = useQuery<StudyType>("studyTypeApi", () =>
     studyTypeApi(),
   );
+  console.log("studyType", studyType);
 
-  const TType: any = studyType?.result.types;
+  // const TType = studyType?.result.types;
+  // const TType = new Array<number | string>();
+  function GenericReturnFunc<T>(arg: T): T {
+    return arg;
+  }
+  let TType = GenericReturnFunc<any>(studyType?.result.types);
+  console.log("TType", TType);
 
   //-------------------------------------------------------------
   const StudyDataApi = async () => {
@@ -468,7 +491,7 @@ function StudyCreatePages() {
             <SelectName>
               스터디 유형<RedStar>*</RedStar>
             </SelectName>
-            <SelectBox onChange={studyTypeApi}>
+            <SelectBox onChange={Change_typeId}>
               {TType.map((name: string, id: number) => (
                 <option value={id + 1} key={name}>
                   {name}
