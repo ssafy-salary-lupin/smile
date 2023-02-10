@@ -213,9 +213,11 @@ function StudyDetailPages() {
   //token----------------------------
 
   if (token !== null) {
-    var decoded = jwt_decode(token);
+    var decoded: any = jwt_decode(token);
+    // const decoded2: object = jwt_decode(token);
     console.log("decoded : ", decoded);
-    console.log("decoded type: ", typeof decoded);
+    console.log("decoded Id : ", decoded?.userId);
+    // console.log("decoded Id: ", decoded);
   } else {
     console.log("none");
   }
