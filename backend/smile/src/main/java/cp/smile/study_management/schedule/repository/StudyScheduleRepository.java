@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,4 +16,11 @@ public interface StudyScheduleRepository extends JpaRepository<StudySchedule,Int
             "left join fetch s.scheduleType " +
             "where s.studyInformation = :studyInformation")
     Optional<List<StudySchedule>> findAllByStudyId(@Param(value = "studyInformation") StudyInformation studyInformation);
+
+    //현재시간을 입력받아서 종료시간이 현재시간 초과인것만 찾고, 그중 5개만 조회.
+
+    @Query(value = "select s from StudySchedule s " +
+            "where s.endTime >= :currentTime " +
+            "order by s.endTime DESC limit 5")
+    Optional<List<StudySchedule>> findAllByEndTimeLimit5(@Param("currentTime") LocalDateTime currentTime);
 }

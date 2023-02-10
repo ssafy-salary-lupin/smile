@@ -3,6 +3,7 @@ package cp.smile.entity.study_management;
 
 import cp.smile.config.BaseEntity;
 import cp.smile.entity.study_common.StudyInformation;
+import cp.smile.study_management.home.dto.response.ScheduleDdayDTO;
 import cp.smile.study_management.schedule.dto.request.UpdateScheduleDTO;
 import cp.smile.study_management.schedule.dto.response.ScheduleDTO;
 import lombok.Builder;
@@ -71,6 +72,14 @@ public class StudySchedule extends BaseEntity {
                 .endTime(this.endTime)
                 .url(this.url)
                 .description(this.description).build();
+    }
+
+    public ScheduleDdayDTO createScheduleDdayDTO(LocalDateTime currentTime){
+        return ScheduleDdayDTO.builder()
+                .id(this.id)
+                .day()
+                .title()
+                .build();
     }
 
     /* 스터디 일정 수정 */
