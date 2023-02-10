@@ -201,25 +201,29 @@ const CreateBtn = styled.button`
   }
 `;
 
-// interface IData {
-//   code: number;
-//   isSuccess: boolean;
-//   message: string;
-//   result: [
-//     {
-//       id: number; //일정 식별자
-//       startTime: string; //일정 시작 일자
-//       endTime: string; //일정 마감일자
-//       title: string; //일정 제목
-//       description: string;
-//       url?: string | null; //일정 url
-//       type: {
-//         id: number;
-//         name: string; //유형이름
-//       };
-//     },
-//   ];
-// }
+interface IData {
+  code: number;
+  isSuccess: boolean;
+  message: string;
+  result: [
+    {
+      meetingId: number;
+      name: string;
+      sessionId: number;
+      startTime: string;
+      starter: {
+        nickname: string;
+        profileImageUrl: string;
+        starterId: number;
+      };
+      status: string;
+      type: {
+        id: number;
+        name: string;
+      };
+    },
+  ];
+}
 
 function StudyMeetingRecord() {
   // 1. 회의 생성 post
@@ -232,11 +236,9 @@ function StudyMeetingRecord() {
   };
 
   // 2. 회의 전체 조회(진행중 + 지난 ) GET
-  const { data: meetingList } = useQuery("allMeetings", () =>
+  const { data: meetingList } = useQuery<IData>("allMeetings", () =>
     MeetingSelectApi(),
   );
-
-  console.log("data : ", meetingList);
 
   return (
     <Wrapper>
@@ -266,14 +268,21 @@ function StudyMeetingRecord() {
       </StudyTitle>
       <CreatedBox>
         <BoxMain2>
-          <MeetingCard>
-            <MeetingImg src={require("../../assets/img/meeting_photo2.png")} />
-            <MeetingContent>
-              <span> 1일차 스터디</span>
-              <span>2023.01.04</span>
-              <span> PM 7:30</span>
-            </MeetingContent>
-          </MeetingCard>
+          {meetingList?.result.map((el: any) => {
+            return (
+              <MeetingCard>
+                <MeetingImg
+                  src={require("../../assets/img/meeting_photo2.png")}
+                />
+                <MeetingContent>
+                  <span>{el.name}</span>
+                  <span>{el.startTime.split("T")[0]}</span>
+                  <span> 주최자 : {el.starter.nickname}</span>
+                  <span> 유형 : {el.type.name}</span>
+                </MeetingContent>
+              </MeetingCard>
+            );
+          })}
         </BoxMain2>
       </CreatedBox>
       {modalOpen && <ModalMeetingCreate setModalOpen={setModalOpen} />}
