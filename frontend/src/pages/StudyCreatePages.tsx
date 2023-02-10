@@ -200,6 +200,54 @@ interface StudyType {
   };
 }
 
+interface Data {
+  isSuccess: boolean;
+  code: number;
+  message: string;
+  result: {
+    id: number;
+    name: string; //스터디 이름
+    startDate: string; //스터디 시작 일자
+    endDate: string; //스터디 종료 일자
+    time: string; //스터디 시간
+    imgPath: string; //스터디 대표 이미지
+    currrentPerson: number; //스터디 현재 가입 인원
+    maxPerson: number; //스터디 최대 가입 인원
+    viewCount: number; //스터디 조회수
+    description: string;
+    type: {
+      id: number; //스터디 유형 식별자
+      name: string; //스터디 유형 이름
+    };
+    leader: {
+      id: number;
+      imagePath: null;
+      nickname: string;
+    };
+    comments: [
+      {
+        user: {
+          id: number; //댓글 작성자 식별자
+          imgPath: string; //프로필
+          nickname: string; //댓글 작성자 닉네임
+        };
+        content: string; //댓글 내용
+        replies: [
+          //답글리스트
+          {
+            user: {
+              id: number; //대댓글 작성자 식별자
+              imgPath: string; //프로필
+              nickname: string; //대댓글 작성자 닉네임
+            };
+            content: string; //대댓글 내용
+          },
+        ];
+      },
+    ];
+  };
+}
+
 function StudyCreatePages() {
   const selectType = ["미정", "면접", "자격증", "외국어"];
   const selectPeople = [3, 4, 5, 6];
@@ -291,6 +339,32 @@ function StudyCreatePages() {
   );
 
   const TType: any = studyType?.result.types;
+
+  //-------------------------------------------------------------
+  const StudyDataApi = async () => {
+    // console.log("실행");
+
+    try {
+      const response = await fetch(`${BASE_URL}/studies/1`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      });
+
+      // console.log("data : ", response);
+      const data = await response.json();
+      return data;
+    } catch (error: any) {
+      console.log(error);
+    }
+
+    // console.log("받아온 data : ", response);
+  };
+  const { data: detailStudy } = useQuery<Data>("StudyDataApi", () =>
+    StudyDataApi(),
+  );
+
   //-------------------------------------------------------------------
   // console.log("가져온 데이타 : ", StudyData);
   const [study_name, setStudy_name] = useState<string>("");
