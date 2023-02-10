@@ -35,12 +35,13 @@ const Btn = styled.button`
   border: none;
   background-color: ${(props) => props.color};
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 10px;
   padding: 0.556vw 1.111vw;
   margin: 1.111vw 1.667vw 0vw 0vw;
   width: 8.667vw;
   height: 3.473vw;
-  font-size: 1.111vw;
+  font-size: large;
+  font-weight: bold;
 `;
 
 const Card = styled.img`
@@ -110,6 +111,7 @@ const Area = styled.div`
   height: 20.25vw;
   width: 50.667vw;
   margin-bottom: 2vw;
+  padding: 2vw 2vw;
 `;
 interface Data {
   isSuccess: boolean;
@@ -279,7 +281,7 @@ function StudyDetailPages() {
                 width="48.379px"
                 height="48.379px"
               />
-              {/* <TextBig>{detailStudy?.result.}</TextBig> */}
+              <Text>{detailStudy?.result.leader.nickname}</Text>
             </TextSmallBox>
             <TextSmallBox>
               <Text>모집 유형 </Text>
