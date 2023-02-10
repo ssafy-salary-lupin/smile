@@ -11,6 +11,7 @@ import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
+import dateTimeformate
 
 import * as Icons from "../components/common/Icons";
 
@@ -315,21 +316,15 @@ function StudyCreatePages() {
     }
   };
 
-  const [startDate, setStartDate] = useState<Date | null | undefined>(
-    new Date(),
-  );
-  const [endDate, setEndDate] = useState<Date | null | undefined>(new Date());
+  const [startDate, setStartDate] = useState<any>(new Date());
+  const [endDate, setEndDate] = useState<any>(new Date());
   // 시작 시간
   const [startTime, setStartTime] = useState<Date | null>();
   // 종료 시간
   const [endTime, setEndTime] = useState<Date | null>();
 
   const time = startTime?.toString() + " ~ " + endTime?.toString();
-  const study_startdate = changeFormat(startDate, "yyyy.MM.DD")?.toString();
-  const study_enddate = changeFormat(endDate, "yyyy.MM.DD")?.toString();
-
-  console.log("study_startdate : ", study_startdate);
-  console.log("study_enddate : ", study_enddate);
+  // console.log("시간 : ", time);
 
   const BASE_URL = `https://i8b205.p.ssafy.io/be-api/`;
 
@@ -416,8 +411,10 @@ function StudyCreatePages() {
     typeId: study_typeId,
     // maxPerson: study_maxPerson,
     maxPerson: study_maxPerson,
-    startDate: study_startdate,
-    endDate: study_enddate,
+    startDate: changeFormat(startDate, "yyyy.MM.DD"),
+    // startDate: startDate.format(DateTimeFormatter.ofPattern("MM월 dd일(E)"),
+    // endDate: changeFormat(endDate, "yyyy.MM.DD"),
+    endDate: changeFormat(endDate, "yyyy.MM.DD"),
     description: study_description,
     time: time,
   };
@@ -632,7 +629,7 @@ function StudyCreatePages() {
 
 export default StudyCreatePages;
 // export default StudyCreatePages;
-export function changeFormat(date: any, format: any) {
+export function changeFormat(date: Date, format: string) {
   //moment 변환을 함수로 미리 빼 두어서 사용.
   if (moment(date).isValid()) {
     return moment(date).format(format);
