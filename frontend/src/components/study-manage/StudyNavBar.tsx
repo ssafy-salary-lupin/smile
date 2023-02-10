@@ -79,7 +79,7 @@ function StudyNavBar() {
         </ItemText>
         <Itemline>|</Itemline>
         <ItemText>
-          <Link to="">화상 회의</Link>
+          <Link to="/manage/meetingRecord">화상 회의</Link>
         </ItemText>
         <Itemline>|</Itemline>
         <ItemText>
