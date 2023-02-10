@@ -217,7 +217,7 @@ function StudyDetailPages() {
     console.log("none");
   }
 
-  console.log(decoded);
+  console.log("decoded : ", decoded);
 
   const studyJoinApi = async () => {
     await axios
