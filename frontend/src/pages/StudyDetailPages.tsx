@@ -69,7 +69,7 @@ const TextBig = styled.div`
   display: flex;
   align-items: center;
   /* font-size: 1.667vw; */
-  font-size: large;
+  font-size: xx-large;
   font-weight: bold;
   padding-bottom: 1.111vw;
 `;
@@ -87,7 +87,7 @@ const TextSmallBox = styled.div`
 `;
 
 const Text = styled.div`
-  font-size: smaller;
+  font-size: small;
   font-weight: bold;
   margin-bottom: 1.389vw;
 `;
@@ -303,7 +303,7 @@ function StudyDetailPages() {
         </StudyDetail>
         <hr />
         <Introduce>
-          <Text>스터디 소개</Text>
+          <TextBig>스터디 소개</TextBig>
           <Area>{detailStudy?.result.description}</Area>
         </Introduce>
         <Text>댓글</Text>
