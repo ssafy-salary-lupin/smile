@@ -17,15 +17,12 @@ import java.util.List;
 
 import static cp.smile.config.response.CustomSuccessStatus.*;
 
-
-
 @Slf4j
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class HomeController {
     private final HomeService homeService;
     private final ResponseService responseService;
-
 
     @GetMapping("/studies/{studyId}/home/d-day")
     public DataResponse<List<ScheduleDdayDTO>> findDday(
