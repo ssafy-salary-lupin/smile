@@ -164,7 +164,7 @@ function StudyDetailPages() {
     // console.log("실행");
 
     try {
-      const response = await fetch(`${BASE_URL}/1`, {
+      const response = await fetch(`${BASE_URL}/studies/1`, {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: "application/json",
