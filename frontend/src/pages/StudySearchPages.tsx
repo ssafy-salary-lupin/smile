@@ -106,35 +106,35 @@ export default function StudySearchPages() {
   // API 불러오기
   const { isLoading, data } = useQuery("studies", StudySearchAll.get);
   console.log("DATA:", isLoading, data);
-  if (!isLoading) {
-    // if (studiesData === undefined) {
-    // } else if (studiesData.result.length) {}
 
-    // 스터디 더보기 클릭 여부를 확인하기 위한 state
-    const [isClickMore, setIsClickMore] = useState<boolean>(false);
-    // 스터디 더보기 필요 유 / 무
-    const [moreStudies, setMoreStudies] = useState<boolean>(false);
-    // 검색 할 스터디의 개수
-    const [studiesNumber, setStudiesNumber] = useState<number>(0);
-    // 스터디 리스트
-    const [StudyList, setStudyList] = useState<StudiesDataType[]>(
-      data?.data.result,
-    );
-    // 더 보기 스터디 리스트
-    const [moreStudyList, setMoreStudyList] = useState<object[]>();
-    console.log(data);
-    const cardNumber = StudyList.length;
-    if (!data) {
-      setStudiesNumber(0);
-    } else if (cardNumber <= 9) {
-      setStudiesNumber(cardNumber);
-    } else {
-      setStudiesNumber(9);
-      setMoreStudies(true);
-      setMoreStudyList(StudyList.slice(10));
-      setStudyList(StudyList.slice(0, 10));
-    }
+  // if (studiesData === undefined) {
+  // } else if (studiesData.result.length) {}
+
+  // 스터디 더보기 클릭 여부를 확인하기 위한 state
+  const [isClickMore, setIsClickMore] = useState<boolean>(false);
+  // 스터디 더보기 필요 유 / 무
+  const [moreStudies, setMoreStudies] = useState<boolean>(false);
+  // 검색 할 스터디의 개수
+  const [studiesNumber, setStudiesNumber] = useState<number>(0);
+  // 스터디 리스트
+  const [StudyList, setStudyList] = useState<StudiesDataType[]>(
+    data?.data.result,
+  );
+  // 더 보기 스터디 리스트
+  const [moreStudyList, setMoreStudyList] = useState<object[]>();
+  console.log(data);
+  const cardNumber = StudyList.length;
+  if (!data) {
+    setStudiesNumber(0);
+  } else if (cardNumber <= 9) {
+    setStudiesNumber(cardNumber);
+  } else {
+    setStudiesNumber(9);
+    setMoreStudies(true);
+    setMoreStudyList(StudyList.slice(10));
+    setStudyList(StudyList.slice(0, 10));
   }
+
   return (
     <>
       <BlankSpace />

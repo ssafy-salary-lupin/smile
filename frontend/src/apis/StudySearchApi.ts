@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const BASE_URL = `https://i8b205.p.ssafy.io/be-api/studies`;
-// const BASE_URL = `/be-api`;
+const BASE_URL = `https://i8b2ies`;
+// const BASE_URL = `/be-api`;05.p.ssafy.io/be-api/stud
 const token = localStorage.getItem("kakao-token");
 
 const api = axios.create({
@@ -14,7 +14,7 @@ const api = axios.create({
 });
 
 export const StudySearchAll = {
-  get: () => api.get("/studies"),
+  get: async () => await api.get("/studies"),
 };
 // export async function StudySearchAll() {
 //   try {
