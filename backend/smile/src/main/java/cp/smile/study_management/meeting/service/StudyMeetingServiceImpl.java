@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -39,5 +40,10 @@ public class StudyMeetingServiceImpl implements StudyMeetingService{
                 .build();
 
         return studyMeetingRepository.save(meeting);
+    }
+
+    @Override
+    public List<StudyMeetingType> findAllType() {
+        return studyMeetingTypeRepository.findAll();
     }
 }

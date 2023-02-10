@@ -173,4 +173,9 @@ public class StudyBoardServiceImpl implements StudyBoardService {
     public Page<StudyBoard> findByStudyIdWithPaging(int studyId, Pageable pageable) {
         return studyBoardRepository.findByStudyIdWithPaging(studyId, pageable);
     }
+
+    @Override
+    public List<StudyBoardType> findAllType() {
+        return studyBoardTypeRepository.findAll();
+    }
 }

@@ -45,17 +45,4 @@ public class SimpleBoardDTO {
             return dto;
         }
     }
-
-    @Getter @Setter
-    private static class BoardTypeDTO {
-        private int typeId; // 스터디 게시글 유형 식별자
-        private String type; // 스터디 게시글 타입 이름
-
-        private static BoardTypeDTO of(StudyBoardType type) {
-            BoardTypeDTO dto = new BoardTypeDTO();
-            dto.typeId = type.getId();
-            dto.type = type.getName().name();
-            return dto;
-        }
-    }
 }

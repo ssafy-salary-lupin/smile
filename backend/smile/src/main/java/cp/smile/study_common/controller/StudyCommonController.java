@@ -4,7 +4,6 @@ package cp.smile.study_common.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import cp.smile.auth.oauth2.CustomOAuth2User;
 import cp.smile.config.response.CommonResponse;
-import cp.smile.config.response.CustomSuccessStatus;
 import cp.smile.config.response.DataResponse;
 import cp.smile.config.response.ResponseService;
 import cp.smile.study_common.dto.FindFilter;
@@ -13,18 +12,20 @@ import cp.smile.study_common.dto.request.CreateReplyDTO;
 import cp.smile.study_common.dto.request.CreateStudyDTO;
 import cp.smile.study_common.dto.response.FindAllStudyDTO;
 import cp.smile.study_common.dto.response.FindDetailStudyDTO;
+import cp.smile.study_common.dto.response.StudyTypeDTO;
 import cp.smile.study_common.service.StudyCommonService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static cp.smile.config.response.CustomSuccessStatus.*;
+import static cp.smile.config.response.CustomSuccessStatus.RESPONSE_NO_CONTENT;
+import static cp.smile.config.response.CustomSuccessStatus.RESPONSE_SUCCESS;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -121,4 +122,13 @@ public class StudyCommonController {
         return responseService.getSuccessResponse();
     }
 
+    @GetMapping("/studies/types")
+    public DataResponse<Map<String, Object>> getTypes() {
+        List<StudyTypeDTO> types = studyCommonService.findAllType();
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("types", types);
+
+        return responseService.getDataResponse(data, types.isEmpty() ? RESPONSE_NO_CONTENT : RESPONSE_SUCCESS);
+    }
 }

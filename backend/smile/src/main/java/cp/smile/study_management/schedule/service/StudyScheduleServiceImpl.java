@@ -12,6 +12,7 @@ import cp.smile.study_common.repository.StudyCommonRepository;
 import cp.smile.study_management.schedule.dto.request.CreateScheduleDTO;
 import cp.smile.study_management.schedule.dto.request.UpdateScheduleDTO;
 import cp.smile.study_management.schedule.dto.response.ScheduleDTO;
+import cp.smile.study_management.schedule.dto.response.ScheduleTypeDTO;
 import cp.smile.study_management.schedule.repository.StudyScheduleRepository;
 import cp.smile.study_management.schedule.repository.StudyScheduleTypeRepository;
 import cp.smile.user.repository.UserJoinStudyRepository;
@@ -190,4 +191,11 @@ public class StudyScheduleServiceImpl implements StudyScheduleService{
             studySchedule.deleteSchedule();
         }
     }
+
+    @Override
+    public List<ScheduleTypeDTO> findAllType() {
+        List<ScheduleType> types = studyScheduleTypeRepository.findAll();
+        return types.stream().map(ScheduleTypeDTO::of).collect(Collectors.toList());
+    }
 }
+
