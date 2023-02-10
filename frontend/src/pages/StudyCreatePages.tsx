@@ -315,15 +315,19 @@ function StudyCreatePages() {
     }
   };
 
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const [startDate, setStartDate] = useState<Date | string>(new Date());
+  const [endDate, setEndDate] = useState<Date | string>(new Date());
   // 시작 시간
   const [startTime, setStartTime] = useState<Date | null>();
   // 종료 시간
   const [endTime, setEndTime] = useState<Date | null>();
 
   const time = startTime?.toString() + " ~ " + endTime?.toString();
-  // console.log("시간 : ", time);
+  const study_startdate = changeFormat(startDate, "yyyy.MM.DD")?.toString();
+  const study_enddate = changeFormat(endDate, "yyyy.MM.DD")?.toString();
+
+  console.log("study_startdate : ", study_startdate);
+  console.log("study_enddate : ", study_enddate);
 
   const BASE_URL = `https://i8b205.p.ssafy.io/be-api/`;
 
@@ -410,8 +414,8 @@ function StudyCreatePages() {
     typeId: study_typeId,
     // maxPerson: study_maxPerson,
     maxPerson: study_maxPerson,
-    startDate: changeFormat(startDate, "yyyy.MM.DD"),
-    endDate: changeFormat(endDate, "yyyy.MM.DD"),
+    startDate: study_startdate,
+    endDate: study_enddate,
     description: study_description,
     time: time,
   };
@@ -444,9 +448,7 @@ function StudyCreatePages() {
   };
   const Change_typeId = (e: any) => {
     e.preventDefault();
-    console.log(e.target);
     console.log("value", e.target.value);
-    console.log("key", e.target.key);
     setStudy_typeId(e.target.value);
   };
   const Change_maxPerson = (e: any) => {
