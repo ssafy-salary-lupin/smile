@@ -104,8 +104,8 @@ interface StudiesDataType {
 }
 export default function StudySearchPages() {
   // API 불러오기
-  const { isLoading, data } = useQuery("studies", StudySearchAll.get);
-  console.log("DATA:", isLoading, data);
+  const res = useQuery("studies", StudySearchAll.get);
+  console.log("DATA:", res.isLoading, res.data);
 
   // 스터디 더보기 클릭 여부를 확인하기 위한 state
   const [isClickMore, setIsClickMore] = useState<boolean>(false);
@@ -115,19 +115,19 @@ export default function StudySearchPages() {
   const [studiesNumber, setStudiesNumber] = useState<number>(0);
   // 스터디 리스트
   const [StudyList, setStudyList] = useState<StudiesDataType[]>(
-    data?.data.result,
+    res.data?.data.result,
   );
   // 더 보기 스터디 리스트
   const [moreStudyList, setMoreStudyList] = useState<object[]>();
 
   const cardNumber = StudyList ? StudyList.length : 0;
 
-  if (isLoading) {
+  if (res.isLoading) {
     return <span>로딩중...</span>;
   } else {
-    console.log(data);
+    console.log(res.data);
 
-    if (!data) {
+    if (!res.data) {
       setStudiesNumber(0);
     } else if (cardNumber <= 9) {
       setStudiesNumber(cardNumber);
