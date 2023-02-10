@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -39,7 +40,7 @@ public class StudyComment extends BaseEntity {
     //댓글에 연결된 대댓글을 조회하기 때문에 연관관계를 양방향으로 맺음.
 //    @JsonManagedReference
     @OneToMany(mappedBy = "studyComment")
-    Set<StudyReply> studyRelies = new HashSet<>();
+    List<StudyReply> studyRelies = new ArrayList<>();
 
     @Builder
     public StudyComment(int id, User user, StudyInformation studyInformation, String content, boolean isDeleted) {

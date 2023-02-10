@@ -24,7 +24,7 @@ public enum CustomExceptionStatus {
 
 
     /*user 관련*/
-    ACCOUNT_NOT_FOUND(false, 401, "유저를 찾을 수 없습니다."),
+    ACCOUNT_NOT_FOUND(false, 404, "유저를 찾을 수 없습니다."),
     ACCOUNT_NOT_VALID(false, 401, "유효한 사용자가 아닙니다."),
 
     /*[post] user관련*/
@@ -61,6 +61,7 @@ public enum CustomExceptionStatus {
     OVER_MAX_SIZE_PERSON(false,429, "최대 입장 인원을 초과하였습니다."),
 
     NOT_FOUND_MEETING(false,404,"해당 미팅정보가 없습니다."),
+    NOT_FOUND_MEETING_TYPE(false, 404, "해당 미팅 유형이 없습니다."),
 
     /*댓글*/
     NOT_FOUND_COMMENT(false,404,"존재하지 않는 댓글입니다."),

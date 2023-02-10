@@ -28,7 +28,7 @@ public class StudyMeetingServiceImpl implements StudyMeetingService{
     @Transactional
     public StudyMeeting createMeeting(User starter, StudyInformation study, MeetingCreationRequestDTO dto) {
         StudyMeetingType studyMeetingType = studyMeetingTypeRepository.findById(dto.getMeetingTypeId())
-                .orElseThrow(() -> new CustomException(CustomExceptionStatus.NOT_FOUND_MEETING));
+                .orElseThrow(() -> new CustomException(CustomExceptionStatus.NOT_FOUND_MEETING_TYPE));
 
         StudyMeeting meeting = StudyMeeting.builder()
                 .studyMeetingType(studyMeetingType)
