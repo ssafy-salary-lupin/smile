@@ -1,15 +1,12 @@
 package cp.smile.study_management.meeting.dto.request;
 
-import io.openvidu.java.client.KurentoOptions;
 import io.openvidu.java.client.OpenViduRole;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class AttendRequestDTO {
 
@@ -29,9 +26,9 @@ public class AttendRequestDTO {
 
     public Map<String, Object> toMap() {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("data", data);
+        if (data != null) map.put("data", data);
         map.put("record", false);
-        map.put("role", role);
+        map.put("role", role == null ? OpenViduRole.SUBSCRIBER : role);
 
         if (kurentoOptions != null) {
             io.openvidu.java.client.KurentoOptions options = new io.openvidu.java.client.KurentoOptions.Builder()

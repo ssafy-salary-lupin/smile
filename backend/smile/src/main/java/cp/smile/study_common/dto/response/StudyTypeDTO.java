@@ -1,5 +1,6 @@
 package cp.smile.study_common.dto.response;
 
+import cp.smile.entity.study_common.StudyType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,5 +17,12 @@ public class StudyTypeDTO {
     public StudyTypeDTO(int id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public static StudyTypeDTO of(StudyType type) {
+        return StudyTypeDTO.builder()
+                .id(type.getId())
+                .name(type.getName().name())
+                .build();
     }
 }
