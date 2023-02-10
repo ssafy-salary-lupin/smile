@@ -175,7 +175,7 @@ public class StudyCommonServiceImpl implements StudyCommonService{
         }
 
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         String uuid = UUID.randomUUID().toString();
 
