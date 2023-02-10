@@ -213,7 +213,7 @@ function StudyDetailPages() {
   //token----------------------------
 
   if (token !== null) {
-    var decoded: object = jwt_decode(token);
+    var decoded = jwt_decode(token);
     console.log("decoded : ", decoded);
     console.log("decoded type: ", typeof decoded);
   } else {
