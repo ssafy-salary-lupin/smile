@@ -1,5 +1,8 @@
+import { useState } from "react";
 import styled from "styled-components";
 import searchIcon from "../../assets/img/search.png";
+import { useRecoilState } from "recoil";
+import { InputState } from "atoms/TextInput";
 
 interface ISearchContainer {
   widthValue: number;
@@ -22,6 +25,7 @@ const SSearchContainer = styled.div<ISearchContainer>`
 const SSearchIcon = styled.img.attrs({ src: searchIcon })`
   width: 2.222vw;
   height: 2.222vw;
+  cursor: pointer;
 `;
 
 interface IInput {
@@ -62,9 +66,32 @@ interface ISearchProps {
   unit?: string;
 }
 
+const SearchForm = styled.form``;
+
+const SearchBtn = styled.button``;
+
 function SearchBar(props: ISearchProps) {
+  const [inputValue, setInputValue] = useRecoilState<string>(InputState);
   const inputWidth = props?.searchWidth! * 0.83;
   const inputHeight = props?.searchHeight! * 0.94;
+  const textInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
+  console.log("INPUT", inputValue);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(inputValue);
+    // setSearchContext(e.target)
+    setInputValue("");
+  };
+
+  const onSubmit = () => {
+    console.log(inputValue);
+    // setSearchContext(e.target)
+    setInputValue("");
+  };
+
   return (
     <>
       <SSearchContainer
@@ -72,13 +99,19 @@ function SearchBar(props: ISearchProps) {
         heightValue={props.searchHeight || 3.333}
         unit={props.unit || "vw"}
       >
-        <SSearchInput
-          inputWidth={inputWidth || 23}
-          inputHeight={inputHeight || 3.125}
-          inputInnerText={props.innerText || "궁금한 스터디를 검색하세요"}
-          unit={props.unit || "vw"}
-        />
-        <SSearchIcon />
+        <SearchForm onSubmit={handleSubmit}>
+          <SSearchInput
+            value={inputValue}
+            onChange={textInput}
+            inputWidth={inputWidth || 23}
+            inputHeight={inputHeight || 3.125}
+            inputInnerText={props.innerText || "궁금한 스터디를 검색하세요"}
+            unit={props.unit || "vw"}
+          />
+        </SearchForm>
+        {/* <SearchBtn> */}
+        <SSearchIcon onClick={onSubmit} />
+        {/* </SearchBtn> */}
       </SSearchContainer>
     </>
   );
