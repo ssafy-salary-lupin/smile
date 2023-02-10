@@ -3,7 +3,6 @@ package cp.smile.entity.study_management;
 
 import cp.smile.config.BaseEntity;
 import cp.smile.entity.study_common.StudyInformation;
-import cp.smile.study_management.home.dto.response.ScheduleDdayDTO;
 import cp.smile.study_management.schedule.dto.request.UpdateScheduleDTO;
 import cp.smile.study_management.schedule.dto.response.ScheduleDTO;
 import lombok.Builder;
@@ -14,7 +13,6 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
 
@@ -73,19 +71,6 @@ public class StudySchedule extends BaseEntity {
                 .endTime(this.endTime)
                 .url(this.url)
                 .description(this.description).build();
-    }
-
-    public ScheduleDdayDTO createScheduleDdayDTO(LocalDateTime currentTime){
-
-        //두 날짜 간격 구하기
-        Period period = Period.between(currentTime.toLocalDate(),this.endTime.toLocalDate());
-
-
-        return ScheduleDdayDTO.builder()
-                .id(this.id)
-                .day(period.getDays())
-                .title(this.name)
-                .build();
     }
 
     /* 스터디 일정 수정 */

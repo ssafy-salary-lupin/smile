@@ -69,6 +69,8 @@ public class StudyCommonServiceImpl implements StudyCommonService{
     @Override
     public List<FindAllStudyDTO> findAllStudy(FindFilter findFilter)  {
 
+
+
         // TODO : QueryDsl을 사용하지 않아서 동적쿼리 짜기가 어려움 - 당장은 개별 쿼리로 짜고, 추후에 querydsl을 활용해서 수정 필요
 
         /*스터디 정보를 전체 조회해옴*/
@@ -159,6 +161,8 @@ public class StudyCommonServiceImpl implements StudyCommonService{
             String storeFileName = UUID.randomUUID().toString() + "." + ext; // 저장할 이름- 중복되지 않도록 하기 위해 uuid 사용(이름 중복이면 덮어씀.)
 
             String key  = STUDY_IMG + storeFileName; //파일 저장위치.
+
+            System.out.println(bucket);
 
             try (InputStream inputStream = multipartFile.getInputStream()) {
                 amazonS3Client.putObject(new PutObjectRequest(bucket, key, inputStream, objectMetadata)
