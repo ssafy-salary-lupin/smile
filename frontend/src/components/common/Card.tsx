@@ -121,51 +121,63 @@ const SCardUserItem = styled.div`
   }
 `;
 
-interface studyImgProps {
+const curPath = window.location.pathname;
+console.log("PATH : ", curPath);
+
+// interface studyProps {}
+
+// if (curPath === "/") {
+//   interface PropsType {
+//     studyInfo: {
+//       id: number;
+//       imagePath: string;
+//       currentPerson: number;
+//       maxPerson: number;
+//       description: string;
+//       viewCount: number;
+//       lastVisitTime: string;
+//       leader: {
+//         id: number;
+//         imagePath: string;
+//         nickname: string;
+//       };
+//     };
+//   }
+// } else if (curPath.includes("/myStudy")) {
+
+// }
+interface PropsType {
   studyInfo: {
-    studyId: number; // 스터디 식별자
+    id: number; // 스터디 식별자
     name?: string; // 스터디 이름
-    imageUrl: string; // 스터디 대표 이미지 주소
+    imagePath: string; // 스터디 대표 이미지 주소
     description: string; // 스터디 설명
-    person: number; // 현재 가입 인원
+    currentPerson: number; // 현재 가입 인원
     maxPerson: number; // 최대 가입 인원
-    views: number; // 조회수
+    viewCount: number; // 조회수
     lastVisitTime: string; // 마지막 방문 시간
-    studyLeader: {
+    commentCount?: number;
+    type?: {
+      id?: number;
+      name?: string;
+    };
+    leader: {
       // 스터디 리더
-      userId: number; // 스터디장 유저 식별자
-      profileImageUrl: string; // 스터디장 프로필 이미지 주소
+      id: number; // 스터디장 유저 식별자
+      imagePath: string; // 스터디장 프로필 이미지 주소
       nickname: string; // 스터디장 닉네임
     };
     end?: boolean; // 스터디 종료 여부
   };
 }
-// interface studyImgProps {
-//   studyInfo: {
-//     id: number; //스터디 식별자
-//     imgPath: string; //스터디 대표이미지 url
-//     person: number; //현재 가입한 스터디원
-//     max_person: number; //스터디 최대 가입 인원
-//     description: string; //스터디 설명
-//     viewCount: number; //스터디 조회수
-//     lastVisitedTime: string; //최근 방문 시간.
-//     leader: {
-//       // 스터디장에 대한 정보
-//       id: number; //스터디장 유저 식별자
-//       imgPath: string; //스터디장 프로필 이미지 url
-//       nickname: string; //스터디장 닉네임`
-//     };
-//   };
-// }
-
-export default function Card(props: studyImgProps) {
+export default function Card(studyInfo: PropsType) {
   const visitedTime = 1;
-  const visitedCountInput = props.studyInfo.views;
+  const visitedCountInput = studyInfo.studyInfo.viewCount;
   const visitedCount = visitedCountInput
     .toString()
     .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  const profileImgUrl = props.studyInfo.studyLeader.profileImageUrl;
-  const studyImgUrl = props.studyInfo.imageUrl;
+  const profileImgUrl = studyInfo.studyInfo.leader.imagePath;
+  const studyImgUrl = studyInfo.studyInfo.imagePath;
 
   return (
     <SContainer>
@@ -184,12 +196,13 @@ export default function Card(props: studyImgProps) {
           <SCardInfoItem>
             <img src={require("../../assets/img/Users.png")} />
             <span>
-              {props.studyInfo.person}/{props.studyInfo.maxPerson}
+              {studyInfo.studyInfo.currentPerson}/
+              {studyInfo.studyInfo.maxPerson}
             </span>
           </SCardInfoItem>
         </SCardInfo>
         <SCardDescription>
-          <span>{props.studyInfo.description}</span>
+          <span>{studyInfo.studyInfo.description}</span>
         </SCardDescription>
         <SCardUser>
           <ProfileImg
@@ -200,7 +213,7 @@ export default function Card(props: studyImgProps) {
             height="3.36vw"
           />
           <SCardUserItem>
-            <span>{props.studyInfo.studyLeader.nickname}</span>
+            <span>{studyInfo.studyInfo.leader.nickname}</span>
             <span>{visitedTime} min read</span>
           </SCardUserItem>
         </SCardUser>
