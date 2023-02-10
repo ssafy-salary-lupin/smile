@@ -32,8 +32,9 @@
     "helmet": "^6.0.1",
     "http-proxy-middleware": "^2.0.6",
     "jquery": "3.5.0",
+    "jwt-decode": "^3.1.2",
     "moment": "^2.29.4",
-    "openvidu-browser": "^2.23.0",
+    "openvidu-browser": "^2.24.0",
     "query": "^0.2.0",
     "quill-emoji": "^0.2.0",
     "react": "^18.2.0",
@@ -98,6 +99,5 @@
     "@types/styled-components": "^5.1.26",
     "cross-env": "^7.0.3",
     "prettier": "2.8.3"
-  },
-  "proxy": "https://i8b205.p.ssafy.io"
+  }
 }

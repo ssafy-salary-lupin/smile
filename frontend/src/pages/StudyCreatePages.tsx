@@ -146,7 +146,7 @@ const Introudce = styled.input`
   margin-bottom: 3.333vw;
 `;
 // const IntroduceBox = styled.div``;
-const Form = styled.form`
+const Forms = styled.form`
   .signup-profileImg-label {
     margin: 5px 0 20px 0;
     font-weight: bold;
@@ -178,9 +178,94 @@ const BtnBox = styled.div`
   justify-content: center;
 `;
 
+// interface studyTypeData {
+//   [{
+//   id: 1; // 스터디 유형 식별자
+//   name: "면접"; // 스터디 유형 이름
+// },
+// {
+//   id: 2;
+//   name: "자격증";
+// },
+// {
+//   id: 3;
+//   name: "외국어";
+// }]
+
+// }
+
+interface StudyType {
+  isSuccess: true;
+  code: 200;
+  message: "요청에 성공했습니다.";
+  result: {
+    types: [
+      {
+        id: number; // 스터디 유형 식별자
+        name: string; // 스터디 유형 이름
+      },
+      {
+        id: number;
+        name: string;
+      },
+      {
+        id: number;
+        name: string;
+      },
+    ];
+  };
+}
+
+interface Data {
+  isSuccess: boolean;
+  code: number;
+  message: string;
+  result: {
+    id: number;
+    name: string; //스터디 이름
+    startDate: string; //스터디 시작 일자
+    endDate: string; //스터디 종료 일자
+    time: string; //스터디 시간
+    imgPath: string; //스터디 대표 이미지
+    currrentPerson: number; //스터디 현재 가입 인원
+    maxPerson: number; //스터디 최대 가입 인원
+    viewCount: number; //스터디 조회수
+    description: string;
+    type: {
+      id: number; //스터디 유형 식별자
+      name: string; //스터디 유형 이름
+    };
+    leader: {
+      id: number;
+      imagePath: null;
+      nickname: string;
+    };
+    comments: [
+      {
+        user: {
+          id: number; //댓글 작성자 식별자
+          imgPath: string; //프로필
+          nickname: string; //댓글 작성자 닉네임
+        };
+        content: string; //댓글 내용
+        replies: [
+          //답글리스트
+          {
+            user: {
+              id: number; //대댓글 작성자 식별자
+              imgPath: string; //프로필
+              nickname: string; //대댓글 작성자 닉네임
+            };
+            content: string; //대댓글 내용
+          },
+        ];
+      },
+    ];
+  };
+}
 function StudyCreatePages() {
   const selectType = ["미정", "면접", "자격증", "외국어"];
-  const selectPeople = ["미정", "3명", "4명", "5명", "6명"];
+  const selectPeople = [3, 4, 5, 6];
   const selectTime = [
     "미정",
     "01:00",
@@ -209,7 +294,7 @@ function StudyCreatePages() {
     "24:00",
   ];
 
-  const [imgFile, setImgFile] = useState<string | ArrayBuffer>();
+  const [imgFile, setImgFile] = useState<any>();
   const imgRef = useRef<HTMLInputElement>(null);
   const [isActive, setIsActivate] = useState<boolean>(false);
 
@@ -217,6 +302,8 @@ function StudyCreatePages() {
   const saveImgFile = () => {
     if (imgRef.current?.files !== undefined && imgRef.current?.files !== null) {
       const file = imgRef.current?.files[0];
+      // console.log(FormDatas);
+      // console.log(file.name);
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onloadend = () => {
@@ -238,9 +325,70 @@ function StudyCreatePages() {
   const time = startTime?.toString() + " ~ " + endTime?.toString();
   // console.log("시간 : ", time);
 
-  const BASE_URL = `/users/studies`;
+  const BASE_URL = `https://i8b205.p.ssafy.io/be-api/`;
 
   const token = localStorage.getItem("kakao-token");
+  // const [list, setList] = useState<studyDetailData[] | null>(null);
+
+  const studyTypeApi = async () => {
+    // console.log("실행");
+    try {
+      const response = await fetch(`${BASE_URL}/studies/types`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      });
+
+      // console.log("data : ", response);
+      const data = await response.json();
+      console.log(data);
+      return data;
+    } catch (error: any) {
+      console.log(error);
+    }
+
+    // console.log("받아온 data : ", response);
+  };
+  const { data: studyType } = useQuery<StudyType>("studyTypeApi", () =>
+    studyTypeApi(),
+  );
+  console.log("studyType", studyType);
+
+  // const TType = studyType?.result.types;
+  // const TType = new Array<number | string>();
+  function GenericReturnFunc<T>(arg: T): T {
+    return arg;
+  }
+  let TType = GenericReturnFunc<any>(studyType?.result.types);
+  console.log("TType", TType);
+
+  //-------------------------------------------------------------
+  const StudyDataApi = async () => {
+    // console.log("실행");
+
+    try {
+      const response = await fetch(`${BASE_URL}/studies/1`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      });
+
+      // console.log("data : ", response);
+      const data = await response.json();
+      return data;
+    } catch (error: any) {
+      console.log(error);
+    }
+
+    // console.log("받아온 data : ", response);
+  };
+  const { data: detailStudy } = useQuery<Data>("StudyDataApi", () =>
+    StudyDataApi(),
+  );
+
+  //-------------------------------------------------------------------
   // console.log("가져온 데이타 : ", StudyData);
   const [study_name, setStudy_name] = useState<string>("");
   const [study_typeId, setStudy_typeId] = useState<string>("");
@@ -251,35 +399,37 @@ function StudyCreatePages() {
   // const [study_time, setStudy_time] = useState<string>("");
   const [study_file, setStudy_file] = useState<string>("");
 
-  useEffect(() => {
-    CreateStudyApi();
-  }, []);
+  // useEffect(() => {
+  //   CreateStudyApi();
+  // }, []);
+  const formData = new FormData();
+
+  const data = {
+    name: study_name,
+    // typeId: study_typeId,
+    typeId: study_typeId,
+    // maxPerson: study_maxPerson,
+    maxPerson: study_maxPerson,
+    startDate: changeFormat(startDate, "yyyy.MM.DD"),
+    endDate: changeFormat(endDate, "yyyy.MM.DD"),
+    description: study_description,
+    time: time,
+  };
+
+  // console.log(Form.append("file", file));
+  formData.append("data", JSON.stringify(data));
+
+  formData.append("file", imgFile);
 
   const CreateStudyApi = async () => {
-    // async function CreateStudyApi() {
-    // event.prevenDefault();
+    console.log("토큰 : ", token);
 
-    // const handleType = (e) => {
-    //   e.preventDefault();
-    // };
     await axios
-      .post(`${BASE_URL}`, {
+      .post(`${BASE_URL}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
         },
-        data: {
-          name: study_name,
-          // typeId: study_typeId,
-          typeId: study_typeId,
-          // maxPerson: study_maxPerson,
-          maxPerson: study_maxPerson,
-          startDate: changeFormat(startDate, "yyyy.MM.DD"),
-          endDate: changeFormat(endDate, "yyyy.MM.DD"),
-          description: study_description,
-          time: time,
-        },
-        file: study_file,
       })
       .then(function (response) {
         console.log(response.data);
@@ -342,9 +492,9 @@ function StudyCreatePages() {
               스터디 유형<RedStar>*</RedStar>
             </SelectName>
             <SelectBox onChange={Change_typeId}>
-              {selectType.map((item) => (
-                <option value={item} key={item}>
-                  {item}
+              {TType.map((name: string, id: number) => (
+                <option value={id + 1} key={name}>
+                  {name}
                 </option>
               ))}
             </SelectBox>
@@ -398,8 +548,8 @@ function StudyCreatePages() {
               </SelectBox>
               <TextSmall>~</TextSmall>
               <SelectBox onChange={Change_endTime}>
-                {selectTime.map((item) => (
-                  <option value={item} key={item}>
+                {selectTime.map((item, index) => (
+                  <option value={index} key={item}>
                     {item}
                   </option>
                 ))}
@@ -418,7 +568,7 @@ function StudyCreatePages() {
           </SelectSmallTotal>
           <SelectSmallTotal>
             <SelectName>대표 이미지</SelectName>
-            <Form>
+            <Forms>
               <label className="signup-profileImg-label" htmlFor="profileImg">
                 <ImgBox>
                   {isActive && typeof imgFile == "string" ? (
@@ -436,7 +586,7 @@ function StudyCreatePages() {
                 onChange={saveImgFile}
                 ref={imgRef}
               />
-            </Form>
+            </Forms>
           </SelectSmallTotal>
           <SelectSmallTotal>
             <SelectName>스터디 설명</SelectName>
@@ -446,15 +596,15 @@ function StudyCreatePages() {
             />
           </SelectSmallTotal>
           <BtnBox>
-            {/* <Link
+            <Link
               to={{
-                pathname: `/manage`,
+                pathname: `studies/${detailStudy?.result.id}`,
               }}
-            > */}
-            <Btn color="#F5C82E" onClick={CreateStudyApi}>
-              스터디 생성
-            </Btn>
-            {/* </Link> */}
+            >
+              <Btn color="#F5C82E" onClick={CreateStudyApi}>
+                스터디 생성
+              </Btn>
+            </Link>
             <Link
               to={{
                 pathname: `/create`,

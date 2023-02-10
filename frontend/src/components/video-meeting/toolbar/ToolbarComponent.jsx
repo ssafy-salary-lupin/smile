@@ -14,7 +14,7 @@ const ToolbarContainer = styled.div`
   background-color: ${(props) => props.theme.videoRoomColor};
   position: absolute;
   bottom: 0;
-  padding: 16px 35vw;
+  padding: 1.111vw 35vw;
   z-index: 999999;
   /* min-width: 400px !important; */
 `;
@@ -26,7 +26,7 @@ const IconContainer = styled.div`
   align-items: center;
   width: 3.889vw;
   height: 3.889vw;
-  border-radius: 50px;
+  border-radius: 3.472vw;
   cursor: pointer;
   /* background-color: #393e46; */
   background-color: ${(props) =>
@@ -36,8 +36,8 @@ const IconContainer = styled.div`
 // 채팅 아이콘
 const ChatIcon = styled.div`
   position: absolute;
-  right: 32px;
-  bottom: 32px;
+  right: 2.222vw;
+  bottom: 2.222vw;
   cursor: pointer;
 `;
 
@@ -160,8 +160,8 @@ export default function ToolbarComponent(props) {
       {/* 채팅 */}
       <ToolbarItems.Chat
         onClick={toggleChat}
-        width="56px"
-        height="56px"
+        width="3.889vw"
+        height="3.889vw"
         fill={iconColor}
         stroke="none"
         strokeWidth="2"

@@ -5,6 +5,12 @@ import ButtonBasic from "../components/common/ButtonBasic";
 import ProfileImg from "../components/common/ProfileImg";
 // import introductionImg1 from "../assets/img/introduction_img1.png";
 import introductionImg1 from "assets/img/introduction_img1.png";
+import defaultprofileImg from "assets/img/userDefaultImg.png";
+import * as Icons from "../components/common/Icons";
+import axios, { AxiosError } from "axios";
+import { useQuery } from "react-query";
+import { Link } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 
 const BlankSpace = styled.div`
   height: 7.383vw;
@@ -17,14 +23,26 @@ const Wrapper = styled.div`
   margin: 0 auto;
   height: 103.472vw;
   width: 55.556vw;
-  margin-bottom: 3.333vw;
 `;
 
 const Top = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-const Btn = styled(ButtonBasic)``;
+const Btn = styled.button`
+  /* margin: 0 32px; */
+  border-radius: 0.347vw;
+  border: none;
+  background-color: ${(props) => props.color};
+  cursor: pointer;
+  border-radius: 10px;
+  padding: 0.556vw 1.111vw;
+  margin: 1.111vw 1.667vw 0vw 0vw;
+  width: 8.667vw;
+  height: 3.473vw;
+  font-size: large;
+  font-weight: bold;
+`;
 
 const Card = styled.img`
   display: grid;
@@ -35,114 +53,262 @@ const Card = styled.img`
   margin-right: 2.778vw;
 `;
 
-const StudyDetail = styled.div`
-  display: flex;
-  justify-content: flex-start;
+const Profile = styled.img`
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
+  border-radius: 50px;
+  margin-right: 50px;
 `;
 
-const TextBig = styled.div``;
+const StudyDetail = styled.div`
+  display: flex;
+  margin-bottom: 24px;
+  /* justify-content: flex-start; */
+`;
 
-const TextBigBox = styled.div``;
+const TextBig = styled.div`
+  display: flex;
+  align-items: center;
+  /* font-size: 1.667vw; */
+  font-size: xx-large;
+  font-weight: bold;
+  padding-bottom: 1.111vw;
+`;
+
+const TextBigBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+`;
 
 const TextSmallBox = styled.div`
-  width: 317.995px;
+  width: 400.995px;
   display: flex;
+  margin-bottom: 1.111vw;
 `;
 
 const Text = styled.div`
-  font-size: 12;
+  font-size: small;
   font-weight: bold;
+  margin-bottom: 1.389vw;
 `;
 
 const TextSmall = styled.div`
-  /* height: 29.167vw; */
+  margin-left: 3.472vw;
+  /* width: 100px; */
 `;
-
-const imgBox = styled.img``;
 
 const StudyData = styled.div``;
 
-const Introduce = styled.div``;
+const Introduce = styled.div`
+  margin-top: 24px;
+`;
 
-// interface studyDetailData {
-//   studyInfo: {
-//     id: 1;
-//     name: "study name"; //스터디 이름
-//     startDate: "2023.01.15"; //스터디 시작 일자
-//     endDatee: "2023.01.19"; //스터디 종료 일자
-//     time: "시간 미정"; //스터디 시간
-//     imgPath: "/test/test/test"; //스터디 대표 이미지
-//     currrentPerson: "4"; //스터디 현재 가입 인원
-//     maxPerson: "6"; //스터디 최대 가입 인원
-//     viewCount: "50"; //스터디 조회수
-//     type: {
-//       id: 1; //스터디 유형 식별자
-//       name: "asdf"; //스터디 유형 이름
-//     };
-//     comments: [
-//       {
-//         user: {
-//           id: 1; //댓글 작성자 식별자
-//           imgPath: "/root"; //프로필
-//           nickname: "adsf1"; //댓글 작성자 닉네임
-//         };
-//         content: "test content"; //댓글 내용
-//         replies: [
-//           //답글리스트
-//           {
-//             user: {
-//               id: 1; //대댓글 작성자 식별자
-//               imgPath: "/root"; //프로필
-//               nickname: "adsf"; //대댓글 작성자 닉네임
-//             };
-//             content: "test reply content"; //대댓글 내용
-//           },
-//         ];
-//       },
-//     ];
-//   };
-// }
+const Area = styled.div`
+  justify-content: center;
+  /* border: 1px solid black; */
+  background-color: #ededed;
+  height: 20.25vw;
+  width: 50.667vw;
+  margin-bottom: 2vw;
+  padding: 2vw 2vw;
+`;
+interface Data {
+  isSuccess: boolean;
+  code: number;
+  message: string;
+  result: {
+    id: number;
+    name: string; //스터디 이름
+    startDate: string; //스터디 시작 일자
+    endDate: string; //스터디 종료 일자
+    time: string; //스터디 시간
+    imgPath: string; //스터디 대표 이미지
+    currrentPerson: number; //스터디 현재 가입 인원
+    maxPerson: number; //스터디 최대 가입 인원
+    viewCount: number; //스터디 조회수
+    description: string;
+    type: {
+      id: number; //스터디 유형 식별자
+      name: string; //스터디 유형 이름
+    };
+    leader: {
+      id: number;
+      imagePath: null;
+      nickname: string;
+    };
+    comments: [
+      {
+        user: {
+          id: number; //댓글 작성자 식별자
+          imgPath: string; //프로필
+          nickname: string; //댓글 작성자 닉네임
+        };
+        content: string; //댓글 내용
+        replies: [
+          //답글리스트
+          {
+            user: {
+              id: number; //대댓글 작성자 식별자
+              imgPath: string; //프로필
+              nickname: string; //대댓글 작성자 닉네임
+            };
+            content: string; //대댓글 내용
+          },
+        ];
+      },
+    ];
+  };
+}
 
 function StudyDetailPages() {
+  // const profileImgUrl = props.studyInfo.studyLeader.profileImageUrl;
+  // const studyImgUrl = props.studyInfo.imageUrl;
+  const BASE_URL = `https://i8b205.p.ssafy.io/be-api/`;
+
+  const token = localStorage.getItem("kakao-token");
+  // const [list, setList] = useState<studyDetailData[] | null>(null);
+
+  const StudyDataApi = async () => {
+    // console.log("실행");
+
+    try {
+      const response = await fetch(`${BASE_URL}/studies/1`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      });
+
+      // console.log("data : ", response);
+      const data = await response.json();
+      return data;
+    } catch (error: any) {
+      console.log(error);
+    }
+
+    // console.log("받아온 data : ", response);
+  };
+  const { data: detailStudy } = useQuery<Data>("StudyDataApi", () =>
+    StudyDataApi(),
+  );
+  // console.log("detailStudy", detailStudy);
+
+  const formData = new FormData();
+  //-----------------------------------------------\
+  //-----------------------------------------------
+  // 여기부터 스터디가입 post
+  // const [userid, setUserid] = useState<number>(0);
+  // const [usernickname, setUsernickname] = useState("");
+  // const [useremail, setUseremail] = useState("");
+  // const [userimg, setUserimg] = useState("");
+  // const [userdeleted, setUserdeleted] = useState<number>(0);
+
+  // const data = {
+  //   id: userid, // 유저 식별자
+  //   nickname: usernickname, // 닉네임
+  //   email: useremail, // 이메일
+  //   imagePath: userimg, // 프로필 이미지
+  //   isDeleted: userdeleted,
+  // };
+  // console.log("TTTTTT");
+
+  // var base64Payload = token?.split(".")[1];
+  // if (base64Payload !== undefined) {
+  //   var payload = Buffer.from(base64Payload, "base64");
+  //   var result = JSON.parse(payload.toString());
+  //   console.log("result", result);
+  // }
+  //token----------------------------
+
+  if (token !== null) {
+    var decoded: any = jwt_decode(token);
+    // const decoded2: object = jwt_decode(token);
+    console.log("decoded : ", decoded);
+    console.log("decoded Id : ", decoded?.userId);
+    // console.log("decoded Id: ", decoded);
+  } else {
+    console.log("none");
+  }
+  const studyJoinApi = async () => {
+    await axios
+      .post(
+        `${BASE_URL}/users/${decoded?.userId}/studies/${detailStudy?.result.id}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        },
+      )
+      .then(function (response) {
+        // console.log(response.data);
+        console.log("1");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  // const data = det;
   return (
     <div>
       <Wrapper>
         <BlankSpace />
-        <Text>목록으로</Text>
+        <Text>
+          <Icons.CaretLeft />
+          {/* <arrowl /> */}
+          목록으로
+        </Text>
         <Top>
-          <TextBig>OO 자격증 스터디</TextBig>
-          <button>참여하기</button>
+          <TextBig>{detailStudy?.result.name}</TextBig>
+          <Link to={{ pathname: `/studies/${detailStudy?.result.id}/home` }}>
+            <Btn color="#F5C82E" onClick={studyJoinApi}>
+              참여하기
+            </Btn>
+          </Link>
         </Top>
         <StudyDetail>
-          <Card src={introductionImg1} id="item1" />
+          <Card src={detailStudy?.result.imgPath} id="item1" />
           <TextBigBox>
             <TextSmallBox>
-              <TextBig>이싸피</TextBig>
+              <ProfileImg
+                imgUrl={
+                  detailStudy?.result.imgPath !== "/root"
+                    ? detailStudy?.result.imgPath
+                    : defaultprofileImg
+                }
+                width="48.379px"
+                height="48.379px"
+              />
+              <Text>{detailStudy?.result.leader.nickname}</Text>
             </TextSmallBox>
             <TextSmallBox>
-              <Text>모집 유형</Text>
-              <TextSmall>자격증 스터디</TextSmall>
+              <Text>모집 유형 </Text>
+              <TextSmall>{detailStudy?.result.type.name}</TextSmall>
             </TextSmallBox>
             <TextSmallBox>
-              <Text>모집 인원</Text>
-              <TextSmall>6명</TextSmall>
+              <Text>모집 인원 </Text>
+              <TextSmall>{detailStudy?.result.maxPerson}명</TextSmall>
             </TextSmallBox>
             <TextSmallBox>
-              <Text>예상 기간</Text>
-              <TextSmall></TextSmall>
+              <Text>예상 기간 </Text>
+              <TextSmall>
+                {detailStudy?.result.startDate} ~ {detailStudy?.result.endDate}
+              </TextSmall>
             </TextSmallBox>
             <TextSmallBox>
-              <Text>모집 유형</Text>
-              <TextSmall>자격증 스터디</TextSmall>
+              <Text>스터디 시간</Text>
+              <TextSmall>{detailStudy?.result.time}</TextSmall>
             </TextSmallBox>
           </TextBigBox>
         </StudyDetail>
         <hr />
         <Introduce>
-          <span>스터디 소개</span>
+          <TextBig>스터디 소개</TextBig>
+          <Area>{detailStudy?.result.description}</Area>
         </Introduce>
-
-        <span>댓글</span>
+        <Text>댓글</Text>
       </Wrapper>
     </div>
   );

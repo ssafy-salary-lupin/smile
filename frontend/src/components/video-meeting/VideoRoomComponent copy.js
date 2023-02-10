@@ -1,6 +1,6 @@
 import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
-import React, { useState, Component } from "react";
+import React, { Component } from "react";
 import ChatComponent from "./chat/ChatComponent";
 import DialogExtensionComponent from "./dialog-extension/DialogExtension";
 import StreamComponent from "./stream/StreamComponent";
@@ -14,32 +14,14 @@ import styled from "styled-components";
 var localUser = new UserModel();
 
 // OPENVIDU_SERVER_URL: 오픈비두 서버쪽 URL (포트번호는 변경될 수 있음)
-const APPLICATION_SERVER_URL = "/";
-// process.env.NODE_ENV === "production" ? "" : "https://i8b205.p.ssafy.io/";
-
-const Wrapper = styled.div`
-  /* position: static; */
-  display: flex;
-  /* top: 0;
-  width: 100%; */
-`;
+const APPLICATION_SERVER_URL =
+  process.env.NODE_ENV === "production"
+    ? ""
+    : "https://i8b205.p.ssafy.io:5000/";
 
 const VideoContainer = styled.div`
-  /* position: relative; */
-  left: 0px;
-  top: 0px;
-  /* right: 0px; */
-  width: 100vw;
-  height: 85vh;
-  /* position: static; */
-`;
-
-const ChatContainer = styled.div`
-  /* position: relative; */
-  right: 0px;
-  top: 0px;
-  width: 30vw;
-  height: 85vh;
+  height: 80vh;
+  position: static;
 `;
 
 class VideoRoomComponent extends Component {
@@ -75,8 +57,6 @@ class VideoRoomComponent extends Component {
       subscribers: [],
       chatDisplay: "none",
       currentVideoDevice: undefined,
-      token:
-        "eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoib3RoNTQ0N0BuYXZlci5jb20iLCJ1c2VySWQiOjYsImlzcyI6Imlzc3VlciIsImlhdCI6MTY3NTkxOTIyNiwiZXhwIjoxNjc2MDA1NjI2fQ.CodfaQfCfvEgeidUV98AQpDyE1uiJ3LrcjW9_AG60oVWnUH679vx5KhFcE1wIJe8HgKYvi9Ogb0eA2vjzzh-RQ",
     };
 
     // joinSession: 세션 접속
@@ -189,7 +169,7 @@ class VideoRoomComponent extends Component {
     } else {
       try {
         var token = await this.getToken();
-        console.log("TOKEN1", token);
+        console.log(token);
         this.connect(token);
       } catch (error) {
         console.error(
@@ -212,15 +192,15 @@ class VideoRoomComponent extends Component {
 
   // connect: 토큰을 매개변수로 받아서 실제 세션에 접속하게 해주는 함수
   connect(token) {
-    console.log(token, { clientData: this.state.myUserName });
-    console.log("HERE", this.state.session);
-    console.log("TOKEN1111", token);
-    const customToken = `wss://i8b205.p.ssafy.io:8443?sessionId=${this.props.sessionName}&token=${token.result.attendToken}`;
-    console.log("customToken", customToken);
+    console.log("CONNECT SESSION", this.state.session);
+    console.log("CONTEXT", token, { clientData: this.state.myUserName });
+    const customToken =
+      "wss://i8b205.p.ssafy.io:8443?sessionId=1&token=tok_GOA7Qz6RiamxJcZr";
+    console.log("TOKEN11", token);
+    console.log("TOKEN22", customToken);
     this.state.session
-      .connect(customToken, { clientData: this.state.myUserName })
+      .connect(token, { clientData: this.state.myUserName })
       .then(() => {
-        console.log("TOKEN1111", customToken);
         this.connectWebCam();
       })
       .catch((error) => {
@@ -662,7 +642,6 @@ class VideoRoomComponent extends Component {
   }
 
   render() {
-    // const [play, setPlay] = useState<boolean>(false);
     const mySessionId = this.state.mySessionId;
     const localUser = this.state.localUser;
     var chatDisplay = { display: this.state.chatDisplay };
@@ -673,64 +652,47 @@ class VideoRoomComponent extends Component {
           showDialog={this.state.showExtensionDialog}
           cancelClicked={this.closeDialogExtension}
         />
-        <Wrapper>
-          <VideoContainer id="VVVTEST">
-            <div id="layout" className="bounds">
-              {localUser !== undefined &&
-                localUser.getStreamManager() !== undefined && (
-                  <div className="OT_root OT_publisher custom-class">
-                    <StreamComponent
-                      user={localUser} // 내 화면
-                      handleNickname={this.nicknameChanged}
-                    />
-                  </div>
-                )}
-              {/* //map을 쓴건 여러명이 들어올수 있어서인건가 */}
-              {this.state.subscribers.map((sub, i) => (
-                <div
-                  key={i}
-                  className="OT_root OT_publisher custom-class"
-                  id="remoteUsers"
-                >
-                  <StreamComponent
-                    user={sub} // 상대편 화면
-                    streamId={sub.streamManager.stream.streamId}
-                  />
-                </div>
-              ))}
-              {/* {localUser !== undefined &&
+
+        <div id="layout" className="bounds">
+          {/* <VideoContainer id="VVVTEST"> */}
+          {localUser !== undefined &&
+            localUser.getStreamManager() !== undefined && (
+              <div className="OT_root OT_publisher custom-class" id="localUser">
+                <StreamComponent
+                  user={localUser} // 내 화면
+                  handleNickname={this.nicknameChanged}
+                />
+              </div>
+            )}
+          {/* //map을 쓴건 여러명이 들어올수 있어서인건가 */}
+          {this.state.subscribers.map((sub, i) => (
+            <div
+              key={i}
+              className="OT_root OT_publisher custom-class"
+              id="remoteUsers"
+            >
+              <StreamComponent
+                user={sub} // 상대편 화면
+                streamId={sub.streamManager.stream.streamId}
+              />
+            </div>
+          ))}
+          {localUser !== undefined &&
             localUser.getStreamManager() !== undefined && (
               <div
-              className="OT_root OT_publisher custom-class"
-              style={chatDisplay}
+                className="OT_root OT_publisher custom-class"
+                style={chatDisplay}
               >
-              <ChatComponent
-              user={localUser}
-              chatDisplay={this.state.chatDisplay}
-              close={this.toggleChat}
-              messageReceived={this.checkNotification}
-              />
+                <ChatComponent
+                  user={localUser}
+                  chatDisplay={this.state.chatDisplay}
+                  close={this.toggleChat}
+                  messageReceived={this.checkNotification}
+                />
               </div>
-            )} */}
-            </div>
-          </VideoContainer>
-          <ChatContainer>
-            {localUser !== undefined &&
-              localUser.getStreamManager() !== undefined && (
-                <div
-                  className="OT_root OT_publisher custom-class"
-                  style={chatDisplay}
-                >
-                  <ChatComponent
-                    user={localUser}
-                    chatDisplay={this.state.chatDisplay}
-                    close={this.toggleChat}
-                    messageReceived={this.checkNotification}
-                  />
-                </div>
-              )}
-          </ChatContainer>
-        </Wrapper>
+            )}
+          {/* </VideoContainer> */}
+        </div>
         <ToolbarComponent
           sessionId={mySessionId}
           user={localUser}
@@ -756,21 +718,11 @@ class VideoRoomComponent extends Component {
 
   // createSession: 세션 생성 함수 (주의! promise를 반환!!) - 서버에 세션아이디를 요청해서 세션을 생성해서 id값을 받아오는 함수
   async createSession(sessionId) {
-    // be-api/studies/{id}/meetings -> 세션 요청 -> 방장이 들어갈 수 있는 토큰
-    console.log("ID", sessionId);
-
     const response = await axios.post(
-      // APPLICATION_SERVER_URL + "api/sessions",
-      APPLICATION_SERVER_URL +
-        "be-api/studies/" +
-        this.props.sessionName +
-        "/meetings",
-      { customSessionId: sessionId },
+      APPLICATION_SERVER_URL + "api/sessions",
+      { customSessionId: this.props.sessionName },
       {
-        headers: {
-          Authorization: `Bearer ${this.state.token}`,
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
       },
     );
     return response.data; // The sessionId
@@ -778,21 +730,14 @@ class VideoRoomComponent extends Component {
 
   // createToken: 특정 sessionId에 대해서 오픈비두 서버에 토큰을 요청해서 받아오는 함수 (주의! Promise 반환!)
   async createToken(sessionId) {
-    console.log("TEST", this.state.token);
-    console.log("ID", sessionId);
-    // be-api/studies/{id}/meetings/connection/ -> 토큰 요청
     const response = await axios.post(
-      // APPLICATION_SERVER_URL + "api/sessions/" + sessionId + "/connections",
       APPLICATION_SERVER_URL +
-        "be-api/studies/" +
+        "api/sessions/" +
         this.props.sessionName +
-        "/meetings/connection",
+        "/connections",
       {},
       {
-        headers: {
-          Authorization: `Bearer ${this.state.token}`,
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
       },
     );
     return response.data; // The token

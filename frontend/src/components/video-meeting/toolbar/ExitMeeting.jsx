@@ -7,8 +7,8 @@ import { Link } from "react-router-dom";
 // 모달의 크기 설정
 const Wrapper = styled.div`
   .modalBox {
-    width: 512px;
-    height: 320px;
+    width: 35.556vw;
+    height: 22.222vw;
   }
 `;
 
@@ -20,7 +20,7 @@ const Container = styled.div`
   justify-content: space-between;
   width: 100%;
   height: 100%;
-  padding: 32px 0;
+  padding: 2.222vw 0;
 `;
 
 // 제목
@@ -31,7 +31,7 @@ const Title = styled.div`
   width: 100%;
   height: 100%;
   span {
-    font-size: 32px;
+    font-size: 2.222vw;
     font-weight: 500;
     color: #061c3d;
   }
@@ -47,9 +47,9 @@ const Footer = styled.div`
 
 // 완료 버튼
 const Btn = styled.button.attrs({})`
-  margin: 0 32px;
-  width: 80px;
-  height: 48px;
+  margin: 0 2.222vw;
+  width: 5.556vw;
+  height: 3.333vw;
   border-radius: 0.347vw;
   border: none;
   background-color: ${(props) => props.bgColor};
@@ -68,7 +68,7 @@ function ExitMeeting(props) {
     <Wrapper>
       <ModalNone setModalOpen={props.setModalOpen}>
         <Container>
-          <Warning width="80px" height="80px" />
+          <Warning width="5.556vw" height="5.556vw" />
 
           <Title>
             <span>화상회의를 종료하시겠습니까?</span>
