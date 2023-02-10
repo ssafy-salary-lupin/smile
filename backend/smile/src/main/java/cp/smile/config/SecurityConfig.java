@@ -1,5 +1,6 @@
 package cp.smile.config;
 
+import cp.smile.auth.CustomLogoutHandler;
 import cp.smile.auth.jwt.JwtAccessDeniedHandler;
 import cp.smile.auth.jwt.JwtAuthenticationEntryPoint;
 import cp.smile.auth.jwt.JwtAuthenticationFilter;
@@ -23,13 +24,14 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    private final CustomLogoutHandler customLogoutHandler;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeHttpRequests()
                 .antMatchers(HttpMethod.POST, "/log-in", "/users").permitAll()
-                .antMatchers(HttpMethod.GET, "/studies").permitAll()
+                .antMatchers(HttpMethod.GET, "/studies", "/**/types").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .oauth2Login()

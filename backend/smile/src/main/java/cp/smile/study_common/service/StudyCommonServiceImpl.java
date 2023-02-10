@@ -333,6 +333,9 @@ public class StudyCommonServiceImpl implements StudyCommonService{
 
     }
 
-
-
+    @Override
+    public List<StudyTypeDTO> findAllType() {
+        List<StudyType> types = studyTypeRepository.findAll();
+        return types.stream().map(StudyTypeDTO::of).collect(Collectors.toList());
+    }
 }
