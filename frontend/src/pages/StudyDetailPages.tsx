@@ -262,7 +262,7 @@ function StudyDetailPages() {
         </Text>
         <Top>
           <TextBig>{detailStudy?.result.name}</TextBig>
-          <Link to={{ pathname: `/studies/${detailStudy?.result.id}` }}>
+          <Link to={{ pathname: `/studies/${detailStudy?.result.id}/home` }}>
             <Btn color="#F5C82E" onClick={studyJoinApi}>
               참여하기
             </Btn>
