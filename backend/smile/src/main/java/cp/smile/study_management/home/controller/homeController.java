@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-public class homeController {
+public class HomeController {
 
 
 }

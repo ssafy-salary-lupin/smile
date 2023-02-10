@@ -8,6 +8,6 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class homeServiceImpl {
+public class HomeServiceImpl {
 
 }
