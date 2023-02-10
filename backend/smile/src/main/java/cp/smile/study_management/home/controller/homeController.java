@@ -26,6 +26,8 @@ public class HomeController {
     private final ResponseService responseService;
 
 
+
+
     @GetMapping("/studies/{studyId}/home/d-day")
     public DataResponse<List<ScheduleDdayDTO>> findDday(
             @PathVariable int studyId,
