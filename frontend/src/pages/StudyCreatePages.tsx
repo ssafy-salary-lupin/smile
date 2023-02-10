@@ -444,7 +444,7 @@ function StudyCreatePages() {
   };
   const Change_typeId = (e: any) => {
     e.preventDefault();
-    // console.log(e.target.value);
+    console.log(e.target.value);
     setStudy_typeId(e.target.value);
   };
   const Change_maxPerson = (e: any) => {
