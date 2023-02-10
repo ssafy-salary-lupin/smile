@@ -210,23 +210,27 @@ function StudyDetailPages() {
   //   var result = JSON.parse(payload.toString());
   //   console.log("result", result);
   // }
-  //token
+  //token----------------------------
+
   if (token !== null) {
-    var decoded = jwt_decode(token);
+    var decoded: object = jwt_decode(token);
+    console.log("decoded : ", decoded);
+    console.log("decoded type: ", typeof decoded);
   } else {
     console.log("none");
   }
-
-  console.log("decoded : ", decoded);
-
   const studyJoinApi = async () => {
     await axios
-      .post(`${BASE_URL}`, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
+      .post(
+        `${BASE_URL}/${decoded}/studies/${detailStudy?.result.id}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
         },
-      })
+      )
       .then(function (response) {
         // console.log(response.data);
         console.log("1");
@@ -247,7 +251,7 @@ function StudyDetailPages() {
         </Text>
         <Top>
           <TextBig>{detailStudy?.result.name}</TextBig>
-          <Link to={{ pathname: `/studies/1` }}>
+          <Link to={{ pathname: `/${detailStudy?.result.id}` }}>
             <Btn color="#F5C82E">참여하기</Btn>
           </Link>
         </Top>
