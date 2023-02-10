@@ -194,6 +194,8 @@ function StudyManageBoardList() {
     setPage(page);
   };
 
+  console.log("data : ", listData);
+
   return (
     <Wrapper>
       <Head>
