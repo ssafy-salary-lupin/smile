@@ -2,16 +2,16 @@ package cp.smile.study_management.board.controller;
 
 import cp.smile.auth.oauth2.CustomOAuth2User;
 import cp.smile.config.response.CommonResponse;
-import cp.smile.config.response.CustomSuccessStatus;
 import cp.smile.config.response.DataResponse;
 import cp.smile.config.response.ResponseService;
 import cp.smile.config.response.exception.CustomException;
-import cp.smile.config.response.exception.CustomExceptionStatus;
 import cp.smile.dto.response.PageDTO;
 import cp.smile.entity.study_management.StudyBoard;
+import cp.smile.entity.study_management.StudyBoardType;
 import cp.smile.entity.user.User;
 import cp.smile.entity.user.UserJoinStudy;
 import cp.smile.study_management.board.dto.request.StudyBoardWriteDTO;
+import cp.smile.study_management.board.dto.response.BoardTypeDTO;
 import cp.smile.study_management.board.dto.response.DetailBoardDTO;
 import cp.smile.study_management.board.dto.response.SimpleBoardDTO;
 import cp.smile.study_management.board.service.StudyBoardService;
@@ -25,16 +25,18 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.EntityNotFoundException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static cp.smile.config.response.CustomSuccessStatus.*;
-import static cp.smile.config.response.exception.CustomExceptionStatus.*;
+import static cp.smile.config.response.CustomSuccessStatus.RESPONSE_NO_CONTENT;
+import static cp.smile.config.response.CustomSuccessStatus.RESPONSE_SUCCESS;
+import static cp.smile.config.response.exception.CustomExceptionStatus.ACCOUNT_NOT_FOUND;
+import static cp.smile.config.response.exception.CustomExceptionStatus.USER_NOT_ACCESS_STUDY;
 
 @RestController
-@RequestMapping("/studies/{studyId}/boards")
+@RequestMapping("")
 @Slf4j
 @RequiredArgsConstructor
 public class StudyBoardController {
@@ -45,12 +47,13 @@ public class StudyBoardController {
     private final UserJoinStudyRepository userJoinStudyRepository;
 
     // TODO : 2023.02.08 - @RequestPart의 파일 부분에 데이터가 들어오지 않는 경우를 처리했는데, 아래 로직에서는 처리가 안되었음.
-    @PostMapping
+    @PostMapping("/studies/{studyId}/boards")
     public CommonResponse write(@AuthenticationPrincipal CustomOAuth2User oAuth2User,
                                 @PathVariable int studyId,
                                 @RequestPart("data") StudyBoardWriteDTO dto,
                                 @RequestPart(value = "files", required = false) MultipartFile[] files) {
 
+        log.info("[***file - check***] : {}" , files);
 
         UserJoinStudy userJoinStudy = userJoinStudyRepository.findByUserIdAndStudyId(oAuth2User.getUserId(), studyId)
                 .orElseThrow(() -> new CustomException(USER_NOT_ACCESS_STUDY));
@@ -63,7 +66,7 @@ public class StudyBoardController {
         return responseService.getSuccessResponse();
     }
 
-    @GetMapping
+    @GetMapping("/studies/{studyId}/boards")
     public DataResponse<PageDTO<SimpleBoardDTO>> getAllStudyBoard(
             @AuthenticationPrincipal CustomOAuth2User customOAuth2User,
             @PathVariable int studyId,
@@ -91,7 +94,7 @@ public class StudyBoardController {
         return responseService.getDataResponse(PageDTO.of(result, content), RESPONSE_SUCCESS);
     }
 
-    @PostMapping("/{boardId}/comments")
+    @PostMapping("/studies/{studyId}/boards/{boardId}/comments")
     public CommonResponse writeComment(
             @AuthenticationPrincipal CustomOAuth2User oAuth2User,
             @PathVariable int boardId,
@@ -104,8 +107,19 @@ public class StudyBoardController {
         return responseService.getSuccessResponse();
     }
 
-    @GetMapping("/{boardId}")
+    @GetMapping("/studies/{studyId}/boards/{boardId}")
     public DataResponse<DetailBoardDTO> getStudyBoardDetail(@PathVariable int boardId) {
         return responseService.getDataResponse(DetailBoardDTO.of(studyBoardService.findByIdForView(boardId)), RESPONSE_NO_CONTENT);
+    }
+
+    @GetMapping("/studies/boards/types")
+    public DataResponse<Map<String, Object>> getTypes() {
+        List<StudyBoardType> types = studyBoardService.findAllType();
+        List<BoardTypeDTO> list = types.stream().map(BoardTypeDTO::of).collect(Collectors.toList());
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("types", list);
+
+        return responseService.getDataResponse(data, types.isEmpty() ? RESPONSE_NO_CONTENT : RESPONSE_SUCCESS);
     }
 }

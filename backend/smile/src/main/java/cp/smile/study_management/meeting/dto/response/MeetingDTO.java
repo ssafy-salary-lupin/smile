@@ -34,19 +34,6 @@ public class MeetingDTO {
     }
 
     @Getter @Setter
-    private static class MeetingTypeDTO {
-        private int typeId;
-        private String type;
-
-        public static MeetingTypeDTO of(StudyMeetingType studyMeetingType) {
-            MeetingTypeDTO dto = new MeetingTypeDTO();
-            dto.typeId = studyMeetingType.getId();
-            dto.type = studyMeetingType.getName().name();
-            return dto;
-        }
-    }
-
-    @Getter @Setter
     private static class MeetingStarterDTO {
         private int starterId;
         private String nickname;

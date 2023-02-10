@@ -22,6 +22,7 @@ public class OpenViduServiceImpl implements OpenViduService{
 
     @Override
     public String createSession(String customSessionId) throws OpenViduJavaClientException, OpenViduHttpException {
+        openVidu.fetch();
         if (openVidu.getActiveSession(customSessionId) != null) {
             throw new CustomException(STUDY_EXISTS_MEETING);
         }
@@ -31,9 +32,10 @@ public class OpenViduServiceImpl implements OpenViduService{
 
     @Override
     public String createConnectionToken(String sessionId, AttendRequestDTO dto) throws OpenViduJavaClientException, OpenViduHttpException {
+        openVidu.fetch();
         Session session = openVidu.getActiveSession(sessionId);
         if (session == null) {
-            throw new CustomException(NOT_FOUND_MEETING_SESSION);
+            session = openVidu.getActiveSession(createSession(sessionId));
         }
 
         if (session.getConnections().size() > MAX_ENTER_PERSON) {
@@ -46,9 +48,7 @@ public class OpenViduServiceImpl implements OpenViduService{
             properties = ConnectionProperties.fromJson(dto.toMap()).build();
         } else properties = ConnectionProperties.fromJson(null).build();
 
-        log.info("ConnectionProperties: {}", properties);
-
-        return session.createConnection(properties).getConnectionId();
+        return session.createConnection(properties).getToken();
     }
 
     @Override

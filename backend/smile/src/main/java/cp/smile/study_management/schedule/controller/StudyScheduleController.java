@@ -2,22 +2,24 @@ package cp.smile.study_management.schedule.controller;
 
 import cp.smile.auth.oauth2.CustomOAuth2User;
 import cp.smile.config.response.CommonResponse;
-import cp.smile.config.response.CustomSuccessStatus;
 import cp.smile.config.response.DataResponse;
 import cp.smile.config.response.ResponseService;
 import cp.smile.study_management.schedule.dto.request.CreateScheduleDTO;
 import cp.smile.study_management.schedule.dto.request.UpdateScheduleDTO;
 import cp.smile.study_management.schedule.dto.response.ScheduleDTO;
+import cp.smile.study_management.schedule.dto.response.ScheduleTypeDTO;
 import cp.smile.study_management.schedule.service.StudyScheduleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import static cp.smile.config.response.CustomSuccessStatus.*;
+import static cp.smile.config.response.CustomSuccessStatus.RESPONSE_NO_CONTENT;
+import static cp.smile.config.response.CustomSuccessStatus.RESPONSE_SUCCESS;
 
 @Slf4j
 @RestController
@@ -99,4 +101,13 @@ public class StudyScheduleController {
         return responseService.getSuccessResponse();
     }
 
+    @GetMapping("/studies/schedules/types")
+    public DataResponse<Map<String, Object>> getTypes() {
+        List<ScheduleTypeDTO> types = studyScheduleService.findAllType();
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("types", types);
+
+        return responseService.getDataResponse(data, types.isEmpty() ? RESPONSE_NO_CONTENT : RESPONSE_SUCCESS);
+    }
 }

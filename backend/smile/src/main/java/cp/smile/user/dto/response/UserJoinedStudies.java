@@ -29,16 +29,16 @@ public class UserJoinedStudies {
     @Getter @Setter
     @NoArgsConstructor
     private static class SimpleStudyDTO {
-        private int studyId; // 스터디 식별번호
+        private int id; // 스터디 식별번호
         private String name; // 스터디 이름
-        private String imageUrl; // 스터디 대표 이미지 주소
+        private String imagePath; // 스터디 대표 이미지 주소
         private String description; // 스터디 소개
-        private int person; // 현재 가입한 스터디인원
+        private int currentPerson; // 현재 가입한 스터디인원
         private int maxPerson; // 최대 스터디원수
-        private int views; // 조회수
+        private int viewCount; // 조회수
         private LocalDateTime lastVisitTime; // 최근 조회 시간
         private boolean isEnd;
-        private StudyLeader studyLeader;
+        private StudyLeader leader;
 
         private static SimpleStudyDTO of(UserJoinStudy userJoinStudy) {
             return of(userJoinStudy.getStudyInformation(), userJoinStudy.getUser());
@@ -46,16 +46,16 @@ public class UserJoinedStudies {
 
         private static SimpleStudyDTO of(StudyInformation studyInformation, User leader) {
             SimpleStudyDTO dto = new SimpleStudyDTO();
-            dto.studyId = studyInformation.getId();
+            dto.id = studyInformation.getId();
             dto.name = studyInformation.getName();
-            dto.imageUrl = studyInformation.getImgPath();
+            dto.imagePath = studyInformation.getImgPath();
             dto.description = studyInformation.getDescription();
-            dto.person = studyInformation.getCurrentPerson();
+            dto.currentPerson = studyInformation.getCurrentPerson();
             dto.maxPerson = studyInformation.getMaxPerson();
-            dto.views = studyInformation.getViewCount();
+            dto.viewCount = studyInformation.getViewCount();
             dto.lastVisitTime = studyInformation.getLastVisitedTime();
             dto.isEnd = studyInformation.isEnd();
-            dto.studyLeader = StudyLeader.of(leader);
+            dto.leader = StudyLeader.of(leader);
 
             return dto;
         }
@@ -64,17 +64,17 @@ public class UserJoinedStudies {
     @Getter @Setter
     @NoArgsConstructor
     private static class StudyLeader {
-        private int userId; // 스터디장 유저 식별번호
-        private String profileImageUrl; // 스터디장 프로필 사진 주소
+        private int id; // 스터디장 유저 식별번호
+        private String imagePath; // 스터디장 프로필 사진 주소
         private String nickname; // 스터디장 닉네임
 
         private static StudyLeader of(User user) {
-            StudyLeader leader = new StudyLeader();
-            leader.userId = user.getId();
-            leader.profileImageUrl = user.getImagePath();
-            leader.nickname = user.getNickname();
+            StudyLeader StudyLeader = new StudyLeader();
+            StudyLeader.id = user.getId();
+            StudyLeader.imagePath = user.getImagePath();
+            StudyLeader.nickname = user.getNickname();
 
-            return leader;
+            return StudyLeader;
         }
     }
 }

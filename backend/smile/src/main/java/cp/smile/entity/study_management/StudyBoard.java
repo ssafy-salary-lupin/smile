@@ -6,6 +6,7 @@ import cp.smile.entity.user.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "study_boards")
+@DynamicUpdate
 public class StudyBoard extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

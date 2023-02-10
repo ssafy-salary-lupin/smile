@@ -12,8 +12,9 @@ import java.time.LocalDateTime;
 public class FindAllStudyDTO {
 
     private int id; // 식별자
-    private String imgPath; //이미지 경로(s3 주소가 들어갈 예정.)
-    private int person; //현재 가입한 인원수
+    private String name; // 스터디 이름.
+    private String imagePath; //이미지 경로(s3 주소가 들어갈 예정.)
+    private int currentPerson; //현재 가입한 인원수
     private int maxPerson; //최대 인원수
     private String description; //스터디 설명.
     private int viewCount; //조회수
@@ -27,10 +28,11 @@ public class FindAllStudyDTO {
 
 
     @Builder
-    public FindAllStudyDTO(int id, String imgPath, int person, int maxPerson, String description, int viewCount, LocalDateTime lastVisitedTime, StudyTypeDTO type, int commentCount, UserProfileDTO leader) {
+    public FindAllStudyDTO(int id, String name, String imagePath, int currentPerson, int maxPerson, String description, int viewCount, LocalDateTime lastVisitedTime, StudyTypeDTO type, int commentCount, UserProfileDTO leader) {
         this.id = id;
-        this.imgPath = imgPath;
-        this.person = person;
+        this.name = name;
+        this.imagePath = imagePath;
+        this.currentPerson = currentPerson;
         this.maxPerson = maxPerson;
         this.description = description;
         this.viewCount = viewCount;

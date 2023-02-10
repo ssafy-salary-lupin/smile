@@ -3,6 +3,7 @@ package cp.smile.study_management.schedule.service;
 import cp.smile.study_management.schedule.dto.request.CreateScheduleDTO;
 import cp.smile.study_management.schedule.dto.request.UpdateScheduleDTO;
 import cp.smile.study_management.schedule.dto.response.ScheduleDTO;
+import cp.smile.study_management.schedule.dto.response.ScheduleTypeDTO;
 
 import java.util.List;
 
@@ -21,4 +22,6 @@ public interface StudyScheduleService {
     void updateStudySchedule(int userId, int studyId, int scheduleId, UpdateScheduleDTO updateScheduleDTO);
 
     void deleteStudySchedule(int userId, int studyId, int scheduleId);
+
+    List<ScheduleTypeDTO> findAllType();
 }

@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 /*스터디 상세정보 조회시 사용*/
@@ -18,27 +17,33 @@ public class FindDetailStudyDTO {
     private LocalDate startDate;
     private LocalDate endDate;
     private String time;
-    private String imgPath;
+    private String imagePath;
     private int currentPerson;
     private int maxPerson;
     private int viewCount;
+    private String description; //스터디 설명.
 
     private StudyTypeDTO type; //스터디 타입
+
+    private UserProfileDTO leader; // 스터디 리더 정보.
     private List<StudyCommentDTO> comments; //댓글 정보
 
 
     @Builder
-    public FindDetailStudyDTO(int id, String name, LocalDate startDate, LocalDate endDate, String time, String imgPath, int currentPerson, int maxPerson, int viewCount, StudyTypeDTO type, List<StudyCommentDTO> comments) {
+    public FindDetailStudyDTO(int id, String name, LocalDate startDate, LocalDate endDate, String time, String imagePath, int currentPerson, int maxPerson, int viewCount, String description,StudyTypeDTO type,UserProfileDTO leader, List<StudyCommentDTO> comments) {
         this.id = id;
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
         this.time = time;
-        this.imgPath = imgPath;
+        this.imagePath = imagePath;
         this.currentPerson = currentPerson;
         this.maxPerson = maxPerson;
         this.viewCount = viewCount;
+        this.description = description;
         this.type = type;
+        this.leader = leader;
         this.comments = comments;
+
     }
 }
