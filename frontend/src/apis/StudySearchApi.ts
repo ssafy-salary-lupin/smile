@@ -12,23 +12,23 @@ const api = axios.create({
     accept: "application/json,",
   },
 });
-console.log(1);
-export const StudySearchAll = () => {
-  const res = api.get("/studies");
-  console.log(res);
-  return res;
-};
+// console.log(1);
+// export const StudySearchAll = () => {
+//   const res = api.get("/studies");
+//   console.log(res);
+//   return res;
+// };
 
-// export async function StudySearchAll() {
-//   try {
-//     console.log("API 시작");
-//     const res = await api.get("/studies");
-//     const data = res.data.result;
-//     console.log("RES: ", data);
-//     return data;
-//   } catch (error) {
-//     // 에러 발생 시
-//     console.log(error);
-//     return error;
-//   }
-// }
+export async function StudySearchAll() {
+  try {
+    console.log("API 시작");
+    const res = await api.get("/studies");
+    const data = res.data.result;
+    console.log("RES: ", data);
+    return data;
+  } catch (error) {
+    // 에러 발생 시
+    console.log(error);
+    return error;
+  }
+}
