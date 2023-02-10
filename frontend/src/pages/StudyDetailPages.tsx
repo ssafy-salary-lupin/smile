@@ -155,7 +155,7 @@ interface Data {
 function StudyDetailPages() {
   // const profileImgUrl = props.studyInfo.studyLeader.profileImageUrl;
   // const studyImgUrl = props.studyInfo.imageUrl;
-  const BASE_URL = `https://i8b205.p.ssafy.io/be-api/studies`;
+  const BASE_URL = `https://i8b205.p.ssafy.io/be-api/`;
 
   const token = localStorage.getItem("kakao-token");
   // const [list, setList] = useState<studyDetailData[] | null>(null);
@@ -222,7 +222,7 @@ function StudyDetailPages() {
   const studyJoinApi = async () => {
     await axios
       .post(
-        `${BASE_URL}/${decoded}/studies/${detailStudy?.result.id}`,
+        `${BASE_URL}/${decoded?.userId}/studies/${detailStudy?.result.id}`,
         formData,
         {
           headers: {
