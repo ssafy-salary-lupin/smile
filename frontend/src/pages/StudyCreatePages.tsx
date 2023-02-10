@@ -445,8 +445,8 @@ function StudyCreatePages() {
   const Change_typeId = (e: any) => {
     e.preventDefault();
     console.log(e.target);
-    console.log(e.target.value);
-    console.log(e.target.id);
+    console.log("value", e.target.value);
+    console.log("key", e.target.key);
     setStudy_typeId(e.target.value);
   };
   const Change_maxPerson = (e: any) => {
