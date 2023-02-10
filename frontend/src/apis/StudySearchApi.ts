@@ -12,10 +12,13 @@ const api = axios.create({
     accept: "application/json,",
   },
 });
-
-export const StudySearchAll = {
-  get: async () => await api.get("/studies"),
+console.log(1);
+export const StudySearchAll = () => {
+  const res = api.get("/studies");
+  console.log(res);
+  return res;
 };
+
 // export async function StudySearchAll() {
 //   try {
 //     console.log("API 시작");
