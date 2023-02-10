@@ -161,7 +161,7 @@ function StudyDetailPages() {
   // const [list, setList] = useState<studyDetailData[] | null>(null);
 
   const StudyDataApi = async () => {
-    console.log("실행");
+    // console.log("실행");
 
     try {
       const response = await fetch(`${BASE_URL}/1`, {
@@ -171,7 +171,7 @@ function StudyDetailPages() {
         },
       });
 
-      console.log("data : ", response);
+      // console.log("data : ", response);
       const data = await response.json();
       return data;
     } catch (error: any) {
@@ -183,7 +183,7 @@ function StudyDetailPages() {
   const { data: detailStudy } = useQuery<Data>("StudyDataApi", () =>
     StudyDataApi(),
   );
-  console.log("detailStudy", detailStudy);
+  // console.log("detailStudy", detailStudy);
 
   const formData = new FormData();
   //-----------------------------------------------\
@@ -228,7 +228,8 @@ function StudyDetailPages() {
         },
       })
       .then(function (response) {
-        console.log(response.data);
+        // console.log(response.data);
+        console.log("1");
       })
       .catch((error) => {
         console.log(error);
