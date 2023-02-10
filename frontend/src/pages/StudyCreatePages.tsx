@@ -495,7 +495,7 @@ function StudyCreatePages() {
             </SelectName>
             <SelectBox onChange={Change_typeId}>
               {TType?.map((item) => (
-                <option value={item.name} key={item.id}>
+                <option value={item.id} key={item.id}>
                   {item.name}
                 </option>
               ))}
