@@ -134,6 +134,7 @@ export default function StudySearchPages() {
     setMoreStudyList(StudyList.slice(10));
     setStudyList(StudyList.slice(0, 10));
   }
+
   return (
     <>
       <BlankSpace />
