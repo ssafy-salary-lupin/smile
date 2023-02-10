@@ -10,7 +10,6 @@ public class UserJoinDTO {
     private String email;
     private String nickname;
     private String password;
-//    private String imgPath;
 
     @Builder
     public UserJoinDTO(String email, String nickname, String password) {

@@ -11,4 +11,6 @@ public class AwsS3DirectoryName {
 
     public final static String STUDY_IMG = "study-img/"; //스터디 이미지 관련
     public final static String STUDY_FILE = "study-file/"; //스터디 관련 파일 기본경로.
+
+    public final static String PROFILE_IMG = "profile-img/"; //유저 프로필 이미지 관련
 }
