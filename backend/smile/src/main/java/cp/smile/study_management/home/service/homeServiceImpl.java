@@ -3,9 +3,7 @@ package cp.smile.study_management.home.service;
 
 import cp.smile.config.response.exception.CustomException;
 import cp.smile.config.response.exception.CustomExceptionStatus;
-import cp.smile.entity.study_common.StudyInformation;
 import cp.smile.entity.study_management.StudySchedule;
-import cp.smile.entity.user.User;
 import cp.smile.study_common.repository.StudyCommonRepository;
 import cp.smile.study_management.home.dto.response.ScheduleDdayDTO;
 import cp.smile.study_management.schedule.repository.StudyScheduleRepository;
@@ -13,15 +11,18 @@ import cp.smile.user.repository.UserJoinStudyRepository;
 import cp.smile.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class homeServiceImpl implements homeService{
+public class HomeServiceImpl implements HomeService {
 
     //유저 레포
     private final UserRepository userRepository;
@@ -57,15 +58,16 @@ public class homeServiceImpl implements homeService{
 
         //스터디의 일정 조회
         List<StudySchedule> studySchedules = studyScheduleRepository
-                .findAllByEndTimeLimit5(currentTime)
+                .findAllByEndTimeLimit5(currentTime, PageRequest.of(0,5))
                 .orElseThrow(() -> new CustomException(CustomExceptionStatus.NOT_FOUND_SCHEDULE));
 
 
         //스터디일정을 d-day DTO로 변환
-        studySchedules.stream()
-                .map()
+        List<ScheduleDdayDTO> scheduleDdayDTOS = studySchedules.stream()
+                .map((studySchedule) -> studySchedule.createScheduleDdayDTO(currentTime))
+                .collect(Collectors.toList());
 
-        return null;
+        return scheduleDdayDTOS;
     }
 
 }

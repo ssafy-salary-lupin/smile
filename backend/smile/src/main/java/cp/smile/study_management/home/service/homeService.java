@@ -4,7 +4,7 @@ import cp.smile.study_management.home.dto.response.ScheduleDdayDTO;
 
 import java.util.List;
 
-public interface homeService {
+public interface HomeService {
 
 
     List<ScheduleDdayDTO> findDDay(int userId,int studyId);

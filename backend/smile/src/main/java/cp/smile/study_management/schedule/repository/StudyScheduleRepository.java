@@ -2,9 +2,11 @@ package cp.smile.study_management.schedule.repository;
 
 import cp.smile.entity.study_common.StudyInformation;
 import cp.smile.entity.study_management.StudySchedule;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,6 +23,6 @@ public interface StudyScheduleRepository extends JpaRepository<StudySchedule,Int
 
     @Query(value = "select s from StudySchedule s " +
             "where s.endTime >= :currentTime " +
-            "order by s.endTime DESC limit 5")
-    Optional<List<StudySchedule>> findAllByEndTimeLimit5(@Param("currentTime") LocalDateTime currentTime);
+            "order by s.endTime DESC")
+    Optional<List<StudySchedule>> findAllByEndTimeLimit5(@Param("currentTime") LocalDateTime currentTime, Pageable pageable);
 }

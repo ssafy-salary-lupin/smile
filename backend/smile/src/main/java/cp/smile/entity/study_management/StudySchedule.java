@@ -14,6 +14,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
 
@@ -75,10 +76,15 @@ public class StudySchedule extends BaseEntity {
     }
 
     public ScheduleDdayDTO createScheduleDdayDTO(LocalDateTime currentTime){
+
+        //두 날짜 간격 구하기
+        Period period = Period.between(currentTime.toLocalDate(),this.endTime.toLocalDate());
+
+
         return ScheduleDdayDTO.builder()
                 .id(this.id)
-                .day()
-                .title()
+                .day(period.getDays())
+                .title(this.name)
                 .build();
     }
 
