@@ -9,6 +9,7 @@ import cp.smile.config.response.exception.CustomException;
 import cp.smile.entity.study_common.StudyInformation;
 import cp.smile.entity.study_management.StudyMeeting;
 import cp.smile.entity.study_management.StudyMeetingType;
+import cp.smile.entity.study_management.StudyMeetingTypeName;
 import cp.smile.entity.user.User;
 import cp.smile.study_common.repository.StudyCommonRepository;
 import cp.smile.study_management.meeting.dto.request.AttendRequestDTO;
@@ -81,16 +82,10 @@ public class MeetingController {
                                          @RequestBody MeetingCreationRequestDTO dto,
                                          @PathVariable int studyId) throws OpenViduJavaClientException, OpenViduHttpException {
         checkIsJoinedStudy(oAuth2User.getUserId(), studyId);
-        User starter = userRepository.findById(oAuth2User.getUserId())
-                .orElseThrow(() -> new CustomException(ACCOUNT_NOT_FOUND));
 
-        StudyInformation study = studyCommonRepository.findById(studyId)
-                .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY));
+        StudyMeeting meeting = createMeeting(oAuth2User.getUserId(), studyId, dto);
 
-        StudyMeeting meeting = studyMeetingService.createMeeting(starter, study, dto);
-        String sessionId = openViduService.createSession(String.valueOf(studyId));
-
-        return responseService.getDataResponse(new MeetingDTO(sessionId, meeting), RESPONSE_SUCCESS);
+        return responseService.getDataResponse(new MeetingDTO(String.valueOf(studyId), meeting), RESPONSE_SUCCESS);
     }
 
     @PostMapping("/studies/{studyId}/meetings/connection")
@@ -102,6 +97,10 @@ public class MeetingController {
         checkIsJoinedStudy(oAuth2User.getUserId(), studyId);
 
         String sessionId = String.valueOf(studyId);
+        if (!openViduService.existsSession(sessionId)) {
+            createMeeting(oAuth2User.getUserId(), studyId, null);
+        }
+
         String connection = openViduService.createConnectionToken(sessionId, dto);
 
         return responseService.getDataResponse(new AttendTokenDTO(sessionId, connection), RESPONSE_SUCCESS);
@@ -123,6 +122,25 @@ public class MeetingController {
         data.put("types", list);
 
         return responseService.getDataResponse(data, types.isEmpty() ? RESPONSE_NO_CONTENT : RESPONSE_SUCCESS);
+    }
+
+    private StudyMeeting createMeeting(int starterId, int studyId, MeetingCreationRequestDTO dto)
+            throws OpenViduJavaClientException, OpenViduHttpException {
+        User starter = userRepository.findById(starterId)
+                .orElseThrow(() -> new CustomException(ACCOUNT_NOT_FOUND));
+
+        StudyInformation study = studyCommonRepository.findById(studyId)
+                .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY));
+
+        if (dto == null) {
+            dto = MeetingCreationRequestDTO.builder()
+                    .meetingName(study.getName() + "의 화상회의")
+                    .meetingTypeId(StudyMeetingTypeName.valueOf("일반").getId())
+                    .build();
+        }
+
+        String sessionId = openViduService.createSession(String.valueOf(studyId));
+        return studyMeetingService.createMeeting(starter, study, dto);
     }
 
     private boolean checkIsJoinedStudy(int userId, int studyId) {
