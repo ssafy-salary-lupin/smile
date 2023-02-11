@@ -9,6 +9,8 @@ import Card from "components/common/Card";
 import { AxiosError } from "axios";
 import MyStudyNotFound from "components/common/MyStudyNotFound";
 import { Link } from "react-router-dom";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { SearchNameState, SearchTypeState } from "atoms/SearchAtom";
 // 스터디 조회 페이지 전체를 감사는 div
 const Wrapper = styled.div`
   display: flex;
@@ -104,8 +106,32 @@ interface StudiesDataType {
   };
 }
 export default function StudySearchPages() {
+  // const [searchName, setSearchName] = useRecoilState<string>(SearchNameState);
+  // const [searchType, setSearchType] = useRecoilState<number[]>(SearchTypeState);
+  // useEffect(() => {
+  //   const searchValue = `/studies?${searchName ? "name=" + searchName : null}&${
+  //     searchType ? "type=" + searchType : null
+  //   }`;
+  //   console.log("SEARCH", searchValue);
+  // }, [searchName, searchType]);
+  const searchName = useRecoilValue<string>(SearchNameState);
+  const searchType = useRecoilValue<number[]>(SearchTypeState);
+  const searchValue = `/studies?${searchName ? "name=" + searchName : ""}&${
+    searchType ? "type=" + searchType : ""
+  }`;
+  console.log("SEARCH", searchValue);
+
   // API 불러오기
-  const { isLoading, data } = useQuery("studies", () => StudySearchAll.get);
+  const { isLoading, refetch, data } = useQuery("studies", () =>
+    StudySearchAll.api.get(searchValue),
+  );
+
+  useEffect(() => {
+    if (!!searchValue) {
+      refetch();
+    }
+  }, [searchValue]);
+
   console.log("DATA:", isLoading, data);
   // 스터디 더보기 클릭 여부를 확인하기 위한 state
   const [isClickMore, setIsClickMore] = useState<boolean>(false);
