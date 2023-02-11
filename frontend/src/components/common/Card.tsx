@@ -22,6 +22,28 @@ const CardNotHover = keyframes`
   }
 `;
 
+const enterDescription = keyframes`
+  from {
+    opacity: 0;
+    z-index: -1;
+  }
+  to {
+    opacity: 0.65;
+    z-index: 100;
+  }
+`;
+
+const leaveDescription = keyframes`
+  from {
+    opacity: 0.65;
+    z-index: 100;
+  }
+  to {
+    opacity: 0;
+    z-index: -1;
+  }
+`;
+
 const SContainer = styled.div`
   display: grid;
   grid-template-rows: 21.84vw 12.91vw;
@@ -33,9 +55,15 @@ const SContainer = styled.div`
   box-shadow: 0px 0px 1.12vw ${(props) => props.theme.subColor};
   :hover {
     animation: ${CardHover} 1.5s forwards;
+    #overD {
+      animation: ${enterDescription} 1s forwards;
+    }
   }
   :not(:hover) {
     animation: ${CardNotHover} 1.5s forwards;
+    #overD {
+      animation: ${leaveDescription} 1s forwards;
+    }
   }
 `;
 
@@ -50,33 +78,7 @@ const SCardImg = styled.img`
   height: 21.84vw;
 `;
 
-interface DescriptionPropsType {
-  isOver: boolean;
-}
-
-const enterDescription = keyframes`
-  from {
-    opacity: 0;
-    z-index: -1;
-  }
-  to {
-    opacity: 0.65;
-    z-index: 999;
-  }
-`;
-
-const leaveDescription = keyframes`
-  from {
-    opacity: 0.65;
-    z-index: 999;
-  }
-  to {
-    opacity: 0;
-    z-index: -1;
-  }
-`;
-
-const Description = styled.div<DescriptionPropsType>`
+const Description = styled.div`
   position: absolute;
   display: flex;
   justify-content: center;
@@ -87,8 +89,6 @@ const Description = styled.div<DescriptionPropsType>`
   height: 21.84vw;
   opacity: 0;
   z-index: -1;
-  animation: ${(props) => (props.isOver ? enterDescription : leaveDescription)}
-    1s forwards;
 `;
 
 const SCardInfo = styled.div`
@@ -173,14 +173,6 @@ interface PropsType {
 }
 
 export default function Card(props: PropsType) {
-  const [isOver, setIsOver] = useState<boolean>(false);
-  const cardEnter = () => {
-    setIsOver(true);
-  };
-  const cardLeave = () => {
-    setIsOver(false);
-  };
-
   const visitedTime = 1;
   const visitedCountInput = props.studyInfo.viewCount;
   const visitedCount = visitedCountInput
@@ -196,11 +188,11 @@ export default function Card(props: PropsType) {
         pathname: `/detail/${props.studyInfo.id}`, // 스터디 상세 조회 페이지 주소 입력하기
       }}
     >
-      <SContainer onMouseEnter={cardEnter} onMouseLeave={cardLeave}>
+      <SContainer>
         <SCardImg
           src={studyImgUrl.includes("/root") ? defaultStudyImg : studyImgUrl}
         />
-        <Description isOver={isOver}>
+        <Description id={"overD"}>
           <span>{props.studyInfo.description}</span>
         </Description>
         <SCardItem>
