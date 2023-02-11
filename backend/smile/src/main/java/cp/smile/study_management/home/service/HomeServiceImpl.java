@@ -67,7 +67,7 @@ public class HomeServiceImpl implements HomeService {
     }
 
     @Override
-    public List<ScheduleDdayDTO> findDDay(int userId, int studyId) {
+    public List<ScheduleDdayDTO> findDday(int userId, int studyId) {
 
         //해당 유저가 스터디에 속한 사람인지 확인 - 스터디, 유저 조회.
         userRepository
@@ -84,6 +84,7 @@ public class HomeServiceImpl implements HomeService {
 
         //현재시간 조회
         LocalDateTime currentTime = LocalDateTime.now();
+        log.info("[current time - {}]",currentTime);
 
         //스터디의 일정 조회
         List<StudySchedule> studySchedules = studyScheduleRepository
