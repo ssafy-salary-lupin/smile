@@ -124,7 +124,7 @@ public class StudyScheduleServiceImpl implements StudyScheduleService{
 
         //입력된 색깔이 없으면 기본색깔을 GREEN으로 함.
         String color = "GREEN";
-        if(createScheduleDTO.getColor() != null) color = createScheduleDTO.getColor();
+        if(createScheduleDTO.getColor() != null) color = createScheduleDTO.getColor().toUpperCase(); //대문자로 바꿈
 
         //스터디 일정 엔티티에 넣기
         StudySchedule studySchedule = StudySchedule.builder()
