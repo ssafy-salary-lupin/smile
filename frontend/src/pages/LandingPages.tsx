@@ -147,7 +147,7 @@ const slideRight = keyframes`
 const slideLeftReverse = keyframes`
   from {
     left: 3.6vw;
-    opacity: 1;
+    /* opacity: 1; */
   }
   to {
     left: -50vw;
@@ -158,7 +158,7 @@ const slideLeftReverse = keyframes`
 const slideRightReverse = keyframes`
   from {
     right: 3.6vw;
-    opacity: 1;
+    /* opacity: 1; */
   }
   to {
     right: -50vw;
@@ -184,6 +184,7 @@ const SIntroductionItem = styled.div<SIntroductionItemTextProps>`
   /* padding: 96px; */
 
   img {
+    opacity: 0;
     width: 44.8vw;
     height: 52.22vw;
     border-radius: 1.12vw;
@@ -203,6 +204,7 @@ const SIntroductionItem = styled.div<SIntroductionItemTextProps>`
       2s forwards ease-in;
   }
   div {
+    opacity: 0;
     ${(props) => (props.direction === "L" ? "right: 3.6vw;" : "left: 3.6vw")};
     animation: ${(props) =>
         props.top <= 900

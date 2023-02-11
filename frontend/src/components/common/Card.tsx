@@ -28,14 +28,14 @@ const enterDescription = keyframes`
     z-index: -1;
   }
   to {
-    opacity: 0.65;
+    opacity: 0.8;
     z-index: 100;
   }
 `;
 
 const leaveDescription = keyframes`
   from {
-    opacity: 0.65;
+    opacity: 0.8;
     z-index: 100;
   }
   to {
@@ -83,12 +83,18 @@ const Description = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #757a7f;
+  background-color: #434649;
   border-radius: 1.12vw 1.12vw 0px 0px;
   width: 29.68vw;
   height: 21.84vw;
   opacity: 0;
   z-index: -1;
+  span {
+    padding: 2.778vw;
+    font-size: 1.26vw;
+    font-weight: 600;
+    color: white;
+  }
 `;
 
 const SCardInfo = styled.div`
