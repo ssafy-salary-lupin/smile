@@ -11,6 +11,7 @@ import MyStudyNotFound from "components/common/MyStudyNotFound";
 import { Link } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { SearchNameState, SearchTypeState } from "atoms/SearchAtom";
+import LoadingCard from "components/common/LoadingCard";
 // 스터디 조회 페이지 전체를 감사는 div
 const Wrapper = styled.div`
   display: flex;
@@ -53,7 +54,7 @@ const CreateBtnWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   padding: 0 2.778vw;
-  margin: 1.111vw 0 3.889vw 0;
+  margin: 1.111vw 0 2.222vw 0;
   button {
     background-color: ${(props) => props.theme.mainColor};
     border: none;
@@ -73,7 +74,7 @@ const Section = styled.div``;
 const Cards = styled.div<CardsProps>`
   display: grid;
   grid-template-columns: repeat(3, 31.48vw);
-  /* grid-template-rows: repeat(2, 38.889vw); */
+  grid-template-rows: repeat(3, 38.889vw);
   margin-top: 2.8vw;
 `;
 
@@ -81,6 +82,37 @@ const CardWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const fadeOut = keyframes`
+  from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+        z-index: -1;
+    }
+`;
+
+const SkeletonCards = styled.div`
+  margin-top: 2.8vw;
+  position: absolute;
+  z-index: 999;
+  display: grid;
+  grid-template-columns: repeat(3, 31.48vw);
+  grid-template-rows: repeat(3, 38.889vw);
+  animation-name: ${fadeOut};
+  animation-duration: 1s;
+  animation-timing-function: ease-out;
+  animation-delay: 1.5s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+`;
+
+const LoadingWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 `;
 
 interface CardsProps {
@@ -136,6 +168,7 @@ export default function StudySearchPages() {
   const [StudyList, setStudyList] = useState<StudiesDataType[]>([]);
   // 더 보기 스터디 리스트
   const [moreStudyList, setMoreStudyList] = useState<object[]>();
+
   useEffect(() => {
     const cardNumber = StudyList ? StudyList.length : 0;
     console.log("호출");
@@ -152,11 +185,27 @@ export default function StudySearchPages() {
     }
   }, [StudyList, data]);
   console.log("StudyList", StudyList);
+  const [position, setPosition] = useState(0);
+  const wrapperTag = document.querySelector("#search-wrapper");
+  if (wrapperTag) {
+    const loadLine = wrapperTag.clientHeight * 0.8;
+  }
+  function onScroll() {
+    const wrapperTag = document.querySelector("#search-wrapper");
 
+    setPosition(window.scrollY);
+    // setPosition(window.innerHeight);
+
+    //   setPosition(wrapperTag?.clientHeight);
+  }
+  useEffect(() => {
+    window.addEventListener("scroll", onScroll);
+  }, []);
+  console.log("Y:", position);
   return (
     <>
       <BlankSpace />
-      <Wrapper>
+      <Wrapper id={"search-wrapper"}>
         {!isLoading ? (
           <>
             <Header>
@@ -173,6 +222,14 @@ export default function StudySearchPages() {
               </Link>
             </CreateBtnWrapper>
             <Section>
+              <SkeletonCards>
+                {[...Array(9).keys()].map((index) => (
+                  <LoadingWrapper key={index}>
+                    <LoadingCard />
+                  </LoadingWrapper>
+                ))}
+              </SkeletonCards>
+
               <Cards NumberOfCards={studiesNumber}>
                 {StudyList.map((study) => (
                   <CardWrapper key={study.id}>
@@ -202,7 +259,13 @@ export default function StudySearchPages() {
           </>
         ) : (
           <MyStudyNotFound>
-            <h3>로딩중...</h3>
+            <SkeletonCards>
+              {[...Array(9).keys()].map(() => (
+                <LoadingWrapper>
+                  <LoadingCard />
+                </LoadingWrapper>
+              ))}
+            </SkeletonCards>
           </MyStudyNotFound>
         )}
       </Wrapper>
