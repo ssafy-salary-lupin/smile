@@ -659,7 +659,7 @@ function StudyCreatePages() {
       </TotalBox>
     </div>
   );
-}
+}}
 
 export default StudyCreatePages;
 // export default StudyCreatePages;
@@ -669,5 +669,5 @@ export function changeFormat(date: Date, format: string) {
     return moment(date).format(format);
   } else {
     return null;
-  }
+  };
 }
