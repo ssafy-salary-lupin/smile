@@ -271,17 +271,16 @@ function StudyManageBoardWrite() {
       }
     }
 
+    // const BASE_URL = `https://i8b205.p.ssafy.io/be-api/studies`;
+    const BASE_URL = `/be-api/studies`;
     try {
-      await axios.post(
-        `https://i8b205.p.ssafy.io/be-api/studies/1/boards`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("kakao-token")}`,
-            "Content-Type": "multipart/form-data",
-          },
+      await axios.post(`${BASE_URL}/1/boards`, formData, {
+        headers: {
+          // Authorization: `Bearer ${localStorage.getItem("kakao-token")}`,
+          Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYwMTE0NjIsImV4cCI6MTY3NjA5Nzg2Mn0.WXI-d9ebQVtoLZt2jmPN0ZlZPFSpyehPLziClnmIgsmT-M_fmNH33lg585qW2-fZsycXjktAlX7cCf3JyLB1fg`,
+          "Content-Type": "multipart/form-data",
         },
-      );
+      });
     } catch (error) {
       console.log(error);
     }

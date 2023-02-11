@@ -4,17 +4,12 @@ import { ReactComponent as Close } from "../../assets/icon/Close.svg";
 import { ReactComponent as Calendar } from "../../assets/icon/Calendar.svg";
 import { ReactComponent as Hashtag } from "../../assets/icon/Hashtag.svg";
 import { ReactComponent as LinkLogo } from "../../assets/icon/Link.svg";
+import { scheduleSelectApi } from "apis/StudyManageMainApi";
+import { useQuery } from "react-query";
 
 interface PropsType {
   setModalOpen: React.Dispatch<SetStateAction<boolean>>;
-  title: string;
-  start: string;
-  end: string;
-  timeStart: string;
-  timeEnd: string;
-  desc: string;
-  type: string;
-  link: string;
+  scheduleId: number;
 }
 
 const ModalContainer = styled.div`
@@ -167,8 +162,26 @@ const YellowBtn = styled.button`
   font-size: 1vw;
 `;
 
+interface IScheduleInfo {
+  isSuccess: boolean;
+  code: number;
+  message: string;
+  result: {
+    id: number; //일정 식별자
+    startTime: string; //시작시간
+    endTime: string; //종료시간.
+    title: string;
+    description: string;
+    url: string;
+    // color: string; //일정 표시 색깔
+    type: {
+      id: number; //유형 식별자
+      name: string;
+    };
+  };
+}
+
 function ModalCalendarCommonView(props: PropsType) {
-  // const [modalOpen, setModalOpen] = useState<boolean>(true);
   // 모달 끄기
   const closeModal = () => {
     props.setModalOpen(false);
@@ -193,6 +206,13 @@ function ModalCalendarCommonView(props: PropsType) {
       // document.removeEventListener('touchstart', handler); // 모바일 대응
     };
   });
+
+  // 일정 단건 조회 scheduleId
+  const { data: scheduleInfo } = useQuery<IScheduleInfo>(
+    "scheduleSelectApi",
+    () => scheduleSelectApi(props.scheduleId),
+  );
+
   return (
     <Backdrop>
       <ModalContainer ref={modalRef}>
@@ -209,24 +229,32 @@ function ModalCalendarCommonView(props: PropsType) {
             <Calendar width="100%" height="100%" />
           </ModalImg>
           <ModalContent>
-            <Title placeholder="회의 제목" disabled value={props.title} />
-            <Text>{props.desc}</Text>
+            <Title
+              placeholder="회의 제목"
+              disabled
+              value={scheduleInfo?.result.title || ""}
+            />
+            <Text>{scheduleInfo?.result.description || ""}</Text>
             <HashtagBox>
               <Hashtag width="10%" height="100%" />
-              <HashtagTxt>시작 시간 : {props.timeStart}</HashtagTxt>
+              <HashtagTxt>
+                시작 시간 : {scheduleInfo?.result.startTime.split("T")[0] || ""}
+              </HashtagTxt>
             </HashtagBox>
             <HashtagBox>
               <Hashtag width="10%" height="100%" />
-              <HashtagTxt>마감 시간 : {props.timeEnd}</HashtagTxt>
+              <HashtagTxt>
+                마감 시간 : {scheduleInfo?.result.endTime.split("T")[0] || ""}
+              </HashtagTxt>
             </HashtagBox>
             <HashtagBox>
               <Hashtag width="10%" height="100%" />
-              <HashtagTxt>{props.type}</HashtagTxt>
+              <HashtagTxt>{scheduleInfo?.result.type.name || ""}</HashtagTxt>
             </HashtagBox>
-            {props.link && (
+            {scheduleInfo?.result.url && (
               <HashtagBox>
                 <Hashtag width="10%" height="100%" />
-                <Link href={props.link}>링크 바로가기</Link>
+                <Link href={scheduleInfo?.result.url}>링크 바로가기</Link>
               </HashtagBox>
             )}
           </ModalContent>

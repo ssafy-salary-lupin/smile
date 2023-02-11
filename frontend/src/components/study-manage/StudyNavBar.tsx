@@ -83,7 +83,7 @@ function StudyNavBar() {
         </ItemText>
         <Itemline>|</Itemline>
         <ItemText>
-          <Link to="">스터디 관리</Link>
+          <Link to="/manage/manageMember">스터디 관리</Link>
         </ItemText>
       </Items>
     </StudyNav>

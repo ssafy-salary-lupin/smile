@@ -3,14 +3,13 @@ import styled from "styled-components";
 import ModalNone from "components/common/ModalNone";
 import { Close as CloseIcon } from "components/common/Icons";
 import { useRecoilState } from "recoil";
-import { StudyRuleAtom } from "atoms/StudyManageMainAtom";
 import ReactQuill from "react-quill";
 
 // 모달의 크기 설정
 const Wrapper = styled.div`
   .modalBox {
-    width: 56.111vw;
-    height: 47.222vw;
+    width: 41.667vw;
+    height: 27.778vw;
   }
 `;
 
@@ -26,10 +25,11 @@ const Container = styled.div`
 // 제목과 X아이콘을 포함하는 헤더
 const Header = styled.div`
   display: flex;
+  flex-direction: row;
+  align-items: center;
   justify-content: space-between;
   align-items: center;
-  height: 6.458vw;
-  background-color: rgba(49, 78, 141, 0.2);
+  height: 15%;
 `;
 
 // 제목
@@ -58,10 +58,10 @@ const Section = styled.div`
   justify-content: center;
   width: 100%;
   /* width: 53.611vw; */
-  height: 29.236vw;
-  /* height: 100%; */
+  /* height: 29.236vw; */
+  height: 70%;
   /* margin: 1.667vw 0px; */
-  background-color: ${(props) => props.theme.subColor};
+  /* background-color: ${(props) => props.theme.subColor}; */
 
   .quill {
     width: 100%;
@@ -71,8 +71,8 @@ const Section = styled.div`
 
   .ql-container.ql-snow {
     border: 1px solid transparent;
-    height: 29.236vw;
-    background-color: ${(props) => props.theme.subColor};
+    height: 100%;
+    /* background-color: ${(props) => props.theme.subColor}; */
     /* box-shadow: 0px 0px 2vw #666b70; */
   }
 
@@ -113,7 +113,11 @@ const Hr = styled.div`
 // 완료 버튼이 있는 요소
 const Footer = styled.div`
   display: flex;
-  height: 8.333vw;
+  flex-direction: row;
+  justify-content: center;
+  height: 15%;
+  background-color: ${(props) => props.theme.pointColor};
+  border-radius: 0 0 0.556vw 0.556vw;
 `;
 
 // 완료 버튼
@@ -122,14 +126,14 @@ const SumitBtn = styled.button.attrs({})`
   bottom: 2.222vw;
   right: 2.222vw;
   width: 11.25vw;
-  height: 4.167vw;
+  height: 60.005px;
   border-radius: 0.347vw;
   border: none;
   background-color: ${(props) => props.theme.mainColor};
-  font-size: 1.667vw;
+  font-size: 1.111vw;
   cursor: pointer;
   span {
-    /* font-size: 1.667vw; */
+    /* font-size: 24.005px; */
   }
 `;
 
@@ -141,12 +145,9 @@ function StudyRuleModal(props: IPropsType) {
     props.setModalOpen(false);
   };
 
-  const [studyRule, setStudyRule] = useRecoilState(StudyRuleAtom);
   const [rule, setRule] = useState("");
 
-  const registRule = () => {
-    setStudyRule(rule);
-  };
+  const registRule = () => {};
 
   const modules = {
     toolbar: false,

@@ -194,8 +194,6 @@ function StudyManageBoardList() {
     setPage(page);
   };
 
-  console.log("data : ", listData);
-
   return (
     <Wrapper>
       <Head>
@@ -207,9 +205,9 @@ function StudyManageBoardList() {
       <BoardListBox>
         <Tbody>
           {totalElements > 0 && list !== null ? (
-            list.map((el) => {
+            list.map((el, key) => {
               return (
-                <Row>
+                <Row key={el.boardId}>
                   {/* <BoardNum>{el.boardId}</BoardNum> */}
                   <BoardType>
                     {el.boardType.name === "공지" ? (

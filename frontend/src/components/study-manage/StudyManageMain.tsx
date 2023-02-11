@@ -5,12 +5,8 @@ import { useState } from "react";
 import StudyRuleModal from "./StudyRuleModal";
 import ChatModal from "./ChatModal";
 import { useQuery } from "react-query";
-import {
-  StudyInfoSelectApi,
-  StudyUserSelectApi,
-} from "apis/StudyManageMainApi";
-import { useRecoilState } from "recoil";
-import { StudyRuleAtom } from "atoms/StudyManageMainAtom";
+import { DdaySelectApi, StudyInfoSelectApi } from "apis/StudyManageMainApi";
+import ModalCalendarCommonView from "./ModalCalendarCommonView";
 
 const Wrapper = styled.div`
   margin: 3.889vw 10.833vw;
@@ -202,7 +198,7 @@ const DdayTitle = styled.div`
 
 const DdayBox = styled.div`
   overflow-y: scroll;
-  height: 13.333vw;
+  height: 17.778vw;
   &::-webkit-scrollbar {
     width: 6px;
   }
@@ -214,8 +210,10 @@ const DdayBox = styled.div`
 `;
 
 const Dday = styled.div`
+  cursor: pointer;
   width: 90%;
-  height: 2.778vw;
+  min-height: 2.778vw;
+  height: auto;
   border: 1px solid rgb(118, 118, 118);
   box-shadow: 2px 2px 2px rgb(169, 169, 169);
   border-radius: 0.556vw;
@@ -232,8 +230,9 @@ const Tag = styled.div`
 
 const Text = styled.div`
   width: 85%;
-  font-size: 1.111vw;
-  text-align: center;
+  font-size: 0.972vw;
+  line-height: 1.667vw;
+  text-align: left;
   display: flex;
   align-items: center;
   padding: 0 1.111vw;
@@ -258,54 +257,31 @@ interface DataInfo {
   code: number;
   message: string;
   result: {
-    id: number;
-    name: string; //스터디 이름
-    startDate: string; //스터디 시작 일자
-    endDate: string; //스터디 종료 일자
-    time: string; //스터디 시간
-    imgPath: string; //스터디 대표 이미지
-    currrentPerson: number; //스터디 현재 가입 인원
-    maxPerson: number; //스터디 최대 가입 인원
-    viewCount: number; //스터디 조회수
-    type: {
-      id: number; //스터디 유형 식별자
-      name: string; //스터디 유형 이름
-    };
-    comments: [
+    imagePath: string;
+    name: string; // 스터디 이름
+    description: string; // 스터디 설명
+    startDate: string; // 스터디 생성날짜
+    endDate: string; // 스터디 종료날짜
+    time: string; // 스터디 하는 시간.
+    rule: string; // 스터디 규칙
+    users: [
       {
-        user: {
-          id: number; //댓글 작성자 식별자
-          imgPath: string; //프로필
-          nickname: string; //댓글 작성자 닉네임
-        };
-        content: string; //댓글 내용
-        replies: [
-          //답글리스트
-          {
-            user: {
-              id: number; //대댓글 작성자 식별자
-              imgPath: string; //프로필
-              nickname: string; //대댓글 작성자 닉네임
-            };
-            content: string; //대댓글 내용
-          },
-        ];
+        userId: number;
+        nickname: string;
       },
     ];
   };
 }
 
-interface DataUser {
+interface DdayInfo {
   isSuccess: boolean;
   code: number;
   message: string;
   result: [
     {
       id: number;
-      nickname: string;
-      email: string;
-      imagePath: string;
-      isLeader: boolean;
+      day: number;
+      title: string;
     },
   ];
 }
@@ -313,10 +289,12 @@ interface DataUser {
 function StudyManageMain() {
   // 스터디 룰 모달창 노출 여부 state
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const [chatModalOpen, setChatModalOpen] = useState<boolean>(false);
   const showModal = () => {
     setModalOpen(true);
   };
+
+  //채팅 모달창 띄우기
+  const [chatModalOpen, setChatModalOpen] = useState<boolean>(false);
   const showChatModal = () => {
     console.log("채팅");
     setChatModalOpen(!chatModalOpen);
@@ -326,20 +304,22 @@ function StudyManageMain() {
   // 1. 프로필 사진
   // 2. 스터디명
   // 3. 스터디 유형이름 + 스터디 시간 + 스터디 시작 일자 + 스터디 종료 일자
-  // => /studies/1
+  // 4. 스터디 가입 멤버
   const { data: studyInfo } = useQuery<DataInfo>("studyInfoSelectApi", () =>
     StudyInfoSelectApi(),
   );
 
-  // 4. 스터디 가입 멤버 => /studies/1/users
-  const { data: studyUser } = useQuery<DataUser>("studyUserSelectApi", () =>
-    StudyUserSelectApi(),
-  );
+  // const { data: ddayInfo } = useQuery<DdayInfo>("ddaySelectApi", () =>
+  //   DdaySelectApi(),
+  // );
 
-  const users = studyUser?.result;
-
-  // 5. 규칙 입력 => /studies/1
-  const [studyRule, setStudyRule] = useRecoilState(StudyRuleAtom);
+  // 디데이 모달창 띄우기 + 클릭한 아이디 모달창에 넘겨주기
+  const [ddayModalOpen, setDdayModalOpen] = useState<boolean>(false);
+  const [selectedId, setSelectedId] = useState<number>(0);
+  const showDdayModal = (id: any) => {
+    setSelectedId(id);
+    setDdayModalOpen(true);
+  };
 
   return (
     <Wrapper>
@@ -354,7 +334,6 @@ function StudyManageMain() {
             <p>{studyInfo?.result.name}</p>
           </StudyName>
           <StudyInfo>
-            <StudyType>{studyInfo?.result.type.name} 스터디</StudyType>
             <StudyPeriod>
               {studyInfo?.result.startDate} ~ {studyInfo?.result.endDate}
             </StudyPeriod>
@@ -366,15 +345,15 @@ function StudyManageMain() {
         </StudyPropfile>
         <StudyContents>
           <StudyNotice onClick={showModal}>
-            <DefaultNotice>{studyRule}</DefaultNotice>
+            <DefaultNotice>{studyInfo?.result.rule}</DefaultNotice>
           </StudyNotice>
           <StudySub>
             <StudyMember>
               <MemberTitle>스터디 멤버</MemberTitle>
               <MemberBox>
-                {users?.map((el) => {
+                {studyInfo?.result.users?.map((el, index) => {
                   return (
-                    <Member>
+                    <Member key={index}>
                       <Name>{el.nickname}</Name>
                       <Status></Status>
                     </Member>
@@ -385,12 +364,20 @@ function StudyManageMain() {
             <Space></Space>
             <StudyDday>
               <DdayTitle>디데이</DdayTitle>
-              <DdayBox>
-                <Dday>
-                  <Tag></Tag>
-                  <Text>D-2 스터디 참여</Text>
-                </Dday>
-              </DdayBox>
+              {/* <DdayBox>
+                {ddayInfo
+                  ? ddayInfo.result.map((el, index) => {
+                      return (
+                        <Dday key={index} onClick={() => showDdayModal(el.id)}>
+                          <Tag></Tag>
+                          <Text>
+                            D-{el.day} {el.title}
+                          </Text>
+                        </Dday>
+                      );
+                    })
+                  : null}
+              </DdayBox> */}
             </StudyDday>
           </StudySub>
         </StudyContents>
@@ -402,6 +389,12 @@ function StudyManageMain() {
       </SubWrapper2>
       {modalOpen && <StudyRuleModal setModalOpen={setModalOpen} />}
       {chatModalOpen && <ChatModal setModalOpen={setChatModalOpen} />}
+      {ddayModalOpen && (
+        <ModalCalendarCommonView
+          setModalOpen={setDdayModalOpen}
+          scheduleId={selectedId}
+        />
+      )}
     </Wrapper>
   );
 }
