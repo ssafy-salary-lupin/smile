@@ -123,7 +123,7 @@ export default function StudySearchPages() {
     if (!!searchValue) {
       refetch();
     }
-  }, [searchValue]);
+  }, [searchValue, refetch]);
 
   console.log("DATA:", isLoading, data);
   // 스터디 더보기 클릭 여부를 확인하기 위한 state

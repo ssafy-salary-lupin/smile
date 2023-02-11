@@ -3,8 +3,8 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { SearchNameState, SearchTypeState } from "atoms/SearchAtom";
 import { useState } from "react";
 
-// const BASE_URL = `https://i8b205.p.ssafy.io/be-api/studies`;
-const BASE_URL = `/be-api`;
+const BASE_URL = `https://i8b205.p.ssafy.io/be-api/studies`;
+// const BASE_URL = `/be-api`;
 const token = localStorage.getItem("kakao-token");
 
 const api = axios.create({
