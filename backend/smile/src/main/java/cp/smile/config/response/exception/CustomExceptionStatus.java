@@ -62,6 +62,7 @@ public enum CustomExceptionStatus {
 
     NOT_FOUND_MEETING(false,404,"해당 미팅정보가 없습니다."),
     NOT_FOUND_MEETING_TYPE(false, 404, "해당 미팅 유형이 없습니다."),
+    CONNECTED_CONNECTION_EXISTS(false, 400, "연결된 커넥션이 존재합니다."),
 
     /*댓글*/
     NOT_FOUND_COMMENT(false,404,"존재하지 않는 댓글입니다."),

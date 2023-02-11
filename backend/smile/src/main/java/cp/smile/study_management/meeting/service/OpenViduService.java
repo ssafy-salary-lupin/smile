@@ -11,4 +11,5 @@ public interface OpenViduService {
     String createConnectionToken(String sessionId, AttendRequestDTO dto) throws OpenViduJavaClientException, OpenViduHttpException;
 
     void closeSession(String sessionId) throws OpenViduJavaClientException, OpenViduHttpException;
+    boolean existsSession(String sessionId) throws OpenViduJavaClientException, OpenViduHttpException;
 }
