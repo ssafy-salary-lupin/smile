@@ -50,8 +50,12 @@ public class StudySchedule extends BaseEntity {
     @Column(name = "ss_url")
     private String url;
 
+    @Column(name = "ss_color")
+    @Enumerated(EnumType.STRING)
+    private StudyScheduleColor color;
+
     @Builder
-    public StudySchedule(int id, LocalDateTime startTime, LocalDateTime endTime, String name, String description, int part, StudyInformation studyInformation, Boolean isDeleted, ScheduleType scheduleType, String url) {
+    public StudySchedule(int id, LocalDateTime startTime, LocalDateTime endTime, String name, String description, int part, StudyInformation studyInformation, Boolean isDeleted, ScheduleType scheduleType, String url,String color) {
         this.id = id;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -62,6 +66,7 @@ public class StudySchedule extends BaseEntity {
         this.isDeleted = isDeleted;
         this.scheduleType = scheduleType;
         this.url = url;
+        this.color = StudyScheduleColor.valueOf(color);
     }
 
     public ScheduleDTO createScheduleDTO(){

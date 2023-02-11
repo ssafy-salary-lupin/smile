@@ -18,6 +18,8 @@ public class CreateScheduleDTO {
     private String endTime; // 일정 마감 일자
     private String url; // 일정 공고 url
 
+    private String color; //일정 표시 색깔
+
 
 
 }

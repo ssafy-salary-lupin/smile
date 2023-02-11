@@ -132,6 +132,7 @@ public class StudyScheduleServiceImpl implements StudyScheduleService{
                 .url(createScheduleDTO.getUrl())
                 .studyInformation(studyInformation)
                 .scheduleType(scheduleType)
+                .color(createScheduleDTO.getColor())
                 .isDeleted(false).build();
 
         //저장.
@@ -145,8 +146,7 @@ public class StudyScheduleServiceImpl implements StudyScheduleService{
 
         StudySchedule studySchedule = studyScheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> new CustomException(NOT_FOUND_SCHEDULE));
-
-
+        
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 
