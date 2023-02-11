@@ -71,7 +71,6 @@ const Cards = styled.div<CardsProps>`
   display: grid;
   grid-template-columns: repeat(3, 31.48vw);
   /* grid-template-rows: repeat(2, 38.889vw); */
-  grid-template-rows: repeat(${(props) => props.NumberOfCards} / 3, 38.889vw);
   margin-top: 2.8vw;
 `;
 
