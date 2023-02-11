@@ -37,6 +37,7 @@ public class HomeController {
         return responseService.getDataResponse(homeService.findStudyHomeDetail(userId, studyId), RESPONSE_SUCCESS);
     }
 
+    /*디데이 조회*/
     @GetMapping("/studies/{studyId}/home/d-day")
     public DataResponse<List<ScheduleDdayDTO>> findDday(
             @PathVariable int studyId,
@@ -44,7 +45,7 @@ public class HomeController {
     ){
 
         int userId = oAuth2User.getUserId();
-        List<ScheduleDdayDTO> scheduleDdayDTOS = homeService.findDDay(userId, studyId);
+        List<ScheduleDdayDTO> scheduleDdayDTOS = homeService.findDday(userId, studyId);
 
         if(scheduleDdayDTOS.isEmpty()) return responseService.getDataResponse(scheduleDdayDTOS,RESPONSE_NO_CONTENT);
 
