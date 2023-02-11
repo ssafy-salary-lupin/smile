@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import ModalMeetingCreate from "./ModalMeetingCreate";
 import { useQuery } from "react-query";
-import { MeetingSelectApi } from "apis/StudyManageMeetingApi";
+import { MeetingSelectAllApi } from "apis/StudyManageMeetingApi";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
@@ -239,7 +239,7 @@ function StudyMeetingRecord() {
 
   // 2. 회의 전체 조회(진행중 + 지난 ) GET
   const { data: meetingList } = useQuery<IData>("allMeetings", () =>
-    MeetingSelectApi(),
+    MeetingSelectAllApi(),
   );
 
   return (
