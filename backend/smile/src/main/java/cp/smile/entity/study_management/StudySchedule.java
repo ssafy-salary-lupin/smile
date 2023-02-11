@@ -77,6 +77,7 @@ public class StudySchedule extends BaseEntity {
                 .startTime(this.startTime)
                 .endTime(this.endTime)
                 .url(this.url)
+                .color(this.color.toString())
                 .description(this.description).build();
     }
 

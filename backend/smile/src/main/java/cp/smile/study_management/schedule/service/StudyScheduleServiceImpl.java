@@ -122,6 +122,10 @@ public class StudyScheduleServiceImpl implements StudyScheduleService{
                 .findById(createScheduleDTO.getStudyId())
                 .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY));
 
+        //입력된 색깔이 없으면 기본색깔을 GREEN으로 함.
+        String color = "GREEN";
+        if(createScheduleDTO.getColor() != null) color = createScheduleDTO.getColor();
+
         //스터디 일정 엔티티에 넣기
         StudySchedule studySchedule = StudySchedule.builder()
                 .startTime(LocalDateTime.parse(createScheduleDTO.getStartTime(), formatter))
@@ -132,7 +136,7 @@ public class StudyScheduleServiceImpl implements StudyScheduleService{
                 .url(createScheduleDTO.getUrl())
                 .studyInformation(studyInformation)
                 .scheduleType(scheduleType)
-                .color(createScheduleDTO.getColor())
+                .color(color)
                 .isDeleted(false).build();
 
         //저장.
@@ -146,7 +150,7 @@ public class StudyScheduleServiceImpl implements StudyScheduleService{
 
         StudySchedule studySchedule = studyScheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> new CustomException(NOT_FOUND_SCHEDULE));
-        
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 
@@ -176,6 +180,9 @@ public class StudyScheduleServiceImpl implements StudyScheduleService{
 
         if (updateScheduleDTO.getDescription() != null) {
             studySchedule.updateDescription(updateScheduleDTO.getDescription());
+        }
+        if(updateScheduleDTO.getColor() != null){
+            studySchedule.updateDescription(updateScheduleDTO.getColor());
         }
     }
 
