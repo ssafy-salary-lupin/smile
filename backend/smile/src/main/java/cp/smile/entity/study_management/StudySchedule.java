@@ -117,6 +117,10 @@ public class StudySchedule extends BaseEntity {
 
     public void updateUrl(String url) { this.url = url; }
 
+    public void updateColor(String color) {
+        this.color = StudyScheduleColor.valueOf(color);
+    }
+
     public void deleteSchedule() {
         this.isDeleted = true;
     }
