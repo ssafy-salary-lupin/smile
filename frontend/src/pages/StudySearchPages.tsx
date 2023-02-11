@@ -168,6 +168,10 @@ export default function StudySearchPages() {
   const [StudyList, setStudyList] = useState<StudiesDataType[]>([]);
   // 더 보기 스터디 리스트
   const [moreStudyList, setMoreStudyList] = useState<object[]>();
+  // 높이
+  const [position, setPosition] = useState(0);
+
+  const [loadLine, setLoadLine] = useState(0);
 
   useEffect(() => {
     const cardNumber = StudyList ? StudyList.length : 0;
@@ -183,25 +187,29 @@ export default function StudySearchPages() {
       setMoreStudyList(data.data.result.slice(10));
       setStudyList(data.data.result.slice(0, 10));
     }
-  }, [StudyList, data]);
-  console.log("StudyList", StudyList);
-  const [position, setPosition] = useState(0);
-  const wrapperTag = document.querySelector("#search-wrapper");
-  if (wrapperTag) {
-    const loadLine = wrapperTag.clientHeight * 0.8;
-  }
+  }, [StudyList, data, studiesNumber]);
+
   function onScroll() {
-    const wrapperTag = document.querySelector("#search-wrapper");
-
     setPosition(window.scrollY);
-    // setPosition(window.innerHeight);
-
-    //   setPosition(wrapperTag?.clientHeight);
   }
   useEffect(() => {
+    const wrapperTag = document.querySelector("#search-wrapper");
+    if (wrapperTag) {
+      setLoadLine(wrapperTag.clientHeight * 0.8);
+    }
     window.addEventListener("scroll", onScroll);
   }, []);
-  console.log("Y:", position);
+
+  console.log("StudyList", StudyList);
+
+  console.log(loadLine);
+  console.log(position);
+  console.log("MORE", moreStudies);
+
+  if (loadLine <= position && moreStudyList) {
+    console.log("TEST", moreStudyList);
+    // setStudyList((prev) => [...prev, moreStudyList.slice(0, 10)]);
+  }
   return (
     <>
       <BlankSpace />
@@ -237,24 +245,21 @@ export default function StudySearchPages() {
                   </CardWrapper>
                 ))}
               </Cards>
-              {moreStudies ? (
+              {/* {pagesN > count && loadLine <= position ? (
                 <>
-                  {isClickMore ? (
-                    <Cards NumberOfCards={studiesNumber}>
-                      {/* (
+                  {setCount(count + 1)}
+                  <Cards NumberOfCards={studiesNumber}>
+                    (
                     {StudyList.map((study: StudiesDataType) => (
                       <CardWrapper>
                         {console.log(study)}
                         <Card key={study.id} studyInfo={study} />
                       </CardWrapper>
                     ))}
-                    ) */}
-                    </Cards>
-                  ) : (
-                    <></>
-                  )}
+                    )
+                  </Cards>
                 </>
-              ) : null}
+              ) : null} */}
             </Section>
           </>
         ) : (
