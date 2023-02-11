@@ -1,7 +1,10 @@
 import axios from "axios";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { SearchNameState, SearchTypeState } from "atoms/SearchAtom";
+import { useState } from "react";
 
-const BASE_URL = `https://i8b2ies`;
-// const BASE_URL = `/be-api`;05.p.ssafy.io/be-api/stud
+// const BASE_URL = `https://i8b205.p.ssafy.io/be-api/studies`;
+const BASE_URL = `/be-api`;
 const token = localStorage.getItem("kakao-token");
 
 const api = axios.create({
@@ -12,23 +15,22 @@ const api = axios.create({
     accept: "application/json,",
   },
 });
-// console.log(1);
-// export const StudySearchAll = () => {
-//   const res = api.get("/studies");
-//   console.log(res);
-//   return res;
+
+// const Search = () => {
+//   const [searchName, setSearchName] = useRecoilState<string>(SearchNameState);
+//   const [searchType, setSearchType] = useRecoilState<number[]>(SearchTypeState);
+
+//   const searchValue = `/studies?${searchName ? "name=" + searchName : null}&${
+//     searchType ? "type=" + searchType : null
+//   }`;
+//   console.log("SEARCH", searchValue);
+//   return searchValue;
 // };
 
-export async function StudySearchAll() {
-  try {
-    console.log("API 시작");
-    const res = await api.get("/studies");
-    const data = res.data.result;
-    console.log("RES: ", data);
-    return data;
-  } catch (error) {
-    // 에러 발생 시
-    console.log(error);
-    return error;
-  }
-}
+// export const StudySearchAll = {
+//   get: api.get(Search()),
+// };
+
+export const StudySearchAll = {
+  api: api,
+};

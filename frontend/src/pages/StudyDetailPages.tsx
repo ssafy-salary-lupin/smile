@@ -9,7 +9,7 @@ import defaultprofileImg from "assets/img/userDefaultImg.png";
 import * as Icons from "../components/common/Icons";
 import axios, { AxiosError } from "axios";
 import { useQuery } from "react-query";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 
 const BlankSpace = styled.div`
@@ -161,6 +161,10 @@ interface Data {
   };
 }
 
+type Params = {
+  id: string;
+};
+
 function StudyDetailPages() {
   // const profileImgUrl = props.studyInfo.studyLeader.profileImageUrl;
   // const studyImgUrl = props.studyInfo.imageUrl;
@@ -169,11 +173,11 @@ function StudyDetailPages() {
   const token = localStorage.getItem("kakao-token");
   // const [list, setList] = useState<studyDetailData[] | null>(null);
 
-  const StudyDataApi = async () => {
+  const StudyDataApi = async (id: string) => {
     // console.log("실행");
 
     try {
-      const response = await fetch(`${BASE_URL}/studies/1`, {
+      const response = await fetch(`${BASE_URL}/studies/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: "application/json",
@@ -189,8 +193,10 @@ function StudyDetailPages() {
 
     // console.log("받아온 data : ", response);
   };
-  const { data: detailStudy } = useQuery<Data>("StudyDataApi", () =>
-    StudyDataApi(),
+  const { id } = useParams<Params>();
+  console.log("ID:", id);
+  const { data: detailStudy } = useQuery<Data>("detailStudy", () =>
+    StudyDataApi(id),
   );
   // console.log("detailStudy", detailStudy);
 
@@ -250,7 +256,7 @@ function StudyDetailPages() {
         console.log(error);
       });
   };
-  // const data = det;
+
   return (
     <div>
       <Wrapper>

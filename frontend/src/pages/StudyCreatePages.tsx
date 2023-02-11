@@ -315,8 +315,8 @@ function StudyCreatePages() {
     }
   };
 
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const [startDate, setStartDate] = useState<any>(new Date());
+  const [endDate, setEndDate] = useState<any>(new Date());
   // 시작 시간
   const [startTime, setStartTime] = useState<Date | null>();
   // 종료 시간
@@ -333,7 +333,7 @@ function StudyCreatePages() {
   const studyTypeApi = async () => {
     // console.log("실행");
     try {
-      const response = await fetch(`${BASE_URL}/studies/types`, {
+      const response = await fetch(`${BASE_URL}studies/types`, {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: "application/json",
@@ -342,7 +342,7 @@ function StudyCreatePages() {
 
       // console.log("data : ", response);
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       return data;
     } catch (error: any) {
       console.log(error);
@@ -353,22 +353,15 @@ function StudyCreatePages() {
   const { data: studyType } = useQuery<StudyType>("studyTypeApi", () =>
     studyTypeApi(),
   );
-  console.log("studyType", studyType);
-
-  // const TType = studyType?.result.types;
-  // const TType = new Array<number | string>();
-  function GenericReturnFunc<T>(arg: T): T {
-    return arg;
-  }
-  let TType = GenericReturnFunc<any>(studyType?.result.types);
-  console.log("TType", TType);
+  let TType = studyType?.result.types;
+  // console.log("TType", TType);
 
   //-------------------------------------------------------------
   const StudyDataApi = async () => {
     // console.log("실행");
 
     try {
-      const response = await fetch(`${BASE_URL}/studies/1`, {
+      const response = await fetch(`${BASE_URL}studies/1`, {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: "application/json",
@@ -391,7 +384,7 @@ function StudyCreatePages() {
   //-------------------------------------------------------------------
   // console.log("가져온 데이타 : ", StudyData);
   const [study_name, setStudy_name] = useState<string>("");
-  const [study_typeId, setStudy_typeId] = useState<string>("");
+  const [study_typeId, setStudy_typeId] = useState<number>();
   const [study_maxPerson, setStudy_maxPerson] = useState<string>("");
   // const [study_startDate, setStudy_startDate] = useState<string>("");
   // const [study_endDate, setStudy_endDate] = useState<string>("");
@@ -410,12 +403,15 @@ function StudyCreatePages() {
     typeId: study_typeId,
     // maxPerson: study_maxPerson,
     maxPerson: study_maxPerson,
-    startDate: changeFormat(startDate, "yyyy.MM.DD"),
-    endDate: changeFormat(endDate, "yyyy.MM.DD"),
+    startDate: changeFormat(startDate, "yyyy-MM-DD"),
+    // startDate: startDate.format(DateTimeFormatter.ofPattern("MM월 dd일(E)"),
+    // endDate: changeFormat(endDate, "yyyy.MM.DD"),
+    endDate: changeFormat(endDate, "yyyy-MM-DD"),
     description: study_description,
     time: time,
   };
 
+  // console.log("data : ", data);
   // console.log(Form.append("file", file));
   formData.append("data", JSON.stringify(data));
 
@@ -425,7 +421,7 @@ function StudyCreatePages() {
     console.log("토큰 : ", token);
 
     await axios
-      .post(`${BASE_URL}`, formData, {
+      .post(`${BASE_URL}/studies`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
@@ -444,7 +440,7 @@ function StudyCreatePages() {
   };
   const Change_typeId = (e: any) => {
     e.preventDefault();
-    // console.log(e.target.value);
+    console.log("value", e.target.value);
     setStudy_typeId(e.target.value);
   };
   const Change_maxPerson = (e: any) => {
@@ -466,6 +462,7 @@ function StudyCreatePages() {
     setStudy_description(e.target.value);
   };
 
+    
   return (
     <div>
       {/* <CreateContainer> */}
@@ -492,9 +489,9 @@ function StudyCreatePages() {
               스터디 유형<RedStar>*</RedStar>
             </SelectName>
             <SelectBox onChange={Change_typeId}>
-              {TType.map((name: string, id: number) => (
-                <option value={id + 1} key={name}>
-                  {name}
+              {TType?.map((item) => (
+                <option value={item.id} key={item.id}>
+                  {item.name}
                 </option>
               ))}
             </SelectBox>
@@ -596,9 +593,14 @@ function StudyCreatePages() {
             />
           </SelectSmallTotal>
           <BtnBox>
-            <Link
+            {/* <Link
               to={{
-                pathname: `studies/${detailStudy?.result.id}`,
+                pathname: `studies/1`,
+              }}
+            > */}
+              <Link
+              to={{
+                pathname: `studies/${detailStudy?.result.id}/home`,
               }}
             >
               <Btn color="#F5C82E" onClick={CreateStudyApi}>
@@ -621,11 +623,11 @@ function StudyCreatePages() {
 
 export default StudyCreatePages;
 // export default StudyCreatePages;
-export function changeFormat(date: any, format: any) {
+export function changeFormat(date: Date, format: string) {
   //moment 변환을 함수로 미리 빼 두어서 사용.
   if (moment(date).isValid()) {
     return moment(date).format(format);
   } else {
     return null;
-  }
+  };
 }
