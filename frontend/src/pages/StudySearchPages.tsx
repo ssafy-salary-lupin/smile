@@ -60,6 +60,7 @@ const CreateBtnWrapper = styled.div`
     width: 16.667vw;
     height: 4.444vw;
     border-radius: 1.111vw;
+    font-size: 1.667vw;
     cursor: pointer;
     :hover {
       animation: ${BtnHover} 1s forwards;
@@ -106,14 +107,6 @@ interface StudiesDataType {
   };
 }
 export default function StudySearchPages() {
-  // const [searchName, setSearchName] = useRecoilState<string>(SearchNameState);
-  // const [searchType, setSearchType] = useRecoilState<number[]>(SearchTypeState);
-  // useEffect(() => {
-  //   const searchValue = `/studies?${searchName ? "name=" + searchName : null}&${
-  //     searchType ? "type=" + searchType : null
-  //   }`;
-  //   console.log("SEARCH", searchValue);
-  // }, [searchName, searchType]);
   const searchName = useRecoilValue<string>(SearchNameState);
   const searchType = useRecoilValue<number[]>(SearchTypeState);
   const searchValue = `/studies?${searchName ? "name=" + searchName : ""}&${
@@ -175,7 +168,7 @@ export default function StudySearchPages() {
             </Header>
             <SearchComponent />
             <CreateBtnWrapper>
-              <Link to={{ pathname: `/createStudy` }}>
+              <Link to={{ pathname: `/create` }}>
                 <button>스터디 생성</button>
               </Link>
             </CreateBtnWrapper>

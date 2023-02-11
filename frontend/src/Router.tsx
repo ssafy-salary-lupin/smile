@@ -30,16 +30,16 @@ function Router() {
       <Route path="/detail">
         <StudyDetailPages />
       </Route>
-      <Route path="/videoMeeting/:studyId">
-        <VideoMeetingPages />
-      </Route>
       <Route path="/videoMeeting/waiting/:studyId/:userId">
         <WaitingPages />
+      </Route>
+      <Route path="/videoMeeting/:studyId">
+        <VideoMeetingPages />
       </Route>
       <Route path="/kakao/redirect/:accessToken">
         <KakaoPages />
       </Route>
-      <Route path="/studySearch">
+      <Route path="/search">
         <StudySearchPages />
       </Route>
     </Switch>

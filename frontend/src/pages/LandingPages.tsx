@@ -12,6 +12,7 @@ import introductionImg1 from "../assets/img/introduction_img1.png";
 import introductionImg2 from "../assets/img/introduction_img2.png";
 import { useEffect, useState } from "react";
 import { BackgroundYellow } from "components/common/BackgroundYellow";
+import { Link } from "react-router-dom";
 
 const Wrapper = styled.div`
   scrollbar-width: none;
@@ -338,9 +339,11 @@ function LandingPages() {
               <span>{bannerText}</span>
               <span>{bannerSubText}</span>
             </SBannerItem>
-            <SBannerButton>
-              <span>{bannerButtonText}</span>
-            </SBannerButton>
+            <Link to={{ pathname: `/studySearch` }}>
+              <SBannerButton>
+                <span>{bannerButtonText}</span>
+              </SBannerButton>
+            </Link>
           </SBanner>
           <SStudyList>
             <SItemTitle>현재 인기있는 스터디</SItemTitle>
