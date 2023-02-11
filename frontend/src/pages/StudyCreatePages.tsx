@@ -342,7 +342,7 @@ function StudyCreatePages() {
 
       // console.log("data : ", response);
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       return data;
     } catch (error: any) {
       console.log(error);
@@ -353,7 +353,7 @@ function StudyCreatePages() {
   const { data: studyType } = useQuery<StudyType>("studyTypeApi", () =>
     studyTypeApi(),
   );
-  console.log("studyType", studyType);
+  // console.log("studyType", studyType);
 
   // const TType = studyType?.result.types;
   // const TType = new Array<number | string>();
@@ -361,7 +361,7 @@ function StudyCreatePages() {
   //   return arg;
   // }
   let TType = studyType?.result.types;
-  console.log("TType", TType);
+  // console.log("TType", TType);
 
   //-------------------------------------------------------------
   const StudyDataApi = async () => {
@@ -418,7 +418,7 @@ function StudyCreatePages() {
     time: time,
   };
 
-  console.log("data : ", data);
+  // console.log("data : ", data);
   // console.log(Form.append("file", file));
   formData.append("data", JSON.stringify(data));
 
