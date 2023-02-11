@@ -78,6 +78,7 @@ function SearchBar(props: ISearchProps) {
 
   const textInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
+    setSearchName(e.target.value);
   };
   console.log("INPUT", inputValue);
 

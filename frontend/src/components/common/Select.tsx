@@ -214,6 +214,8 @@ function Select(props: ISelectProps) {
 
   // }, [checkedList])
 
+  console.log(checkedList);
+
   const onClickLabel = () => {
     setIsActive(!isActive);
   };

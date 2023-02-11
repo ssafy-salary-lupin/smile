@@ -1,6 +1,6 @@
 import { atom, selector } from "recoil";
 
-export const SearchNameState = atom({
+export const SearchNameState = atom<string>({
   key: "seachNameInput",
   default: "",
 });
