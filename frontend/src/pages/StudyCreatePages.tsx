@@ -468,39 +468,6 @@ function StudyCreatePages() {
     e.preventDefault();
     setStudy_description(e.target.value);
   };
-  // 스터디 id 갖고오기
-  function StudyDetailPages() {
-    // const profileImgUrl = props.studyInfo.studyLeader.profileImageUrl;
-    // const studyImgUrl = props.studyInfo.imageUrl;
-    const BASE_URL = `https://i8b205.p.ssafy.io/be-api/`;
-  
-    const token = localStorage.getItem("kakao-token");
-    // const [list, setList] = useState<studyDetailData[] | null>(null);
-  
-    const StudyDataApi = async () => {
-      // console.log("실행");
-  
-      try {
-        const response = await fetch(`${BASE_URL}/studies/1`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: "application/json",
-          },
-        });
-  
-        // console.log("data : ", response);
-        const data = await response.json();
-        return data;
-      } catch (error: any) {
-        console.log(error);
-      }
-  
-      // console.log("받아온 data : ", response);
-    };
-    const { data: detailStudy } = useQuery<Data>("StudyDataApi", () =>
-      StudyDataApi(),
-    );
-
 
     
   return (
@@ -659,7 +626,7 @@ function StudyCreatePages() {
       </TotalBox>
     </div>
   );
-}}
+}
 
 export default StudyCreatePages;
 // export default StudyCreatePages;
