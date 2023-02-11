@@ -468,7 +468,41 @@ function StudyCreatePages() {
     e.preventDefault();
     setStudy_description(e.target.value);
   };
+  // 스터디 id 갖고오기
+  function StudyDetailPages() {
+    // const profileImgUrl = props.studyInfo.studyLeader.profileImageUrl;
+    // const studyImgUrl = props.studyInfo.imageUrl;
+    const BASE_URL = `https://i8b205.p.ssafy.io/be-api/`;
+  
+    const token = localStorage.getItem("kakao-token");
+    // const [list, setList] = useState<studyDetailData[] | null>(null);
+  
+    const StudyDataApi = async () => {
+      // console.log("실행");
+  
+      try {
+        const response = await fetch(`${BASE_URL}/studies/1`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+          },
+        });
+  
+        // console.log("data : ", response);
+        const data = await response.json();
+        return data;
+      } catch (error: any) {
+        console.log(error);
+      }
+  
+      // console.log("받아온 data : ", response);
+    };
+    const { data: detailStudy } = useQuery<Data>("StudyDataApi", () =>
+      StudyDataApi(),
+    );
 
+
+    
   return (
     <div>
       {/* <CreateContainer> */}
@@ -599,16 +633,16 @@ function StudyCreatePages() {
             />
           </SelectSmallTotal>
           <BtnBox>
-            <Link
+            {/* <Link
               to={{
                 pathname: `studies/1`,
               }}
-            >
-              {/* <Link
-              to={{
-                pathname: `studies/${detailStudy?.result.id}`,
-              }}
             > */}
+              <Link
+              to={{
+                pathname: `studies/${detailStudy?.result.id}/home`,
+              }}
+            >
               <Btn color="#F5C82E" onClick={CreateStudyApi}>
                 스터디 생성
               </Btn>
