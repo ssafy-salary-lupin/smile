@@ -15,14 +15,17 @@ public interface StudyScheduleRepository extends JpaRepository<StudySchedule,Int
 
     @Query(value = "select s from StudySchedule s " +
             "left join fetch s.scheduleType " +
-            "where s.studyInformation = :studyInformation")
+            "where s.studyInformation = :studyInformation and s.isDeleted = false")
     Optional<List<StudySchedule>> findAllByStudyId(@Param(value = "studyInformation") StudyInformation studyInformation);
 
     //현재시간을 입력받아서 종료시간이 현재시간 초과인것만 찾고, 그중 5개만 조회.
 
     @Query(value = "select s from StudySchedule s " +
-            "where s.endTime >= :currentTime " +
+            "where s.endTime >= :currentTime and s.isDeleted = false " +
             "order by s.endTime DESC")
     Optional<List<StudySchedule>> findAllByEndTimeLimit5(@Param("currentTime") LocalDateTime currentTime, Pageable pageable);
+
+
+    Optional<StudySchedule> findByIdAndIsDeletedFalse(int studyScheduleId);
 
 }

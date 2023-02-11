@@ -39,6 +39,9 @@ dependencies {
 	// openvidu
 	implementation group: 'io.openvidu', name: 'openvidu-java-client', version: '2.24.0'
 
+	//swagger
+	implementation 'io.springfox:springfox-boot-starter:3.0.0';
+
 
 	// jwt
 	implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
