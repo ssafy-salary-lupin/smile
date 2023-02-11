@@ -15,20 +15,24 @@ public class ScheduleDTO {
     private String title; //일정 제목
 
     private String description;
-    private String url;
+    private String url; //링크
+
+    private String color; //색깔
 
     private ScheduleTypeDTO type; //타입
 
 
 
+
     @Builder
-    public ScheduleDTO(int id, LocalDateTime startTime, LocalDateTime endTime, String title, String description, String url, ScheduleTypeDTO type) {
+    public ScheduleDTO(int id, LocalDateTime startTime, LocalDateTime endTime, String title, String description, String url, String color, ScheduleTypeDTO type) {
         this.id = id;
         this.startTime = startTime;
         this.endTime = endTime;
         this.title = title;
         this.description = description;
         this.url = url;
+        this.color = color;
         this.type = type;
     }
 }

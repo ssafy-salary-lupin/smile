@@ -16,26 +16,16 @@ public class UpdateScheduleDTO {
     private String name;
     private String url;
     private String description;
+    private String color;
 
     @Builder
-    public UpdateScheduleDTO(String startTime, String endTime, Integer typeId, String name, String url,String description) {
+    public UpdateScheduleDTO(String startTime, String endTime, Integer typeId, String name, String url,String description, String color) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.typeId = typeId;
         this.name = name;
         this.url = url;
         this.description = description;
-    }
-
-    @Override
-    public String toString() {
-        return "UpdateScheduleDTO{" +
-                "startTime='" + startTime + '\'' +
-                ", endTime='" + endTime + '\'' +
-                ", typeId=" + typeId +
-                ", name='" + name + '\'' +
-                ", url='" + url + '\'' +
-                ", description='" + description + '\'' +
-                '}';
+        this.color = getColor();
     }
 }
