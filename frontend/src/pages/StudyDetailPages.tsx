@@ -164,7 +164,7 @@ interface Data {
 }
 
 type Params = {
-  id: string;
+    id: string;
 };
 
 function StudyDetailPages() {
@@ -197,8 +197,8 @@ function StudyDetailPages() {
   };
   const {id} = useParams<Params>();
 
-  const { data: detailStudy } = useQuery<Data>("StudyDataApi", () =>
-    StudyDataApi(id),
+  const { data: detailStudy } = useQuery<Data>("detailStudy", () =>
+    StudyDataApi("1"),
   );
   // console.log("detailStudy", detailStudy);
 
