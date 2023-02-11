@@ -56,8 +56,6 @@ public class StudyCommonController {
     })
     @GetMapping("/studies")
     public DataResponse<List<FindAllStudyDTO>> findAllStudy(
-            @Parameters(value =
-            )
             @RequestParam(required = false)Map<String,String> searchParam
             ){
 
