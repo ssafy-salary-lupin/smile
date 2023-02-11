@@ -88,7 +88,7 @@ public class StudyScheduleServiceImpl implements StudyScheduleService{
 
         //일정 식별자에 해당하는 정보 조회
         StudySchedule studySchedule = studyScheduleRepository
-                .findById(scheduleId)
+                .findByIdAndIsDeletedFalse(scheduleId)
                 .orElseThrow(() -> new CustomException(NOT_FOUND_SCHEDULE));
 
         return studySchedule.createScheduleDTO();
