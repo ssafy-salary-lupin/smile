@@ -114,12 +114,18 @@ const StartVideoMeeting = styled.button`
   background-color: #1d805f;
   border-radius: 3.472vw;
   border: none;
+  cursor: pointer;
+  :hover {
+    background-color: #0f4130;
+    span {
+      color: #a1a1a1;
+    }
+  }
   span {
     font-size: 1.667vw;
     color: white;
   }
 `;
-
 function WaitingPages() {
   // TODO 스터디 이름 API로 받아오기
   // const [studyName, setStudyName] = useState<string>("");
