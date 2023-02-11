@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import searchIcon from "../../assets/img/search.png";
 import { useRecoilState } from "recoil";
-import { InputState } from "atoms/TextInput";
+import { SearchNameState } from "atoms/SearchAtom";
 
 interface ISearchContainer {
   widthValue: number;
@@ -71,9 +71,11 @@ const SearchForm = styled.form``;
 const SearchBtn = styled.button``;
 
 function SearchBar(props: ISearchProps) {
-  const [inputValue, setInputValue] = useRecoilState<string>(InputState);
+  const [searchName, setSearchName] = useRecoilState<string>(SearchNameState);
+  const [inputValue, setInputValue] = useState<string>("");
   const inputWidth = props?.searchWidth! * 0.83;
   const inputHeight = props?.searchHeight! * 0.94;
+
   const textInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
@@ -82,13 +84,13 @@ function SearchBar(props: ISearchProps) {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(inputValue);
-    // setSearchContext(e.target)
+    setSearchName(inputValue);
     setInputValue("");
   };
 
   const onSubmit = () => {
     console.log(inputValue);
-    // setSearchContext(e.target)
+    setSearchName(inputValue);
     setInputValue("");
   };
 

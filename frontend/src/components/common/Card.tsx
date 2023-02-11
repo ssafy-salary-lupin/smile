@@ -3,6 +3,7 @@ import ProfileImg from "./ProfileImg";
 import defaultStudyImg from "assets/img/card_photo_1.png";
 import defaultprofileImg from "assets/img/userDefaultImg.png";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const CardHover = keyframes`
   from {
@@ -22,24 +23,15 @@ const CardNotHover = keyframes`
 `;
 
 const SContainer = styled.div`
-  @import url("https://fonts.googleapis.com/css2?family=Noto+Sans&family=Noto+Sans+KR&display=swap");
-  font-family: "Noto Sans", sans-serif;
-  font-family: "Noto Sans KR", sans-serif;
   display: grid;
   grid-template-rows: 21.84vw 12.91vw;
   border-radius: 1.12vw;
   width: 29.68vw;
   height: 36.75vw;
-  /* grid-template-rows: 312px 213px;
-  border-radius: 16px;
-  width: 424px;
-  height: 525px; */
+  margin-bottom: 2.222vw;
   border: solid 1px #e6e8ec;
   box-shadow: 0px 0px 1.12vw ${(props) => props.theme.subColor};
-  /* box-shadow: 0px 0px 16px ${(props) => props.theme.subColor}; */
   :hover {
-    /* box-shadow: 0px 0px 24px #b4bbc5; */
-    /* box-shadow: 0px 0px 1.68vw #b4bbc5; */
     animation: ${CardHover} 1.5s forwards;
   }
   :not(:hover) {
@@ -51,17 +43,54 @@ const SCardItem = styled.span`
   display: grid;
   grid-template-rows: 3.92vw 4.2vw 4.62vw;
   padding: 0.7vw 1.68vw;
-  /* grid-template-rows: 54px 60px 66px;
-  padding: 10px 24px; */
 `;
 const SCardImg = styled.img`
   border-radius: 1.12vw 1.12vw 0px 0px;
   width: 29.68vw;
   height: 21.84vw;
-  /* border-radius: 16px 16px 0px 0px;
-  width: 424px;
-  height: 312px; */
 `;
+
+interface DescriptionPropsType {
+  isOver: boolean;
+}
+
+const enterDescription = keyframes`
+  from {
+    opacity: 0;
+    z-index: -1;
+  }
+  to {
+    opacity: 0.65;
+    z-index: 999;
+  }
+`;
+
+const leaveDescription = keyframes`
+  from {
+    opacity: 0.65;
+    z-index: 999;
+  }
+  to {
+    opacity: 0;
+    z-index: -1;
+  }
+`;
+
+const Description = styled.div<DescriptionPropsType>`
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #757a7f;
+  border-radius: 1.12vw 1.12vw 0px 0px;
+  width: 29.68vw;
+  height: 21.84vw;
+  opacity: 0;
+  z-index: -1;
+  animation: ${(props) => (props.isOver ? enterDescription : leaveDescription)}
+    1s forwards;
+`;
+
 const SCardInfo = styled.div`
   display: flex;
   justify-content: space-between;
@@ -73,16 +102,12 @@ const SCardInfoItem = styled.span`
   img {
     width: 1.68vw;
     height: 1.68vw;
-    /* width:24px;
-    height:24px; */
   }
   span {
-    /* padding-top: 0.175vw; */
     margin-left: 0.28vw;
     font-size: 1.12vw;
-    /* padding-top: 2.5px;
-    margin-left: 4px;
-    font-size: 16px; */
+    margin-bottom: 0.2vw;
+
     font-weight: 600;
     color: ${(props) => props.theme.textColor};
     span {
@@ -95,7 +120,6 @@ const SCardDescription = styled.div`
   span {
     font-size: 1.26vw;
   }
-  /* font-size: 18px; */
 `;
 const SCardUser = styled.div`
   display: flex;
@@ -106,14 +130,11 @@ const SCardUserItem = styled.div`
   flex-direction: column;
   margin-left: 1.12vw;
   height: 3.36vw;
-  /* margin-left: 16px;
-  height: 48px; */
   justify-content: space-around;
   font-weight: 500;
 
   span {
     font-size: 1.12vw;
-    /* font-size: 16px; */
     color: ${(props) => props.theme.textColor};
     :nth-child(2) {
       color: ${(props) => props.theme.textSubColor};
@@ -125,28 +146,6 @@ const SCardUserItem = styled.div`
 const curPath = window.location.pathname;
 console.log("PATH : ", curPath);
 
-// interface studyProps {}
-
-// if (curPath === "/") {
-//   interface PropsType {
-//     studyInfo: {
-//       id: number;
-//       imagePath: string;
-//       currentPerson: number;
-//       maxPerson: number;
-//       description: string;
-//       viewCount: number;
-//       lastVisitTime: string;
-//       leader: {
-//         id: number;
-//         imagePath: string;
-//         nickname: string;
-//       };
-//     };
-//   }
-// } else if (curPath.includes("/myStudy")) {
-
-// }
 interface PropsType {
   studyInfo: {
     id: number; // 스터디 식별자
@@ -174,6 +173,14 @@ interface PropsType {
 }
 
 export default function Card(props: PropsType) {
+  const [isOver, setIsOver] = useState<boolean>(false);
+  const cardEnter = () => {
+    setIsOver(true);
+  };
+  const cardLeave = () => {
+    setIsOver(false);
+  };
+
   const visitedTime = 1;
   const visitedCountInput = props.studyInfo.viewCount;
   const visitedCount = visitedCountInput
@@ -189,10 +196,13 @@ export default function Card(props: PropsType) {
         pathname: `/studyDetail/${props.studyInfo.id}`, // 스터디 상세 조회 페이지 주소 입력하기
       }}
     >
-      <SContainer>
+      <SContainer onMouseEnter={cardEnter} onMouseLeave={cardLeave}>
         <SCardImg
           src={studyImgUrl.includes("/root") ? defaultStudyImg : studyImgUrl}
         />
+        <Description isOver={isOver}>
+          <span>{props.studyInfo.description}</span>
+        </Description>
         <SCardItem>
           <SCardInfo>
             <SCardInfoItem>
@@ -210,7 +220,8 @@ export default function Card(props: PropsType) {
             </SCardInfoItem>
           </SCardInfo>
           <SCardDescription>
-            <span>{props.studyInfo.description}</span>
+            {/* <span>{props.studyInfo.description}</span> */}
+            <span>{props.studyInfo.name}</span>
           </SCardDescription>
           <SCardUser>
             <ProfileImg
