@@ -5,6 +5,8 @@ import { useState } from "react";
 import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
 import { ReactComponent as DeleteIcon } from "../../assets/icon/Delete.svg";
+import { useQuery } from "react-query";
+import { boardeInsertApi, boardTypeSelectApi } from "apis/StudyManageBoardApi";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
@@ -168,6 +170,20 @@ const FileListLi = styled.li`
   list-style: none;
 `;
 
+interface IBoardType {
+  isSuccess: boolean;
+  code: number;
+  message: string;
+  result: {
+    types: [
+      {
+        id: number;
+        name: string;
+      },
+    ];
+  };
+}
+
 function StudyManageBoardWrite() {
   const modules = {
     toolbar: {
@@ -271,22 +287,18 @@ function StudyManageBoardWrite() {
       }
     }
 
-    // const BASE_URL = `https://i8b205.p.ssafy.io/be-api/studies`;
-    const BASE_URL = `/be-api/studies`;
-    try {
-      await axios.post(`${BASE_URL}/1/boards`, formData, {
-        headers: {
-          // Authorization: `Bearer ${localStorage.getItem("kakao-token")}`,
-          Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYwMTE0NjIsImV4cCI6MTY3NjA5Nzg2Mn0.WXI-d9ebQVtoLZt2jmPN0ZlZPFSpyehPLziClnmIgsmT-M_fmNH33lg585qW2-fZsycXjktAlX7cCf3JyLB1fg`,
-          "Content-Type": "multipart/form-data",
-        },
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    boardeInsertApi(formData);
 
     history.push("/manage/board");
   };
+
+  // 게시글 유형
+  const { data: typeData } = useQuery<IBoardType>(
+    ["boardTypeSelectApi"],
+    boardTypeSelectApi,
+  );
+
+  const Options = typeData?.result.types;
 
   return (
     <Wrapper>
@@ -295,9 +307,11 @@ function StudyManageBoardWrite() {
         <Sub2>
           <Select name="bracket" onChange={handleTypeId}>
             <Option value="0">-- 말머리 --</Option>
-            <Option value="1">공지</Option>
-            <Option value="2">자료</Option>
-            <Option value="3">일반</Option>
+            {Options?.map((el, index) => (
+              <Option value={el.id} key={index}>
+                {el.name}
+              </Option>
+            ))}
           </Select>
         </Sub2>
       </Bracket>
@@ -335,18 +349,16 @@ function StudyManageBoardWrite() {
             <FileListUl>
               {fileNameList.map((el, index) => {
                 return (
-                  <>
-                    <FileListLi>
-                      {el}
-                      <DeleteIcon
-                        width="1.111vw"
-                        height="1.111vw"
-                        fill="#ff0000"
-                        cursor="pointer"
-                        onClick={() => deleteFile(index)}
-                      />
-                    </FileListLi>
-                  </>
+                  <FileListLi key={index}>
+                    {el}
+                    <DeleteIcon
+                      width="1.111vw"
+                      height="1.111vw"
+                      fill="#ff0000"
+                      cursor="pointer"
+                      onClick={() => deleteFile(index)}
+                    />
+                  </FileListLi>
                 );
               })}
             </FileListUl>

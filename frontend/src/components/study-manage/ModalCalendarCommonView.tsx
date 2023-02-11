@@ -1,25 +1,30 @@
-import { SetStateAction, useEffect, useRef } from "react";
+import { SetStateAction, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { ReactComponent as Close } from "../../assets/icon/Close.svg";
 import { ReactComponent as Calendar } from "../../assets/icon/Calendar.svg";
-import { ReactComponent as Hashtag } from "../../assets/icon/Hashtag.svg";
-import { ReactComponent as LinkLogo } from "../../assets/icon/Link.svg";
-import { scheduleSelectApi } from "apis/StudyManageMainApi";
+import { ReactComponent as Time } from "../../assets/icon/Time.svg";
+import { ReactComponent as Url } from "../../assets/icon/Link.svg";
 import { useQuery } from "react-query";
+import {
+  deleteScheduleApi,
+  scheduleSelectApi,
+} from "apis/StudyManageCalendarAPi";
+import { useHistory } from "react-router-dom";
 
 interface PropsType {
   setModalOpen: React.Dispatch<SetStateAction<boolean>>;
   scheduleId: number;
+  updateSchedule: Function;
 }
 
 const ModalContainer = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
-  /* justify-content: center; */
   flex-direction: column;
   position: fixed;
-  width: 28.889vw;
-  height: 23.333vw;
+  width: 22.222vw;
+  height: 33.333vw;
   z-index: 999;
   background-color: white;
   border-radius: 0.556vw;
@@ -42,7 +47,7 @@ const Backdrop = styled.div`
 const ModalHead = styled.div`
   height: 15%;
   width: 100%;
-  background-color: ${(props) => props.theme.mainColorOpacity};
+  /* background-color: ${(props) => props.theme.mainColorOpacity}; */
   border-radius: 0.556vw 0.556vw 0 0;
   display: flex;
   flex-direction: row;
@@ -52,7 +57,6 @@ const ModalHead = styled.div`
 const Space = styled.div`
   width: 90%;
   height: 100%;
-  color: ${(props) => props.theme.mainColorDark};
   font-size: 1.25vw;
   vertical-align: middle;
   display: flex;
@@ -73,42 +77,49 @@ const ModalConWrapper = styled.div`
   height: 70%;
   width: 100%;
   display: flex;
-  flex-direction: row;
-  padding: 2vw 1vw;
-  border-bottom: 1px solid ${(props) => props.theme.blackColorOpacity};
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0 1vw 1vw;
+  /* border-bottom: 1px solid ${(props) => props.theme.blackColorOpacity}; */
   /* align-items: center; */
 `;
 
 const ModalImg = styled.div`
-  padding: 1vw;
-  width: 30%;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 1vw;
 `;
 
 const ModalContent = styled.div`
-  width: 70%;
+  width: 100%;
   /* padding: 0 3vw; */
+  /* align-items: center; */
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-left: 2vw;
+  padding: 0 1.111vw;
+  /* margin-bottom: 3.75vw; */
 `;
 
 const Title = styled.input`
   border: none;
-  color: ${(props) => props.theme.mainColorDark};
-  font-size: 1.364vw;
+  /* color: ${(props) => props.theme.mainColorDark}; */
+  font-size: 1.111vw;
+  text-align: center;
   font-weight: bold;
   margin-bottom: 1vw;
   background-color: ${(props) => props.theme.whiteColor};
 `;
 
 const Text = styled.div`
-  background-color: ${(props) => props.theme.mainColorOpacity};
+  background-color: #f6f6f6;
+  border: 1px dotted ${(props) => props.theme.blackColorOpacity2};
   padding: 0.5vw;
   width: 100%;
-  /* border: 1px solid ${(props) => props.theme.mainColor}; */
-  border-radius: 0.5vw;
-  min-height: 1.364vw;
+  border-radius: 0.278vw;
+  min-height: 5.556vw;
+  margin-bottom: 1vw;
   overflow-y: scroll;
   &::-webkit-scrollbar {
     width: 6px;
@@ -123,16 +134,19 @@ const Text = styled.div`
 
 const HashtagBox = styled.div`
   display: flex;
+  align-items: center;
   flex-direction: row;
   width: 100%;
   height: 1.136vw;
   margin-bottom: 0.455vw;
+  padding: 0 0.556vw;
 `;
 
 const HashtagTxt = styled.div`
   width: 90%;
   color: ${(props) => props.theme.blackColorOpacity2};
   font-size: 0.909vw;
+  margin-left: 0.556vw;
 `;
 
 const Link = styled.a`
@@ -140,29 +154,64 @@ const Link = styled.a`
   width: 90%;
   color: ${(props) => props.theme.blackColorOpacity2};
   font-size: 0.909vw;
+  margin-left: 0.556vw;
 `;
 
-const ModalBtn = styled.div`
+const TypeBox = styled.div`
+  background-color: ${(props) => props.theme.pointColor};
+  color: white;
+  border-radius: 3.472vw;
+  font-size: 0.909vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25%;
+  height: 1.944vw;
+  p {
+    padding: none;
+  }
+`;
+
+const ModalBtnBox = styled.div`
+  position: absolute;
+  bottom: 0;
   width: 100%;
-  height: 15%;
+  height: 10%;
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
-  padding: 0.5vw 0;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0 0 0.556vw 0.556vw;
 `;
 
-const YellowBtn = styled.button`
+const ModalBtn = styled.button`
+  border: none;
+  background-color: transparent;
   cursor: pointer;
-  border-radius: 0.25vw;
-  padding: 0.5vw 1vw;
-  background-color: ${(props) => props.theme.mainColor};
-  color: ${(props) => props.theme.blackColor};
-  border: 0;
-  margin-right: 1vw;
-  font-size: 1vw;
+  font-size: 0.972vw;
 `;
 
-interface IScheduleInfo {
+const UpdateDiv = styled.div`
+  width: 50%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0 0 0 0.556vw;
+  background-color: #e9e9e9;
+  color: black;
+`;
+
+const DeleteDiv = styled(UpdateDiv)`
+  border-radius: 0 0 0.556vw 0;
+  background-color: ${(props) => props.theme.pointColor};
+
+  ${ModalBtn} {
+    color: white;
+  }
+`;
+
+export interface IScheduleInfo {
   isSuccess: boolean;
   code: number;
   message: string;
@@ -182,6 +231,13 @@ interface IScheduleInfo {
 }
 
 function ModalCalendarCommonView(props: PropsType) {
+  const [title, setTitle] = useState<string | undefined>("");
+  const [content, setContent] = useState<string | undefined>("");
+  const [start, setStart] = useState<string | undefined>("");
+  const [end, setEnd] = useState<string | undefined>("");
+  const [type, setType] = useState<string | undefined>("");
+  const [url, setUrl] = useState<string | undefined>("");
+
   // 모달 끄기
   const closeModal = () => {
     props.setModalOpen(false);
@@ -213,6 +269,35 @@ function ModalCalendarCommonView(props: PropsType) {
     () => scheduleSelectApi(props.scheduleId),
   );
 
+  const history = useHistory();
+  // 일정 삭제
+  const deleteSchedule = () => {
+    if (window.confirm("일정을 삭제하시겠습니까?")) {
+      deleteScheduleApi(props.scheduleId);
+      history.push("/manage/calendar");
+      closeModal();
+    }
+  };
+  // 일정 수정
+
+  const updateSchedule = () => {
+    props.updateSchedule(
+      props.scheduleId,
+      scheduleInfo?.result.startTime.split("T")[0],
+      scheduleInfo?.result.endTime.split("T")[0],
+    );
+    closeModal();
+  };
+
+  useEffect(() => {
+    setTitle(scheduleInfo?.result.title);
+    setContent(scheduleInfo?.result.description);
+    setStart(scheduleInfo?.result.startTime.split("T")[0]);
+    setEnd(scheduleInfo?.result.endTime.split("T")[0]);
+    setType(scheduleInfo?.result.type.name);
+    setUrl(scheduleInfo?.result.url);
+  }, [scheduleInfo]);
+
   return (
     <Backdrop>
       <ModalContainer ref={modalRef}>
@@ -221,48 +306,43 @@ function ModalCalendarCommonView(props: PropsType) {
             <p>Schedule</p>
           </Space>
           <CloseBtn onClick={closeModal}>
-            <Close width="100%" height="100%" fill="#0000007b" />
+            <Close width="1.667vw" fill="#0000007b" />
           </CloseBtn>
         </ModalHead>
         <ModalConWrapper>
           <ModalImg>
-            <Calendar width="100%" height="100%" />
+            <Calendar width="8.333vw" />
           </ModalImg>
           <ModalContent>
-            <Title
-              placeholder="회의 제목"
-              disabled
-              value={scheduleInfo?.result.title || ""}
-            />
-            <Text>{scheduleInfo?.result.description || ""}</Text>
+            <Title placeholder="회의 제목" disabled value={title || ""} />
+            <Text>{content || ""}</Text>
             <HashtagBox>
-              <Hashtag width="10%" height="100%" />
+              <Time width="1.111vw" fill="#898989" />
               <HashtagTxt>
-                시작 시간 : {scheduleInfo?.result.startTime.split("T")[0] || ""}
+                {" "}
+                {start || ""} ~ {end || ""}
               </HashtagTxt>
-            </HashtagBox>
-            <HashtagBox>
-              <Hashtag width="10%" height="100%" />
-              <HashtagTxt>
-                마감 시간 : {scheduleInfo?.result.endTime.split("T")[0] || ""}
-              </HashtagTxt>
-            </HashtagBox>
-            <HashtagBox>
-              <Hashtag width="10%" height="100%" />
-              <HashtagTxt>{scheduleInfo?.result.type.name || ""}</HashtagTxt>
             </HashtagBox>
             {scheduleInfo?.result.url && (
               <HashtagBox>
-                <Hashtag width="10%" height="100%" />
-                <Link href={scheduleInfo?.result.url}>링크 바로가기</Link>
+                <Url width="1.111vw" stroke="#898989" />
+                <Link href={url || ""}>링크 바로가기</Link>
               </HashtagBox>
             )}
+            <TypeBox>
+              <p>{type || ""}</p>
+            </TypeBox>
           </ModalContent>
         </ModalConWrapper>
-        <ModalBtn>
-          <YellowBtn onClick={closeModal}>취소</YellowBtn>
-        </ModalBtn>
-      </ModalContainer>
+        <ModalBtnBox>
+          <UpdateDiv>
+            <ModalBtn onClick={updateSchedule}>수정</ModalBtn>
+          </UpdateDiv>
+          <DeleteDiv>
+            <ModalBtn onClick={deleteSchedule}>삭제</ModalBtn>
+          </DeleteDiv>
+        </ModalBtnBox>
+      </ModalContainer>{" "}
     </Backdrop>
   );
 }

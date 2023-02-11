@@ -42,7 +42,7 @@ const Backdrop = styled.div`
 const ModalHead = styled.div`
   height: 15%;
   width: 100%;
-  background-color: ${(props) => props.theme.pointColorOpacity};
+  /* background-color: ${(props) => props.theme.pointColorOpacity}; */
   border-radius: 0.556vw 0.556vw 0 0;
   display: flex;
   flex-direction: row;
@@ -52,7 +52,7 @@ const ModalHead = styled.div`
 const Space = styled.div`
   width: 90%;
   height: 100%;
-  color: ${(props) => props.theme.pointColor};
+  color: ${(props) => props.theme.blackColor};
   font-size: 1.25vw;
   vertical-align: middle;
   display: flex;
@@ -129,32 +129,25 @@ const Date = styled(Type)``;
 
 const Host = styled(Type)``;
 
-const ModalBtn = styled.div`
+const ModalBtnBox = styled.div`
   width: 100%;
   height: 20%;
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
-  padding: 0.75vw 0;
-`;
-
-const BlueBtn = styled.button`
-  cursor: pointer;
-  border-radius: 0.25vw;
-  padding: 0.5vw 1vw;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5vw 0;
   background-color: ${(props) => props.theme.pointColor};
-  color: ${(props) => props.theme.whiteColor};
-  border: 0;
-  margin-right: 1vw;
-  font-size: 1vw;
+  border-radius: 0 0 0.556vw 0.556vw;
 `;
 
-const CancelBtn = styled(BlueBtn)`
-  background-color: ${(props) => props.theme.whiteColor};
-  border: 1px solid ${(props) => props.theme.blackColorOpacity2};
-  color: ${(props) => props.theme.blackColorOpacity2};
+const ModalBtn = styled.button`
+  border: none;
+  color: white;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 0.972vw;
 `;
-
 function ModalCalendarMeetingView(props: PropsType) {
   // const [modalOpen, setModalOpen] = useState<boolean>(true);
   // 모달 끄기
@@ -212,10 +205,9 @@ function ModalCalendarMeetingView(props: PropsType) {
             </ContentWrap>
           </ModalContent>
         </ModalConWrapper>
-        <ModalBtn>
-          <BlueBtn>회의 참여</BlueBtn>
-          <CancelBtn onClick={closeModal}>취소</CancelBtn>
-        </ModalBtn>
+        <ModalBtnBox>
+          <ModalBtn>회의 참여하기 →</ModalBtn>
+        </ModalBtnBox>
       </ModalContainer>
     </Backdrop>
   );

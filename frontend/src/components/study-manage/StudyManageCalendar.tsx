@@ -12,7 +12,9 @@ import ModalCalendarMeetingView from "./ModalCalendarMeetingView";
 import {
   calendarCreateApi,
   calendarSelectAllApi,
+  meetingSelectAllApi,
 } from "apis/StudyManageCalendarAPi";
+import ModalCalendarUpdate from "./ModalCalendarUpdate";
 
 const Wrapper = styled.div`
   margin: 3.889vw 10.833vw;
@@ -21,7 +23,7 @@ const Wrapper = styled.div`
   padding: 0 5.556vw;
 `;
 
-interface IData {
+interface IScheduleData {
   code: number;
   isSuccess: boolean;
   message: string;
@@ -37,8 +39,35 @@ interface IData {
         id: number;
         name: string; //유형이름
       };
+      color: string;
     },
   ];
+}
+
+interface IMeetingData {
+  code: number;
+  isSuccess: boolean;
+  message: string;
+  result: {
+    meetings: [
+      {
+        meetingId: number;
+        name: string;
+        sessionId: number;
+        startTime: string;
+        starter: {
+          nickname: string;
+          profileImageUrl: string;
+          starterId: number;
+        };
+        status: string;
+        type: {
+          id: number;
+          name: string;
+        };
+      },
+    ];
+  };
 }
 
 function StudyManageCalendar() {
@@ -52,15 +81,12 @@ function StudyManageCalendar() {
   const [title, setTitle] = useState<string>("");
   const [host, setHost] = useState<string>("");
   const [start, setStart] = useState<string>("");
-  const [end, setEnd] = useState<string>("");
-  const [timeStart, setTimeStart] = useState<string>("");
-  const [timeEnd, setTimeEnd] = useState<string>("");
   const [time, setTime] = useState<string>("");
-  const [desc, setDesc] = useState<string>("");
-  const [link, setLink] = useState<string>("");
   // 달력 선택 시 시작날짜, 끝날짜 default값 설정
   const [selectStart, setSelectStart] = useState<string>("");
   const [selectEnd, setSelectEnd] = useState<string>("");
+  // scheduleId
+  const [selectedId, setSelectedId] = useState<number>(0);
 
   // 여러 일정 저장된 atom
   const [schedules, setSchedules] = useRecoilState(Schedules);
@@ -100,28 +126,27 @@ function StudyManageCalendar() {
       setMeetingModalOpen(true);
       setType(arg.event._def.extendedProps.type);
       setTitle(arg.event._def.title);
-      setStart(arg.event._def.start);
+      setStart(arg.event._def.date);
       setTime(arg.event._def.extendedProps.time);
       setHost(arg.event._def.extendedProps.host);
     } else if (arg.event._def.extendedProps.desc) {
       // 그냥 일반 일정 관련 모달창 띄울 때 => 단순 조회용 모달창
+      console.log(arg.event._def);
+      setSelectedId(arg.event._def.extendedProps.scheduleId);
       setCommonModalOpen(true);
-      setTitle(arg.event._def.title);
-      setDesc(arg.event._def.extendedProps.desc);
-      setType(arg.event._def.extendedProps.type);
-      setLink(arg.event._def.extendedProps.link);
-      setStart(arg.event._def.start);
-      setEnd(arg.event._def.end);
-      setTimeStart(arg.event._def.extendedProps.timeStart);
-      setTimeEnd(arg.event._def.extendedProps.timeEnd);
-      setTime(arg.event._def.extendedProps.time);
     }
   };
 
   // db에서 전체 일정 데이터 받아오기
-  const { data: commonSchedules, refetch } = useQuery<IData>(
+  const { data: commonSchedules, refetch } = useQuery<IScheduleData>(
     "allSchedules",
     () => calendarSelectAllApi(),
+  );
+
+  // 전체 회의 일정 조회
+  const { data: meeetingSchedules } = useQuery<IMeetingData>(
+    "allMeetings",
+    () => meetingSelectAllApi(),
   );
 
   // 일정 등록시 post요청
@@ -132,10 +157,39 @@ function StudyManageCalendar() {
 
   useEffect(() => {
     setSchedules([]);
+
+    // 회의 일정 추가
+    meeetingSchedules?.result.meetings.forEach((el) => {
+      const temp = {
+        meetingId: el.meetingId,
+        title: el.name,
+        type: el.type.name,
+        date: el.startTime.split("T")[0],
+        time: el.startTime.split("T")[0],
+        host: el.starter.nickname,
+        color: "#314E8D",
+        textColor: "#FFFFFF",
+      };
+
+      setSchedules((oldSchedules) => [...oldSchedules, temp]);
+    });
+
     const datas = commonSchedules?.result;
 
     datas?.forEach((el) => {
+      const color =
+        el.color === "YELLOW"
+          ? "#FFFF8C"
+          : el.color === "RED"
+          ? "#FFA8A8"
+          : el.color === "GRAY"
+          ? "#C9C9C9"
+          : el.color === "BLUE"
+          ? "#A5E2FF"
+          : "#99FF99";
+
       const temp = {
+        scheduleId: el.id,
         title: el.title,
         start: el.startTime.split("T")[0],
         end: el.endTime.split("T")[0],
@@ -144,11 +198,25 @@ function StudyManageCalendar() {
         desc: el.description,
         type: el.type.name,
         link: el.url,
+        color: color,
+        textColor: "#000000",
       };
 
       setSchedules((oldSchedules) => [...oldSchedules, temp]);
     });
-  }, [commonSchedules]);
+  }, [commonSchedules, meeetingSchedules]);
+
+  // 일정수정
+  const [updateModalOpen, setUpdateModalOpen] = useState<boolean>(false);
+  const [scheduleId, setScheduleId] = useState<number>(0);
+  const [startTime, setStartTime] = useState<string>("");
+  const [endTime, setEndTime] = useState<string>("");
+  const updateSchedule = (id: number, start: string, end: string) => {
+    setScheduleId(id);
+    setStartTime(start);
+    setEndTime(end);
+    setUpdateModalOpen(true);
+  };
 
   return (
     <Wrapper>
@@ -176,15 +244,27 @@ function StudyManageCalendar() {
           host={host}
         />
       )}
-      {/* {CommonModalOpen && (
-        <ModalCalendarCommonView setModalOpen={setCommonModalOpen} />
-      )} */}
+      {CommonModalOpen && (
+        <ModalCalendarCommonView
+          setModalOpen={setCommonModalOpen}
+          scheduleId={selectedId}
+          updateSchedule={updateSchedule}
+        />
+      )}
       {RegistModalOpen && (
         <ModalCalendarRegist
           setModalOpen={setRegistModalOpen}
           selectStart={selectStart}
           selectEnd={selectEnd}
           onRegist={onRegist}
+        />
+      )}
+      {updateModalOpen && (
+        <ModalCalendarUpdate
+          setModalOpen={setUpdateModalOpen}
+          scheduleId={scheduleId}
+          start={startTime}
+          end={endTime}
         />
       )}
     </Wrapper>
