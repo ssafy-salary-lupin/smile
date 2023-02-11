@@ -26,6 +26,6 @@ public class UpdateScheduleDTO {
         this.name = name;
         this.url = url;
         this.description = description;
-        this.color = getColor();
+        this.color = color;
     }
 }
