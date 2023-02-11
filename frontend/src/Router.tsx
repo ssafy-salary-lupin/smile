@@ -27,7 +27,7 @@ function Router() {
       <Route path="/create">
         <StudyCreatePages />
       </Route>
-      <Route path="/detail">
+      <Route path="/detail/:id">
         <StudyDetailPages />
       </Route>
       <Route path="/videoMeeting/waiting/:studyId/:userId">

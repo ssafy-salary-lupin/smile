@@ -193,7 +193,7 @@ export default function Card(props: PropsType) {
     <Link
       style={{ textDecoration: "none", color: "black" }}
       to={{
-        pathname: `/studyDetail/${props.studyInfo.id}`, // 스터디 상세 조회 페이지 주소 입력하기
+        pathname: `/detail/${props.studyInfo.id}`, // 스터디 상세 조회 페이지 주소 입력하기
       }}
     >
       <SContainer onMouseEnter={cardEnter} onMouseLeave={cardLeave}>
