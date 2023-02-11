@@ -14,6 +14,12 @@ import cp.smile.study_common.dto.response.FindAllStudyDTO;
 import cp.smile.study_common.dto.response.FindDetailStudyDTO;
 import cp.smile.study_common.dto.response.StudyTypeDTO;
 import cp.smile.study_common.service.StudyCommonService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -43,6 +49,11 @@ public class StudyCommonController {
      * 스터디 제목 키워드 => title
      */
 
+    @Operation(summary = "스터디 전체 조회", description =  "생성된 모든스터디 반환, 이름(name), 카테고리 식별번호(type)으로 검색가능.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
     @GetMapping("/studies")
     public DataResponse<List<FindAllStudyDTO>> findAllStudy(
             @RequestParam(required = false)Map<String,String> searchParam

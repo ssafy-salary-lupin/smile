@@ -32,10 +32,14 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests()
                 .antMatchers(HttpMethod.POST, "/log-in", "/users").permitAll()
-                .antMatchers(HttpMethod.GET, "/studies", "/**/types","/swagger-ui/**",
-                        "/v3/api-docs",  "/configuration/ui",
-                        "/swagger-resources", "/configuration/security",
-                        "/swagger-ui.html", "/webjars/**","/swagger/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/studies", "/**/types",
+                        "/swagger-ui/**",
+                        "/v3/api-docs/**",
+                        "/configuration/ui",
+                        "/configuration/security",
+                        "/swagger-resources/**",
+                        "/swagger-ui.html",
+                        "/webjars/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .oauth2Login()

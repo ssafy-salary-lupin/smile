@@ -182,7 +182,7 @@ public class StudyScheduleServiceImpl implements StudyScheduleService{
             studySchedule.updateDescription(updateScheduleDTO.getDescription());
         }
         if(updateScheduleDTO.getColor() != null){
-            studySchedule.updateDescription(updateScheduleDTO.getColor());
+            studySchedule.updateColor(updateScheduleDTO.getColor());
         }
     }
 
