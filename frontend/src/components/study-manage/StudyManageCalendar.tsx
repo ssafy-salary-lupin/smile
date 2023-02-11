@@ -176,19 +176,9 @@ function StudyManageCalendar() {
           host={host}
         />
       )}
-      {CommonModalOpen && (
-        <ModalCalendarCommonView
-          setModalOpen={setCommonModalOpen}
-          title={title}
-          start={start}
-          end={end}
-          desc={desc}
-          type={type}
-          link={link}
-          timeStart={timeStart}
-          timeEnd={timeEnd}
-        />
-      )}
+      {/* {CommonModalOpen && (
+        <ModalCalendarCommonView setModalOpen={setCommonModalOpen} />
+      )} */}
       {RegistModalOpen && (
         <ModalCalendarRegist
           setModalOpen={setRegistModalOpen}

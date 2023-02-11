@@ -11,6 +11,7 @@ import StudyManageBoardWrite from "components/study-manage/StudyManageBoardWrite
 import { Route, Switch } from "react-router-dom";
 import StudyManageBoardUpdate from "components/study-manage/StudyManageBoardUpdate";
 import StudyMeetingRecord from "components/study-manage/StudyMeetingRecord";
+import StudyManageMember from "components/study-manage/StudyManageMember";
 
 // submenu 들어갈 자리
 const SubMenu = styled.div`
@@ -45,7 +46,9 @@ function StudyManagePages() {
         <Route path="/manage/meetingRecord">
           <StudyMeetingRecord />
         </Route>
-        {/* 스터디원 관리 */}
+        <Route path="/manage/manageMember">
+          <StudyManageMember />
+        </Route>
       </Switch>
     </>
   );

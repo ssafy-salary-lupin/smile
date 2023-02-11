@@ -3,11 +3,14 @@ import styled from "styled-components";
 import { ReactComponent as Time } from "../../assets/icon/Time.svg";
 import { ReactComponent as Eye } from "../../assets/icon/Eye.svg";
 import { ReactComponent as Comment } from "../../assets/icon/Comment.svg";
+import { ReactComponent as Reply } from "../../assets/icon/Reply.svg";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { boardSelectApi } from "apis/StudyManageBoardApi";
 import ReactQuill from "react-quill";
 import axios from "axios";
+import { useState } from "react";
+import { theme } from "theme";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
@@ -218,8 +221,122 @@ const WriteBtn = styled.button`
   font-size: 0.972vw;
 `;
 
-const CommentList = styled.div``;
+const CommentList = styled.div`
+  margin-top: 1.111vw;
+`;
 
+const CommentBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 1.667vw 0;
+`;
+
+const CommentTop = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 0.556vw;
+
+  p {
+    color: ${(props) => props.theme.blackColorOpacity2};
+    font-size: 0.833vw;
+  }
+`;
+
+const WriterName = styled.div`
+  padding-left: 1.111vw;
+  font-size: 1.111vw;
+  font-weight: bold;
+  margin-right: 1.667vw;
+`;
+
+const CommentContent = styled.div`
+  padding-left: 2.778vw;
+  display: flex;
+  flex-direction: row;
+  line-height: 1.667vw;
+  margin-bottom: 0.556vw;
+`;
+
+const CommentTxt = styled.div`
+  font-size: 0.972vw;
+`;
+
+const CommentFooter = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  padding-left: 2.222vw;
+  p {
+    margin: 0;
+    color: #c0c0c0;
+  }
+`;
+
+const ComUpdateBtn = styled.button`
+  cursor: pointer;
+  font-size: 0.833vw;
+  background-color: transparent;
+  border: none;
+  color: #c0c0c0;
+`;
+
+const ComDeleteBtn = styled(ComUpdateBtn)`
+  margin: 0;
+`;
+
+const ComReplyBtn = styled(ComDeleteBtn)``;
+
+const ReplyWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-left: 3.75vw;
+  margin-top: 1.111vw;
+  position: relative;
+`;
+
+const StyledReplyIcon = styled(Reply)`
+  transform: rotate(180deg);
+`;
+
+const ReplyBox = styled.div`
+  width: 100%;
+  margin-left: 1.667vw;
+  background-color: #efefef;
+  box-shadow: 2px 2px 2px ${(props) => props.theme.blackColorOpacity};
+  padding: 1.111vw;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  border-radius: 1.111vw;
+  p {
+    font-size: 1.111vw;
+    font-weight: bold;
+    margin: 0;
+    margin-bottom: 0.972vw;
+  }
+`;
+
+const ReplyInputBox = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+`;
+
+const ReplyInput = styled.input`
+  width: 85%;
+  margin-right: 1.111vw;
+  border: 1px solid ${(props) => props.theme.blackColorOpacity};
+  padding: 0.417vw 1.111vw;
+  border-radius: 3.472vw;
+  font-size: 0.972vw;
+  height: auto;
+`;
+
+const ReplyBtn = styled(WriteBtn)``;
 interface Data {
   isSuccess: boolean;
   code: number;
@@ -228,9 +345,9 @@ interface Data {
     studyId: number; // 스터디 식별자
     boardId: number; // 게시글 식별자
     boardType: {
-      // 게시글 타입 정보
-      typeId: number; // 게시글 유형 식별자
-      type: string; // 게시글 유형 정보
+      // 게시글 유형 정보
+      id: number; // 게시글 유형 식별자
+      name: string; // 게시글 유형
     };
     title: string; // 제목
     content: string; // 본문
@@ -275,7 +392,7 @@ type Params = {
 function StudyManageBoardDetail() {
   const { boardId } = useParams<Params>();
 
-  const { data: detailData } = useQuery<Data>("detailData", () =>
+  const { data: detailData, refetch } = useQuery<Data>("detailData", () =>
     boardSelectApi(boardId),
   );
 
@@ -311,15 +428,53 @@ function StudyManageBoardDetail() {
     }
   };
 
+  // 댓글작성
+  // const BASE_URL = `https://i8b205.p.ssafy.io/be-api/studies`;
+  const BASE_URL = `/be-api/studies`;
+
+  const [comment, setComment] = useState("");
+
+  const writeComment = async () => {
+    const data = {
+      content: comment,
+    };
+
+    try {
+      await axios.post(
+        `${BASE_URL}/1/boards/${boardId}/comments`,
+        JSON.stringify(data),
+        {
+          headers: {
+            // Authorization: `Bearer ${localStorage.getItem("kakao-token")}`,
+            Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYwMTE5MDcsImV4cCI6MTY3NjA5ODMwN30.CLPtmst0zj-HQDh4rFP0DTDuqFOHfFoeA9RP9Fp1Kqe32a2qxleAmPfkQ9mpvTraIP2I6VI6UgxNns-8JlPnVg`,
+            "Content-Type": `application/json`,
+          },
+        },
+      );
+    } catch (error) {
+      console.log(error);
+    }
+
+    setComment("");
+    refetch();
+  };
+
+  // 대댓글 작성
+  const [openReply, setOpenReply] = useState<boolean>(false);
+
+  const openReplyInput = (parentId: Number) => {
+    setOpenReply(!openReply);
+  };
+
   return (
     <Wrapper>
       <ArticleHeader>
-        {detailData?.result.boardType.type === "공지" ? (
-          <ArticleType>{detailData?.result.boardType.type}</ArticleType>
-        ) : detailData?.result.boardType.type === "자료" ? (
-          <ArticleType2>{detailData?.result.boardType.type}</ArticleType2>
+        {detailData?.result.boardType.name === "공지" ? (
+          <ArticleType>{detailData?.result.boardType.name}</ArticleType>
+        ) : detailData?.result.boardType.name === "자료" ? (
+          <ArticleType2>{detailData?.result.boardType.name}</ArticleType2>
         ) : (
-          <ArticleType3>{detailData?.result.boardType.type}</ArticleType3>
+          <ArticleType3>{detailData?.result.boardType.name}</ArticleType3>
         )}
 
         <Title>{detailData?.result.title}</Title>
@@ -357,15 +512,11 @@ function StudyManageBoardDetail() {
         <FileSub2>
           {detailData?.result.files ? (
             <ul>
-              {detailData?.result.files.map((el) => {
+              {detailData?.result.files.map((el, key) => {
                 return (
-                  <>
-                    <FileListLi>
-                      <FileLink href={`${el.sourceUrl}`}>
-                        {el.fileName}
-                      </FileLink>
-                    </FileListLi>
-                  </>
+                  <FileListLi key={el.fileId}>
+                    <FileLink href={`${el.sourceUrl}`}>{el.fileName}</FileLink>
+                  </FileListLi>
                 );
               })}
             </ul>
@@ -385,10 +536,54 @@ function StudyManageBoardDetail() {
       </ArticleBtn>
       <CommentHeader>댓글</CommentHeader>
       <CommentInput>
-        <TextInput type="text" placeholder="댓글을 입력하세요." />
-        <WriteBtn>작성</WriteBtn>
+        <TextInput
+          value={comment}
+          type="text"
+          placeholder="댓글을 입력하세요."
+          onChange={(el) => setComment(el.target.value)}
+        />
+        <WriteBtn onClick={writeComment}>작성</WriteBtn>
       </CommentInput>
-      <CommentList></CommentList>
+      <CommentList>
+        {detailData?.result.comments.map((el, key) => {
+          return (
+            <CommentBox key={el.commentId}>
+              <CommentTop>
+                <ProfileImg width="2.222vw" />
+                <WriterName>{el.writer.nickname}</WriterName>
+                <p>
+                  {el.writeAt.split("T")[0] + " " + el.writeAt.split("T")[1]}
+                </p>
+              </CommentTop>
+              <CommentContent>
+                <CommentTxt>{el.content}</CommentTxt>
+              </CommentContent>
+              <CommentFooter>
+                <ComReplyBtn onClick={() => openReplyInput(el.commentId)}>
+                  답변
+                </ComReplyBtn>
+                <p>·</p>
+                <ComUpdateBtn>수정</ComUpdateBtn>
+                <p>·</p>
+                <ComDeleteBtn>삭제</ComDeleteBtn>
+              </CommentFooter>
+              {/* 답변 */}
+              {openReply ? (
+                <ReplyWrapper>
+                  <StyledReplyIcon fill={theme.mainColor} width="1.389vw" />
+                  <ReplyBox>
+                    <p>답글</p>
+                    <ReplyInputBox>
+                      <ReplyInput placeholder="답변을 입력하세요." />
+                      <ReplyBtn>작성</ReplyBtn>
+                    </ReplyInputBox>
+                  </ReplyBox>
+                </ReplyWrapper>
+              ) : null}
+            </CommentBox>
+          );
+        })}
+      </CommentList>
     </Wrapper>
   );
 }
