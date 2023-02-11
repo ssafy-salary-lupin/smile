@@ -353,13 +353,6 @@ function StudyCreatePages() {
   const { data: studyType } = useQuery<StudyType>("studyTypeApi", () =>
     studyTypeApi(),
   );
-  // console.log("studyType", studyType);
-
-  // const TType = studyType?.result.types;
-  // const TType = new Array<number | string>();
-  // function GenericReturnFunc<T>(arg: T): T {
-  //   return arg;
-  // }
   let TType = studyType?.result.types;
   // console.log("TType", TType);
 
