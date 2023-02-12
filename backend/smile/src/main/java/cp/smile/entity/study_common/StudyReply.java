@@ -49,4 +49,12 @@ public class StudyReply extends BaseEntity {
                 .user(this.user.createUserProfileDTO())
                 .content(this.content).build();
     }
+
+    public void updateStudyReply(String content){
+        this.content = content;
+    }
+
+    public void deleteStudyReply(){
+        this.isDeleted = true;
+    }
 }

@@ -64,4 +64,12 @@ public class StudyComment extends BaseEntity {
                 .content(this.content)
                 .replies(studyReplyDTOS).build();
     }
+
+    public void updateStudyComment(String content){
+        this.content = content;
+    }
+
+    public void deleteStudyComment(){
+        this.isDeleted = true;
+    }
 }
