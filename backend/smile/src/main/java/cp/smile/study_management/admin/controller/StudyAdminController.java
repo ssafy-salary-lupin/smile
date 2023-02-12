@@ -11,6 +11,9 @@ import cp.smile.study_management.admin.dto.request.StudyInfoDTO;
 import cp.smile.study_management.admin.dto.response.FindStudyJoinedUserDTO;
 import cp.smile.study_management.admin.service.StudyAdminService;
 import cp.smile.user.repository.UserJoinStudyRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -31,6 +34,11 @@ public class StudyAdminController {
     private final ResponseService responseService;
 
     /* 스터디에 속한 회원조회 */
+    @Operation(summary = "스터디 속한 회원 조회", description =  "스터디 유형이름과, 식별번호를 조회함.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
     @GetMapping("/studies/{studyId}/users")
     public DataResponse<List<FindStudyJoinedUserDTO>> findStudyJoinedUser(@PathVariable int studyId) {
 

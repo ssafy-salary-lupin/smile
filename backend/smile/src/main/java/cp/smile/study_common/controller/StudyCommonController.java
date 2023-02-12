@@ -4,12 +4,14 @@ package cp.smile.study_common.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import cp.smile.auth.oauth2.CustomOAuth2User;
 import cp.smile.config.response.CommonResponse;
+import cp.smile.config.response.CustomSuccessStatus;
 import cp.smile.config.response.DataResponse;
 import cp.smile.config.response.ResponseService;
 import cp.smile.study_common.dto.FindFilter;
 import cp.smile.study_common.dto.request.CreateCommentDTO;
 import cp.smile.study_common.dto.request.CreateReplyDTO;
 import cp.smile.study_common.dto.request.CreateStudyDTO;
+import cp.smile.study_common.dto.response.CreateStudyResponseDTO;
 import cp.smile.study_common.dto.response.FindAllStudyDTO;
 import cp.smile.study_common.dto.response.FindDetailStudyDTO;
 import cp.smile.study_common.dto.response.StudyTypeDTO;
@@ -49,6 +51,7 @@ public class StudyCommonController {
      * 스터디 제목 키워드 => title
      */
 
+    // TODO : 스웨거로 파라미터 처리하려고 하는데, 사용하고 있는 SPRINGFOX는 MAP타입을 처리하는 것을 지원하지 않음.
     @Operation(summary = "스터디 전체 조회", description =  "생성된 모든스터디 반환, 이름(name), 카테고리 식별번호(type)으로 검색가능.")
     @ApiResponses({
             @ApiResponse(responseCode = "200",description = "API 정상 동작"),
@@ -75,22 +78,31 @@ public class StudyCommonController {
 
 
     // TODO : 스터디 생성이 되면 스터디 아이디를 반환해주어야 함.
-    // TODO : 2023.02.08 - @RequestPart의 파일 부분에 데이터가 들어오지 않는 경우를 처리했는데, 아래 로직에서는 처리가 안되었음.
+    @Operation(summary = "스터디 생성", description =  "스터디 생성 후, 스터디 아이디를 반환해줌.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
     @PostMapping(value = "/studies", consumes = {"multipart/form-data"})
-    public CommonResponse createStudy(
+    public DataResponse<CreateStudyResponseDTO> createStudy(
             @RequestPart("data") CreateStudyDTO createStudyDTO,
             @RequestPart(value = "file",required = false) MultipartFile multipartFile,
             @AuthenticationPrincipal CustomOAuth2User oAuth2User){
 
         int userId = oAuth2User.getUserId(); //토큰에서 유저 식별자 가져오기.
 
-        studyCommonService.createStudy(userId,createStudyDTO,multipartFile);
+        CreateStudyResponseDTO createStudyResponseDTO = studyCommonService.createStudy(userId, createStudyDTO, multipartFile);
 
         //서비스 계층 호출 하는 로직 필요
-        return responseService.getSuccessResponse();
+        return responseService.getDataResponse(createStudyResponseDTO, RESPONSE_SUCCESS);
     }
 
     // TODO : PathVariable이 없는 엔드포인트와 합치는 것 고려.
+    @Operation(summary = "스터디 세부내용 조회", description =  "댓글, 대댓글을 포함한 정보를 반환해줌")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
     @GetMapping("/studies/{studyId}")
     public DataResponse<FindDetailStudyDTO> findDetailStudy(@PathVariable int studyId){
 
@@ -98,6 +110,11 @@ public class StudyCommonController {
     }
 
 
+    @Operation(summary = "스터디 댓글 생성", description =  "해당 스터디에 댓글을 생성함")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
     @PostMapping("/studies/{studyId}/comments")
     public CommonResponse createStudyComment(
             @RequestBody CreateCommentDTO createCommentDTO,
@@ -115,6 +132,11 @@ public class StudyCommonController {
 
     }
 
+    @Operation(summary = "스터디 대댓글 생성", description =  "해당 스터디의 해당 댓글에 대댓글을 생성함.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
     @PostMapping("/studies/{studyId}/comments/{commentId}/replies")
     public CommonResponse createStudyReply(
             @RequestBody CreateReplyDTO createReplyDTO,
@@ -133,6 +155,11 @@ public class StudyCommonController {
         return responseService.getSuccessResponse();
     }
 
+    @Operation(summary = "스터디 유형 조회", description =  "스터디 유형이름과, 식별번호를 조회함.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
     @GetMapping("/studies/types")
     public DataResponse<Map<String, Object>> getTypes() {
         List<StudyTypeDTO> types = studyCommonService.findAllType();

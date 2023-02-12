@@ -18,10 +18,7 @@ import cp.smile.study_common.dto.FindFilter;
 import cp.smile.study_common.dto.request.CreateCommentDTO;
 import cp.smile.study_common.dto.request.CreateReplyDTO;
 import cp.smile.study_common.dto.request.CreateStudyDTO;
-import cp.smile.study_common.dto.response.FindAllStudyDTO;
-import cp.smile.study_common.dto.response.FindDetailStudyDTO;
-import cp.smile.study_common.dto.response.StudyTypeDTO;
-import cp.smile.study_common.dto.response.UserProfileDTO;
+import cp.smile.study_common.dto.response.*;
 import cp.smile.study_common.dto.response.comment.StudyCommentDTO;
 import cp.smile.study_common.repository.*;
 import cp.smile.study_management.chat.service.ChatService;
@@ -138,7 +135,7 @@ public class StudyCommonServiceImpl implements StudyCommonService{
     }
 
     /*스터디 생성*/
-    public void createStudy(int userId, CreateStudyDTO createStudyDTO, MultipartFile multipartFile) {
+    public CreateStudyResponseDTO createStudy(int userId, CreateStudyDTO createStudyDTO, MultipartFile multipartFile) {
         String storeFileUrl = ""; //AWS S3 이미지 url
 
         //파일이 없다면 디폴트 경로 넣어줌.
@@ -233,6 +230,10 @@ public class StudyCommonServiceImpl implements StudyCommonService{
         chatService.createRoom(saveStudyInformation.getId());
 
         // TODO : 방이 생성되면 studyId를 생성해서 반환해주어야 한다.
+
+        return CreateStudyResponseDTO.builder()
+                .id(saveStudyInformation.getId())
+                .build();
     }
 
     /*스터디 상세 조회*/
