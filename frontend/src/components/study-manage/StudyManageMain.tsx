@@ -5,8 +5,14 @@ import { useState } from "react";
 import StudyRuleModal from "./StudyRuleModal";
 import ChatModal from "./ChatModal";
 import { useQuery } from "react-query";
-import { DdaySelectApi, StudyInfoSelectApi } from "apis/StudyManageMainApi";
+import {
+  DdaySelectApi,
+  ruleCreateApi,
+  StudyInfoSelectApi,
+} from "apis/StudyManageMainApi";
 import ModalCalendarCommonView from "./ModalCalendarCommonView";
+import ReactQuill from "react-quill";
+import { useHistory } from "react-router-dom";
 
 const Wrapper = styled.div`
   margin: 3.889vw 10.833vw;
@@ -110,19 +116,36 @@ const StudyNotice = styled.div`
   align-items: center;
   cursor: pointer;
   overflow-y: scroll;
-  /* &::-webkit-scrollbar {
-    width: 0.417vw;
+  .quill {
+    width: 100%;
+    text-align: center;
+    font-size: 0.972vw;
   }
-  &::-webkit-scrollbar-thumb {
-    height: 17%;
-    background-color: #8b8b8b;
-    border-radius: 0.694vw;
-  } */
+
+  .ql-container.ql-snow {
+    border: none;
+    background-color: transparent;
+    font-size: 0.972vw;
+    text-align: center;
+  }
 `;
 
 const DefaultNotice = styled.p`
   text-align: center;
   width: 100%;
+
+  .quill {
+    width: 100%;
+    text-align: center;
+    font-size: 0.972vw;
+  }
+
+  .ql-container.ql-snow {
+    border: none;
+    background-color: transparent;
+    font-size: 0.972vw;
+    text-align: center;
+  }
 `;
 
 const StudySub = styled.div`
@@ -305,13 +328,14 @@ function StudyManageMain() {
   // 2. 스터디명
   // 3. 스터디 유형이름 + 스터디 시간 + 스터디 시작 일자 + 스터디 종료 일자
   // 4. 스터디 가입 멤버
-  const { data: studyInfo } = useQuery<DataInfo>("studyInfoSelectApi", () =>
-    StudyInfoSelectApi(),
+  const { data: studyInfo, refetch } = useQuery<DataInfo>(
+    "studyInfoSelectApi",
+    () => StudyInfoSelectApi(),
   );
 
-  // const { data: ddayInfo } = useQuery<DdayInfo>("ddaySelectApi", () =>
-  //   DdaySelectApi(),
-  // );
+  const { data: ddayInfo } = useQuery<DdayInfo>("ddaySelectApi", () =>
+    DdaySelectApi(),
+  );
 
   // 디데이 모달창 띄우기 + 클릭한 아이디 모달창에 넘겨주기
   const [ddayModalOpen, setDdayModalOpen] = useState<boolean>(false);
@@ -319,6 +343,26 @@ function StudyManageMain() {
   const showDdayModal = (id: any) => {
     setSelectedId(id);
     setDdayModalOpen(true);
+  };
+
+  // quill
+  const modules = {
+    toolbar: false,
+  };
+
+  const history = useHistory();
+  const createRule = (data: any) => {
+    ruleCreateApi(data);
+    refetch();
+    history.push("/manage");
+  };
+
+  // 일정수정
+  const [updateModalOpen, setUpdateModalOpen] = useState<boolean>(false);
+  const [scheduleId, setScheduleId] = useState<number>(0);
+  const updateSchedule = (id: number) => {
+    setScheduleId(id);
+    setUpdateModalOpen(true);
   };
 
   return (
@@ -345,7 +389,14 @@ function StudyManageMain() {
         </StudyPropfile>
         <StudyContents>
           <StudyNotice onClick={showModal}>
-            <DefaultNotice>{studyInfo?.result.rule}</DefaultNotice>
+            {/* <DefaultNotice> */}
+            <ReactQuill
+              theme="snow"
+              value={studyInfo?.result.rule}
+              readOnly
+              modules={modules}
+            />
+            {/* </DefaultNotice> */}
           </StudyNotice>
           <StudySub>
             <StudyMember>
@@ -364,7 +415,7 @@ function StudyManageMain() {
             <Space></Space>
             <StudyDday>
               <DdayTitle>디데이</DdayTitle>
-              {/* <DdayBox>
+              <DdayBox>
                 {ddayInfo
                   ? ddayInfo.result.map((el, index) => {
                       return (
@@ -377,7 +428,7 @@ function StudyManageMain() {
                       );
                     })
                   : null}
-              </DdayBox> */}
+              </DdayBox>
             </StudyDday>
           </StudySub>
         </StudyContents>
@@ -387,12 +438,15 @@ function StudyManageMain() {
           <ChatIcon src={chatImg} />
         </Chat>
       </SubWrapper2>
-      {modalOpen && <StudyRuleModal setModalOpen={setModalOpen} />}
+      {modalOpen && (
+        <StudyRuleModal setModalOpen={setModalOpen} createRule={createRule} />
+      )}
       {chatModalOpen && <ChatModal setModalOpen={setChatModalOpen} />}
       {ddayModalOpen && (
         <ModalCalendarCommonView
           setModalOpen={setDdayModalOpen}
           scheduleId={selectedId}
+          updateSchedule={updateSchedule}
         />
       )}
     </Wrapper>
