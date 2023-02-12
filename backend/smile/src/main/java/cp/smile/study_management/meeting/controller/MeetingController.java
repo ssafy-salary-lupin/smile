@@ -26,7 +26,9 @@ import io.openvidu.java.client.OpenViduJavaClientException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,6 +42,8 @@ import static cp.smile.config.response.CustomSuccessStatus.RESPONSE_SUCCESS;
 import static cp.smile.config.response.exception.CustomExceptionStatus.ACCOUNT_NOT_FOUND;
 import static cp.smile.config.response.exception.CustomExceptionStatus.NOT_FOUND_STUDY;
 
+@Slf4j
+@Tag(name = "스터디 화상회의 API", description = "스터디 화상회의 관련 API 모음")
 @RestController
 @RequiredArgsConstructor
 public class MeetingController {
@@ -51,6 +55,7 @@ public class MeetingController {
     private final StudyMeetingService studyMeetingService;
     private final OpenViduService openViduService;
 
+    @Tag(name="스터디 화상회의 API")
     @Operation(summary = "스터디 화상회의 정보 조회", description =  "현재 열린 화상회의와, 지난 화상회의정보를 반환해줌.")
     @ApiResponses({
             @ApiResponse(responseCode = "200",description = "API 정상 동작"),
@@ -74,6 +79,7 @@ public class MeetingController {
         return responseService.getDataResponse(result, status);
     }
 
+    @Tag(name="스터디 화상회의 API")
     @Operation(summary = "특정 화상회의 정보 조회", description =  "화상회의 식별자로 지정한 화상회의 정보를 반환해줌 - 이름, 시간, 유형등")
     @ApiResponses({
             @ApiResponse(responseCode = "200",description = "API 정상 동작"),
@@ -90,6 +96,7 @@ public class MeetingController {
         return responseService.getDataResponse(new MeetingDTO(String.valueOf(studyId), meeting), RESPONSE_SUCCESS);
     }
 
+    @Tag(name="스터디 화상회의 API")
     @Operation(summary = "화상회의 생성", description =  "화상회의를 생성하고, 생성된 화상회의 정보를 반환해줌 - 식별자 등")
     @ApiResponses({
             @ApiResponse(responseCode = "200",description = "API 정상 동작"),
@@ -106,6 +113,7 @@ public class MeetingController {
         return responseService.getDataResponse(new MeetingDTO(String.valueOf(studyId), meeting), RESPONSE_SUCCESS);
     }
 
+    @Tag(name="스터디 화상회의 API")
     @Operation(summary = "화상회의 연결", description =  "화상회의 접속시에 커넥션을 생성하고 접근 가능한 토큰을 반환해줌.")
     @ApiResponses({
             @ApiResponse(responseCode = "200",description = "API 정상 동작"),
@@ -129,6 +137,7 @@ public class MeetingController {
         return responseService.getDataResponse(new AttendTokenDTO(sessionId, connection), RESPONSE_SUCCESS);
     }
 
+    @Tag(name="스터디 화상회의 API")
     @Operation(summary = "화상회의 종료", description =  "생성된 화상회의를 삭제하고, 커넥션도 종료함 - 반환값은 없음")
     @ApiResponses({
             @ApiResponse(responseCode = "200",description = "API 정상 동작"),
@@ -141,6 +150,7 @@ public class MeetingController {
         return responseService.getSuccessResponse();
     }
 
+    @Tag(name="스터디 화상회의 API")
     @Operation(summary = "화상회의 유형 조회", description =  "화상회의 유형 이름과 식별자 조회")
     @ApiResponses({
             @ApiResponse(responseCode = "200",description = "API 정상 동작"),

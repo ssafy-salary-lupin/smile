@@ -22,6 +22,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -36,6 +37,7 @@ import static cp.smile.config.response.CustomSuccessStatus.RESPONSE_NO_CONTENT;
 import static cp.smile.config.response.CustomSuccessStatus.RESPONSE_SUCCESS;
 
 @Slf4j
+@Tag(name = "스터디 일반 API", description = "스터디 일반관련 API 모음")
 @RequiredArgsConstructor
 @RestController
 public class StudyCommonController {
@@ -52,6 +54,7 @@ public class StudyCommonController {
      */
 
     // TODO : 스웨거로 파라미터 처리하려고 하는데, 사용하고 있는 SPRINGFOX는 MAP타입을 처리하는 것을 지원하지 않음.
+    @Tag(name = "스터디 일반 API")
     @Operation(summary = "스터디 전체 조회", description =  "생성된 모든스터디 반환, 이름(name), 카테고리 식별번호(type)으로 검색가능.")
     @ApiResponses({
             @ApiResponse(responseCode = "200",description = "API 정상 동작"),
@@ -77,7 +80,7 @@ public class StudyCommonController {
     }
 
 
-    // TODO : 스터디 생성이 되면 스터디 아이디를 반환해주어야 함.
+    @Tag(name = "스터디 일반 API")
     @Operation(summary = "스터디 생성", description =  "스터디 생성 후, 스터디 아이디를 반환해줌.")
     @ApiResponses({
             @ApiResponse(responseCode = "200",description = "API 정상 동작"),
@@ -98,6 +101,7 @@ public class StudyCommonController {
     }
 
     // TODO : PathVariable이 없는 엔드포인트와 합치는 것 고려.
+    @Tag(name = "스터디 일반 API")
     @Operation(summary = "스터디 세부내용 조회", description =  "댓글, 대댓글을 포함한 정보를 반환해줌")
     @ApiResponses({
             @ApiResponse(responseCode = "200",description = "API 정상 동작"),
@@ -110,6 +114,7 @@ public class StudyCommonController {
     }
 
 
+    @Tag(name = "스터디 일반 API")
     @Operation(summary = "스터디 댓글 생성", description =  "해당 스터디에 댓글을 생성함")
     @ApiResponses({
             @ApiResponse(responseCode = "200",description = "API 정상 동작"),
@@ -132,6 +137,7 @@ public class StudyCommonController {
 
     }
 
+    @Tag(name = "스터디 일반 API")
     @Operation(summary = "스터디 대댓글 생성", description =  "해당 스터디의 해당 댓글에 대댓글을 생성함.")
     @ApiResponses({
             @ApiResponse(responseCode = "200",description = "API 정상 동작"),
@@ -155,6 +161,7 @@ public class StudyCommonController {
         return responseService.getSuccessResponse();
     }
 
+    @Tag(name = "스터디 일반 API")
     @Operation(summary = "스터디 유형 조회", description =  "스터디 유형이름과, 식별번호를 조회함.")
     @ApiResponses({
             @ApiResponse(responseCode = "200",description = "API 정상 동작"),

@@ -13,6 +13,7 @@ import cp.smile.study_management.chat.service.RedisPublisher;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -26,6 +27,7 @@ import static cp.smile.config.response.CustomSuccessStatus.*;
 
 @Slf4j
 @RestController
+@Tag(name = "스터디 실시간 채팅 API", description = "스터디 실시간 채팅 관련 API 모음")
 @RequiredArgsConstructor
 public class ChatController {
 
@@ -35,6 +37,7 @@ public class ChatController {
 
     //
     //스터디 아이디에 해당하는 모든 메시지 반환.
+    @Tag(name="스터디 실시간 채팅 API")
     @Operation(summary = "스터디 채팅 메시지 조회 ", description =  "해당 스터디에서 발생한 메시지를 전부 반환해줌.")
     @ApiResponses({
             @ApiResponse(responseCode = "200",description = "API 정상 동작"),
