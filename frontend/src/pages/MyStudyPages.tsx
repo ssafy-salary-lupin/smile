@@ -156,7 +156,7 @@ export default function MyStudyPages() {
   };
   return (
     <>
-      <BackgroundYellow bgHeight="65vw" />
+      <BackgroundYellow bgHeight={65} />
       <BlankSpace />
       <Wrapper>
         <Header>

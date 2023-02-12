@@ -20,12 +20,21 @@ const SSearchContainer = styled.div<ISearchContainer>`
   align-items: center;
   z-index: 1;
   opacity: 1;
+  @media screen and (min-width: 1680px) {
+    border-radius: 9.994px;
+    width: ${(props) => props.widthValue / 0.07}px;
+    height: ${(props) => props.heightValue / 0.07}px;
+  }
 `;
 
 const SSearchIcon = styled.img.attrs({ src: searchIcon })`
   width: 2.222vw;
   height: 2.222vw;
   cursor: pointer;
+  @media screen and (min-width: 1680px) {
+    width: 31.997px;
+    height: 31.997px;
+  }
 `;
 
 interface IInput {
@@ -42,20 +51,21 @@ const SSearchInput = styled.input.attrs((props: IInput) => ({
 }))<IInput>`
   width: ${(props) => props.inputWidth + props.unit};
   height: ${(props) => props.inputHeight + props.unit};
-  /* width: 23vw;
-  height: 3.125vw; */
   border: none;
   outline: none;
   -webkit-appearance: none;
-  /* text-align: center; */
-  /* margin-left: 10px; */
   overflow: auto; //검색어가 길어졌을때 오른쪽으로 자연스럽게 검색되도록 하기 위해
-  /* z-index: -1; */
   font-size: ${(props) => props.inputWidth * 0.06 + props.unit};
-  /* font-size: 1.389vw; */
+  @media screen and (min-width: 1680px) {
+    font-size: ${(props) => (props.inputWidth * 0.06) / 0.07}px;
+    width: ${(props) => props.inputWidth / 0.07}px;
+    height: ${(props) => props.inputHeight / 0.07}px;
+  }
   ::placeholder {
     font-size: ${(props) => props.inputWidth * 0.06 + props.unit};
-    /* font-size: 1.389vw; */
+    @media screen and (min-width: 1680px) {
+      font-size: ${(props) => (props.inputWidth * 0.06) / 0.07}px;
+    }
   }
 `;
 
