@@ -6,6 +6,7 @@ import cp.smile.study_common.dto.FindFilter;
 import cp.smile.study_common.dto.request.CreateCommentDTO;
 import cp.smile.study_common.dto.request.CreateReplyDTO;
 import cp.smile.study_common.dto.request.CreateStudyDTO;
+import cp.smile.study_common.dto.response.CreateStudyResponseDTO;
 import cp.smile.study_common.dto.response.FindAllStudyDTO;
 import cp.smile.study_common.dto.response.FindDetailStudyDTO;
 import cp.smile.study_common.dto.response.StudyTypeDTO;
@@ -22,7 +23,7 @@ public interface StudyCommonService {
 
 
     List<FindAllStudyDTO> findAllStudy(FindFilter findFilter);
-    void createStudy(int userId,CreateStudyDTO createStudyDTO, MultipartFile multipartFile); //스터디 생성
+    CreateStudyResponseDTO createStudy(int userId, CreateStudyDTO createStudyDTO, MultipartFile multipartFile); //스터디 생성
 
 
     FindDetailStudyDTO findDetailStudy(int id); //상세조회
