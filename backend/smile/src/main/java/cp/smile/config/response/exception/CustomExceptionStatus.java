@@ -22,6 +22,8 @@ public enum CustomExceptionStatus {
     //INVALID_USER_JWT(false,403,"권한이 없는 유저의 접근입니다."),
     //NOT_AUTHENTICATED_ACCOUNT(false, 403, "로그인이 필요합니다."),
 
+    REQUEST_QUERY_ERROR(false, 400, "잘못된 쿼리 요청입니다."),
+
 
     /*user 관련*/
     ACCOUNT_NOT_FOUND(false, 404, "유저를 찾을 수 없습니다."),

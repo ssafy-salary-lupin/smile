@@ -6,6 +6,7 @@ import cp.smile.config.response.CustomSuccessStatus;
 import cp.smile.config.response.DataResponse;
 import cp.smile.config.response.ResponseService;
 import cp.smile.config.response.exception.CustomException;
+import cp.smile.config.response.exception.CustomExceptionStatus;
 import cp.smile.dto.response.PageDTO;
 import cp.smile.entity.study_management.StudyBoard;
 import cp.smile.entity.study_management.StudyBoardType;
@@ -33,6 +34,7 @@ import java.util.stream.Collectors;
 
 import static cp.smile.config.response.CustomSuccessStatus.RESPONSE_NO_CONTENT;
 import static cp.smile.config.response.CustomSuccessStatus.RESPONSE_SUCCESS;
+import static cp.smile.config.response.exception.CustomExceptionStatus.*;
 import static cp.smile.config.response.exception.CustomExceptionStatus.ACCOUNT_NOT_FOUND;
 import static cp.smile.config.response.exception.CustomExceptionStatus.USER_NOT_ACCESS_STUDY;
 
@@ -72,20 +74,32 @@ public class StudyBoardController {
             @AuthenticationPrincipal CustomOAuth2User customOAuth2User,
             @PathVariable int studyId,
             @RequestParam(value = "page", required = false) Integer page,
-            @RequestParam(value = "size", required = false) Integer size) {
+            @RequestParam(value = "size", required = false) Integer size,
+            @RequestParam(value = "type", required = false) Integer typeId) {
         // 가입한 스터디의 게시글만 볼 수 있도록 검사
         userJoinStudyRepository.findByUserIdAndStudyId(customOAuth2User.getUserId(), studyId)
                 .orElseThrow(() -> new CustomException(USER_NOT_ACCESS_STUDY));
 
-        if (page == null) page = 1;
-        if (size == null) size = 10;
-        page--;
+        //공지가 아닐때,
+        if(typeId == null){
+            typeId = 0;
+            if (page == null) page = 1;
+            if (size == null) size = 10;
+            page--;
 
-        if (page < 1 && size < 1) {
-            throw new IllegalArgumentException();
+            if (page < 1 && size < 1) {
+                throw new IllegalArgumentException();
+            }
         }
+        //공지사항 조회일때 - 5개만 호출
+        else if(typeId == 1){
+            page = 0;
+            size = 5;
+        }
+        //나머지 경우는 잘못된 요청
+        else throw new CustomException(REQUEST_QUERY_ERROR);
 
-        Page<StudyBoard> result = studyBoardService.findByStudyIdWithPaging(studyId, PageRequest.of(page, size));
+        Page<StudyBoard> result = studyBoardService.findByStudyIdWithPaging(studyId,typeId, PageRequest.of(page, size));
         List<SimpleBoardDTO> content = result.getContent().stream()
                 .map(SimpleBoardDTO::of)
                 .collect(Collectors.toList());

@@ -18,6 +18,7 @@ public interface StudyBoardRepository extends JpaRepository<StudyBoard, Integer>
             "where si.id = :studyId and sb.isDeleted = false")
     List<StudyBoard> findByStudyId(int studyId);
 
+    // TODO : queryDsl을 이용해서 동적쿼리를 짜지 않아, 조건만 다른 쿼리를 두번짜야됨. - querydsl을 이용한 동적쿼리 필요.
     @Query(value = "select sb from StudyBoard sb " +
             "join fetch sb.studyInformation si " +
             "join fetch sb.user u " +
@@ -25,6 +26,15 @@ public interface StudyBoardRepository extends JpaRepository<StudyBoard, Integer>
             "where si.id = :studyId and sb.isDeleted = false and sbt.id != 1",
             countQuery = "select count(*) from StudyBoard sb where sb.studyInformation.id = :studyId and sb.isDeleted = false and sb.studyBoardType.id != 1")
     Page<StudyBoard> findByStudyIdWithPaging(int studyId, Pageable pageable);
+
+    /*공지사항 조회*/
+    @Query(value = "select sb from StudyBoard sb " +
+            "join fetch sb.studyInformation si " +
+            "join fetch sb.user u " +
+            "join fetch sb.studyBoardType sbt " +
+            "where si.id = :studyId and sb.isDeleted = false and sbt.id = 1",
+            countQuery = "select count(*) from StudyBoard sb where sb.studyInformation.id = :studyId and sb.isDeleted = false and sb.studyBoardType.id != 1")
+    Page<StudyBoard> findByStudyIdWithPagingNotice(int studyId, Pageable pageable);
 
     @Query(value = "select sb from StudyBoard sb " +
             "join fetch sb.studyBoardType " +
