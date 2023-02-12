@@ -598,15 +598,15 @@ function StudyCreatePages() {
                 pathname: `studies/1`,
               }}
             > */}
-              <Link
+              {/* <Link
               to={{
                 pathname: `studies/${detailStudy?.result.id}/home`,
               }}
-            >
+            > */}
               <Btn color="#F5C82E" onClick={CreateStudyApi}>
                 스터디 생성
               </Btn>
-            </Link>
+            {/* </Link> */}
             <Link
               to={{
                 pathname: `/create`,
