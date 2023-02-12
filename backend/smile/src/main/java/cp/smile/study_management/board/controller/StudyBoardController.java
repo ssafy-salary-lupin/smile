@@ -2,6 +2,7 @@ package cp.smile.study_management.board.controller;
 
 import cp.smile.auth.oauth2.CustomOAuth2User;
 import cp.smile.config.response.CommonResponse;
+import cp.smile.config.response.CustomSuccessStatus;
 import cp.smile.config.response.DataResponse;
 import cp.smile.config.response.ResponseService;
 import cp.smile.config.response.exception.CustomException;
@@ -121,5 +122,20 @@ public class StudyBoardController {
         data.put("types", list);
 
         return responseService.getDataResponse(data, types.isEmpty() ? RESPONSE_NO_CONTENT : RESPONSE_SUCCESS);
+    }
+
+    @DeleteMapping("/studies/{studyId}/boards/{boardId}")
+    public CommonResponse deleteStudyBoard(
+            @PathVariable int studyId,
+            @PathVariable int studyBoardId,
+            @AuthenticationPrincipal CustomOAuth2User oAuth2User
+    ){
+
+        int userId = oAuth2User.getUserId();
+
+        studyBoardService.deleteStudyBoard(userId,studyId,studyBoardId);
+
+        return responseService.getSuccessResponse();
+
     }
 }

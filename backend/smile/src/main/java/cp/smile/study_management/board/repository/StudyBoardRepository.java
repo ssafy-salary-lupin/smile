@@ -30,4 +30,6 @@ public interface StudyBoardRepository extends JpaRepository<StudyBoard, Integer>
             "join fetch sb.studyBoardType " +
             "where sb.id = :studyBoardId")
     Optional<StudyBoard> findByIdWithType(int studyBoardId);
+
+    Optional<StudyBoard> findByIdAndDeletedFalse(int studyBaordId);
 }

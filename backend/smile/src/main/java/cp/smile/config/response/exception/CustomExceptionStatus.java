@@ -55,6 +55,8 @@ public enum CustomExceptionStatus {
 
     NOT_FOUND_LOGIN_PROVIDER(false,404, "올바르지 않은 로그인 제공자 유형입니다."),
 
+    USER_NOT_DELETE_BOARD(false, 403, "게시판을 삭제할 권한이 없습니다."),
+
     /*화상회의 예외*/
     STUDY_EXISTS_MEETING(false, 409,"해당 스터디에 이미 화상회의가 생성되어있습니다."),
     NOT_FOUND_MEETING_SESSION(false,404,"존재하지 않는 세션입니다."),

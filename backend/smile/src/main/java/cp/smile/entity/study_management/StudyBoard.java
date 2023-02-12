@@ -81,4 +81,9 @@ public class StudyBoard extends BaseEntity {
     public void addViewCount() {
         this.viewCount += 1;
     }
+
+    //삭제 메서드 - 삭제지만 실제로 삭제하지는 않고 값만 바꿈.
+    public void deleteBoard(){
+        this.isDeleted = true;
+    }
 }

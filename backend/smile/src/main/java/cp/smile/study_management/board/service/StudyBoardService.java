@@ -20,4 +20,6 @@ public interface StudyBoardService {
     Page<StudyBoard> findByStudyIdWithPaging(int studyId, Pageable pageable);
     StudyBoardComment writeComment(User writer, int boardId, String content);
     List<StudyBoardType> findAllType();
+
+    void deleteStudyBoard(int userId, int studyId,int boardId);
 }
