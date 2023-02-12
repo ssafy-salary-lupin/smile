@@ -206,7 +206,7 @@ public class StudyBoardServiceImpl implements StudyBoardService {
 
         //게시글이 존재하는지 확인.
         studyBoardRepository.
-                findByIdAndDeletedFalse(boardId)
+                findByIdAndIsDeletedFalse(boardId)
                 .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY_BOARD));
 
         //게시글 작성자인지
