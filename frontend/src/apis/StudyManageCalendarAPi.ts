@@ -1,8 +1,8 @@
 import axios from "axios";
 import { IRegistData } from "components/study-manage/ModalCalendarRegist";
 
-// const BASE_URL = `https://i8b205.p.ssafy.io/be-api/studies`;
-const BASE_URL = `/be-api/studies`;
+const BASE_URL = `https://i8b205.p.ssafy.io/be-api/studies`;
+// const BASE_URL = `/be-api/studies`;
 
 const token = localStorage.getItem("kakao-token");
 
@@ -11,8 +11,8 @@ export async function calendarSelectAllApi() {
   try {
     const response = await fetch(`${BASE_URL}/1/schedules`, {
       headers: {
-        // Authorization: `Bearer ${token}`,
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYxNzQ5NDYsImV4cCI6MTY3NjI2MTM0Nn0.SfVLAGLVlq0SOodUcnH8Xk2G3iFRnlLb6zNKk3PXGRJzYCWNUEcCLYYc5NOJ560OimORskELTfJK79suE6MasQ`,
+        Authorization: `Bearer ${token}`,
+        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYxNzQ5NDYsImV4cCI6MTY3NjI2MTM0Nn0.SfVLAGLVlq0SOodUcnH8Xk2G3iFRnlLb6zNKk3PXGRJzYCWNUEcCLYYc5NOJ560OimORskELTfJK79suE6MasQ`,
         Accept: "application/json",
       },
     });
@@ -31,8 +31,8 @@ export async function calendarCreateApi(data: IRegistData) {
   try {
     await axios.post(`${BASE_URL}/1/schedules`, JSON.stringify(data), {
       headers: {
-        // Authorization: `Bearer ${token}`,
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYxNzQ5NDYsImV4cCI6MTY3NjI2MTM0Nn0.SfVLAGLVlq0SOodUcnH8Xk2G3iFRnlLb6zNKk3PXGRJzYCWNUEcCLYYc5NOJ560OimORskELTfJK79suE6MasQ`,
+        Authorization: `Bearer ${token}`,
+        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYxNzQ5NDYsImV4cCI6MTY3NjI2MTM0Nn0.SfVLAGLVlq0SOodUcnH8Xk2G3iFRnlLb6zNKk3PXGRJzYCWNUEcCLYYc5NOJ560OimORskELTfJK79suE6MasQ`,
         "Content-Type": `application/json`,
       },
     });
@@ -47,8 +47,8 @@ export async function meetingSelectAllApi() {
   try {
     const response = await fetch(`${BASE_URL}/1/meetings`, {
       headers: {
-        // Authorization: `Bearer ${token}`,
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYxNzQ5NDYsImV4cCI6MTY3NjI2MTM0Nn0.SfVLAGLVlq0SOodUcnH8Xk2G3iFRnlLb6zNKk3PXGRJzYCWNUEcCLYYc5NOJ560OimORskELTfJK79suE6MasQ`,
+        Authorization: `Bearer ${token}`,
+        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYxNzQ5NDYsImV4cCI6MTY3NjI2MTM0Nn0.SfVLAGLVlq0SOodUcnH8Xk2G3iFRnlLb6zNKk3PXGRJzYCWNUEcCLYYc5NOJ560OimORskELTfJK79suE6MasQ`,
         Accept: "application/json",
       },
     });
@@ -66,8 +66,8 @@ export async function deleteScheduleApi(scheduleId: number) {
   try {
     await axios.delete(`${BASE_URL}/1/schedules/${scheduleId}`, {
       headers: {
-        // Authorization: `Bearer ${token}`,
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYxNzQ5NDYsImV4cCI6MTY3NjI2MTM0Nn0.SfVLAGLVlq0SOodUcnH8Xk2G3iFRnlLb6zNKk3PXGRJzYCWNUEcCLYYc5NOJ560OimORskELTfJK79suE6MasQ`,
+        Authorization: `Bearer ${token}`,
+        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYxNzQ5NDYsImV4cCI6MTY3NjI2MTM0Nn0.SfVLAGLVlq0SOodUcnH8Xk2G3iFRnlLb6zNKk3PXGRJzYCWNUEcCLYYc5NOJ560OimORskELTfJK79suE6MasQ`,
       },
     });
   } catch (error: any) {
@@ -80,8 +80,8 @@ export async function scheduleSelectApi(scheduleId: number) {
   try {
     const response = await fetch(`${BASE_URL}/1/schedules/${scheduleId}`, {
       headers: {
-        // Authorization: `Bearer ${token}`,
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYxNzQ5NDYsImV4cCI6MTY3NjI2MTM0Nn0.SfVLAGLVlq0SOodUcnH8Xk2G3iFRnlLb6zNKk3PXGRJzYCWNUEcCLYYc5NOJ560OimORskELTfJK79suE6MasQ`,
+        Authorization: `Bearer ${token}`,
+        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYxNzQ5NDYsImV4cCI6MTY3NjI2MTM0Nn0.SfVLAGLVlq0SOodUcnH8Xk2G3iFRnlLb6zNKk3PXGRJzYCWNUEcCLYYc5NOJ560OimORskELTfJK79suE6MasQ`,
         Accept: "application/json",
       },
     });
@@ -101,8 +101,8 @@ export async function scheduleUpdateApi(data: any, scheduleId: number) {
       JSON.stringify(data),
       {
         headers: {
-          // Authorization: `Bearer ${token}`,
-          Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYxNzQ5NDYsImV4cCI6MTY3NjI2MTM0Nn0.SfVLAGLVlq0SOodUcnH8Xk2G3iFRnlLb6zNKk3PXGRJzYCWNUEcCLYYc5NOJ560OimORskELTfJK79suE6MasQ`,
+          Authorization: `Bearer ${token}`,
+          // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYxNzQ5NDYsImV4cCI6MTY3NjI2MTM0Nn0.SfVLAGLVlq0SOodUcnH8Xk2G3iFRnlLb6zNKk3PXGRJzYCWNUEcCLYYc5NOJ560OimORskELTfJK79suE6MasQ`,
           "Content-Type": `application/json`,
         },
       },
