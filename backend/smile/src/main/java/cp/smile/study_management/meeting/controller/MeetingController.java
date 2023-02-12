@@ -23,6 +23,9 @@ import cp.smile.user.repository.UserJoinStudyRepository;
 import cp.smile.user.repository.UserRepository;
 import io.openvidu.java.client.OpenViduHttpException;
 import io.openvidu.java.client.OpenViduJavaClientException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -48,6 +51,11 @@ public class MeetingController {
     private final StudyMeetingService studyMeetingService;
     private final OpenViduService openViduService;
 
+    @Operation(summary = "스터디 화상회의 정보 조회", description =  "현재 열린 화상회의와, 지난 화상회의정보를 반환해줌.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
     @GetMapping("/studies/{studyId}/meetings")
     public DataResponse<Map<String, Object>> getAllMeeting(
             @AuthenticationPrincipal CustomOAuth2User oAuth2User,
@@ -66,6 +74,11 @@ public class MeetingController {
         return responseService.getDataResponse(result, status);
     }
 
+    @Operation(summary = "특정 화상회의 정보 조회", description =  "화상회의 식별자로 지정한 화상회의 정보를 반환해줌 - 이름, 시간, 유형등")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
     @GetMapping("/studies/{studyId}/meetings/{meetingId}")
     public DataResponse<MeetingDTO> getById(
             @AuthenticationPrincipal CustomOAuth2User oAuth2User,
@@ -77,6 +90,11 @@ public class MeetingController {
         return responseService.getDataResponse(new MeetingDTO(String.valueOf(studyId), meeting), RESPONSE_SUCCESS);
     }
 
+    @Operation(summary = "화상회의 생성", description =  "화상회의를 생성하고, 생성된 화상회의 정보를 반환해줌 - 식별자 등")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
     @PostMapping("/studies/{studyId}/meetings")
     public DataResponse<MeetingDTO> createMeeting(@AuthenticationPrincipal CustomOAuth2User oAuth2User,
                                          @RequestBody MeetingCreationRequestDTO dto,
@@ -88,6 +106,11 @@ public class MeetingController {
         return responseService.getDataResponse(new MeetingDTO(String.valueOf(studyId), meeting), RESPONSE_SUCCESS);
     }
 
+    @Operation(summary = "화상회의 연결", description =  "화상회의 접속시에 커넥션을 생성하고 접근 가능한 토큰을 반환해줌.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
     @PostMapping("/studies/{studyId}/meetings/connection")
     public DataResponse<AttendTokenDTO> createConnection(
             @AuthenticationPrincipal CustomOAuth2User oAuth2User,
@@ -106,6 +129,11 @@ public class MeetingController {
         return responseService.getDataResponse(new AttendTokenDTO(sessionId, connection), RESPONSE_SUCCESS);
     }
 
+    @Operation(summary = "화상회의 종료", description =  "생성된 화상회의를 삭제하고, 커넥션도 종료함 - 반환값은 없음")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
     @DeleteMapping("/studies/{studyId}/meetings")
     public CommonResponse closeMeeting(@PathVariable int studyId) throws OpenViduJavaClientException, OpenViduHttpException {
         openViduService.closeSession(String.valueOf(studyId));
@@ -113,6 +141,11 @@ public class MeetingController {
         return responseService.getSuccessResponse();
     }
 
+    @Operation(summary = "화상회의 유형 조회", description =  "화상회의 유형 이름과 식별자 조회")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
     @GetMapping("/studies/meetings/types")
     public DataResponse<Map<String, Object>> getTypes() {
         List<StudyMeetingType> types = studyMeetingService.findAllType();
