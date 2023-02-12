@@ -43,7 +43,7 @@ const SkeletonItem = styled.section`
   padding: 0.7vw 1.68vw;
   @media screen and (min-width: 1680px) {
     grid-template-rows: 56.448px 60.48px 66.528px;
-    padding: 10.08px 24.192px;
+    padding: 10.08px 20px;
   }
 `;
 
@@ -155,9 +155,11 @@ const SkeletonProfile = styled.div`
   height: 3.36vw;
   border-radius: 50px !important;
   @media screen and (min-width: 1680px) {
-    width: 48.384px;
-    height: 48.384px;
+    width: 50px;
+    height: 50px;
     border-radius: 3.472vw !important;
+    margin-left: 3px;
+    margin-bottom: 3px;
   }
 `;
 

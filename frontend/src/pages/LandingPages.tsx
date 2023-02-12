@@ -229,11 +229,13 @@ const slideRightReverse = keyframes`
 `;
 
 const mediaSlideLeftReverse = keyframes`
-  from {
+  0% {
     left: ${W - 717}px;
-    /* opacity: 1; */
   }
-  to {
+  25%{
+    opacity: 0;
+  }
+  100% {
     left: -50vw;
   
     opacity: 0;
@@ -241,12 +243,14 @@ const mediaSlideLeftReverse = keyframes`
 `;
 
 const mediaSlideRightReverse = keyframes`
-  from {
+  0% {
     right: ${W - 717}px;
 
-    /* opacity: 1; */
   }
-  to {
+  25%{
+    opacity: 0;
+  }
+  100% {
     right: -50vw;
 
     opacity: 0;

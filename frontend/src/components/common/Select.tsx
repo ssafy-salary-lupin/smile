@@ -154,6 +154,7 @@ const SOptionList = styled.ul`
   transition: 0.7s ease-in;
   border: 1px solid rgba(0, 0, 0, 0.5);
   margin: 0;
+  z-index: 9999;
 `;
 
 const SOptionContainer = styled.div`
