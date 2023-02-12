@@ -34,7 +34,7 @@ public class StudyAdminController {
     private final ResponseService responseService;
 
     /* 스터디에 속한 회원조회 */
-    @Operation(summary = "스터디 속한 회원 조회", description =  "스터디 유형이름과, 식별번호를 조회함.")
+    @Operation(summary = "스터디 속한 회원 조회", description =  "주어진 스터디에 속하는 회원 정보를 반환함.")
     @ApiResponses({
             @ApiResponse(responseCode = "200",description = "API 정상 동작"),
             @ApiResponse(responseCode = "400",description = "API 에러")
@@ -64,6 +64,11 @@ public class StudyAdminController {
     }
 
     /* 스터디장 위임 */
+    @Operation(summary = "스터디장 위임", description =  "스터디장 권한을 다른 유저에게 위임함")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
     @PatchMapping("studies/{studyId}/users/{userId}/delegate")
     public CommonResponse delegateStudyLeader(
             @PathVariable int studyId,
@@ -78,6 +83,11 @@ public class StudyAdminController {
     }
 
     /* 스터디 종료 */
+    @Operation(summary = "스터디 종료", description =  "스터디 테이블에 종료상태값을 바꿔서 종료된 스터디로 표시")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
     @PatchMapping("studies/{studyId}/close")
     public CommonResponse closeStudy(
             @PathVariable int studyId,
@@ -91,6 +101,11 @@ public class StudyAdminController {
     }
 
     /* 스터디 모집 */
+    @Operation(summary = "스터디 모집", description =  "스터디 테이블에 데드라인컬럼을 바꿔서 모집 가능하도록 함, 스터디 조회시 보여짐")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
     @PatchMapping("studies/{studyId}/recruit")
     public CommonResponse recruitStudy(
             @PathVariable int studyId,
@@ -104,6 +119,11 @@ public class StudyAdminController {
     }
 
     /* 스터디 마감 */
+    @Operation(summary = "스터디 마감", description =  "스터디 테이블의 데드라인 컬럼을 마감상태로 바꿔, 스터디 조회시 안보이게 함.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
     @PatchMapping("studies/{studyId}/deadline")
     public CommonResponse deadlineStudy(
             @PathVariable int studyId,
@@ -117,6 +137,11 @@ public class StudyAdminController {
     }
 
     /* 스터디 강퇴 */
+    @Operation(summary = "스터디 강퇴 ", description =  "스터디 유저 가입 정보 테이블에 강퇴 체크 변수를 true 바꿔서 스터디 조회 안되도록 함.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
     @PatchMapping("studies/{studyId}/users/{userId}")
     public CommonResponse userBan(
             @PathVariable int studyId,
@@ -131,6 +156,11 @@ public class StudyAdminController {
     }
 
     /* 스터디 정보 수정 */
+    @Operation(summary = "스터디 정보 수정 ", description =  "스터디 관리에 필요한 내용들을 수정할 수 있도록 함.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
     @PatchMapping("studies/{studyId}")
     public CommonResponse updateStudyInformation(
             @PathVariable int studyId,

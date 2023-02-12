@@ -10,6 +10,9 @@ import cp.smile.study_management.chat.dto.response.ChatMessageInfoDTO;
 import cp.smile.study_management.chat.service.ChatService;
 import cp.smile.study_management.chat.service.ChatServiceImpl;
 import cp.smile.study_management.chat.service.RedisPublisher;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -32,6 +35,11 @@ public class ChatController {
 
     //
     //스터디 아이디에 해당하는 모든 메시지 반환.
+    @Operation(summary = "스터디 채팅 메시지 조회 ", description =  "해당 스터디에서 발생한 메시지를 전부 반환해줌.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
     @GetMapping("/studies/{studyId}/chats")
     public DataResponse<List<ChatMessageInfoDTO>> findAllMessage(
             @PathVariable int studyId,
