@@ -12,7 +12,8 @@ public interface StudyBoardCommentRepository extends JpaRepository<StudyBoardCom
 
     @Query(value = "select sbm from StudyBoardComment sbm " +
             "join fetch sbm.user " +
-            "where sbm.studyBoard = :studyBoard")
+            "where sbm.studyBoard = :studyBoard " +
+            "and sbm.isDeleted = false")
     List<StudyBoardComment> findByStudyBoardWithUser(StudyBoard studyBoard);
 
     Optional<StudyBoardComment> findByIdAndIsDeletedFalse(int commentId);

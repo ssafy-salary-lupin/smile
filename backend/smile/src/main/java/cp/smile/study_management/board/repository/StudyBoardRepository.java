@@ -23,9 +23,13 @@ public interface StudyBoardRepository extends JpaRepository<StudyBoard, Integer>
             "join fetch sb.studyInformation si " +
             "join fetch sb.user u " +
             "join fetch sb.studyBoardType sbt " +
-            "where si.id = :studyId and sb.isDeleted = false and sbt.id != 1 " +
+            "where si.id = :studyId and sb.isDeleted = false " +
+            "and sbt.id != 1 " +
             "order by sb.createTime DESC",
-            countQuery = "select count(*) from StudyBoard sb where sb.studyInformation.id = :studyId and sb.isDeleted = false and sb.studyBoardType.id != 1")
+            countQuery = "select count(*) from StudyBoard sb " +
+                    "where sb.studyInformation.id = :studyId " +
+                    "and sb.isDeleted = false " +
+                    "and sb.studyBoardType.id != 1")
     Page<StudyBoard> findByStudyIdWithPaging(int studyId, Pageable pageable);
 
     /*공지사항 조회*/
@@ -33,7 +37,9 @@ public interface StudyBoardRepository extends JpaRepository<StudyBoard, Integer>
             "join fetch sb.studyInformation si " +
             "join fetch sb.user u " +
             "join fetch sb.studyBoardType sbt " +
-            "where si.id = :studyId and sb.isDeleted = false and sbt.id = 1 " +
+            "where si.id = :studyId " +
+            "and sb.isDeleted = false " +
+            "and sbt.id = 1 " +
             "order by sb.createTime DESC",
             countQuery = "select count(*) from StudyBoard sb where sb.studyInformation.id = :studyId and sb.isDeleted = false and sb.studyBoardType.id != 1")
     Page<StudyBoard> findByStudyIdWithPagingNotice(int studyId, Pageable pageable);
