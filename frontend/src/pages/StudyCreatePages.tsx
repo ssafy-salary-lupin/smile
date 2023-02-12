@@ -421,7 +421,7 @@ function StudyCreatePages() {
     console.log("토큰 : ", token);
 
     await axios
-      .post(`${BASE_URL}/studies`, formData, {
+      .post(`${BASE_URL}studies`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
@@ -598,15 +598,15 @@ function StudyCreatePages() {
                 pathname: `studies/1`,
               }}
             > */}
-              <Link
+              {/* <Link
               to={{
                 pathname: `studies/${detailStudy?.result.id}/home`,
               }}
-            >
+            > */}
               <Btn color="#F5C82E" onClick={CreateStudyApi}>
                 스터디 생성
               </Btn>
-            </Link>
+            {/* </Link> */}
             <Link
               to={{
                 pathname: `/create`,

@@ -22,6 +22,28 @@ const CardNotHover = keyframes`
   }
 `;
 
+const enterDescription = keyframes`
+  from {
+    opacity: 0;
+    z-index: -1;
+  }
+  to {
+    opacity: 0.8;
+    z-index: 100;
+  }
+`;
+
+const leaveDescription = keyframes`
+  from {
+    opacity: 0.8;
+    z-index: 100;
+  }
+  to {
+    opacity: 0;
+    z-index: -1;
+  }
+`;
+
 const SContainer = styled.div`
   display: grid;
   grid-template-rows: 21.84vw 12.91vw;
@@ -31,11 +53,26 @@ const SContainer = styled.div`
   margin-bottom: 2.222vw;
   border: solid 1px #e6e8ec;
   box-shadow: 0px 0px 1.12vw ${(props) => props.theme.subColor};
+  @media screen and (min-width: 1680px) {
+    grid-template-rows: 314.496px 185.904px;
+    border-radius: 16.128px;
+    width: 427.392px;
+    height: 529.2px;
+    margin-bottom: 31.997px;
+    border: solid 0.069vw #e6e8ec;
+    box-shadow: 0vw 0vw 16.128px ${(props) => props.theme.subColor};
+  }
   :hover {
     animation: ${CardHover} 1.5s forwards;
+    #overD {
+      animation: ${enterDescription} 1s forwards;
+    }
   }
   :not(:hover) {
     animation: ${CardNotHover} 1.5s forwards;
+    #overD {
+      animation: ${leaveDescription} 1s forwards;
+    }
   }
 `;
 
@@ -43,52 +80,48 @@ const SCardItem = styled.span`
   display: grid;
   grid-template-rows: 3.92vw 4.2vw 4.62vw;
   padding: 0.7vw 1.68vw;
+  @media screen and (min-width: 1680px) {
+    grid-template-rows: 56.448px 60.48px 66.528px;
+    padding: 10.08px 24.192px;
+  }
 `;
 const SCardImg = styled.img`
   border-radius: 1.12vw 1.12vw 0px 0px;
   width: 29.68vw;
   height: 21.84vw;
-`;
-
-interface DescriptionPropsType {
-  isOver: boolean;
-}
-
-const enterDescription = keyframes`
-  from {
-    opacity: 0;
-    z-index: -1;
-  }
-  to {
-    opacity: 0.65;
-    z-index: 999;
+  @media screen and (min-width: 1680px) {
+    border-radius: 16.128px 16.128px 0vw 0vw;
+    width: 427.392px;
+    height: 314.496px;
   }
 `;
 
-const leaveDescription = keyframes`
-  from {
-    opacity: 0.65;
-    z-index: 999;
-  }
-  to {
-    opacity: 0;
-    z-index: -1;
-  }
-`;
-
-const Description = styled.div<DescriptionPropsType>`
+const Description = styled.div`
   position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #757a7f;
+  background-color: #434649;
   border-radius: 1.12vw 1.12vw 0px 0px;
   width: 29.68vw;
   height: 21.84vw;
   opacity: 0;
   z-index: -1;
-  animation: ${(props) => (props.isOver ? enterDescription : leaveDescription)}
-    1s forwards;
+  @media screen and (min-width: 1680px) {
+    border-radius: 16.128px 16.128px 0vw 0vw;
+    width: 427.392px;
+    height: 314.496px;
+  }
+  span {
+    padding: 2.778vw;
+    font-size: 1.26vw;
+    font-weight: 600;
+    color: white;
+    @media screen and (min-width: 1680px) {
+      padding: 40.003px;
+      font-size: 18.144px;
+    }
+  }
 `;
 
 const SCardInfo = styled.div`
@@ -102,11 +135,20 @@ const SCardInfoItem = styled.span`
   img {
     width: 1.68vw;
     height: 1.68vw;
+    @media screen and (min-width: 1680px) {
+      width: 24.192px;
+      height: 24.192px;
+    }
   }
   span {
     margin-left: 0.28vw;
     font-size: 1.12vw;
     margin-bottom: 0.2vw;
+    @media screen and (min-width: 1680px) {
+      margin-left: 4.032px;
+      font-size: 16.128px;
+      margin-bottom: 2.88px;
+    }
 
     font-weight: 600;
     color: ${(props) => props.theme.textColor};
@@ -119,6 +161,9 @@ const SCardInfoItem = styled.span`
 const SCardDescription = styled.div`
   span {
     font-size: 1.26vw;
+    @media screen and (min-width: 1680px) {
+      font-size: 18.144px;
+    }
   }
 `;
 const SCardUser = styled.div`
@@ -132,9 +177,16 @@ const SCardUserItem = styled.div`
   height: 3.36vw;
   justify-content: space-around;
   font-weight: 500;
+  @media screen and (min-width: 1680px) {
+    margin-left: 16.128px;
+    height: 48.384px;
+  }
 
   span {
     font-size: 1.12vw;
+    @media screen and (min-width: 1680px) {
+      font-size: 16.128px;
+    }
     color: ${(props) => props.theme.textColor};
     :nth-child(2) {
       color: ${(props) => props.theme.textSubColor};
@@ -173,14 +225,6 @@ interface PropsType {
 }
 
 export default function Card(props: PropsType) {
-  const [isOver, setIsOver] = useState<boolean>(false);
-  const cardEnter = () => {
-    setIsOver(true);
-  };
-  const cardLeave = () => {
-    setIsOver(false);
-  };
-
   const visitedTime = 1;
   const visitedCountInput = props.studyInfo.viewCount;
   const visitedCount = visitedCountInput
@@ -196,11 +240,11 @@ export default function Card(props: PropsType) {
         pathname: `/detail/${props.studyInfo.id}`, // 스터디 상세 조회 페이지 주소 입력하기
       }}
     >
-      <SContainer onMouseEnter={cardEnter} onMouseLeave={cardLeave}>
+      <SContainer>
         <SCardImg
           src={studyImgUrl.includes("/root") ? defaultStudyImg : studyImgUrl}
         />
-        <Description isOver={isOver}>
+        <Description id={"overD"}>
           <span>{props.studyInfo.description}</span>
         </Description>
         <SCardItem>
