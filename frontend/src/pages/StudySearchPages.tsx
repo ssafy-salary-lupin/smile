@@ -9,6 +9,9 @@ import Card from "components/common/Card";
 import { AxiosError } from "axios";
 import MyStudyNotFound from "components/common/MyStudyNotFound";
 import { Link } from "react-router-dom";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { SearchNameState, SearchTypeState } from "atoms/SearchAtom";
+import LoadingCard from "components/common/LoadingCard";
 // 스터디 조회 페이지 전체를 감사는 div
 const Wrapper = styled.div`
   display: flex;
@@ -51,13 +54,14 @@ const CreateBtnWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   padding: 0 2.778vw;
-  margin: 1.111vw 0 3.889vw 0;
+  margin: 1.111vw 0 2.222vw 0;
   button {
     background-color: ${(props) => props.theme.mainColor};
     border: none;
     width: 16.667vw;
     height: 4.444vw;
     border-radius: 1.111vw;
+    font-size: 1.667vw;
     cursor: pointer;
     :hover {
       animation: ${BtnHover} 1s forwards;
@@ -70,8 +74,7 @@ const Section = styled.div``;
 const Cards = styled.div<CardsProps>`
   display: grid;
   grid-template-columns: repeat(3, 31.48vw);
-  /* grid-template-rows: repeat(2, 38.889vw); */
-  grid-template-rows: repeat(${(props) => props.NumberOfCards} / 3, 38.889vw);
+  grid-template-rows: repeat(3, 38.889vw);
   margin-top: 2.8vw;
 `;
 
@@ -79,6 +82,37 @@ const CardWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const fadeOut = keyframes`
+  from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+        z-index: -1;
+    }
+`;
+
+const SkeletonCards = styled.div`
+  margin-top: 2.8vw;
+  position: absolute;
+  z-index: 999;
+  display: grid;
+  grid-template-columns: repeat(3, 31.48vw);
+  grid-template-rows: repeat(3, 38.889vw);
+  animation-name: ${fadeOut};
+  animation-duration: 1s;
+  animation-timing-function: ease-out;
+  animation-delay: 1.5s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+`;
+
+const LoadingWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 `;
 
 interface CardsProps {
@@ -105,8 +139,24 @@ interface StudiesDataType {
   };
 }
 export default function StudySearchPages() {
+  const searchName = useRecoilValue<string>(SearchNameState);
+  const searchType = useRecoilValue<number[]>(SearchTypeState);
+  const searchValue = `/studies?${searchName ? "name=" + searchName : ""}&${
+    searchType ? "type=" + searchType : ""
+  }`;
+  console.log("SEARCH", searchValue);
+
   // API 불러오기
-  const { isLoading, data } = useQuery("studies", () => StudySearchAll.get);
+  const { isLoading, refetch, data } = useQuery("studies", () =>
+    StudySearchAll.api.get(searchValue),
+  );
+
+  useEffect(() => {
+    if (!!searchValue) {
+      refetch();
+    }
+  }, [searchValue, refetch]);
+
   console.log("DATA:", isLoading, data);
   // 스터디 더보기 클릭 여부를 확인하기 위한 state
   const [isClickMore, setIsClickMore] = useState<boolean>(false);
@@ -118,6 +168,11 @@ export default function StudySearchPages() {
   const [StudyList, setStudyList] = useState<StudiesDataType[]>([]);
   // 더 보기 스터디 리스트
   const [moreStudyList, setMoreStudyList] = useState<object[]>();
+  // 높이
+  const [position, setPosition] = useState(0);
+
+  const [loadLine, setLoadLine] = useState(0);
+
   useEffect(() => {
     const cardNumber = StudyList ? StudyList.length : 0;
     console.log("호출");
@@ -132,13 +187,33 @@ export default function StudySearchPages() {
       setMoreStudyList(data.data.result.slice(10));
       setStudyList(data.data.result.slice(0, 10));
     }
-  }, [StudyList, data]);
+  }, [StudyList, data, studiesNumber]);
+
+  function onScroll() {
+    setPosition(window.scrollY);
+  }
+  useEffect(() => {
+    const wrapperTag = document.querySelector("#search-wrapper");
+    if (wrapperTag) {
+      setLoadLine(wrapperTag.clientHeight * 0.8);
+    }
+    window.addEventListener("scroll", onScroll);
+  }, []);
+
   console.log("StudyList", StudyList);
 
+  console.log(loadLine);
+  console.log(position);
+  console.log("MORE", moreStudies);
+
+  if (loadLine <= position && moreStudyList) {
+    console.log("TEST", moreStudyList);
+    // setStudyList((prev) => [...prev, moreStudyList.slice(0, 10)]);
+  }
   return (
     <>
       <BlankSpace />
-      <Wrapper>
+      <Wrapper id={"search-wrapper"}>
         {!isLoading ? (
           <>
             <Header>
@@ -150,11 +225,19 @@ export default function StudySearchPages() {
             </Header>
             <SearchComponent />
             <CreateBtnWrapper>
-              <Link to={{ pathname: `/createStudy` }}>
+              <Link to={{ pathname: `/create` }}>
                 <button>스터디 생성</button>
               </Link>
             </CreateBtnWrapper>
             <Section>
+              <SkeletonCards>
+                {[...Array(9).keys()].map((index) => (
+                  <LoadingWrapper key={index}>
+                    <LoadingCard />
+                  </LoadingWrapper>
+                ))}
+              </SkeletonCards>
+
               <Cards NumberOfCards={studiesNumber}>
                 {StudyList.map((study) => (
                   <CardWrapper key={study.id}>
@@ -162,29 +245,32 @@ export default function StudySearchPages() {
                   </CardWrapper>
                 ))}
               </Cards>
-              {moreStudies ? (
+              {/* {pagesN > count && loadLine <= position ? (
                 <>
-                  {isClickMore ? (
-                    <Cards NumberOfCards={studiesNumber}>
-                      {/* (
+                  {setCount(count + 1)}
+                  <Cards NumberOfCards={studiesNumber}>
+                    (
                     {StudyList.map((study: StudiesDataType) => (
                       <CardWrapper>
                         {console.log(study)}
                         <Card key={study.id} studyInfo={study} />
                       </CardWrapper>
                     ))}
-                    ) */}
-                    </Cards>
-                  ) : (
-                    <></>
-                  )}
+                    )
+                  </Cards>
                 </>
-              ) : null}
+              ) : null} */}
             </Section>
           </>
         ) : (
           <MyStudyNotFound>
-            <h3>로딩중...</h3>
+            <SkeletonCards>
+              {[...Array(9).keys()].map(() => (
+                <LoadingWrapper>
+                  <LoadingCard />
+                </LoadingWrapper>
+              ))}
+            </SkeletonCards>
           </MyStudyNotFound>
         )}
       </Wrapper>

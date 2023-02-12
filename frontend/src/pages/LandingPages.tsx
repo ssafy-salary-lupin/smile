@@ -12,14 +12,9 @@ import introductionImg1 from "../assets/img/introduction_img1.png";
 import introductionImg2 from "../assets/img/introduction_img2.png";
 import { useEffect, useState } from "react";
 import { BackgroundYellow } from "components/common/BackgroundYellow";
+import { Link } from "react-router-dom";
 
-const Wrapper = styled.div`
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  ::-webkit-scrollbar {
-    display: none;
-  }
-`;
+const Wrapper = styled.div``;
 
 const SLandingBody = styled.div`
   @import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap");
@@ -152,7 +147,7 @@ const slideRight = keyframes`
 const slideLeftReverse = keyframes`
   from {
     left: 3.6vw;
-    opacity: 1;
+    /* opacity: 1; */
   }
   to {
     left: -50vw;
@@ -163,7 +158,7 @@ const slideLeftReverse = keyframes`
 const slideRightReverse = keyframes`
   from {
     right: 3.6vw;
-    opacity: 1;
+    /* opacity: 1; */
   }
   to {
     right: -50vw;
@@ -189,6 +184,7 @@ const SIntroductionItem = styled.div<SIntroductionItemTextProps>`
   /* padding: 96px; */
 
   img {
+    opacity: 0;
     width: 44.8vw;
     height: 52.22vw;
     border-radius: 1.12vw;
@@ -208,6 +204,7 @@ const SIntroductionItem = styled.div<SIntroductionItemTextProps>`
       2s forwards ease-in;
   }
   div {
+    opacity: 0;
     ${(props) => (props.direction === "L" ? "right: 3.6vw;" : "left: 3.6vw")};
     animation: ${(props) =>
         props.top <= 900
@@ -338,9 +335,11 @@ function LandingPages() {
               <span>{bannerText}</span>
               <span>{bannerSubText}</span>
             </SBannerItem>
-            <SBannerButton>
-              <span>{bannerButtonText}</span>
-            </SBannerButton>
+            <Link to={{ pathname: `/search` }}>
+              <SBannerButton>
+                <span>{bannerButtonText}</span>
+              </SBannerButton>
+            </Link>
           </SBanner>
           <SStudyList>
             <SItemTitle>현재 인기있는 스터디</SItemTitle>

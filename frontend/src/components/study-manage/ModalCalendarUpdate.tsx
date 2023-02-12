@@ -7,12 +7,19 @@ import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/esm/locale"; //한국어 설정
 import { dateState } from "atoms/StudyManageCalendarAtom";
 import { useRecoilState } from "recoil";
+import {
+  scheduleSelectApi,
+  scheduleUpdateApi,
+} from "apis/StudyManageCalendarAPi";
+import { useQuery } from "react-query";
+import { IScheduleInfo } from "./ModalCalendarCommonView";
+import { useHistory } from "react-router-dom";
 
 interface PropsType {
   setModalOpen: React.Dispatch<SetStateAction<boolean>>;
-  selectStart: string;
-  selectEnd: string;
-  onRegist: Function;
+  scheduleId: number;
+  start: string;
+  end: string;
 }
 
 export interface IRegistData {
@@ -221,64 +228,56 @@ const ModalBtn = styled.button`
   font-size: 0.972vw;
 `;
 
-// const ModalBtn = styled.div`
-//   width: 100%;
-//   height: 12%;
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: flex-end;
-//   padding: 0.833vw 0;
-// `;
-
-// const YellowBtn = styled.button`
-//   cursor: pointer;
-//   border-radius: 0.25vw;
-//   padding: 0.5vw 1vw;
-//   background-color: ${(props) => props.theme.blackColorOpacity2};
-//   color: ${(props) => props.theme.whiteColor};
-//   border: 0;
-//   margin-right: 1vw;
-//   font-size: 1vw;
-// `;
-
-// const CancelBtn = styled(YellowBtn)`
-//   background-color: ${(props) => props.theme.whiteColor};
-//   border: 1px solid ${(props) => props.theme.blackColorOpacity2};
-//   color: ${(props) => props.theme.blackColorOpacity2};
-// `;
-
-function ModalCalendarRegist(props: PropsType) {
+function ModalCalendarUpdate(props: PropsType) {
   // 이벤트 클릭 상태값
   const [dateClickState, setDateClickState] = useRecoilState(dateState);
 
   // 모달 관련 코드 ======================================
+  const history = useHistory();
   const closeModal = () => {
     props.setModalOpen(false);
     setDateClickState(false);
   };
   const modalRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
+    // 이벤트 핸들러 함수
     const handler = (event: any) => {
+      // mousedown 이벤트가 발생한 영역이 모달창이 아닐 때, 모달창 제거 처리
       if (modalRef.current && !modalRef.current.contains(event.target)) {
         props.setModalOpen(false);
       }
     };
 
+    // 이벤트 핸들러 등록
     document.addEventListener("mousedown", handler);
+    // document.addEventListener('touchstart', handler); // 모바일 대응
 
     return () => {
+      // 이벤트 핸들러 해제
       document.removeEventListener("mousedown", handler);
+      // document.removeEventListener('touchstart', handler); // 모바일 대응
     };
   });
-  // =====================================================
 
-  // form
-  const [startDate, setStartDate] = useState<Date>(new Date(props.selectStart));
-  const [endDate, setEndDate] = useState<Date>(new Date(props.selectEnd));
-  const [type, setType] = useState<number>();
-  const [title, setTitle] = useState<string>();
-  const [link, setLink] = useState<string>();
-  const [desc, setDesc] = useState<string>();
+  const { data: scheduleInfo } = useQuery<IScheduleInfo>(
+    "scheduleSelectApi",
+    () => scheduleSelectApi(props.scheduleId),
+  );
+
+  const [startDate, setStartDate] = useState<Date>(new Date(props.start));
+  const [endDate, setEndDate] = useState<Date>(new Date(props.end));
+  const [type, setType] = useState<number | undefined>(
+    scheduleInfo?.result.type.id,
+  );
+  const [title, setTitle] = useState<string | undefined>(
+    scheduleInfo?.result.title,
+  );
+  const [link, setLink] = useState<string | undefined>(
+    scheduleInfo?.result.url,
+  );
+  const [desc, setDesc] = useState<string | undefined>(
+    scheduleInfo?.result.description,
+  );
   const [color, setColor] = useState<string>("YELLOW");
   // 색깔 선택 상태값
   const [checkYellowState, setCheckYellowState] = useState<boolean>(true);
@@ -309,87 +308,6 @@ function ModalCalendarRegist(props: PropsType) {
   };
   // =========================================
 
-  const registData = {
-    scheduleTypeId: type, // 스케쥴 식별자 == 유형
-    title: title,
-    description: desc,
-    startTime:
-      startDate.getFullYear().toString() +
-      "-" +
-      ("0" + (startDate.getMonth() + 1)).slice(-2).toString() +
-      "-" +
-      ("0" + startDate.getDate()).slice(-2).toString() +
-      " " +
-      ("0" + startDate.getHours()).slice(-2).toString() +
-      ":" +
-      ("0" + startDate.getMinutes()).slice(-2).toString(),
-    endTime:
-      new Date(
-        endDate.getFullYear(),
-        endDate.getMonth(),
-        endDate.getDate() + 1,
-        endDate.getHours(),
-        endDate.getMinutes(),
-      )
-        .getFullYear()
-        .toString() +
-      "-" +
-      (
-        "0" +
-        (new Date(
-          endDate.getFullYear(),
-          endDate.getMonth(),
-          endDate.getDate() + 1,
-          endDate.getHours(),
-          endDate.getMinutes(),
-        ).getMonth() +
-          1)
-      )
-        .slice(-2)
-        .toString() +
-      "-" +
-      (
-        "0" +
-        new Date(
-          endDate.getFullYear(),
-          endDate.getMonth(),
-          endDate.getDate() + 1,
-          endDate.getHours(),
-          endDate.getMinutes(),
-        ).getDate()
-      )
-        .slice(-2)
-        .toString() +
-      " " +
-      (
-        "0" +
-        new Date(
-          endDate.getFullYear(),
-          endDate.getMonth(),
-          endDate.getDate(),
-          endDate.getHours(),
-          endDate.getMinutes(),
-        ).getHours()
-      )
-        .slice(-2)
-        .toString() +
-      ":" +
-      (
-        "0" +
-        new Date(
-          endDate.getFullYear(),
-          endDate.getMonth(),
-          endDate.getDate(),
-          endDate.getHours(),
-          endDate.getMinutes(),
-        ).getMinutes()
-      )
-        .slice(-2)
-        .toString(),
-    url: link,
-    color: color,
-  };
-
   const RegistSchedule = () => {
     // form 빈칸 체크
     if (type === undefined || type < 1) {
@@ -405,9 +323,94 @@ function ModalCalendarRegist(props: PropsType) {
       return;
     }
 
+    const data = {
+      startTime:
+        startDate.getFullYear().toString() +
+        "-" +
+        ("0" + (startDate.getMonth() + 1)).slice(-2).toString() +
+        "-" +
+        ("0" + startDate.getDate()).slice(-2).toString() +
+        " " +
+        ("0" + startDate.getHours()).slice(-2).toString() +
+        ":" +
+        ("0" + startDate.getMinutes()).slice(-2).toString(),
+      endTime:
+        new Date(
+          endDate.getFullYear(),
+          endDate.getMonth(),
+          endDate.getDate() + 1,
+          endDate.getHours(),
+          endDate.getMinutes(),
+        )
+          .getFullYear()
+          .toString() +
+        "-" +
+        (
+          "0" +
+          (new Date(
+            endDate.getFullYear(),
+            endDate.getMonth(),
+            endDate.getDate() + 1,
+            endDate.getHours(),
+            endDate.getMinutes(),
+          ).getMonth() +
+            1)
+        )
+          .slice(-2)
+          .toString() +
+        "-" +
+        (
+          "0" +
+          new Date(
+            endDate.getFullYear(),
+            endDate.getMonth(),
+            endDate.getDate() + 1,
+            endDate.getHours(),
+            endDate.getMinutes(),
+          ).getDate()
+        )
+          .slice(-2)
+          .toString() +
+        " " +
+        (
+          "0" +
+          new Date(
+            endDate.getFullYear(),
+            endDate.getMonth(),
+            endDate.getDate(),
+            endDate.getHours(),
+            endDate.getMinutes(),
+          ).getHours()
+        )
+          .slice(-2)
+          .toString() +
+        ":" +
+        (
+          "0" +
+          new Date(
+            endDate.getFullYear(),
+            endDate.getMonth(),
+            endDate.getDate(),
+            endDate.getHours(),
+            endDate.getMinutes(),
+          ).getMinutes()
+        )
+          .slice(-2)
+          .toString(),
+      typeId: type,
+      name: title,
+      url: link,
+      description: desc,
+      color: color,
+    };
+
+    console.log("data : ", data);
+
     // 일정 등록 메소드 실행
-    props.onRegist(registData);
-    closeModal();
+    if (window.confirm("정말 수정하시곘습니까?")) {
+      scheduleUpdateApi(data, props.scheduleId);
+      closeModal();
+    }
   };
 
   return (
@@ -415,7 +418,7 @@ function ModalCalendarRegist(props: PropsType) {
       <ModalContainer ref={modalRef}>
         <ModalHead>
           <Space>
-            <p>Regist Schedule</p>
+            <p>Update Schedule</p>
           </Space>
           <CloseBtn onClick={closeModal}>
             <Close width="1.667vw" fill="black" />
@@ -424,13 +427,37 @@ function ModalCalendarRegist(props: PropsType) {
         <ModalConWrapper>
           <Select name="schedule" onChange={handleType}>
             <Option value="0">-- 유형 --</Option>
-            <Option value="1">면접</Option>
-            <Option value="2">서류</Option>
-            <Option value="3">스터디</Option>
-            <Option value="4">시험</Option>
+            {scheduleInfo?.result.type.id === 1 ? (
+              <Option value="1" selected>
+                면접
+              </Option>
+            ) : (
+              <Option value="1">면접</Option>
+            )}
+            {scheduleInfo?.result.type.id === 2 ? (
+              <Option value="2" selected>
+                서류
+              </Option>
+            ) : (
+              <Option value="2">서류</Option>
+            )}
+            {scheduleInfo?.result.type.id === 3 ? (
+              <Option value="3" selected>
+                스터디
+              </Option>
+            ) : (
+              <Option value="3">스터디</Option>
+            )}
+            {scheduleInfo?.result.type.id === 4 ? (
+              <Option value="4" selected>
+                시험
+              </Option>
+            ) : (
+              <Option value="4">시험</Option>
+            )}
           </Select>
-          <Title placeholder="회의 제목" onChange={handleTitle} />
-          <Link placeholder="URL" onChange={handleLink} />
+          <Title placeholder="회의 제목" onChange={handleTitle} value={title} />
+          <Link placeholder="URL" onChange={handleLink} value={link} />
           <StyledDatePicker
             selected={startDate}
             dateFormat="yyyy-MM-dd HH:mm"
@@ -454,7 +481,11 @@ function ModalCalendarRegist(props: PropsType) {
             locale={ko}
             showTimeSelect
           />
-          <Desc placeholder="회의 설명" onChange={handleDesc}></Desc>
+          <Desc
+            placeholder="회의 설명"
+            onChange={handleDesc}
+            value={desc}
+          ></Desc>
           <ColorBox>
             <Yellow
               onClick={() => {
@@ -529,14 +560,10 @@ function ModalCalendarRegist(props: PropsType) {
           </ColorBox>
         </ModalConWrapper>
         <ModalBtnBox>
-          <ModalBtn onClick={RegistSchedule}>일정 등록 →</ModalBtn>
+          <ModalBtn onClick={RegistSchedule}>일정 수정 →</ModalBtn>
         </ModalBtnBox>
-        {/* <ModalBtn>
-          <YellowBtn onClick={RegistSchedule}>등록</YellowBtn>
-          <CancelBtn onClick={closeModal}>취소</CancelBtn>
-        </ModalBtn> */}
       </ModalContainer>
     </Backdrop>
   );
 }
-export default ModalCalendarRegist;
+export default ModalCalendarUpdate;

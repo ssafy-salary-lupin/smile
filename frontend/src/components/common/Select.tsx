@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import styled, { keyframes } from "styled-components";
+import { useRecoilState } from "recoil";
+import { SearchTypeState } from "atoms/SearchAtom";
 
 const Color = keyframes`
   from {
@@ -157,6 +159,7 @@ const SOptionContainer = styled.div`
   }
 `;
 
+// 체크 박스
 const SSelectInput = styled.input.attrs({
   type: "checkbox",
 })`
@@ -177,12 +180,14 @@ const SSelectInput = styled.input.attrs({
   }
 `;
 
+// 선택 내용
 const SOptionItem = styled.label`
   /* border-bottom: 1px dashed rgb(170, 72, 72); */
   padding: 0.347vw 1.042vw 0.347vw;
   margin: 1.111vw 0px;
   transition: 0.1s;
   font-size: 1.111vw;
+  cursor: pointer;
   /* font-weight: 600; */
 `;
 
@@ -194,17 +199,22 @@ interface ISelectProps {
 }
 
 function Select(props: ISelectProps) {
-  const [checkedList, setCheckedList] = useState<number[]>([]);
+  // 체크된 Type이 담기는 리스트
+  // const [checkedList, setCheckedList] = useState<number[]>([]);
+  // 체크 여부 확인
   const [isChecked, setIsChecked] = useState<boolean>(false);
+  // hover 여부 확인
   const [isActive, setIsActive] = useState<boolean>(false);
 
-  // function range(start: number, end: number) {
-  //   let array = [];
-  //   for (let i = start; i < end; ++i) {
-  //     array.push(i);
-  //   }
-  //   return array;
-  // }
+  const [checkedList, setCheckedList] =
+    useRecoilState<number[]>(SearchTypeState);
+
+  // useEffect(() => {
+  //   first
+
+  // }, [checkedList])
+
+  console.log(checkedList);
 
   const onClickLabel = () => {
     setIsActive(!isActive);
@@ -221,12 +231,15 @@ function Select(props: ISelectProps) {
     return;
   };
 
+  const searchTypeStateHandler = () => {};
+
   const checkHandler = (
     e: React.ChangeEvent<HTMLInputElement>,
     value: number,
   ) => {
     setIsChecked(!isChecked);
     checkedItemHandler(value, e.target.checked);
+    searchTypeStateHandler();
   };
   return (
     <SSelectContainer isActive={isActive}>

@@ -7,20 +7,22 @@ import { useEffect } from "react";
 
 const GlobalStyle = createGlobalStyle`
 /* @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap"); */
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap"); */
 
 html,
 body {
-  font-family: "Noto Sans", sans-serif;
+  /* font-family: "Noto Sans", sans-serif; */
+  margin: 0;
+  @import url("https://fonts.googleapis.com/css2?family=Noto+Sans&family=Noto+Sans+KR&display=swap");
+  font-family: "Noto Sans KR", sans-serif;
   width: 100%;
   height: 100%;
-  margin: 0;
   padding: 0;
-  /* -ms-overflow-style: none;  
-  scrollbar-width: none; 
+  -ms-overflow-style: none;
+  scrollbar-width: none;
   ::-webkit-scrollbar {
-    display: none; 
-  } */
+    display: none;
+  }
 }
 /* div,
 span,

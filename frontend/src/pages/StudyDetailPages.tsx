@@ -12,7 +12,6 @@ import { useQuery } from "react-query";
 import { Link, useParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 
-
 const BlankSpace = styled.div`
   height: 7.383vw;
 `;
@@ -160,11 +159,10 @@ interface Data {
       },
     ];
   };
-  
 }
 
 type Params = {
-    id: string;
+  id: string;
 };
 
 function StudyDetailPages() {
@@ -175,7 +173,7 @@ function StudyDetailPages() {
   const token = localStorage.getItem("kakao-token");
   // const [list, setList] = useState<studyDetailData[] | null>(null);
 
-  const StudyDataApi = async (id : string) => {
+  const StudyDataApi = async (id: string) => {
     // console.log("실행");
 
     try {
@@ -195,10 +193,10 @@ function StudyDetailPages() {
 
     // console.log("받아온 data : ", response);
   };
-  const {id} = useParams<Params>();
-
+  const { id } = useParams<Params>();
+  console.log("ID:", id);
   const { data: detailStudy } = useQuery<Data>("detailStudy", () =>
-    StudyDataApi("1"),
+    StudyDataApi(id),
   );
   // console.log("detailStudy", detailStudy);
 
