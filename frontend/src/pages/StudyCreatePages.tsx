@@ -421,7 +421,7 @@ function StudyCreatePages() {
     console.log("토큰 : ", token);
 
     await axios
-      .post(`${BASE_URL}/studies`, formData, {
+      .post(`${BASE_URL}studies`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
