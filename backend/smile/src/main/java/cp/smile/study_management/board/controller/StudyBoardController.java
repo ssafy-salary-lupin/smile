@@ -232,7 +232,7 @@ public class StudyBoardController {
             @ApiResponse(responseCode = "200",description = "API 정상 동작"),
             @ApiResponse(responseCode = "400",description = "API 에러")
     })
-    @PatchMapping("/studies/{studyId}/boards/{boardId}/comments/{commentId}/delete")
+    @DeleteMapping("/studies/{studyId}/boards/{boardId}/comments/{commentId}")
     public CommonResponse deleteStudyBoardComment(
             @PathVariable int studyId,
             @PathVariable int boardId,
