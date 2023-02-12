@@ -5,14 +5,16 @@ import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClic
 import { useState, useEffect } from "react";
 import ModalCalendarCommonView from "./ModalCalendarCommonView";
 import { useQuery } from "react-query";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { dateState, Schedules } from "atoms/StudyManageCalendarAtom";
 import ModalCalendarRegist, { IRegistData } from "./ModalCalendarRegist";
 import ModalCalendarMeetingView from "./ModalCalendarMeetingView";
 import {
   calendarCreateApi,
   calendarSelectAllApi,
+  deleteScheduleApi,
   meetingSelectAllApi,
+  scheduleUpdateApi,
 } from "apis/StudyManageCalendarAPi";
 import ModalCalendarUpdate from "./ModalCalendarUpdate";
 
@@ -149,9 +151,19 @@ function StudyManageCalendar() {
     () => meetingSelectAllApi(),
   );
 
-  // 일정 등록시 post요청
+  // 일정 등록, 수정 ,삭제
   const onRegist = async (registData: IRegistData) => {
     await calendarCreateApi(registData);
+    refetch();
+  };
+
+  const onUpdate = async (registData: any, id: number) => {
+    await scheduleUpdateApi(registData, id);
+    refetch();
+  };
+
+  const onDelete = async (id: number) => {
+    await deleteScheduleApi(id);
     refetch();
   };
 
@@ -249,6 +261,7 @@ function StudyManageCalendar() {
           setModalOpen={setCommonModalOpen}
           scheduleId={selectedId}
           updateSchedule={updateSchedule}
+          onDelete={onDelete}
         />
       )}
       {RegistModalOpen && (
@@ -265,6 +278,7 @@ function StudyManageCalendar() {
           scheduleId={scheduleId}
           start={startTime}
           end={endTime}
+          onUpdate={onUpdate}
         />
       )}
     </Wrapper>

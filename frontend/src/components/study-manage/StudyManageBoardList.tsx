@@ -107,8 +107,9 @@ const NoArticle = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  /* border-top: 3px solid ${(props) => props.theme.blackColor}; */
+  border-top: 3px solid ${(props) => props.theme.blackColor};
   border-bottom: 3px solid ${(props) => props.theme.blackColor};
+  font-size: 1.111vw;
 `;
 
 interface Data {
@@ -201,12 +202,13 @@ function StudyManageBoardList() {
           <Link to="/manage/boardWrite">글 쓰기</Link>
         </HeadSub2>
       </Head>
-      <BoardListBox>
-        <Tbody>
-          {totalElements > 0 && list !== null ? (
-            list.map((el, key) => {
-              return (
-                <Row key={el.boardId}>
+
+      {totalElements > 0 && list !== null ? (
+        list.map((el, index) => {
+          return (
+            <BoardListBox key={index}>
+              <Tbody>
+                <Row>
                   {/* <BoardNum>{el.boardId}</BoardNum> */}
                   <BoardType>
                     {el.boardType.name === "공지" ? (
@@ -227,13 +229,13 @@ function StudyManageBoardList() {
                     {el.writeAt.split("T")[0] + " " + el.writeAt.split("T")[1]}
                   </BoardDate>
                 </Row>
-              );
-            })
-          ) : list !== null && totalElements === 0 ? (
-            <NoArticle>글내용이 없습니다.</NoArticle>
-          ) : null}
-        </Tbody>
-      </BoardListBox>
+              </Tbody>
+            </BoardListBox>
+          );
+        })
+      ) : list !== null && totalElements === 0 ? (
+        <NoArticle>글내용이 없습니다.</NoArticle>
+      ) : null}
 
       <PagiNation
         page={page}

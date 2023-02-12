@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import profileImg from "../../assets/img/study_manage_profile_img.jpg";
 import chatImg from "../../assets/img/chat_icon.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import StudyRuleModal from "./StudyRuleModal";
 import ChatModal from "./ChatModal";
 import { useQuery } from "react-query";
@@ -10,9 +10,9 @@ import {
   ruleCreateApi,
   StudyInfoSelectApi,
 } from "apis/StudyManageMainApi";
-import ModalCalendarCommonView from "./ModalCalendarCommonView";
 import ReactQuill from "react-quill";
 import { useHistory } from "react-router-dom";
+import ModalCalendarCommonOnlyView from "./ModalCalendarCommonOnlyView";
 
 const Wrapper = styled.div`
   margin: 3.889vw 10.833vw;
@@ -116,24 +116,6 @@ const StudyNotice = styled.div`
   align-items: center;
   cursor: pointer;
   overflow-y: scroll;
-  .quill {
-    width: 100%;
-    text-align: center;
-    font-size: 0.972vw;
-  }
-
-  .ql-container.ql-snow {
-    border: none;
-    background-color: transparent;
-    font-size: 0.972vw;
-    text-align: center;
-  }
-`;
-
-const DefaultNotice = styled.p`
-  text-align: center;
-  width: 100%;
-
   .quill {
     width: 100%;
     text-align: center;
@@ -275,7 +257,7 @@ const ChatIcon = styled.img`
   }
 `;
 
-interface DataInfo {
+export interface DataInfo {
   isSuccess: boolean;
   code: number;
   message: string;
@@ -350,20 +332,16 @@ function StudyManageMain() {
     toolbar: false,
   };
 
-  const history = useHistory();
   const createRule = (data: any) => {
     ruleCreateApi(data);
     refetch();
-    history.push("/manage");
   };
 
-  // 일정수정
-  const [updateModalOpen, setUpdateModalOpen] = useState<boolean>(false);
-  const [scheduleId, setScheduleId] = useState<number>(0);
-  const updateSchedule = (id: number) => {
-    setScheduleId(id);
-    setUpdateModalOpen(true);
-  };
+  const [rule, setRule] = useState<string>();
+  useEffect(() => {
+    console.log("useEffect");
+    setRule(studyInfo?.result.rule);
+  }, [studyInfo]);
 
   return (
     <Wrapper>
@@ -390,12 +368,7 @@ function StudyManageMain() {
         <StudyContents>
           <StudyNotice onClick={showModal}>
             {/* <DefaultNotice> */}
-            <ReactQuill
-              theme="snow"
-              value={studyInfo?.result.rule}
-              readOnly
-              modules={modules}
-            />
+            <ReactQuill theme="snow" value={rule} readOnly modules={modules} />
             {/* </DefaultNotice> */}
           </StudyNotice>
           <StudySub>
@@ -443,10 +416,9 @@ function StudyManageMain() {
       )}
       {chatModalOpen && <ChatModal setModalOpen={setChatModalOpen} />}
       {ddayModalOpen && (
-        <ModalCalendarCommonView
+        <ModalCalendarCommonOnlyView
           setModalOpen={setDdayModalOpen}
           scheduleId={selectedId}
-          updateSchedule={updateSchedule}
         />
       )}
     </Wrapper>
