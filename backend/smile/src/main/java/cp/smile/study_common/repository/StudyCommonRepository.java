@@ -57,4 +57,6 @@ public interface StudyCommonRepository extends JpaRepository<StudyInformation, I
             "where s.deadline = false and s.isEnd = false and ujs.isLeader = true " +
             "and s.name like %:name% and st.id = :typeId")
     Set<StudyInformation> findAllByNameIsContainingAndStudyType(@Param("name") String name, @Param("typeId") int studyTypeId);
+
+
 }

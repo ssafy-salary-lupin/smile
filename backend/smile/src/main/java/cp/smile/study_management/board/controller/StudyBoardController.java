@@ -204,7 +204,7 @@ public class StudyBoardController {
     /* 스터디 게시판 댓글 수정 */
     @Tag(name="스터디 게시판 API")
     /* 스터디에 속한 회원조회 */
-    @Operation(summary = "스터디 게시글 수정", description =  "스터디 게시글 수정 정보를 받아서 바뀐 부분만 수정")
+    @Operation(summary = "스터디 게시글 댓글 수정", description =  "스터디 게시글 댓글 수정 정보를 받아서 바뀐 부분만 수정")
     @ApiResponses({
             @ApiResponse(responseCode = "200",description = "API 정상 동작"),
             @ApiResponse(responseCode = "400",description = "API 에러")

@@ -8,13 +8,13 @@ import cp.smile.config.response.CustomSuccessStatus;
 import cp.smile.config.response.DataResponse;
 import cp.smile.config.response.ResponseService;
 import cp.smile.study_common.dto.FindFilter;
-import cp.smile.study_common.dto.request.CreateCommentDTO;
-import cp.smile.study_common.dto.request.CreateReplyDTO;
-import cp.smile.study_common.dto.request.CreateStudyDTO;
+import cp.smile.study_common.dto.request.*;
 import cp.smile.study_common.dto.response.CreateStudyResponseDTO;
 import cp.smile.study_common.dto.response.FindAllStudyDTO;
 import cp.smile.study_common.dto.response.FindDetailStudyDTO;
 import cp.smile.study_common.dto.response.StudyTypeDTO;
+import cp.smile.study_common.dto.response.comment.UpdateCommentResDTO;
+import cp.smile.study_common.dto.response.comment.UpdateReplyResDTO;
 import cp.smile.study_common.service.StudyCommonService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Operation;
@@ -175,5 +175,96 @@ public class StudyCommonController {
         data.put("types", types);
 
         return responseService.getDataResponse(data, types.isEmpty() ? RESPONSE_NO_CONTENT : RESPONSE_SUCCESS);
+    }
+
+    //댓글 수정기능
+    @Tag(name = "스터디 일반 API")
+    @Operation(summary = "스터디 댓글 수정", description =  "수정할 스터디 댓글정보를 받아 수정.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
+    @PatchMapping("/studies/{studyId}/comments/{commentId}")
+    public DataResponse<UpdateCommentResDTO> updateComment(
+            @PathVariable int studyId,
+            @PathVariable int commentId,
+            @RequestBody UpdateCommentDTO updateCommentDTO,
+            @AuthenticationPrincipal CustomOAuth2User oAuth2User
+    ){
+
+        int userId = oAuth2User.getUserId();
+
+        return responseService
+                .getDataResponse(studyCommonService.updateComment(userId, studyId,commentId, updateCommentDTO)
+                , RESPONSE_SUCCESS);
+
+    }
+
+    //댓글 삭제.
+    @Tag(name = "스터디 일반 API")
+    @Operation(summary = "스터디 댓글 삭제", description =  "삭제할 스터디 댓글정보를 받아 삭제")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
+    @DeleteMapping("/studies/{studyId}/comments/{commentId}")
+    public CommonResponse deleteComment(
+            @PathVariable int studyId,
+            @PathVariable int commentId,
+            @AuthenticationPrincipal CustomOAuth2User oAuth2User
+    ){
+
+        int userId = oAuth2User.getUserId();
+
+        studyCommonService.deleteComment(userId,studyId,commentId);
+        return responseService.getSuccessResponse();
+
+    }
+
+    //대댓글 수정
+    @Tag(name = "스터디 일반 API")
+    @Operation(summary = "스터디 대댓글 수정", description =  "수정할 스터디 대댓글정보를 받아 수정.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
+    @PatchMapping("/studies/{studyId}/comments/{commentId}/replies/{replyId}")
+    public DataResponse<UpdateReplyResDTO> updateReply(
+            @PathVariable int studyId,
+            @PathVariable int commentId,
+            @PathVariable int replyId,
+            @RequestBody UpdateReplyDTO updateReplyDTO,
+            @AuthenticationPrincipal CustomOAuth2User oAuth2User
+    ){
+
+        int userId = oAuth2User.getUserId();
+
+        return responseService
+                .getDataResponse(studyCommonService.updateReply(userId,studyId,commentId,replyId,updateReplyDTO),
+                        RESPONSE_SUCCESS);
+
+    }
+
+    //대댓글 삭제
+    @Tag(name = "스터디 일반 API")
+    @Operation(summary = "스터디 대댓글 삭제", description =  "삭제할 스터디 대댓글정보를 받아 삭제")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
+    @DeleteMapping("/studies/{studyId}/comments/{commentId}/replies/{replyId}")
+    public CommonResponse deleteReply(
+            @PathVariable int studyId,
+            @PathVariable int commentId,
+            @PathVariable int replyId,
+            @AuthenticationPrincipal CustomOAuth2User oAuth2User
+    ){
+
+        int userId = oAuth2User.getUserId();
+
+        studyCommonService.deleteReply(userId,studyId,commentId,replyId);
+
+        return responseService.getSuccessResponse();
+
     }
 }

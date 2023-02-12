@@ -71,6 +71,10 @@ public enum CustomExceptionStatus {
     /*댓글*/
     NOT_FOUND_COMMENT(false,404,"존재하지 않는 댓글입니다."),
 
+    NOT_FOUND_REPLY(false,404,"존재하지 않는 대댓글입니다."),
+    USER_NOT_ACCESS_COMMENT(false,403, "접근 권한이 없는 댓글입니다."),
+    USER_NOT_ACCESS_REPLY(false,403,"접근 권한이 없는 대댓글입니다."),
+
 
     ;
     private final Boolean isSuccess;
