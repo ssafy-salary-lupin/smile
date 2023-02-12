@@ -40,6 +40,7 @@ public class SecurityConfig {
                         "/swagger-resources/**",
                         "/swagger-ui.html",
                         "/webjars/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/ws-stomp").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .oauth2Login()
