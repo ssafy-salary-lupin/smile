@@ -1,4 +1,7 @@
-import { boardListSelectAllApi } from "apis/StudyManageBoardApi";
+import {
+  boardListSelectAllApi,
+  noticeSelectAllApi,
+} from "apis/StudyManageBoardApi";
 import PagiNation from "components/common/Pagination";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
@@ -64,8 +67,9 @@ const BoardType = styled(BoardNum)`
   padding-left: 1.111vw;
 `;
 
-const TypeLabel1 = styled.div`
-  background-color: red;
+const TypeLabel = styled.div<TypeProps>`
+  background-color: ${(props) =>
+    props.typeId === 1 ? "red" : props.typeId === 2 ? "#314e8d" : "#007c1f"};
   border-radius: 2.083vw;
   color: white;
   padding: 0.139vw 0;
@@ -75,14 +79,6 @@ const TypeLabel1 = styled.div`
   justify-content: center;
   align-items: center;
   height: 1.944vw;
-`;
-
-const TypeLabel2 = styled(TypeLabel1)`
-  background-color: #314e8d;
-`;
-
-const TypeLabel3 = styled(TypeLabel1)`
-  background-color: #007c1f;
 `;
 
 const BoardTitle = styled(BoardNum)`
@@ -112,7 +108,11 @@ const NoArticle = styled.div`
   font-size: 1.111vw;
 `;
 
-interface Data {
+export interface TypeProps {
+  typeId: number;
+}
+
+interface IData {
   isSuccess: boolean;
   code: number;
   message: string;
@@ -169,25 +169,40 @@ interface ListData {
 
 function StudyManageBoardList() {
   const [page, setPage] = useState(1);
-  const [size, setSize] = useState(7);
+  const [size, setSize] = useState(5);
   const [totalElements, setTotalElements] = useState(0);
-  const [list, setList] = useState<ListData[] | null>(null);
+  const [totalGeneralElements, setTotalGeneralElements] = useState(0);
+  const [list, setList] = useState<ListData[] | null>(null); // 일반 글
+  const [notice, setNotice] = useState<ListData[] | null>(null); // 공지 글
 
-  const { data: listData, refetch } = useQuery<Data>(["listData"], () =>
-    boardListSelectAllApi(page, size),
+  const { data: listData, refetch: listRefetch } = useQuery<IData>(
+    ["listData"],
+    () => boardListSelectAllApi(page, size),
+  );
+  const { data: noticeData, refetch: noticeRefetch } = useQuery<IData>(
+    ["noticeData"],
+    () => noticeSelectAllApi(),
   );
 
   useEffect(() => {
     // 1. 가져온 data 값에서 총 게시글 개수 가져와서 set
-    refetch();
-    if (listData !== undefined) {
-      setTotalElements(listData?.result.totalElements);
+    listRefetch();
+    noticeRefetch();
+    if (listData !== undefined && noticeData !== undefined) {
+      setTotalElements(
+        listData?.result.totalElements + noticeData?.result.totalElements,
+      );
+      setTotalGeneralElements(listData?.result.totalElements);
     }
+
     // 2. 해당 페이지의 데이터들을 배열에 담아줌 => 아래에서 배열의 각 요소별로 뽑아서 보여주기
     if (listData !== undefined) {
-      setList(listData?.result.content);
+      setList(listData.result.content);
     }
-  }, [listData, page]);
+    if (noticeData !== undefined) {
+      setNotice(noticeData.result.content);
+    }
+  }, [listData, noticeData, page]);
 
   // 페이지 변환시 호출할 메소드 => page값 셋팅
   const handlePageChange = (page: any) => {
@@ -202,45 +217,66 @@ function StudyManageBoardList() {
           <Link to="/manage/boardWrite">글 쓰기</Link>
         </HeadSub2>
       </Head>
-
-      {totalElements > 0 && list !== null ? (
-        list.map((el, index) => {
-          return (
-            <BoardListBox key={index}>
-              <Tbody>
-                <Row>
-                  {/* <BoardNum>{el.boardId}</BoardNum> */}
-                  <BoardType>
-                    {el.boardType.name === "공지" ? (
-                      <TypeLabel1>{el.boardType.name}</TypeLabel1>
-                    ) : el.boardType.name === "자료" ? (
-                      <TypeLabel2>{el.boardType.name}</TypeLabel2>
-                    ) : (
-                      <TypeLabel3>{el.boardType.name}</TypeLabel3>
-                    )}
-                  </BoardType>
-                  <BoardTitle>
-                    <Link to={`/manage/boardDetail/${el.boardId}`}>
-                      {el.title}
-                    </Link>
-                  </BoardTitle>
-                  <BoardWriter>{el.writer.nickname}</BoardWriter>
-                  <BoardDate>
-                    {el.writeAt.split("T")[0] + " " + el.writeAt.split("T")[1]}
-                  </BoardDate>
-                </Row>
-              </Tbody>
-            </BoardListBox>
-          );
-        })
-      ) : list !== null && totalElements === 0 ? (
+      <BoardListBox>
+        <Tbody>
+          {notice !== null
+            ? notice.map((el, index) => {
+                return (
+                  <Row key={index}>
+                    <BoardType>
+                      <TypeLabel typeId={el.boardType.id}>
+                        {el.boardType.name}
+                      </TypeLabel>
+                    </BoardType>
+                    <BoardTitle>
+                      <Link to={`/manage/boardDetail/${el.boardId}`}>
+                        {el.title}
+                      </Link>
+                    </BoardTitle>
+                    <BoardWriter>{el.writer.nickname}</BoardWriter>
+                    <BoardDate>
+                      {el.writeAt.split("T")[0] +
+                        " " +
+                        el.writeAt.split("T")[1]}
+                    </BoardDate>
+                  </Row>
+                );
+              })
+            : null}
+          {list !== null
+            ? list.map((el, index) => {
+                return (
+                  <Row key={index}>
+                    <BoardType>
+                      <TypeLabel typeId={el.boardType.id}>
+                        {el.boardType.name}
+                      </TypeLabel>
+                    </BoardType>
+                    <BoardTitle>
+                      <Link to={`/manage/boardDetail/${el.boardId}`}>
+                        {el.title}
+                      </Link>
+                    </BoardTitle>
+                    <BoardWriter>{el.writer.nickname}</BoardWriter>
+                    <BoardDate>
+                      {el.writeAt.split("T")[0] +
+                        " " +
+                        el.writeAt.split("T")[1]}
+                    </BoardDate>
+                  </Row>
+                );
+              })
+            : null}
+        </Tbody>
+      </BoardListBox>
+      {list !== null && totalElements === 0 ? (
         <NoArticle>글내용이 없습니다.</NoArticle>
       ) : null}
 
       <PagiNation
         page={page}
         size={size}
-        totalElements={totalElements}
+        totalElements={totalGeneralElements}
         handlePageChange={handlePageChange}
       />
     </Wrapper>
