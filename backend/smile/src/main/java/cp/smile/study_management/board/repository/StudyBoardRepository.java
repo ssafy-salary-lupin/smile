@@ -31,5 +31,5 @@ public interface StudyBoardRepository extends JpaRepository<StudyBoard, Integer>
             "where sb.id = :studyBoardId")
     Optional<StudyBoard> findByIdWithType(int studyBoardId);
 
-    Optional<StudyBoard> findByIdAndDeletedFalse(int studyBaordId);
+    Optional<StudyBoard> findByIdAndIsDeletedFalse(int studyBaordId);
 }
