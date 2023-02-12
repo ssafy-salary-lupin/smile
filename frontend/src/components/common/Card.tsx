@@ -227,6 +227,8 @@ interface PropsType {
 export default function Card(props: PropsType) {
   const visitedTime = 1;
   const visitedCountInput = props.studyInfo.viewCount;
+  console.log("VIEW", visitedCountInput);
+  console.log(props);
   const visitedCount = visitedCountInput
     .toString()
     .replace(/\B(?=(\d{3})+(?!\d))/g, ",");

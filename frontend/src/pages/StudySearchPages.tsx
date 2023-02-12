@@ -89,6 +89,10 @@ const CreateBtnWrapper = styled.div`
 
 const Section = styled.div``;
 
+interface CardsProps {
+  NumberOfCards: number;
+}
+
 const Cards = styled.div<CardsProps>`
   display: grid;
   grid-template-columns: repeat(3, 31.48vw);
@@ -153,10 +157,6 @@ const HeaderImg = styled(StudyImg)`
   }
 `;
 
-interface CardsProps {
-  NumberOfCards: number;
-}
-
 interface StudiesDataType {
   id: number;
   imagePath: string;
@@ -180,8 +180,6 @@ export default function StudySearchPages() {
   const searchName = useRecoilValue<string>(SearchNameState);
   const searchType = useRecoilValue<number[]>(SearchTypeState);
 
-  // 스터디 더보기 클릭 여부를 확인하기 위한 state
-  const [isClickMore, setIsClickMore] = useState<boolean>(false);
   // 스터디 더보기 필요 유 / 무
   const [moreStudies, setMoreStudies] = useState<boolean>(false);
   // 검색 할 스터디의 개수
@@ -190,10 +188,6 @@ export default function StudySearchPages() {
   const [StudyList, setStudyList] = useState<StudiesDataType[]>([]);
   // 더 보기 스터디 리스트
   const [moreStudyList, setMoreStudyList] = useState<StudiesDataType[]>([]);
-  // 높이
-  const [position, setPosition] = useState<number>(0);
-
-  const [loadLine, setLoadLine] = useState<number>(0);
 
   const [searchValue, setSearchValue] = useState<string>("/studies");
 
@@ -229,44 +223,24 @@ export default function StudySearchPages() {
 
     const cardNumber = data?.data.result ? data.data.result.length : 0;
     if (!data) {
+      console.log("3-1");
       setStudiesNumber(0);
       setMoreStudies(false);
     } else if (cardNumber <= 9) {
+      console.log("3-2");
       setStudiesNumber(cardNumber);
       setStudyList(data.data.result.slice(0, 9));
       setMoreStudies(false);
     } else {
+      console.log("3-3");
       setStudiesNumber(9);
       setMoreStudies(true);
       setMoreStudyList(data.data.result.slice(9));
       setStudyList(data.data.result.slice(0, 9));
+      // setMoreStudyList((prev) => [...prev, data.data.result.slice(9)]);
+      // setStudyList((prev) => [...prev, data.data.result.slice(0, 9)]);
     }
-  }, [data]);
-
-  // 스크롤 이벤트
-  useEffect(() => {
-    console.log(4);
-
-    const wrapperTag = document.querySelector("#search-wrapper");
-    if (wrapperTag) {
-      setLoadLine(wrapperTag.clientHeight * 0.68);
-    }
-    window.addEventListener("scroll", onScroll);
-  }, []);
-
-  function onScroll() {
-    setPosition(window.scrollY);
-  }
-
-  if (loadLine <= position && moreStudyList) {
-    console.log("TEST", moreStudyList);
-    // const newList = StudyList;
-    // setStudyList((prev) => [...prev, moreStudyList.slice(0, 9)]);
-    // setStudyList(StudyList.concat(moreStudyList.slice(0, 9)));
-    // console.log(StudyList);
-    // setMoreStudyList(moreStudyList.slice(10));
-    // console.log(moreStudyList);
-  }
+  }, [data, isLoading]);
 
   useEffect(() => {
     console.log(5);
@@ -274,25 +248,20 @@ export default function StudySearchPages() {
       StudyList &&
         moreStudyList &&
         setStudyList(StudyList.concat(moreStudyList.slice(0, 9)));
-      // setStudyList((prev) => {
-      //   [...prev, moreStudyList.slice(0, 9)];
-      // });
       setMoreStudyList(moreStudyList.slice(9));
     }
   }, [inView, isLoading]);
 
   // console.log("SEARCH", searchValue);
-  // console.log("DATA:", isLoading, data);
+  console.log("DATA:", isLoading, data);
   // console.log("INVIEW", inView);
-  // console.log(loadLine);
-  // console.log(position);
-  // console.log("NOW", StudyList);
-  // console.log("MORE", moreStudyList);
+  console.log("NOW", StudyList);
+  console.log("MORE", moreStudyList);
   return (
     <>
       <BlankSpace />
       <Wrapper id={"search-wrapper"}>
-        {!isLoading ? (
+        {!isLoading && StudyList ? (
           <>
             <Header>
               <div>
@@ -317,15 +286,9 @@ export default function StudySearchPages() {
               </SkeletonCards>
 
               <Cards NumberOfCards={studiesNumber}>
-                {StudyList.map((study, idx) => (
+                {StudyList.map((study) => (
                   <CardWrapper key={study.id}>
-                    {StudyList.length - 1 === idx ? (
-                      <div>
-                        <Card studyInfo={study} />
-                      </div>
-                    ) : (
-                      <Card studyInfo={study} />
-                    )}
+                    <Card studyInfo={study} />
                   </CardWrapper>
                 ))}
               </Cards>
@@ -334,7 +297,7 @@ export default function StudySearchPages() {
         ) : (
           <MyStudyNotFound>
             <SkeletonCards>
-              {[...Array(9).keys()].map((num, idx) => (
+              {[...Array(9).keys()].map((num) => (
                 <LoadingWrapper key={num}>
                   <LoadingCard />
                 </LoadingWrapper>
