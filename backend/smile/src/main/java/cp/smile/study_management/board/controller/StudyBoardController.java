@@ -25,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -166,6 +167,21 @@ public class StudyBoardController {
         int userId = oAuth2User.getUserId();
 
         studyBoardService.updateStudyBoardComment(userId, studyId, boardId, commentId, updateCommentDTO);
+
+        return responseService.getSuccessResponse();
+    }
+
+    /* 스터디 게시판 댓글 삭제 */
+    @PatchMapping("/studies/{studyId}/boards/{boardId}/comments/{commentId}/delete")
+    public CommonResponse deleteStudyBoardComment(
+            @PathVariable int studyId,
+            @PathVariable int boardId,
+            @PathVariable int commentId,
+            @AuthenticationPrincipal CustomOAuth2User oAuth2User) {
+
+        int userId = oAuth2User.getUserId();
+
+        studyBoardService.deleteStudyBoardComment(userId, studyId, boardId, commentId);
 
         return responseService.getSuccessResponse();
     }

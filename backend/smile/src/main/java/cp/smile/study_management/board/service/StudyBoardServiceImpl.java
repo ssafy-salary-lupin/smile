@@ -252,4 +252,34 @@ public class StudyBoardServiceImpl implements StudyBoardService {
             studyBoardComment.updateStudyBoardComment(updateCommentDTO.getContent());
         }
     }
+
+    @Override
+    @Transactional(readOnly = false)
+    public void deleteStudyBoardComment(int userId, int studyId, int boardId, int commentId) {
+
+        // 스터디 조회
+        StudyInformation studyInformation = studyCommonRepository
+                .findById(studyId)
+                .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY));
+
+        // 스터디에 속한 유저인지 확인
+        userJoinStudyRepository
+                .findByUserIdAndStudyId(userId, studyInformation.getId())
+                .orElseThrow(() -> new CustomException(USER_NOT_ACCESS_STUDY));
+
+        // 게시글이 존재하는지 확인
+        studyBoardRepository.
+                findByIdAndIsDeletedFalse(boardId)
+                .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY_BOARD));
+
+        // 댓글이 존재하는지 확인
+        StudyBoardComment studyBoardComment = studyBoardCommentRepository
+                .findByIdAndIsDeletedFalse(commentId)
+                .orElseThrow(() -> new CustomException(NOT_FOUND_COMMENT));
+
+        // 댓글 작성자 id와 수정하려는 유저의 id가 같은지
+        if (studyBoardComment.getUser().getId() == userId) {
+            studyBoardComment.deleteStudyBoardComment();
+        }
+    }
 }

@@ -24,4 +24,5 @@ public interface StudyBoardService {
 
     void deleteStudyBoard(int userId, int studyId,int boardId);
     void updateStudyBoardComment(int userId, int studyId, int boardId, int commentId, UpdateCommentDTO updateCommentDTO);
+    void deleteStudyBoardComment(int userId, int studyId, int boardId, int commentId);
 }

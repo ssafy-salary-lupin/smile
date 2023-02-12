@@ -42,4 +42,8 @@ public class StudyBoardComment extends BaseEntity {
     public void updateStudyBoardComment(String content) {
         this.content = content;
     }
+
+    public void deleteStudyBoardComment() {
+        this.isDeleted = true;
+    }
 }
