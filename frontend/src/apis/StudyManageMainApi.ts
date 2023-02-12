@@ -11,7 +11,7 @@ export async function StudyInfoSelectApi() {
     const response = await fetch(`${BASE_URL}/1/home`, {
       headers: {
         Authorization: `Bearer ${token}`,
-        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYwODg0NjMsImV4cCI6MTY3NjE3NDg2M30.1Pm6qt_on0IEM9NAoa55co1vixXY67gyVo4plubt4T5aXHvNEu_P3LPTsF5LNWIelYBXowIBPttiRR2Y0wDJmw`,
+        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYxNzQ5NDYsImV4cCI6MTY3NjI2MTM0Nn0.SfVLAGLVlq0SOodUcnH8Xk2G3iFRnlLb6zNKk3PXGRJzYCWNUEcCLYYc5NOJ560OimORskELTfJK79suE6MasQ`,
         Accept: "application/json",
       },
     });
@@ -30,7 +30,7 @@ export async function DdaySelectApi() {
     const response = await fetch(`${BASE_URL}/1/home/d-day`, {
       headers: {
         Authorization: `Bearer ${token}`,
-        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYwODg0NjMsImV4cCI6MTY3NjE3NDg2M30.1Pm6qt_on0IEM9NAoa55co1vixXY67gyVo4plubt4T5aXHvNEu_P3LPTsF5LNWIelYBXowIBPttiRR2Y0wDJmw`,
+        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYxNzQ5NDYsImV4cCI6MTY3NjI2MTM0Nn0.SfVLAGLVlq0SOodUcnH8Xk2G3iFRnlLb6zNKk3PXGRJzYCWNUEcCLYYc5NOJ560OimORskELTfJK79suE6MasQ`,
         Accept: "application/json",
       },
     });
@@ -44,12 +44,11 @@ export async function DdaySelectApi() {
 
 // 규칙 등록하기 /studies/{study-id}/schedules
 export async function ruleCreateApi(data: any) {
-  console.log("등록 data : ", data);
   try {
     await axios.patch(`${BASE_URL}/1`, JSON.stringify(data), {
       headers: {
         Authorization: `Bearer ${token}`,
-        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYwODg0NjMsImV4cCI6MTY3NjE3NDg2M30.1Pm6qt_on0IEM9NAoa55co1vixXY67gyVo4plubt4T5aXHvNEu_P3LPTsF5LNWIelYBXowIBPttiRR2Y0wDJmw`,
+        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYxNzQ5NDYsImV4cCI6MTY3NjI2MTM0Nn0.SfVLAGLVlq0SOodUcnH8Xk2G3iFRnlLb6zNKk3PXGRJzYCWNUEcCLYYc5NOJ560OimORskELTfJK79suE6MasQ`,
         "Content-Type": `application/json`,
       },
     });
@@ -65,7 +64,7 @@ export async function StudySelectApi() {
     const response = await fetch(`${BASE_URL}/1`, {
       headers: {
         Authorization: `Bearer ${token}`,
-        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYwODg0NjMsImV4cCI6MTY3NjE3NDg2M30.1Pm6qt_on0IEM9NAoa55co1vixXY67gyVo4plubt4T5aXHvNEu_P3LPTsF5LNWIelYBXowIBPttiRR2Y0wDJmw`,
+        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYxNzQ5NDYsImV4cCI6MTY3NjI2MTM0Nn0.SfVLAGLVlq0SOodUcnH8Xk2G3iFRnlLb6zNKk3PXGRJzYCWNUEcCLYYc5NOJ560OimORskELTfJK79suE6MasQ`,
         Accept: "application/json",
       },
     });

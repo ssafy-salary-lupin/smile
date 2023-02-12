@@ -3,9 +3,9 @@ import styled from "styled-components";
 import ModalNone from "components/common/ModalNone";
 import { Close as CloseIcon } from "components/common/Icons";
 import ReactQuill from "react-quill";
-import { ruleCreateApi, StudySelectApi } from "apis/StudyManageMainApi";
+import { StudyInfoSelectApi, StudySelectApi } from "apis/StudyManageMainApi";
 import { useQuery } from "react-query";
-import { useHistory } from "react-router-dom";
+import { DataInfo } from "./StudyManageMain";
 
 // 모달의 크기 설정
 const Wrapper = styled.div`
@@ -164,12 +164,13 @@ function StudyRuleModal(props: IPropsType) {
   const closeModal = () => {
     props.setModalOpen(false);
   };
-
-  const [rule, setRule] = useState("");
-
   const { data: studyInfo } = useQuery<IDataInfo>("studySelectApi", () =>
     StudySelectApi(),
   );
+  const { data: studyMainInfo } = useQuery<DataInfo>("studyInfoSelectApi", () =>
+    StudyInfoSelectApi(),
+  );
+  const [rule, setRule] = useState(studyMainInfo?.result.rule);
 
   const registRule = () => {
     const data = {
@@ -213,6 +214,7 @@ function StudyRuleModal(props: IPropsType) {
                 setRule(el);
               }}
               modules={modules}
+              value={rule}
             />
           </Section>
           <ModalBtnBox>

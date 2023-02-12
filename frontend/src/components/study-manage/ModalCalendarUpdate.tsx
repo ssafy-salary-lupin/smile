@@ -20,6 +20,7 @@ interface PropsType {
   scheduleId: number;
   start: string;
   end: string;
+  onUpdate: Function;
 }
 
 export interface IRegistData {
@@ -404,11 +405,9 @@ function ModalCalendarUpdate(props: PropsType) {
       color: color,
     };
 
-    console.log("data : ", data);
-
     // 일정 등록 메소드 실행
     if (window.confirm("정말 수정하시곘습니까?")) {
-      scheduleUpdateApi(data, props.scheduleId);
+      props.onUpdate(data, props.scheduleId);
       closeModal();
     }
   };

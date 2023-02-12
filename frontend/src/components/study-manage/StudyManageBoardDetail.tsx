@@ -6,9 +6,12 @@ import { ReactComponent as Comment } from "../../assets/icon/Comment.svg";
 import { ReactComponent as Reply } from "../../assets/icon/Reply.svg";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
-import { boardSelectApi } from "apis/StudyManageBoardApi";
+import {
+  boardSelectApi,
+  deleteScheduleApi,
+  writeCommentApi,
+} from "apis/StudyManageBoardApi";
 import ReactQuill from "react-quill";
-import axios from "axios";
 import { useState } from "react";
 import { theme } from "theme";
 
@@ -408,30 +411,14 @@ function StudyManageBoardDetail() {
   };
 
   const history = useHistory();
-
   const onDelete = async () => {
     if (window.confirm("삭제하시겠습니까?")) {
-      try {
-        await axios.delete(
-          `https://i8b205.p.ssafy.io/be-api/studies/1/boards/${boardId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("kakao-token")}`,
-            },
-          },
-        );
-      } catch (error) {
-        console.log(error);
-      }
-
+      deleteScheduleApi(boardId);
       history.push("/manage/board");
     }
   };
 
   // 댓글작성
-  // const BASE_URL = `https://i8b205.p.ssafy.io/be-api/studies`;
-  const BASE_URL = `/be-api/studies`;
-
   const [comment, setComment] = useState("");
 
   const writeComment = async () => {
@@ -439,21 +426,7 @@ function StudyManageBoardDetail() {
       content: comment,
     };
 
-    try {
-      await axios.post(
-        `${BASE_URL}/1/boards/${boardId}/comments`,
-        JSON.stringify(data),
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("kakao-token")}`,
-            // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYwMTE5MDcsImV4cCI6MTY3NjA5ODMwN30.CLPtmst0zj-HQDh4rFP0DTDuqFOHfFoeA9RP9Fp1Kqe32a2qxleAmPfkQ9mpvTraIP2I6VI6UgxNns-8JlPnVg`,
-            "Content-Type": `application/json`,
-          },
-        },
-      );
-    } catch (error) {
-      console.log(error);
-    }
+    await writeCommentApi(data, boardId);
 
     setComment("");
     refetch();

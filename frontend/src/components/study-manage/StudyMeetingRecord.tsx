@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ModalMeetingCreate from "./ModalMeetingCreate";
 import { useQuery } from "react-query";
 import { MeetingSelectAllApi } from "apis/StudyManageMeetingApi";
@@ -201,6 +201,18 @@ const CreateBtn = styled.button`
   }
 `;
 
+const NoData = styled.div`
+  margin: 0 0.556vw;
+  width: 100%;
+  height: 13.889vw;
+  /* border: 1px dashed ${(props) => props.theme.blackColorOpacity}; */
+  background-color: ${(props) => props.theme.subColor};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.111vw;
+`;
+
 interface IData {
   code: number;
   isSuccess: boolean;
@@ -242,6 +254,16 @@ function StudyMeetingRecord() {
     MeetingSelectAllApi(),
   );
 
+  const [proceedingCheck, setProceedingCheck] = useState<boolean>(false);
+
+  useEffect(() => {
+    meetingList?.result.meetings.forEach((el) => {
+      if (el.status === "proceeding") {
+        setProceedingCheck(true);
+      }
+    });
+  });
+
   return (
     <Wrapper>
       <StudyTitle>
@@ -249,17 +271,29 @@ function StudyMeetingRecord() {
       </StudyTitle>
       <CreatedBox>
         <BoxMain>
-          <MeetingCardFront>
-            <MeetingImg src={require("../../assets/img/meeting_photo2.png")} />
-            <MeetingContent>
-              <span> 1일차 스터디</span>
-              <span>2023.01.04</span>
-              <span> PM 7:30</span>
-            </MeetingContent>
-          </MeetingCardFront>
-          <MeetingCardBack>
-            <AttendBtn>참여하기</AttendBtn>
-          </MeetingCardBack>
+          {meetingList?.result.meetings.map((el: any, index) => {
+            if (el.status === "proceeding") {
+              return (
+                <div key={index}>
+                  <MeetingCardFront>
+                    <MeetingImg
+                      src={require("../../assets/img/meeting_photo2.png")}
+                    />
+                    <MeetingContent>
+                      <span>{el.name}</span>
+                      <span>{el.startTime.split("T")[0]}</span>
+                      <span> 주최자 : {el.starter.nickname}</span>
+                      <span> 유형 : {el.type.name}</span>
+                    </MeetingContent>
+                  </MeetingCardFront>
+                  <MeetingCardBack>
+                    <AttendBtn>참여하기</AttendBtn>
+                  </MeetingCardBack>
+                </div>
+              );
+            }
+          })}
+          {!proceedingCheck ? <NoData>진행중인 회의가 없습니다.</NoData> : null}
         </BoxMain>
         <BoxFooter>
           <CreateBtn onClick={showModal}>회의 생성</CreateBtn>
@@ -270,20 +304,22 @@ function StudyMeetingRecord() {
       </StudyTitle>
       <CreatedBox>
         <BoxMain2>
-          {meetingList?.result.meetings.map((el: any) => {
-            return (
-              <MeetingCard>
-                <MeetingImg
-                  src={require("../../assets/img/meeting_photo2.png")}
-                />
-                <MeetingContent>
-                  <span>{el.name}</span>
-                  <span>{el.startTime.split("T")[0]}</span>
-                  <span> 주최자 : {el.starter.nickname}</span>
-                  <span> 유형 : {el.type.name}</span>
-                </MeetingContent>
-              </MeetingCard>
-            );
+          {meetingList?.result.meetings.map((el: any, index) => {
+            if (el.status === "end") {
+              return (
+                <MeetingCard key={index}>
+                  <MeetingImg
+                    src={require("../../assets/img/meeting_photo2.png")}
+                  />
+                  <MeetingContent>
+                    <span>{el.name}</span>
+                    <span>{el.startTime.split("T")[0]}</span>
+                    <span> 주최자 : {el.starter.nickname}</span>
+                    <span> 유형 : {el.type.name}</span>
+                  </MeetingContent>
+                </MeetingCard>
+              );
+            }
           })}
         </BoxMain2>
       </CreatedBox>

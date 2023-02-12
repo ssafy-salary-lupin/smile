@@ -5,13 +5,15 @@ import { ReactComponent as Calendar } from "../../assets/icon/Calendar.svg";
 import { ReactComponent as Time } from "../../assets/icon/Time.svg";
 import { ReactComponent as Url } from "../../assets/icon/Link.svg";
 import { useQuery } from "react-query";
-import { scheduleSelectApi } from "apis/StudyManageCalendarAPi";
+import {
+  deleteScheduleApi,
+  scheduleSelectApi,
+} from "apis/StudyManageCalendarAPi";
+import { useHistory } from "react-router-dom";
 
 interface PropsType {
   setModalOpen: React.Dispatch<SetStateAction<boolean>>;
   scheduleId: number;
-  updateSchedule: Function;
-  onDelete: Function;
 }
 
 const ModalContainer = styled.div`
@@ -175,45 +177,6 @@ const TypeBox = styled.div`
   }
 `;
 
-const ModalBtnBox = styled.div`
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 10%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  border-radius: 0 0 0.556vw 0.556vw;
-`;
-
-const ModalBtn = styled.button`
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-  font-size: 0.972vw;
-`;
-
-const UpdateDiv = styled.div`
-  width: 50%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0 0 0 0.556vw;
-  background-color: #e9e9e9;
-  color: black;
-`;
-
-const DeleteDiv = styled(UpdateDiv)`
-  border-radius: 0 0 0.556vw 0;
-  background-color: ${(props) => props.theme.pointColor};
-
-  ${ModalBtn} {
-    color: white;
-  }
-`;
-
 export interface IScheduleInfo {
   isSuccess: boolean;
   code: number;
@@ -271,19 +234,6 @@ function ModalCalendarCommonView(props: PropsType) {
     "scheduleSelectApi",
     () => scheduleSelectApi(props.scheduleId),
   );
-
-  // 일정 삭제
-  const deleteSchedule = () => {
-    if (window.confirm("일정을 삭제하시겠습니까?")) {
-      props.onDelete(props.scheduleId);
-      closeModal();
-    }
-  };
-  // 일정 수정
-  const updateSchedule = () => {
-    props.updateSchedule(props.scheduleId, start, end);
-    closeModal();
-  };
 
   useEffect(() => {
     // 끝날짜 하루 추가되는 오류 수정
@@ -402,15 +352,7 @@ function ModalCalendarCommonView(props: PropsType) {
             </TypeBox>
           </ModalContent>
         </ModalConWrapper>
-        <ModalBtnBox>
-          <UpdateDiv>
-            <ModalBtn onClick={updateSchedule}>수정</ModalBtn>
-          </UpdateDiv>
-          <DeleteDiv>
-            <ModalBtn onClick={deleteSchedule}>삭제</ModalBtn>
-          </DeleteDiv>
-        </ModalBtnBox>
-      </ModalContainer>{" "}
+      </ModalContainer>
     </Backdrop>
   );
 }
