@@ -460,30 +460,7 @@ function LandingPages() {
         nickname: "박대전",
       },
     },
-    {
-      id: 4,
-      name: "SSAFY 스터디",
-      imagePath: studyImg3,
-      currentPerson: 2,
-      maxPerson: 4,
-      description: "싸피 면접 스터디 같이하시죠!",
-      viewCount: 3529,
-      lastVisitTime: "2023-02-02T05:15:34", //최근 방문 시간.
-      leader: {
-        id: 3,
-        imagePath: profileImg3,
-        nickname: "박대전",
-      },
-    },
   ];
-
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 3,
-  };
 
   return (
     <Wrapper>
