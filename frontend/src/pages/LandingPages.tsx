@@ -14,6 +14,10 @@ import { useEffect, useState } from "react";
 import { BackgroundYellow } from "components/common/BackgroundYellow";
 import { Link } from "react-router-dom";
 
+// import Slider from "react-slick";
+// import "slick-carousel/slick/slick.css";
+// import "slick-carousel/slick/slick-theme.css";
+
 const Wrapper = styled.div``;
 
 const SLandingBody = styled.div`
@@ -456,7 +460,30 @@ function LandingPages() {
         nickname: "박대전",
       },
     },
+    {
+      id: 4,
+      name: "SSAFY 스터디",
+      imagePath: studyImg3,
+      currentPerson: 2,
+      maxPerson: 4,
+      description: "싸피 면접 스터디 같이하시죠!",
+      viewCount: 3529,
+      lastVisitTime: "2023-02-02T05:15:34", //최근 방문 시간.
+      leader: {
+        id: 3,
+        imagePath: profileImg3,
+        nickname: "박대전",
+      },
+    },
   ];
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 3,
+  };
 
   return (
     <Wrapper>
@@ -477,15 +504,16 @@ function LandingPages() {
           <SStudyList>
             <SItemTitle>현재 인기있는 스터디</SItemTitle>
             <SCards>
-              <SArrow>
+              {/* <SArrow>
                 <img src={arrowL} alt="" />
-              </SArrow>
+              </SArrow> */}
               {studyList.map((study) => (
                 <Card key={study.id} studyInfo={study} />
               ))}
-              <SArrow>
+
+              {/* <SArrow>
                 <img src={arrowR} alt="" />
-              </SArrow>
+              </SArrow> */}
             </SCards>
           </SStudyList>
           <SIntroductionItem direction="L" top={relativeTop1}>

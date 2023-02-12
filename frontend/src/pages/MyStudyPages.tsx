@@ -11,28 +11,48 @@ import SearchComponent from "components/common/SearchComponent";
 import { CaretDown, CaretUp } from "components/common/DuotonIcons";
 import MyStudyNotFound from "components/common/MyStudyNotFound";
 
-const SearchBar = styled.div``;
+const SearchBar = styled.div`
+  display: flex;
+  justify-content: center;
+`;
 
-const Wrapper = styled.div`
+const Wrapper = styled.div``;
+
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   margin: 0 2.778vw;
+  @media screen and (min-width: 1680px) {
+    justify-content: center;
+    width: 1680px;
+    margin: auto;
+    margin: 0 40.003px;
+  }
 `;
 
 const Header = styled.div`
   display: flex;
   flex-direction: column;
   margin: 3.889vw 0 5.556vw 0;
+  @media screen and (min-width: 1680px) {
+    margin: 56.002px 0 80.006px 0;
+  }
 `;
 
 const Title = styled.h1`
   font-size: 3.333vw;
   font-weight: 600;
+  @media screen and (min-width: 1680px) {
+    font-size: 47.995px;
+  }
 `;
 
 const SubTitle = styled.h2`
   font-size: 2.5vw;
   font-weight: 600;
+  @media screen and (min-width: 1680px) {
+    font-size: 36px;
+  }
 `;
 
 const Additionalection = styled.div`
@@ -47,6 +67,10 @@ const GraphBox = styled.div`
   height: 27.778vw;
   background-color: #fffbf0;
   border-radius: 15px;
+  @media screen and (min-width: 1680px) {
+    width: 600.005px;
+    height: 400.003px;
+  }
 `;
 
 const PurposeBox = styled.div`
@@ -54,16 +78,25 @@ const PurposeBox = styled.div`
   height: 27.778vw;
   background-color: #fffbf0;
   border-radius: 15px;
+  @media screen and (min-width: 1680px) {
+    width: 720px;
+    height: 400.003px;
+  }
 `;
 
 const PurposeContainer = styled.div``;
 
-const StudyContainer = styled.div``;
+const StudyContainer = styled.div`
+  display: flex;
+`;
 
 const StatusTitle = styled.summary`
   font-size: 2.5vw;
   font-weight: 600;
   cursor: pointer;
+  @media screen and (min-width: 1680px) {
+    font-size: 36px;
+  }
 `;
 
 const Cards = styled.div<NumberOfCardsProps>`
@@ -72,6 +105,12 @@ const Cards = styled.div<NumberOfCardsProps>`
   /* grid-template-rows: repeat(2, 38.889vw); */
   grid-template-rows: repeat(${(props) => props.NumberOfCards}, 38.889vw);
   margin-top: 2.8vw;
+  @media screen and (min-width: 1680px) {
+    grid-template-columns: repeat(3, 453.312px);
+    /* grid-template-rows: repeat(2, 560.002px); */
+    grid-template-rows: repeat(${(props) => props.NumberOfCards}, 560.002px);
+    margin-top: 40.32px;
+  }
 `;
 
 const CardWrapper = styled.div`
@@ -155,10 +194,10 @@ export default function MyStudyPages() {
     setIsOpenEnd(!isOpenEnd);
   };
   return (
-    <>
+    <Wrapper>
       <BackgroundYellow bgHeight={65} />
       <BlankSpace />
-      <Wrapper>
+      <Container>
         <Header>
           <Title>내 스터디</Title>
           <Additionalection>
@@ -226,7 +265,7 @@ export default function MyStudyPages() {
         ) : (
           <span>로딩중 이미지 추가</span>
         )}
-      </Wrapper>
-    </>
+      </Container>
+    </Wrapper>
   );
 }
