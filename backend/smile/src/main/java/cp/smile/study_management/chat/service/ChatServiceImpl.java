@@ -76,7 +76,7 @@ public class ChatServiceImpl implements ChatService{
         String roomId = String.valueOf(studyId);
 
         //채팅방 입장시, 토픽을 확인하고 없으면 생성
-        if(chatRepository.findTopic(roomId).isPresent()){
+        if(chatRepository.findTopic(roomId) == null){
             chatRepository.saveTopic(roomId);
         }
     }
@@ -98,7 +98,7 @@ public class ChatServiceImpl implements ChatService{
     @Override
     public ChannelTopic getTopic(int studyId){
 
-        return chatRepository.findTopic(String.valueOf(studyId)).get();
+        return chatRepository.findTopic(String.valueOf(studyId));
     }
 
     //메시지 전체 조회

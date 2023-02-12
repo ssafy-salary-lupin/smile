@@ -64,9 +64,9 @@ public class ChatRepositoryImpl implements ChatRepository{
 
     //토픽 가져오기
     @Override
-    public Optional<ChannelTopic> findTopic(String roomId){
-
-        return Optional.of(topicMap.get(roomId));
+    public ChannelTopic findTopic(String roomId){
+        System.out.println(topicMap.toString());
+        return topicMap.get(roomId);
 
     }
 
