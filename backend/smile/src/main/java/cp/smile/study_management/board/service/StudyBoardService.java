@@ -17,7 +17,7 @@ public interface StudyBoardService {
     StudyBoard write(UserJoinStudy userJoinStudy, StudyBoardWriteDTO dto, MultipartFile[] files);
     StudyBoard findById(int boardId);
     StudyBoard findByIdForView(int boardId);
-    Page<StudyBoard> findByStudyIdWithPaging(int studyId, Pageable pageable);
+    Page<StudyBoard> findByStudyIdWithPaging(int studyId, int type,Pageable pageable);
     StudyBoardComment writeComment(User writer, int boardId, String content);
     List<StudyBoardType> findAllType();
 

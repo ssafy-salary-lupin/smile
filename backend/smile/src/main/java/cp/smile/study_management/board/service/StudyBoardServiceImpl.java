@@ -175,8 +175,12 @@ public class StudyBoardServiceImpl implements StudyBoardService {
     }
 
     @Override
-    public Page<StudyBoard> findByStudyIdWithPaging(int studyId, Pageable pageable) {
-        return studyBoardRepository.findByStudyIdWithPaging(studyId, pageable);
+    public Page<StudyBoard> findByStudyIdWithPaging(int studyId,int typeId, Pageable pageable) {
+
+        //공지사항 조회
+        if(typeId == 1) return studyBoardRepository.findByStudyIdWithPagingNotice(studyId,pageable);
+        //나머지 조회.
+        else return studyBoardRepository.findByStudyIdWithPaging(studyId, pageable);
     }
 
     @Override
