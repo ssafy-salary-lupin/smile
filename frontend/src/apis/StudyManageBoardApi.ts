@@ -5,7 +5,7 @@ const BASE_URL = `https://i8b205.p.ssafy.io/be-api/studies`;
 
 const token = localStorage.getItem("kakao-token");
 
-// 게시판 목록 조회
+// 게시판 목록 조회(공지 제외)
 export async function boardListSelectAllApi(page: number, size: number) {
   try {
     const response = await fetch(
@@ -21,7 +21,24 @@ export async function boardListSelectAllApi(page: number, size: number) {
 
     const data = await response.json();
 
-    console.log("게시글 목록 : ", data);
+    return data;
+  } catch (error: any) {
+    console.log(error);
+  }
+}
+
+// 게시판 목록 조회(공지만)
+export async function noticeSelectAllApi() {
+  try {
+    const response = await fetch(`${BASE_URL}/1/boards?type=1`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYxODMwNzAsImV4cCI6MTY3NjI2OTQ3MH0.uEJBzNc0KOFx1iMbGapjn60vC5UBwcIULQBSOUJ2q6aWIJryr0bOJAY-t1ISh4QN-i7yq9i6IenzNJNxkunyqw`,
+        Accept: "application/json",
+      },
+    });
+
+    const data = await response.json();
 
     return data;
   } catch (error: any) {
@@ -111,6 +128,47 @@ export async function writeCommentApi(data: any, boardId: string) {
       },
     );
   } catch (error) {
+    console.log(error);
+  }
+}
+
+// 댓글 수정
+export async function commentUpdateApi(
+  data: any,
+  boardId: any,
+  commentId: any,
+) {
+  try {
+    await axios.patch(
+      `${BASE_URL}/1/boards/${boardId}/comments/${commentId}`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("kakao-token")}`,
+          // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYxODMwNzAsImV4cCI6MTY3NjI2OTQ3MH0.uEJBzNc0KOFx1iMbGapjn60vC5UBwcIULQBSOUJ2q6aWIJryr0bOJAY-t1ISh4QN-i7yq9i6IenzNJNxkunyqw`,
+          "Content-Type": `application/json`,
+        },
+      },
+    );
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// 댓글 삭제
+export async function commentDeleteApi(boardId: any, commentId: any) {
+  console.log("댓글 삭제");
+  try {
+    await axios.delete(
+      `${BASE_URL}/1/boards/${boardId}/comments/${commentId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYyMDg0MDcsImV4cCI6MTY3NjI5NDgwN30.3sd9wHVyF1w-2xRexyZuXOe7roOzyJLO2aNg-5p1oVBOE14CglarHcJTj0FweK55txAGmw1D7QzJfZn24bajUA`,
+        },
+      },
+    );
+  } catch (error: any) {
     console.log(error);
   }
 }

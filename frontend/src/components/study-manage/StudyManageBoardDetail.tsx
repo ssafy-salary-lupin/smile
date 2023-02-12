@@ -8,12 +8,14 @@ import { Link, useHistory, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import {
   boardSelectApi,
+  commentDeleteApi,
+  commentUpdateApi,
   deleteScheduleApi,
   writeCommentApi,
 } from "apis/StudyManageBoardApi";
 import ReactQuill from "react-quill";
 import { useState } from "react";
-import { theme } from "theme";
+import { TypeProps } from "./StudyManageBoardList";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
@@ -35,8 +37,9 @@ const ArticleHeader = styled.div`
   padding: 1.111vw 0;
 `;
 
-const ArticleType = styled.div`
-  background-color: red;
+const TypeLabel = styled.div<TypeProps>`
+  background-color: ${(props) =>
+    props.typeId === 1 ? "red" : props.typeId === 2 ? "#314e8d" : "#007c1f"};
   border-radius: 2.083vw;
   color: white;
   padding: 0.139vw 0;
@@ -47,14 +50,6 @@ const ArticleType = styled.div`
   align-items: center;
   height: 1.944vw;
   margin-right: 1.667vw;
-`;
-
-const ArticleType2 = styled(ArticleType)`
-  background-color: #314e8d;
-`;
-
-const ArticleType3 = styled(ArticleType)`
-  background-color: #007c1f;
 `;
 
 const Title = styled.div`
@@ -261,8 +256,15 @@ const CommentContent = styled.div`
   margin-bottom: 0.556vw;
 `;
 
-const CommentTxt = styled.div`
+const CommentTxt = styled.input<InputProps>`
   font-size: 0.972vw;
+  width: 100%;
+  border: none;
+  outline: none;
+  /* border: 1px solid ${(props) => props.theme.blackColorOpacity}; */
+  padding: 0.417vw 1.111vw;
+  border-radius: 3.472vw;
+  border: ${(props) => (!props.editState ? "none" : `1px solid black`)};
 `;
 
 const CommentFooter = styled.div`
@@ -289,57 +291,6 @@ const ComDeleteBtn = styled(ComUpdateBtn)`
   margin: 0;
 `;
 
-const ComReplyBtn = styled(ComDeleteBtn)``;
-
-const ReplyWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-left: 3.75vw;
-  margin-top: 1.111vw;
-  position: relative;
-`;
-
-const StyledReplyIcon = styled(Reply)`
-  transform: rotate(180deg);
-`;
-
-const ReplyBox = styled.div`
-  width: 100%;
-  margin-left: 1.667vw;
-  background-color: #efefef;
-  box-shadow: 2px 2px 2px ${(props) => props.theme.blackColorOpacity};
-  padding: 1.111vw;
-  justify-content: center;
-  display: flex;
-  flex-direction: column;
-  border-radius: 1.111vw;
-  p {
-    font-size: 1.111vw;
-    font-weight: bold;
-    margin: 0;
-    margin-bottom: 0.972vw;
-  }
-`;
-
-const ReplyInputBox = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-`;
-
-const ReplyInput = styled.input`
-  width: 85%;
-  margin-right: 1.111vw;
-  border: 1px solid ${(props) => props.theme.blackColorOpacity};
-  padding: 0.417vw 1.111vw;
-  border-radius: 3.472vw;
-  font-size: 0.972vw;
-  height: auto;
-`;
-
-const ReplyBtn = styled(WriteBtn)``;
 interface Data {
   isSuccess: boolean;
   code: number;
@@ -392,6 +343,10 @@ type Params = {
   boardId: string;
 };
 
+interface InputProps {
+  editState: boolean;
+}
+
 function StudyManageBoardDetail() {
   const { boardId } = useParams<Params>();
 
@@ -439,17 +394,41 @@ function StudyManageBoardDetail() {
     setOpenReply(!openReply);
   };
 
+  // 댓글 수정
+  const [selectedId, setSelectedId] = useState(null);
+  const [reply, setReply] = useState<string>();
+  const updateComment = (parentId: any, currentContent: any) => {
+    setReply(currentContent);
+    setSelectedId(parentId);
+  };
+
+  const onUpdateComment = (parentId: any) => {
+    console.log(typeof reply);
+    const data = {
+      content: reply,
+    };
+
+    commentUpdateApi(data, boardId, parentId);
+    setSelectedId(null);
+    refetch();
+  };
+
+  // 댓글 삭제
+  const deleteComment = (commentId: any) => {
+    if (window.confirm("댓글을 삭제하시겠습니까?")) {
+      commentDeleteApi(boardId, commentId);
+      refetch();
+    }
+  };
+
   return (
     <Wrapper>
       <ArticleHeader>
-        {detailData?.result.boardType.name === "공지" ? (
-          <ArticleType>{detailData?.result.boardType.name}</ArticleType>
-        ) : detailData?.result.boardType.name === "자료" ? (
-          <ArticleType2>{detailData?.result.boardType.name}</ArticleType2>
-        ) : (
-          <ArticleType3>{detailData?.result.boardType.name}</ArticleType3>
-        )}
-
+        {detailData !== undefined ? (
+          <TypeLabel typeId={detailData?.result.boardType.id}>
+            {detailData?.result.boardType.name}
+          </TypeLabel>
+        ) : null}
         <Title>{detailData?.result.title}</Title>
       </ArticleHeader>
       <ArticleInfo>
@@ -518,9 +497,9 @@ function StudyManageBoardDetail() {
         <WriteBtn onClick={writeComment}>작성</WriteBtn>
       </CommentInput>
       <CommentList>
-        {detailData?.result.comments.map((el, key) => {
+        {detailData?.result.comments.map((el, index) => {
           return (
-            <CommentBox key={el.commentId}>
+            <CommentBox key={index}>
               <CommentTop>
                 <ProfileImg width="2.222vw" />
                 <WriterName>{el.writer.nickname}</WriterName>
@@ -529,30 +508,37 @@ function StudyManageBoardDetail() {
                 </p>
               </CommentTop>
               <CommentContent>
-                <CommentTxt>{el.content}</CommentTxt>
+                {selectedId === el.commentId ? (
+                  <CommentTxt
+                    editState={true}
+                    value={reply}
+                    onChange={(el) => setReply(el.target.value)}
+                  ></CommentTxt>
+                ) : (
+                  <CommentTxt
+                    value={el.content}
+                    readOnly
+                    editState={false}
+                  ></CommentTxt>
+                )}
               </CommentContent>
               <CommentFooter>
-                <ComReplyBtn onClick={() => openReplyInput(el.commentId)}>
-                  답변
-                </ComReplyBtn>
+                {selectedId !== el.commentId ? (
+                  <ComUpdateBtn
+                    onClick={() => updateComment(el.commentId, el.content)}
+                  >
+                    수정
+                  </ComUpdateBtn>
+                ) : (
+                  <ComUpdateBtn onClick={() => onUpdateComment(el.commentId)}>
+                    수정
+                  </ComUpdateBtn>
+                )}
                 <p>·</p>
-                <ComUpdateBtn>수정</ComUpdateBtn>
-                <p>·</p>
-                <ComDeleteBtn>삭제</ComDeleteBtn>
+                <ComDeleteBtn onClick={() => deleteComment(el.commentId)}>
+                  삭제
+                </ComDeleteBtn>
               </CommentFooter>
-              {/* 답변 */}
-              {openReply ? (
-                <ReplyWrapper>
-                  <StyledReplyIcon fill={theme.mainColor} width="1.389vw" />
-                  <ReplyBox>
-                    <p>답글</p>
-                    <ReplyInputBox>
-                      <ReplyInput placeholder="답변을 입력하세요." />
-                      <ReplyBtn>작성</ReplyBtn>
-                    </ReplyInputBox>
-                  </ReplyBox>
-                </ReplyWrapper>
-              ) : null}
             </CommentBox>
           );
         })}
