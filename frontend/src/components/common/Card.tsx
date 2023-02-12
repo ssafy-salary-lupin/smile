@@ -53,6 +53,15 @@ const SContainer = styled.div`
   margin-bottom: 2.222vw;
   border: solid 1px #e6e8ec;
   box-shadow: 0px 0px 1.12vw ${(props) => props.theme.subColor};
+  @media screen and (min-width: 1680px) {
+    grid-template-rows: 314.496px 185.904px;
+    border-radius: 16.128px;
+    width: 427.392px;
+    height: 529.2px;
+    margin-bottom: 31.997px;
+    border: solid 0.069vw #e6e8ec;
+    box-shadow: 0vw 0vw 16.128px ${(props) => props.theme.subColor};
+  }
   :hover {
     animation: ${CardHover} 1.5s forwards;
     #overD {
@@ -71,11 +80,20 @@ const SCardItem = styled.span`
   display: grid;
   grid-template-rows: 3.92vw 4.2vw 4.62vw;
   padding: 0.7vw 1.68vw;
+  @media screen and (min-width: 1680px) {
+    grid-template-rows: 56.448px 60.48px 66.528px;
+    padding: 10.08px 24.192px;
+  }
 `;
 const SCardImg = styled.img`
   border-radius: 1.12vw 1.12vw 0px 0px;
   width: 29.68vw;
   height: 21.84vw;
+  @media screen and (min-width: 1680px) {
+    border-radius: 16.128px 16.128px 0vw 0vw;
+    width: 427.392px;
+    height: 314.496px;
+  }
 `;
 
 const Description = styled.div`
@@ -89,11 +107,20 @@ const Description = styled.div`
   height: 21.84vw;
   opacity: 0;
   z-index: -1;
+  @media screen and (min-width: 1680px) {
+    border-radius: 16.128px 16.128px 0vw 0vw;
+    width: 427.392px;
+    height: 314.496px;
+  }
   span {
     padding: 2.778vw;
     font-size: 1.26vw;
     font-weight: 600;
     color: white;
+    @media screen and (min-width: 1680px) {
+      padding: 40.003px;
+      font-size: 18.144px;
+    }
   }
 `;
 
@@ -108,11 +135,20 @@ const SCardInfoItem = styled.span`
   img {
     width: 1.68vw;
     height: 1.68vw;
+    @media screen and (min-width: 1680px) {
+      width: 24.192px;
+      height: 24.192px;
+    }
   }
   span {
     margin-left: 0.28vw;
     font-size: 1.12vw;
     margin-bottom: 0.2vw;
+    @media screen and (min-width: 1680px) {
+      margin-left: 4.032px;
+      font-size: 16.128px;
+      margin-bottom: 2.88px;
+    }
 
     font-weight: 600;
     color: ${(props) => props.theme.textColor};
@@ -125,6 +161,9 @@ const SCardInfoItem = styled.span`
 const SCardDescription = styled.div`
   span {
     font-size: 1.26vw;
+    @media screen and (min-width: 1680px) {
+      font-size: 18.144px;
+    }
   }
 `;
 const SCardUser = styled.div`
@@ -138,9 +177,16 @@ const SCardUserItem = styled.div`
   height: 3.36vw;
   justify-content: space-around;
   font-weight: 500;
+  @media screen and (min-width: 1680px) {
+    margin-left: 16.128px;
+    height: 48.384px;
+  }
 
   span {
     font-size: 1.12vw;
+    @media screen and (min-width: 1680px) {
+      font-size: 16.128px;
+    }
     color: ${(props) => props.theme.textColor};
     :nth-child(2) {
       color: ${(props) => props.theme.textSubColor};

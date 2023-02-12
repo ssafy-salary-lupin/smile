@@ -13,14 +13,13 @@ const SkeletonContainer = styled.div`
   width: 29.68vw;
   height: 36.75vw;
   border: solid 1px #e6e8ec;
-  /* box-shadow: 0px 0px 1.12vw ${(props) => props.theme.subColor}; */
+  @media screen and (min-width: 1680px) {
+    grid-template-rows: 314.496px 185.904px;
+    border-radius: 16.128px;
+    width: 427.392px;
+    height: 529.2px;
+  }
 
-  /* margin: 0; */
-  /* margin-top: 2.8vw; */
-  /* margin-bottom: 2.222vw; */
-  /* margin-left: 0.9vw; */
-  /* width: 100%; */
-  /* height: 100%; */
   background: var(--bg-color);
   div {
     /* margin: 0; */
@@ -42,6 +41,10 @@ const SkeletonItem = styled.section`
   display: grid;
   grid-template-rows: 3.92vw 4.2vw 4.62vw;
   padding: 0.7vw 1.68vw;
+  @media screen and (min-width: 1680px) {
+    grid-template-rows: 56.448px 60.48px 66.528px;
+    padding: 10.08px 24.192px;
+  }
 `;
 
 const SkeletonHeader = styled.section`
@@ -52,10 +55,18 @@ const SkeletonHeader = styled.section`
     :nth-child(1) {
       width: 7vw;
       height: 1.68vw;
+      @media screen and (min-width: 1680px) {
+        width: 100.8px;
+        height: 24.192px;
+      }
     }
     :nth-child(2) {
       width: 5vw;
       height: 1.68vw;
+      @media screen and (min-width: 1680px) {
+        width: 72px;
+        height: 24.192px;
+      }
     }
   }
 `;
@@ -68,11 +79,20 @@ const SkeletonSection = styled.section`
     :nth-child(1) {
       width: 7vw;
       height: 1.68vw;
+      @media screen and (min-width: 1680px) {
+        width: 100.8px;
+        height: 24.192px;
+      }
     }
     :nth-child(2) {
       width: 5vw;
       height: 1.68vw;
       margin-bottom: 0.5vw;
+      @media screen and (min-width: 1680px) {
+        width: 72px;
+        height: 24.192px;
+        margin-bottom: 7.2px;
+      }
     }
   }
 `;
@@ -86,14 +106,26 @@ const SkeletonFooter = styled.section`
     margin-left: 1vw;
     height: 4vw;
     justify-content: space-around;
+    @media screen and (min-width: 1680px) {
+      margin-left: 14.4px;
+      height: 57.6px;
+    }
     div {
       :nth-child(1) {
         width: 5vw;
         height: 1.68vw;
+        @media screen and (min-width: 1680px) {
+          width: 72px;
+          height: 24.192px;
+        }
       }
       :nth-child(2) {
         width: 7vw;
         height: 1.68vw;
+        @media screen and (min-width: 1680px) {
+          width: 100.8px;
+          height: 24.192px;
+        }
       }
     }
   }
@@ -103,6 +135,11 @@ const SkeletonImg = styled.div`
   border-radius: 1.12vw 1.12vw 0px 0px !important;
   width: 29.68vw;
   height: 21.84vw;
+  @media screen and (min-width: 1680px) {
+    border-radius: 16.128px 16.128px 0vw 0vw !important;
+    width: 427.392px;
+    height: 314.496px;
+  }
   /* position: relative;
   top: -0.24vw;
   left: 0.07vw; */
@@ -117,6 +154,11 @@ const SkeletonProfile = styled.div`
   width: 3.36vw;
   height: 3.36vw;
   border-radius: 50px !important;
+  @media screen and (min-width: 1680px) {
+    width: 48.384px;
+    height: 48.384px;
+    border-radius: 3.472vw !important;
+  }
 `;
 
 export default function LoadingCard() {

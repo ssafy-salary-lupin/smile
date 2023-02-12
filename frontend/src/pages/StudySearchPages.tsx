@@ -1,6 +1,6 @@
 import BlankSpace from "components/common/BlankSpace";
 import styled, { keyframes } from "styled-components";
-import { ReactComponent as HeaderImg } from "assets/icon/StudySearchImg.svg";
+import { ReactComponent as StudyImg } from "assets/icon/StudySearchImg.svg";
 import SearchComponent from "components/common/SearchComponent";
 import { StudySearchAll } from "apis/StudySearchApi";
 import { useQuery } from "react-query";
@@ -24,6 +24,9 @@ const Wrapper = styled.div`
 const Header = styled.div`
   display: flex;
   margin: 2.222vw 0;
+  @media screen and (min-width: 1680px) {
+    margin: 31.997px 0;
+  }
   div {
     display: flex;
     flex-direction: column;
@@ -31,6 +34,9 @@ const Header = styled.div`
     h1 {
       font-size: 2.778vw;
       font-weight: 600;
+      @media screen and (min-width: 1680px) {
+        font-size: 40.003px;
+      }
     }
     span {
     }
@@ -55,6 +61,11 @@ const CreateBtnWrapper = styled.div`
   justify-content: flex-end;
   padding: 0 2.778vw;
   margin: 1.111vw 0 2.222vw 0;
+  @media screen and (min-width: 1680px) {
+    width: 1359.994px;
+    padding: 0 40.003px;
+    margin: 15.998px 0 31.997px 0;
+  }
   button {
     background-color: ${(props) => props.theme.mainColor};
     border: none;
@@ -63,6 +74,12 @@ const CreateBtnWrapper = styled.div`
     border-radius: 1.111vw;
     font-size: 1.667vw;
     cursor: pointer;
+    @media screen and (min-width: 1680px) {
+      width: 240.005px;
+      height: 63.994px;
+      border-radius: 15.998px;
+      font-size: 24.005px;
+    }
     :hover {
       animation: ${BtnHover} 1s forwards;
     }
@@ -76,6 +93,12 @@ const Cards = styled.div<CardsProps>`
   grid-template-columns: repeat(3, 31.48vw);
   grid-template-rows: repeat(3, 38.889vw);
   margin-top: 2.8vw;
+  cursor: pointer;
+  @media screen and (min-width: 1680px) {
+    grid-template-columns: repeat(3, 453.312px);
+    grid-template-rows: repeat(3, 560.002px);
+    margin-top: 40.32px;
+  }
 `;
 
 const CardWrapper = styled.div`
@@ -107,12 +130,26 @@ const SkeletonCards = styled.div`
   animation-delay: 1.5s;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
+  @media screen and (min-width: 1680px) {
+    margin-top: 40.32px;
+    grid-template-columns: repeat(3, 453.312px);
+    grid-template-rows: repeat(3, 560.002px);
+  }
 `;
 
 const LoadingWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: flex-start;
+`;
+
+const HeaderImg = styled(StudyImg)`
+  width: 29.444vw;
+  height: 17.222vw;
+  @media screen and (min-width: 1680px) {
+    width: 423.994px;
+    height: 247.997px;
+  }
 `;
 
 interface CardsProps {
@@ -221,7 +258,7 @@ export default function StudySearchPages() {
                 <h1>딱! 맞는 스터디를 찾아보세요!</h1>
                 <span>아무말을 뭘로 적어야 하나 ㅎㅎㅎ</span>
               </div>
-              <HeaderImg width="29.444vw" height="17.222vw" />
+              <HeaderImg />
             </Header>
             <SearchComponent />
             <CreateBtnWrapper>

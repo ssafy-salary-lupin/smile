@@ -48,10 +48,15 @@ const SSelectContainer = styled.div<{ isActive: boolean }>`
 
   border: 2px solid rgba(0, 0, 0, 0.5);
   /* background: url("https://freepikpsd.com/media/2019/10/down-arrow-icon-png-7-Transparent-Images.png")
-    calc(100% - 7px) center no-repeat; */
+  calc(100% - 7px) center no-repeat; */
   /* background-size: 20px; */
   cursor: pointer;
   ${(props) => (props.isActive ? "border: 2px solid #2551b3;" : null)}
+  @media screen and (min-width: 1680px) {
+    width: 195.005px;
+    height: 47.995px;
+    border-radius: 9.994px;
+  }
   :hover {
     animation: ${SelectColor} 1s forwards;
   }
@@ -73,6 +78,9 @@ const SSelectContainer = styled.div<{ isActive: boolean }>`
   ul {
     ::-webkit-scrollbar {
       width: 0.417vw;
+      @media screen and (min-width: 1680px) {
+        width: 6.005px;
+      }
     }
     ::-webkit-scrollbar-track {
       background: transparent;
@@ -118,6 +126,10 @@ const SLabelBtn = styled.button`
   cursor: pointer;
   font-size: 1.389vw;
   font-weight: 600;
+  @media screen and (min-width: 1680px) {
+    font-size: 20.002px;
+    padding-left: 15.005px;
+  }
 `;
 
 const SOptionList = styled.ul`
@@ -188,6 +200,11 @@ const SOptionItem = styled.label`
   transition: 0.1s;
   font-size: 1.111vw;
   cursor: pointer;
+  @media screen and (min-width: 1680px) {
+    padding: 4.997px 15.005px 4.997px;
+    margin: 15.998px 0vw;
+    font-size: 15.998px;
+  }
   /* font-weight: 600; */
 `;
 
