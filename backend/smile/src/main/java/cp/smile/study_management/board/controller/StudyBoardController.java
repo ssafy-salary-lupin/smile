@@ -110,7 +110,7 @@ public class StudyBoardController {
 
     @GetMapping("/studies/{studyId}/boards/{boardId}")
     public DataResponse<DetailBoardDTO> getStudyBoardDetail(@PathVariable int boardId) {
-        return responseService.getDataResponse(DetailBoardDTO.of(studyBoardService.findByIdForView(boardId)), RESPONSE_NO_CONTENT);
+        return responseService.getDataResponse(DetailBoardDTO.of(studyBoardService.findByIdForView(boardId)), RESPONSE_SUCCESS);
     }
 
     @GetMapping("/studies/boards/types")
