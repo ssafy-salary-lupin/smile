@@ -12,11 +12,11 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@DynamicUpdate
 @Getter
 @NoArgsConstructor
 @Entity
 @Table(name = "study_boards")
-@DynamicUpdate
 public class StudyBoard extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
