@@ -196,7 +196,7 @@ export interface IScheduleInfo {
   };
 }
 
-function ModalCalendarCommonView(props: PropsType) {
+function ModalCalendarCommonOnlyView(props: PropsType) {
   const [title, setTitle] = useState<string | undefined>("");
   const [content, setContent] = useState<string | undefined>("");
   const [start, setStart] = useState<string | undefined>("");
@@ -356,4 +356,4 @@ function ModalCalendarCommonView(props: PropsType) {
     </Backdrop>
   );
 }
-export default ModalCalendarCommonView;
+export default ModalCalendarCommonOnlyView;
