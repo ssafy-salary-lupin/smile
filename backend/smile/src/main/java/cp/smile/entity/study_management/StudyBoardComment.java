@@ -38,4 +38,12 @@ public class StudyBoardComment extends BaseEntity {
         this.user = user;
         this.isDeleted = isDeleted;
     }
+
+    public void updateStudyBoardComment(String content) {
+        this.content = content;
+    }
+
+    public void deleteStudyBoardComment() {
+        this.isDeleted = true;
+    }
 }
