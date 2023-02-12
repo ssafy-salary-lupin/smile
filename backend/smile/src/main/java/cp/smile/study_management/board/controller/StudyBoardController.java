@@ -13,6 +13,7 @@ import cp.smile.entity.study_management.StudyBoardType;
 import cp.smile.entity.user.User;
 import cp.smile.entity.user.UserJoinStudy;
 import cp.smile.study_management.board.dto.request.StudyBoardWriteDTO;
+import cp.smile.study_management.board.dto.request.UpdateCommentDTO;
 import cp.smile.study_management.board.dto.response.BoardTypeDTO;
 import cp.smile.study_management.board.dto.response.DetailBoardDTO;
 import cp.smile.study_management.board.dto.response.SimpleBoardDTO;
@@ -151,5 +152,21 @@ public class StudyBoardController {
 
         return responseService.getSuccessResponse();
 
+    }
+
+    /* 스터디 게시판 댓글 수정 */
+    @PatchMapping("/studies/{studyId}/boards/{boardId}/comments/{commentId}")
+    public CommonResponse updateStudyBoardComment(
+            @PathVariable int studyId,
+            @PathVariable int boardId,
+            @PathVariable int commentId,
+            @RequestBody UpdateCommentDTO updateCommentDTO,
+            @AuthenticationPrincipal CustomOAuth2User oAuth2User) {
+
+        int userId = oAuth2User.getUserId();
+
+        studyBoardService.updateStudyBoardComment(userId, studyId, boardId, commentId, updateCommentDTO);
+
+        return responseService.getSuccessResponse();
     }
 }

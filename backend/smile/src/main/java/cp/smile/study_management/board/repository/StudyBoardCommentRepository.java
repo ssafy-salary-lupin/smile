@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface StudyBoardCommentRepository extends JpaRepository<StudyBoardComment, Integer> {
 
@@ -13,4 +14,6 @@ public interface StudyBoardCommentRepository extends JpaRepository<StudyBoardCom
             "join fetch sbm.user " +
             "where sbm.studyBoard = :studyBoard")
     List<StudyBoardComment> findByStudyBoardWithUser(StudyBoard studyBoard);
+
+    Optional<StudyBoardComment> findByIdAndIsDeletedFalse(int commentId);
 }
