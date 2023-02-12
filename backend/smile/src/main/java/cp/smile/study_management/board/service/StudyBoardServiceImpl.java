@@ -184,9 +184,9 @@ public class StudyBoardServiceImpl implements StudyBoardService {
         return studyBoardTypeRepository.findAll();
     }
 
+    @Transactional(readOnly = false)
     @Override
     public void deleteStudyBoard(int userId, int studyId, int boardId) {
-
 
         //스터디 조회
         StudyInformation studyInformation = studyCommonRepository
@@ -214,9 +214,7 @@ public class StudyBoardServiceImpl implements StudyBoardService {
                 findById(boardId)
                 .orElseThrow(() -> new CustomException(USER_NOT_DELETE_BOARD));
 
-
         //게시글 삭제.
         studyBoard.deleteBoard();
-
     }
 }
