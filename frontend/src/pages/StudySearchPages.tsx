@@ -329,28 +329,13 @@ export default function StudySearchPages() {
                   </CardWrapper>
                 ))}
               </Cards>
-              {/* {pagesN > count && loadLine <= position ? (
-                <>
-                  {setCount(count + 1)}
-                  <Cards NumberOfCards={studiesNumber}>
-                    (
-                    {StudyList.map((study: StudiesDataType) => (
-                      <CardWrapper>
-                        {console.log(study)}
-                        <Card key={study.id} studyInfo={study} />
-                      </CardWrapper>
-                    ))}
-                    )
-                  </Cards>
-                </>
-              ) : null} */}
             </Section>
           </>
         ) : (
           <MyStudyNotFound>
             <SkeletonCards>
-              {[...Array(9).keys()].map(() => (
-                <LoadingWrapper>
+              {[...Array(9).keys()].map((num, idx) => (
+                <LoadingWrapper key={num}>
                   <LoadingCard />
                 </LoadingWrapper>
               ))}
