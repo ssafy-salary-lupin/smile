@@ -6,14 +6,17 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import cp.smile.config.response.exception.CustomException;
 import cp.smile.config.response.exception.CustomExceptionStatus;
+import cp.smile.entity.study_common.StudyInformation;
 import cp.smile.entity.study_management.*;
 import cp.smile.entity.user.User;
 import cp.smile.entity.user.UserJoinStudy;
+import cp.smile.study_common.repository.StudyCommonRepository;
 import cp.smile.study_management.board.dto.request.StudyBoardWriteDTO;
 import cp.smile.study_management.board.repository.StudyBoardCommentRepository;
 import cp.smile.study_management.board.repository.StudyBoardFileRepository;
 import cp.smile.study_management.board.repository.StudyBoardRepository;
 import cp.smile.study_management.board.repository.StudyBoardTypeRepository;
+import cp.smile.user.repository.UserJoinStudyRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,6 +42,8 @@ import static cp.smile.config.response.exception.CustomExceptionStatus.*;
 @Transactional(readOnly = true)
 public class StudyBoardServiceImpl implements StudyBoardService {
 
+    private final UserJoinStudyRepository userJoinStudyRepository;
+    private final StudyCommonRepository studyCommonRepository;
     private final StudyBoardRepository studyBoardRepository;
     private final StudyBoardTypeRepository studyBoardTypeRepository;
     private final StudyBoardFileRepository studyBoardFileRepository;
@@ -177,5 +182,41 @@ public class StudyBoardServiceImpl implements StudyBoardService {
     @Override
     public List<StudyBoardType> findAllType() {
         return studyBoardTypeRepository.findAll();
+    }
+
+    @Override
+    public void deleteStudyBoard(int userId, int studyId, int boardId) {
+
+
+        //스터디 조회
+        StudyInformation studyInformation = studyCommonRepository
+                .findById(studyId)
+                .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY));
+
+        //해당 유저가 스터디에 속한 유저인지 확인 - 여기서 스터디랑 유저 존재 여부 파악 가능.
+        userJoinStudyRepository
+                .findByUserIdAndStudyId(userId,studyInformation.getId())
+                .orElseThrow(() -> new CustomException(USER_NOT_ACCESS_STUDY));
+
+
+        //해당 유저가 스터디장인지.
+        userJoinStudyRepository
+                .findByStudyInformationAndIsLeaderTrue(studyInformation)
+                .orElseThrow(() -> new CustomException(USER_NOT_STUDY_LEADER));
+
+        //게시글이 존재하는지 확인.
+        studyBoardRepository.
+                findByIdAndDeletedFalse(boardId)
+                .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY_BOARD));
+
+        //게시글 작성자인지
+        StudyBoard studyBoard = studyBoardRepository.
+                findById(boardId)
+                .orElseThrow(() -> new CustomException(USER_NOT_DELETE_BOARD));
+
+
+        //게시글 삭제.
+        studyBoard.deleteBoard();
+
     }
 }
