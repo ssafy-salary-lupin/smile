@@ -15,14 +15,14 @@ public interface StudyBoardRepository extends JpaRepository<StudyBoard, Integer>
             "join fetch sb.studyInformation si " +
             "join fetch sb.user u " +
             "join fetch sb.studyBoardType sbt " +
-            "where si.id = :studyId")
+            "where si.id = :studyId and sb.isDeleted = false")
     List<StudyBoard> findByStudyId(int studyId);
 
     @Query(value = "select sb from StudyBoard sb " +
             "join fetch sb.studyInformation si " +
             "join fetch sb.user u " +
             "join fetch sb.studyBoardType sbt " +
-            "where si.id = :studyId",
+            "where si.id = :studyId and sb.isDeleted = false",
             countQuery = "select count(*) from StudyBoard sb where sb.studyInformation.id = :studyId")
     Page<StudyBoard> findByStudyIdWithPaging(int studyId, Pageable pageable);
 
