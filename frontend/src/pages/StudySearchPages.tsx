@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { SearchNameState, SearchTypeState } from "atoms/SearchAtom";
 import LoadingCard from "components/common/LoadingCard";
+import { useInView } from "react-intersection-observer";
 // 스터디 조회 페이지 전체를 감사는 div
 const Wrapper = styled.div`
   display: flex;
@@ -88,6 +89,10 @@ const CreateBtnWrapper = styled.div`
 
 const Section = styled.div``;
 
+interface CardsProps {
+  NumberOfCards: number;
+}
+
 const Cards = styled.div<CardsProps>`
   display: grid;
   grid-template-columns: repeat(3, 31.48vw);
@@ -152,10 +157,6 @@ const HeaderImg = styled(StudyImg)`
   }
 `;
 
-interface CardsProps {
-  NumberOfCards: number;
-}
-
 interface StudiesDataType {
   id: number;
   imagePath: string;
@@ -178,25 +179,7 @@ interface StudiesDataType {
 export default function StudySearchPages() {
   const searchName = useRecoilValue<string>(SearchNameState);
   const searchType = useRecoilValue<number[]>(SearchTypeState);
-  const searchValue = `/studies?${searchName ? "name=" + searchName : ""}&${
-    searchType ? "type=" + searchType : ""
-  }`;
-  console.log("SEARCH", searchValue);
 
-  // API 불러오기
-  const { isLoading, refetch, data } = useQuery("studies", () =>
-    StudySearchAll.api.get(searchValue),
-  );
-
-  useEffect(() => {
-    if (!!searchValue) {
-      refetch();
-    }
-  }, [searchValue, refetch]);
-
-  console.log("DATA:", isLoading, data);
-  // 스터디 더보기 클릭 여부를 확인하기 위한 state
-  const [isClickMore, setIsClickMore] = useState<boolean>(false);
   // 스터디 더보기 필요 유 / 무
   const [moreStudies, setMoreStudies] = useState<boolean>(false);
   // 검색 할 스터디의 개수
@@ -204,54 +187,81 @@ export default function StudySearchPages() {
   // 스터디 리스트
   const [StudyList, setStudyList] = useState<StudiesDataType[]>([]);
   // 더 보기 스터디 리스트
-  const [moreStudyList, setMoreStudyList] = useState<object[]>();
-  // 높이
-  const [position, setPosition] = useState(0);
+  const [moreStudyList, setMoreStudyList] = useState<StudiesDataType[]>([]);
 
-  const [loadLine, setLoadLine] = useState(0);
+  const [searchValue, setSearchValue] = useState<string>("/studies");
 
+  // API 불러오기
+  const { isLoading, refetch, data } = useQuery("studies", () =>
+    StudySearchAll.api.get(searchValue),
+  );
+
+  const [ref, inView] = useInView();
+
+  // 검색 기능
   useEffect(() => {
-    const cardNumber = StudyList ? StudyList.length : 0;
-    console.log("호출");
+    console.log(1);
+    setSearchValue(
+      `/studies?${searchName ? "name=" + searchName : ""}&${
+        searchType ? "type=" + searchType : ""
+      }`,
+    );
+  }, [searchName, searchType]);
+
+  // 신규 검색어 입력 시 api 재 호출
+  useEffect(() => {
+    console.log(2);
+
+    if (!!searchValue) {
+      refetch();
+    }
+  }, [searchValue, refetch]);
+
+  // 카드 분류하기
+  useEffect(() => {
+    console.log(3);
+
+    const cardNumber = data?.data.result ? data.data.result.length : 0;
     if (!data) {
+      console.log("3-1");
       setStudiesNumber(0);
+      setMoreStudies(false);
     } else if (cardNumber <= 9) {
+      console.log("3-2");
       setStudiesNumber(cardNumber);
-      setStudyList(data.data.result);
+      setStudyList(data.data.result.slice(0, 9));
+      setMoreStudies(false);
     } else {
+      console.log("3-3");
       setStudiesNumber(9);
       setMoreStudies(true);
-      setMoreStudyList(data.data.result.slice(10));
-      setStudyList(data.data.result.slice(0, 10));
+      setMoreStudyList(data.data.result.slice(9));
+      setStudyList(data.data.result.slice(0, 9));
+      // setMoreStudyList((prev) => [...prev, data.data.result.slice(9)]);
+      // setStudyList((prev) => [...prev, data.data.result.slice(0, 9)]);
     }
-  }, [StudyList, data, studiesNumber]);
+  }, [data, isLoading]);
 
-  function onScroll() {
-    setPosition(window.scrollY);
-  }
   useEffect(() => {
-    const wrapperTag = document.querySelector("#search-wrapper");
-    if (wrapperTag) {
-      setLoadLine(wrapperTag.clientHeight * 0.8);
+    console.log(5);
+    if (inView && !isLoading && moreStudyList) {
+      StudyList &&
+        moreStudyList &&
+        setStudyList(StudyList.concat(moreStudyList.slice(0, 9)));
+      setMoreStudyList(moreStudyList.slice(9));
     }
-    window.addEventListener("scroll", onScroll);
-  }, []);
+  }, [inView, isLoading]);
 
-  console.log("StudyList", StudyList);
-
-  console.log(loadLine);
-  console.log(position);
-  console.log("MORE", moreStudies);
-
-  if (loadLine <= position && moreStudyList) {
-    console.log("TEST", moreStudyList);
-    // setStudyList((prev) => [...prev, moreStudyList.slice(0, 10)]);
-  }
+  // console.log("SEARCH", searchValue);
+  console.log("DATA:", isLoading, data);
+  // console.log("INVIEW", inView);
+  console.log("NOW", StudyList);
+  console.log("MORE", moreStudyList);
   return (
     <>
       <BlankSpace />
       <Wrapper id={"search-wrapper"}>
-        {!isLoading ? (
+        {!isLoading && StudyList ? (
           <>
             <Header>
               <div>
@@ -282,28 +292,13 @@ export default function StudySearchPages() {
                   </CardWrapper>
                 ))}
               </Cards>
-              {/* {pagesN > count && loadLine <= position ? (
-                <>
-                  {setCount(count + 1)}
-                  <Cards NumberOfCards={studiesNumber}>
-                    (
-                    {StudyList.map((study: StudiesDataType) => (
-                      <CardWrapper>
-                        {console.log(study)}
-                        <Card key={study.id} studyInfo={study} />
-                      </CardWrapper>
-                    ))}
-                    )
-                  </Cards>
-                </>
-              ) : null} */}
             </Section>
           </>
         ) : (
           <MyStudyNotFound>
             <SkeletonCards>
-              {[...Array(9).keys()].map(() => (
-                <LoadingWrapper>
+              {[...Array(9).keys()].map((num) => (
+                <LoadingWrapper key={num}>
                   <LoadingCard />
                 </LoadingWrapper>
               ))}
@@ -311,6 +306,7 @@ export default function StudySearchPages() {
           </MyStudyNotFound>
         )}
       </Wrapper>
+      <div id="test" ref={ref}></div>
     </>
   );
 }

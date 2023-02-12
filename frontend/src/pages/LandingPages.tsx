@@ -14,6 +14,10 @@ import { useEffect, useState } from "react";
 import { BackgroundYellow } from "components/common/BackgroundYellow";
 import { Link } from "react-router-dom";
 
+// import Slider from "react-slick";
+// import "slick-carousel/slick/slick.css";
+// import "slick-carousel/slick/slick-theme.css";
+
 const Wrapper = styled.div``;
 
 const SLandingBody = styled.div`
@@ -229,11 +233,13 @@ const slideRightReverse = keyframes`
 `;
 
 const mediaSlideLeftReverse = keyframes`
-  from {
+  0% {
     left: ${W - 717}px;
-    /* opacity: 1; */
   }
-  to {
+  25%{
+    opacity: 0;
+  }
+  100% {
     left: -50vw;
   
     opacity: 0;
@@ -241,12 +247,14 @@ const mediaSlideLeftReverse = keyframes`
 `;
 
 const mediaSlideRightReverse = keyframes`
-  from {
+  0% {
     right: ${W - 717}px;
 
-    /* opacity: 1; */
   }
-  to {
+  25%{
+    opacity: 0;
+  }
+  100% {
     right: -50vw;
 
     opacity: 0;
@@ -473,15 +481,16 @@ function LandingPages() {
           <SStudyList>
             <SItemTitle>현재 인기있는 스터디</SItemTitle>
             <SCards>
-              <SArrow>
+              {/* <SArrow>
                 <img src={arrowL} alt="" />
-              </SArrow>
+              </SArrow> */}
               {studyList.map((study) => (
                 <Card key={study.id} studyInfo={study} />
               ))}
-              <SArrow>
+
+              {/* <SArrow>
                 <img src={arrowR} alt="" />
-              </SArrow>
+              </SArrow> */}
             </SCards>
           </SStudyList>
           <SIntroductionItem direction="L" top={relativeTop1}>
