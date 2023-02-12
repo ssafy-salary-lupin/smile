@@ -127,13 +127,13 @@ public class StudyBoardController {
     @DeleteMapping("/studies/{studyId}/boards/{boardId}")
     public CommonResponse deleteStudyBoard(
             @PathVariable int studyId,
-            @PathVariable int studyBoardId,
+            @PathVariable int boardId,
             @AuthenticationPrincipal CustomOAuth2User oAuth2User
     ){
 
         int userId = oAuth2User.getUserId();
 
-        studyBoardService.deleteStudyBoard(userId,studyId,studyBoardId);
+        studyBoardService.deleteStudyBoard(userId,studyId,boardId);
 
         return responseService.getSuccessResponse();
 
