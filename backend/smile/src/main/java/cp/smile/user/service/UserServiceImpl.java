@@ -9,6 +9,7 @@ import cp.smile.auth.jwt.JwtProvider;
 import cp.smile.auth.oauth2.provider.LoginProviderRepository;
 import cp.smile.auth.oauth2.provider.OAuth2Provider;
 import cp.smile.config.response.exception.CustomException;
+import cp.smile.config.response.exception.CustomExceptionStatus;
 import cp.smile.entity.study_common.StudyInformation;
 import cp.smile.entity.user.LoginProvider;
 import cp.smile.entity.user.User;
@@ -122,6 +123,11 @@ public class UserServiceImpl implements UserService{
 
         StudyInformation study = studyCommonRepository.findById(studyId)
                 .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY));
+
+        //최대인원수보다 현재 인원수가 크거나 같다면
+        if(study.getMaxPerson() <= study.getCurrentPerson()){
+            throw new CustomException(OVER_MAX_SIZE_PERSON);
+        }
 
         log.info("find study: {}", study.getName());
 

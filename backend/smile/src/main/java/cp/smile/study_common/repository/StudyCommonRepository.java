@@ -22,9 +22,8 @@ public interface StudyCommonRepository extends JpaRepository<StudyInformation, I
             "left join fetch s.userJoinStudies ujs " +
             "left join fetch s.studyComments sc " +
             "left join fetch ujs.user " +
-            "where s.deadline = false and s.isEnd = false and ujs.isLeader = true")
+            "where s.deadline = false and s.isEnd = false and ujs.isDeleted = false ")
     Set<StudyInformation> findAllByStudyInformation();
-
 
     /**검색조건이 name 하나일때*/
     @Query(value = "select s from StudyInformation s " +
@@ -57,6 +56,9 @@ public interface StudyCommonRepository extends JpaRepository<StudyInformation, I
             "where s.deadline = false and s.isEnd = false and ujs.isLeader = true " +
             "and s.name like %:name% and st.id = :typeId")
     Set<StudyInformation> findAllByNameIsContainingAndStudyType(@Param("name") String name, @Param("typeId") int studyTypeId);
+
+
+    /*로그인 한 사용자 기준 - */
 
 
 }
