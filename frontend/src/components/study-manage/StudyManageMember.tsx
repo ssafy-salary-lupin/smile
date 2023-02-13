@@ -225,18 +225,18 @@ function StudyManageMember() {
               <Text>스터디원 모집 여부를 설정할 수 있습니다.</Text>
               <Text>설정하시겠습니까?</Text>
             </TextBox>
-            {change ? (
-              <BtnYellow
-                onClick={openModal}
-                {...(recruitModalOpen && (
-                  <ModalManageRecruit1 setModalOpen={setRecruitModalOpen} />
-                ))}
-              >
-                모집 시작
-              </BtnYellow>
-            ) : (
+            {/* {change ? ( */}
+            <BtnYellow
+              onClick={openModal}
+              {...(recruitModalOpen && (
+                <ModalManageRecruit1 setModalOpen={setRecruitModalOpen} />
+              ))}
+            >
+              모집 시작
+            </BtnYellow>
+            {/* ) : (
               <BtnYellow onClick={openModal}>모집 마감</BtnYellow>
-            )}
+            )} */}
           </Box>
           <Box>
             <TextBox>
