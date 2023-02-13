@@ -37,7 +37,7 @@ const Wrapper = styled.div`
 
 const UpContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 5vw);
+  grid-template-columns: repeat(3, 22.153vw);
   /* margin-top: 2.8vw; */
   margin-bottom: 2.222vw;
   /* @media screen and (min-width: 1680px) {
@@ -51,8 +51,8 @@ const Card = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 1.12vw;
-  width: 180px;
-  height: 240px;
+  width: 21.667vw;
+  height: 24.861vw;
   margin-bottom: 2.222vw;
   margin: 0px 20px;
   border: solid 1px #e6e8ec;
