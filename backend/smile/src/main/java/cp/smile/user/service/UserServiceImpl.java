@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService{
     public UserInfoDTO findDetailUser(int id) {
 
         User user = userRepository
-                .findByIdAAndIsDeletedFalse(id)
+                .findByIdAndIsDeletedFalse(id)
                 .orElseThrow(() -> new CustomException(ACCOUNT_NOT_FOUND));
 
         return UserInfoDTO.builder()
@@ -116,7 +116,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void joinStudy(int userId, int studyId) {
-        User user = userRepository.findByIdAAndIsDeletedFalse(userId)
+        User user = userRepository.findByIdAndIsDeletedFalse(userId)
                 .orElseThrow(() -> new CustomException(ACCOUNT_NOT_FOUND));
 
         log.info("find user: {}", user.getEmail());
@@ -183,7 +183,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public void updateUserInfo(int userId, UserUpdateDTO userUpdateDTO, MultipartFile multipartFile) {
 
-        User user = userRepository.findByIdAAndIsDeletedFalse(userId)
+        User user = userRepository.findByIdAndIsDeletedFalse(userId)
                 .orElseThrow(() -> new CustomException(ACCOUNT_NOT_FOUND));
 
         if (userUpdateDTO.getNickname() != null) {
@@ -238,7 +238,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public void deleteUser(int userId) {
 
-        User user = userRepository.findByIdAAndIsDeletedFalse(userId)
+        User user = userRepository.findByIdAndIsDeletedFalse(userId)
                 .orElseThrow(() -> new CustomException(ACCOUNT_NOT_FOUND));
 
         if (user.getIsDeleted() == false) {
