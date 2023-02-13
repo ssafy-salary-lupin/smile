@@ -219,10 +219,13 @@ function StudyManageMember() {
               <Text>스터디원 모집 여부를 설정할 수 있습니다.</Text>
               <Text>설정하시겠습니까?</Text>
             </TextBox>
-            {recruitModalOpen && (
-              <ModalManageRecruit1 setModalOpen={setRecruitModalOpen} />
-            )}
-            <BtnYellow>모집 시작</BtnYellow>
+            <BtnYellow>
+              모집 시작
+              {recruitModalOpen && (
+                <ModalManageRecruit1 setModalOpen={setRecruitModalOpen} />
+              )}
+            </BtnYellow>
+
             {/* <BtnBig>모집 마감</BtnBig> */}
           </Box>
           <Box>
