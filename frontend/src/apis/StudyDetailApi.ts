@@ -23,6 +23,26 @@ export async function StudyDataApi(id: string) {
   }
 }
 
+// 스터디 가입하기
+export async function studyJoinApi(userId: any, studyId: any) {
+  try {
+    await axios.post(
+      `${BASE_URL}/users/${userId}/studies/${studyId}`,
+      // formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
+
+          "Content-Type": "multipart/form-data",
+        },
+      },
+    );
+  } catch (error: any) {
+    console.log(error);
+  }
+}
+
 // 댓글 작성
 export async function writeDetailCommentApi(data: any) {
   try {
@@ -62,7 +82,7 @@ export async function commentUpdateApi(data: any, commentId: any) {
   try {
     await axios.patch(`${BASE_URL}/1/comments/${commentId}`, data, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("kakao-token")}`,
+        Authorization: `Bearer ${token}`,
         // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
         "Content-Type": `application/json`,
       },
