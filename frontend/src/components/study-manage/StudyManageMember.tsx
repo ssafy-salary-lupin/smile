@@ -19,7 +19,7 @@ import {
   StudyRecruitmentApi,
   StudyReDeadlineApi,
 } from "../../apis/StudyManageMember";
-import { ReactComponent as Crown } from "../assets/icon/Crown.svg";
+import { ReactComponent as Crown } from "../../assets/icon/Crown.svg";
 import axios from "axios";
 
 const Wrapper = styled.div`
