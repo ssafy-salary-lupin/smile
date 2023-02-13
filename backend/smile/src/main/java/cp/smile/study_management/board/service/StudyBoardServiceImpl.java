@@ -11,6 +11,7 @@ import cp.smile.entity.study_management.*;
 import cp.smile.entity.user.User;
 import cp.smile.entity.user.UserJoinStudy;
 import cp.smile.study_common.repository.StudyCommonRepository;
+import cp.smile.study_management.board.dto.request.StudyBoardUpdateDTO;
 import cp.smile.study_management.board.dto.request.StudyBoardWriteDTO;
 import cp.smile.study_management.board.dto.request.UpdateCommentDTO;
 import cp.smile.study_management.board.repository.StudyBoardCommentRepository;
@@ -25,6 +26,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
@@ -281,5 +283,35 @@ public class StudyBoardServiceImpl implements StudyBoardService {
         if (studyBoardComment.getUser().getId() == userId) {
             studyBoardComment.deleteStudyBoardComment();
         }
+    }
+
+    @Override
+    @Transactional
+    public void updateStudyBoard(User writer, int boardId, StudyBoardUpdateDTO dto, MultipartFile[] updateFiles) {
+        StudyBoard studyBoard = studyBoardRepository.findById(boardId)
+                .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY_BOARD));
+
+        log.info("studyBoard.getUser().equals(writer) = {}", studyBoard.getUser().equals(writer));
+
+        if (studyBoard.isWriter(writer)) {
+            throw new CustomException(NOT_WRITER);
+        }
+
+        if (StringUtils.hasText(dto.getTitle())) {
+            studyBoard.updateTitle(dto.getTitle());
+        }
+
+        if (StringUtils.hasText(dto.getContent())) {
+            studyBoard.updateContent(dto.getContent());
+        }
+
+        if (dto.getTypeId() != null) {
+            StudyBoardType boardType = studyBoardTypeRepository.findById(dto.getTypeId())
+                    .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY_BOARD_TYPE));
+            studyBoard.updateType(boardType);
+        }
+
+        studyBoard.deleteFiles(dto.getDeleteFileId());
+        uploadFiles(studyBoard, updateFiles);
     }
 }

@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @Table(name = "study_board_files")
+@DynamicUpdate
 public class StudyBoardFile extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,5 +38,9 @@ public class StudyBoardFile extends BaseEntity {
         this.path = path;
         this.studyBoard = studyBoard;
         this.isDeleted = isDeleted;
+    }
+
+    public void delete() {
+        this.isDeleted = true;
     }
 }

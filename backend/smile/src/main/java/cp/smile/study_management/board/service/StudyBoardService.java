@@ -5,6 +5,7 @@ import cp.smile.entity.study_management.StudyBoardComment;
 import cp.smile.entity.study_management.StudyBoardType;
 import cp.smile.entity.user.User;
 import cp.smile.entity.user.UserJoinStudy;
+import cp.smile.study_management.board.dto.request.StudyBoardUpdateDTO;
 import cp.smile.study_management.board.dto.request.StudyBoardWriteDTO;
 import cp.smile.study_management.board.dto.request.UpdateCommentDTO;
 import org.springframework.data.domain.Page;
@@ -25,4 +26,5 @@ public interface StudyBoardService {
     void deleteStudyBoard(int userId, int studyId,int boardId);
     void updateStudyBoardComment(int userId, int studyId, int boardId, int commentId, UpdateCommentDTO updateCommentDTO);
     void deleteStudyBoardComment(int userId, int studyId, int boardId, int commentId);
+    void updateStudyBoard(User writer, int boardId, StudyBoardUpdateDTO dto, MultipartFile[] updateFiles);
 }
