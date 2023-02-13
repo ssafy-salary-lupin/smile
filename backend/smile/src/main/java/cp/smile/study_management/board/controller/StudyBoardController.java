@@ -248,6 +248,12 @@ public class StudyBoardController {
         return responseService.getSuccessResponse();
     }
 
+    @Tag(name="스터디 게시판 API")
+    @Operation(summary = "스터디 게시글 수정", description = "스터디 게시글 수정")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
     @PatchMapping("/studies/{studyId}/boards/{boardId}")
     public CommonResponse updateStudyBoard(@AuthenticationPrincipal CustomOAuth2User oAuth2User,
                                            @PathVariable int studyId,
