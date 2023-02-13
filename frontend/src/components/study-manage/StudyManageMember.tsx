@@ -35,14 +35,19 @@ const Card = styled.div`
   margin-bottom: 2.222vw;
   border: solid 1px #e6e8ec;
   box-shadow: 0px 0px 1.12vw ${(props) => props.theme.subColor};
+  /* box-shadow: 5px 5px 5px 5px gray; */
 `;
 
-const BtnSmall = styled.button``;
+const BtnSmall = styled.button`
+  cursor: pointer;
+  box-shadow: 0px 0px 1.12vw gray;
+`;
 
 const DownContainer = styled.div``;
 
 const RedBox = styled.div`
   height: 200px;
+  width: 300px;
   border: solid 1px Red;
   border-radius: 10px;
 `;
@@ -67,13 +72,26 @@ const Text = styled.div`
   font-size: small;
 `;
 
-const BtnBig = styled.button`
+const BtnYellow = styled.button`
+  cursor: pointer;
   border: ${(props) => props.theme.mainColor} 1px;
   width: 150px;
   height: 30px;
   border-radius: 5px;
   font-size: small;
   background-color: ${(props) => props.theme.mainColor};
+  box-shadow: 0px 0px 1.12vw gray;
+`;
+const BtnWhite = styled.button`
+  cursor: pointer;
+  border: 0.5px ${(props) => props.theme.subColor};
+  width: 150px;
+  height: 30px;
+  border-radius: 5px;
+  font-size: small;
+  background-color: white;
+  box-shadow: 0px 0px 1.12vw gray;
+  color: red;
 `;
 
 interface Data {
@@ -120,7 +138,7 @@ function StudyManageMember() {
   return (
     <Wrapper>
       <UpContainer>
-        {/* {userStudy.map((index: any) => (
+        {userStudy?.study_users.map((index: any) => (
           <Card key={index}>
             <ProfileImg
               imgUrl={
@@ -133,7 +151,7 @@ function StudyManageMember() {
               height="6vw"
             />
           </Card>
-        ))} */}
+        ))}
       </UpContainer>
       <DownContainer>
         <RedBox>
@@ -143,7 +161,7 @@ function StudyManageMember() {
               <Text>스터디원 모집 여부를 설정할 수 있습니다.</Text>
               <Text>설정하시겠습니까?</Text>
             </TextBox>
-            <BtnBig>모집 시작</BtnBig>
+            <BtnYellow>모집 시작</BtnYellow>
             {/* <BtnBig>모집 마감</BtnBig> */}
           </Box>
           <Box>
@@ -152,7 +170,7 @@ function StudyManageMember() {
               <Text>한번 종료하면 되돌릴 수 없습니다.</Text>
               <Text>삭제하시겠습니까?</Text>
             </TextBox>
-            <BtnBig>스터디 종료하기</BtnBig>
+            <BtnWhite>스터디 종료하기</BtnWhite>
           </Box>
         </RedBox>
       </DownContainer>
