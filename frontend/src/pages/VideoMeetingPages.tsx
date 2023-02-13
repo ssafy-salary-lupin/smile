@@ -148,7 +148,11 @@ function VideoMeetingPages() {
   return (
     <>
       {isMeetingStart ? (
-        <VideoRoomComponent sessionName={params.studyId} userInfo={localUser} />
+        <VideoRoomComponent
+          sessionName={params.studyId}
+          userInfo={localUser}
+          user={"김싸피"}
+        />
       ) : (
         <>
           <Container>
