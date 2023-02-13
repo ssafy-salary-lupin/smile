@@ -1,6 +1,10 @@
 import styled from "styled-components";
 import ModalNone from "components/common/ModalNone";
 import { Link } from "react-router-dom";
+import {
+  StudyRecruitmentApi,
+  StudyReDeadlineApi,
+} from "../../apis/StudyManageMemberApi";
 
 const Wrapper = styled.div``;
 
@@ -55,6 +59,8 @@ function ModalManageRecruit(props: any) {
     props.setModalOpen(false);
   };
 
+  // 모집
+
   return (
     <Wrapper>
       <ModalNone setModalOpen={props.setModalOpen}>
@@ -71,7 +77,7 @@ function ModalManageRecruit(props: any) {
                 pathname: `/manage/manageMember`,
               }}
             >
-              <Btn color="#F5C82E" onClick={props.leaveSession}>
+              <Btn color="#F5C82E" onClick={StudyRecruitmentApi}>
                 <span>확인</span>
               </Btn>
             </Link>
