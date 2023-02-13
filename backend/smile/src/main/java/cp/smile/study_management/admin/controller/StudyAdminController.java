@@ -117,6 +117,7 @@ public class StudyAdminController {
             @PathVariable int studyId,
             @AuthenticationPrincipal CustomOAuth2User oAuth2User) {
 
+        log.info("recurit test");
         int studyLeaderId = oAuth2User.getUserId();
 
         studyAdminService.recruitStudy(studyLeaderId, studyId);
