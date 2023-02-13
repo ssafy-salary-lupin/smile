@@ -1,10 +1,7 @@
 import styled from "styled-components";
 import ModalNone from "components/common/ModalNone";
 import { Link } from "react-router-dom";
-import {
-  StudyRecruitmentApi,
-  StudyReDeadlineApi,
-} from "../../apis/StudyManageMemberApi";
+import { StudyRecruitmentApi } from "../../apis/StudyManageMemberApi";
 
 const Wrapper = styled.div``;
 

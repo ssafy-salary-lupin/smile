@@ -14,7 +14,7 @@ export async function StudyUserApi() {
     });
 
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     return data;
   } catch (error: any) {
     console.log(error);
@@ -30,7 +30,7 @@ export async function MandateApi() {
       },
     });
     const data = await response;
-    console.log(data);
+    // console.log(data);
     return data;
   } catch (error: any) {
     console.log(error);
@@ -74,6 +74,7 @@ export async function StudyEndApi() {
 // // 스터디 모집
 export async function StudyRecruitmentApi() {
   try {
+    console.log("???");
     const response = await axios.patch(`${BASE_URL}/1/recruit`, {
       headers: {
         Authorization: `Bearer ${token}`,
