@@ -22,7 +22,7 @@ public class BaseEntity {
     private LocalDateTime createTime;
 
     @LastModifiedDate
-    @Column(name = "update_time", updatable = false)
+    @Column(name = "update_time")
     private LocalDateTime updateTime;
 
     @CreatedBy

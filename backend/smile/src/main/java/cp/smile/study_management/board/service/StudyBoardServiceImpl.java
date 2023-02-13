@@ -291,9 +291,7 @@ public class StudyBoardServiceImpl implements StudyBoardService {
         StudyBoard studyBoard = studyBoardRepository.findById(boardId)
                 .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY_BOARD));
 
-        log.info("studyBoard.getUser().equals(writer) = {}", studyBoard.getUser().equals(writer));
-
-        if (studyBoard.isWriter(writer)) {
+        if (!studyBoard.isWriter(writer)) {
             throw new CustomException(NOT_WRITER);
         }
 
@@ -312,6 +310,10 @@ public class StudyBoardServiceImpl implements StudyBoardService {
         }
 
         studyBoard.deleteFiles(dto.getDeleteFileId());
-        uploadFiles(studyBoard, updateFiles);
+
+        if (updateFiles != null && updateFiles[0].getSize() != 0) {
+            List<StudyBoardFile> uploadedFiles = uploadFiles(studyBoard, updateFiles);
+            studyBoardFileRepository.saveAll(uploadedFiles);
+        }
     }
 }

@@ -105,6 +105,8 @@ public class StudyBoard extends BaseEntity {
     }
 
     public void deleteFiles(List<Integer> targetFiles) {
+        if (targetFiles == null) return;
+
         for (Integer targetId : targetFiles) {
             for (StudyBoardFile uploadedFile : studyBoardFiles) {
                 if (uploadedFile.getId() == targetId) {

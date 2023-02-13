@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -30,7 +31,7 @@ public class ControllerAdvisor {
 
         //로그로 예외발생한 시간과 메시지 남기기
         log.warn("[" +" CustomException - " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")) + "]" +" : " + status.getMessage());
-
+        log.warn(Arrays.toString(customException.getStackTrace()));
         return responseService.getExceptionResponse(status);
     }
 
