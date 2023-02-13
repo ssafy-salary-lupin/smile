@@ -92,8 +92,8 @@ public class UserServiceImpl implements UserService{
     public UserInfoDTO findDetailUser(int id) {
 
         User user = userRepository
-                .findById(id)
-                .orElseThrow(RuntimeException::new);
+                .findByIdAAndIsDeletedFalse(id)
+                .orElseThrow(() -> new CustomException(ACCOUNT_NOT_FOUND));
 
         return UserInfoDTO.builder()
                 .id(user.getId())
@@ -116,7 +116,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void joinStudy(int userId, int studyId) {
-        User user = userRepository.findById(userId)
+        User user = userRepository.findByIdAAndIsDeletedFalse(userId)
                 .orElseThrow(() -> new CustomException(ACCOUNT_NOT_FOUND));
 
         log.info("find user: {}", user.getEmail());
@@ -251,6 +251,4 @@ public class UserServiceImpl implements UserService{
             user.deleteUser();
         }
     }
-
-
 }
