@@ -123,6 +123,7 @@ const SBannerButton = styled.button`
   color: white;
   /* font-size: 24px; */
   font-size: 1.68vw;
+  cursor: pointer;
   @media screen and (min-width: 1680px) {
     width: 240.48px;
     height: 72.576px;
@@ -383,6 +384,10 @@ const SText = styled.span`
   }
 `;
 
+const LinkBtn = styled(Link)`
+  width: 16.7vw;
+`;
+
 function LandingPages() {
   const bannerText = "어떤 스터디를 원하세요?";
   const bannerSubText = "당신의 스터디를 찾아보세요!";
@@ -472,11 +477,11 @@ function LandingPages() {
               <span>{bannerText}</span>
               <span>{bannerSubText}</span>
             </SBannerItem>
-            <Link to={{ pathname: `/search` }}>
+            <LinkBtn to={{ pathname: `/search` }}>
               <SBannerButton>
                 <span>{bannerButtonText}</span>
               </SBannerButton>
-            </Link>
+            </LinkBtn>
           </SBanner>
           <SStudyList>
             <SItemTitle>현재 인기있는 스터디</SItemTitle>
