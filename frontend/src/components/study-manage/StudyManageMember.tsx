@@ -161,10 +161,10 @@ interface Data {
 //
 function StudyManageMember() {
   // 모집, 마감 버튼 전환
-  const [change, setChange] = useState(true);
-  const changeButton = () => {
-    setChange(!change);
-  };
+  // const [change, setChange] = useState(false);
+  // const changeButton = () => {
+  //   setChange(!change);
+  // };
 
   // 모집 모달 열기
   const [recruitModalOpen, setRecruitModalOpen] = useState(false);
@@ -228,6 +228,7 @@ function StudyManageMember() {
             {/* {change ? ( */}
             <BtnYellow
               onClick={openModal}
+              // onChange={changeButton}
               {...(recruitModalOpen && (
                 <ModalManageRecruit1 setModalOpen={setRecruitModalOpen} />
               ))}
