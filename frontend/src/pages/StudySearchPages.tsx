@@ -87,9 +87,7 @@ const CreateBtnWrapper = styled.div`
   }
 `;
 
-const Section = styled.div`
-  min-height: 116.667vw;
-`;
+const Section = styled.div``;
 
 interface CardsProps {
   NumberOfCards: number;
@@ -179,6 +177,15 @@ interface StudiesDataType {
     nickname: string;
   };
 }
+
+const BlankDiv = styled.div`
+  height: 300vw;
+`;
+
+const NotFound = styled(MyStudyNotFound)`
+  min-height: 116.667vw;
+`;
+
 export default function StudySearchPages() {
   const searchName = useRecoilValue<string>(SearchNameState);
   const searchType = useRecoilValue<number[]>(SearchTypeState);
@@ -246,21 +253,21 @@ export default function StudySearchPages() {
     <>
       <BlankSpace />
       <Wrapper id={"search-wrapper"}>
+        <Header>
+          <div>
+            <h1>딱! 맞는 스터디를 찾아보세요!</h1>
+            <span>아무말을 뭘로 적어야 하나 ㅎㅎㅎ</span>
+          </div>
+          <HeaderImg />
+        </Header>
+        <SearchComponent />
+        <CreateBtnWrapper>
+          <Link to={{ pathname: `/create` }}>
+            <button>스터디 생성</button>
+          </Link>
+        </CreateBtnWrapper>
         {!isLoading && StudyList ? (
           <>
-            <Header>
-              <div>
-                <h1>딱! 맞는 스터디를 찾아보세요!</h1>
-                <span>아무말을 뭘로 적어야 하나 ㅎㅎㅎ</span>
-              </div>
-              <HeaderImg />
-            </Header>
-            <SearchComponent />
-            <CreateBtnWrapper>
-              <Link to={{ pathname: `/create` }}>
-                <button>스터디 생성</button>
-              </Link>
-            </CreateBtnWrapper>
             <Section id="TEST2">
               <SkeletonCards id="TEST">
                 {[...Array(9).keys()].map((index) => (
@@ -280,7 +287,7 @@ export default function StudySearchPages() {
             </Section>
           </>
         ) : (
-          <MyStudyNotFound>
+          <NotFound>
             <SkeletonCards>
               {[...Array(9).keys()].map((num) => (
                 <LoadingWrapper key={num}>
@@ -288,7 +295,7 @@ export default function StudySearchPages() {
                 </LoadingWrapper>
               ))}
             </SkeletonCards>
-          </MyStudyNotFound>
+          </NotFound>
         )}
       </Wrapper>
       <div id="test" ref={ref}></div>

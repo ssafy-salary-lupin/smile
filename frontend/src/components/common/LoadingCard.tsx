@@ -70,7 +70,7 @@ const SkeletonHeader = styled.section`
         height: 24.192px;
       } */
       @media screen and (min-width: 1280px) {
-        width: 89.6px;
+        width: 90px;
         height: 21.504px;
       }
     }
@@ -162,7 +162,7 @@ const SkeletonFooter = styled.section`
           height: 24.192px;
         } */
         @media screen and (min-width: 1280px) {
-          width: 89.6px;
+          width: 140px;
           height: 21.504px;
         }
       }
@@ -180,8 +180,9 @@ const SkeletonImg = styled.div`
     height: 314.496px;
   } */
   @media screen and (min-width: 1280px) {
-    border-radius: 1.12vw 1.12vw 0px 0px !important;
-    width: 379.904px;
+    border-radius: 14.336px 14.336px 0vw 0vw !important;
+    width: 380.904px;
+
     height: 279.552px;
   }
   /* position: relative;
@@ -208,9 +209,9 @@ const SkeletonProfile = styled.div`
   @media screen and (min-width: 1280px) {
     width: 44.442px;
     height: 44.442px;
-    border-radius: 3.906vw !important;
-    margin-left: 2.662px;
-    margin-bottom: 2.662px;
+    border-radius: 49.997px !important;
+    margin-left: 4.262px;
+    margin-bottom: 0.762px;
   }
 `;
 
