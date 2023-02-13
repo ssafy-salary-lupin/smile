@@ -226,7 +226,7 @@ function StudyManageMember() {
             )}
             <BtnYellow onClick={openModal}>모집 시작</BtnYellow>
 
-            {/* <BtnBig>모집 마감</BtnBig> */}
+            {/* <BtnBig onClick={openModal}>모집 마감</BtnBig> */}
           </Box>
           <Box>
             <TextBox>
