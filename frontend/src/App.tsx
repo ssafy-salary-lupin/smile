@@ -9,6 +9,10 @@ const GlobalStyle = createGlobalStyle`
 /* @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap"); */
 /* @import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap"); */
 
+.swal2-container {
+  z-index: 100000;
+}
+
 html,
 body {
   /* font-family: "Noto Sans", sans-serif; */

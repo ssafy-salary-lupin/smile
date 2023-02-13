@@ -4,7 +4,7 @@ import {
 } from "apis/StudyManageBoardApi";
 import PagiNation from "components/common/Pagination";
 import { useEffect, useState } from "react";
-import { useQuery } from "react-query";
+import { useQueries, useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
@@ -172,41 +172,48 @@ function StudyManageBoardList() {
   const [size, setSize] = useState(5);
   const [totalElements, setTotalElements] = useState(0);
   const [totalGeneralElements, setTotalGeneralElements] = useState(0);
-  const [list, setList] = useState<ListData[] | null>(null); // 일반 글
-  const [notice, setNotice] = useState<ListData[] | null>(null); // 공지 글
+  const [list, setList] = useState<ListData[]>(); // 일반 글
+  const [notice, setNotice] = useState<ListData[]>(); // 공지 글
 
-  const { data: listData, refetch: listRefetch } = useQuery<IData>(
-    ["listData"],
-    () => boardListSelectAllApi(page, size),
-  );
-  const { data: noticeData, refetch: noticeRefetch } = useQuery<IData>(
-    ["noticeData"],
-    () => noticeSelectAllApi(),
-  );
+  const res = useQueries([
+    {
+      queryKey: ["listData"],
+      queryFn: () => boardListSelectAllApi(page, size),
+    },
+    {
+      queryKey: ["noticeData"],
+      queryFn: () => noticeSelectAllApi(),
+    },
+  ]);
 
   useEffect(() => {
-    // 1. 가져온 data 값에서 총 게시글 개수 가져와서 set
-    listRefetch();
-    noticeRefetch();
-    if (listData !== undefined && noticeData !== undefined) {
-      setTotalElements(
-        listData?.result.totalElements + noticeData?.result.totalElements,
-      );
-      setTotalGeneralElements(listData?.result.totalElements);
+    async function stateSet() {
+      // 1. 가져온 data 값에서 총 게시글 개수 가져와서 set
+      if (res[0].data !== undefined && res[1].data !== undefined) {
+        await setTotalElements(
+          res[0].data.result.totalElements + res[1].data.result.totalElements,
+        );
+        await setTotalGeneralElements(res[0].data.result.totalElements);
+      }
+
+      // 2. 해당 페이지의 데이터들을 배열에 담아줌 => 아래에서 배열의 각 요소별로 뽑아서 보여주기
+      if (res[0].data !== undefined) {
+        await setList(res[0]?.data.result.content);
+      }
+
+      if (res[1].data !== undefined) {
+        await setNotice(res[1]?.data.result.content);
+      }
     }
 
-    // 2. 해당 페이지의 데이터들을 배열에 담아줌 => 아래에서 배열의 각 요소별로 뽑아서 보여주기
-    if (listData !== undefined) {
-      setList(listData.result.content);
-    }
-    if (noticeData !== undefined) {
-      setNotice(noticeData.result.content);
-    }
-  }, [listData, noticeData, page]);
+    stateSet();
+  }, [res]);
 
   // 페이지 변환시 호출할 메소드 => page값 셋팅
-  const handlePageChange = (page: any) => {
-    setPage(page);
+  const handlePageChange = async (page: any) => {
+    await setPage((old) => (old = page));
+    res[0].refetch();
+    res[1].refetch();
   };
 
   return (
@@ -220,7 +227,7 @@ function StudyManageBoardList() {
       <BoardListBox>
         <Tbody>
           {notice !== null
-            ? notice.map((el, index) => {
+            ? notice?.map((el, index) => {
                 return (
                   <Row key={index}>
                     <BoardType>
@@ -244,7 +251,7 @@ function StudyManageBoardList() {
               })
             : null}
           {list !== null
-            ? list.map((el, index) => {
+            ? list?.map((el, index) => {
                 return (
                   <Row key={index}>
                     <BoardType>

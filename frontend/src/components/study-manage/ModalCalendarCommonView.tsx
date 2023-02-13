@@ -6,6 +6,7 @@ import { ReactComponent as Time } from "../../assets/icon/Time.svg";
 import { ReactComponent as Url } from "../../assets/icon/Link.svg";
 import { useQuery } from "react-query";
 import { scheduleSelectApi } from "apis/StudyManageCalendarAPi";
+import Swal from "sweetalert2";
 
 interface PropsType {
   setModalOpen: React.Dispatch<SetStateAction<boolean>>;
@@ -274,10 +275,23 @@ function ModalCalendarCommonView(props: PropsType) {
 
   // 일정 삭제
   const deleteSchedule = () => {
-    if (window.confirm("일정을 삭제하시겠습니까?")) {
-      props.onDelete(props.scheduleId);
-      closeModal();
-    }
+    Swal.fire({
+      title: "일정 삭제를 진행하겠습니까??",
+      showCancelButton: true,
+      confirmButtonText: "삭제",
+      cancelButtonText: "취소",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        props.onDelete(props.scheduleId);
+        Swal.fire("삭제완료!", "", "success");
+        closeModal();
+      }
+    });
+
+    // if (window.confirm("일정을 삭제하시겠습니까?")) {
+    //   props.onDelete(props.scheduleId);
+    //   closeModal();
+    // }
   };
   // 일정 수정
   const updateSchedule = () => {

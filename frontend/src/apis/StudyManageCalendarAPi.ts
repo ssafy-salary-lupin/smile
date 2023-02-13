@@ -12,7 +12,7 @@ export async function calendarSelectAllApi() {
     const response = await fetch(`${BASE_URL}/1/schedules`, {
       headers: {
         Authorization: `Bearer ${token}`,
-        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYxNzQ5NDYsImV4cCI6MTY3NjI2MTM0Nn0.SfVLAGLVlq0SOodUcnH8Xk2G3iFRnlLb6zNKk3PXGRJzYCWNUEcCLYYc5NOJ560OimORskELTfJK79suE6MasQ`,
+        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
         Accept: "application/json",
       },
     });
@@ -32,7 +32,7 @@ export async function calendarCreateApi(data: IRegistData) {
     await axios.post(`${BASE_URL}/1/schedules`, JSON.stringify(data), {
       headers: {
         Authorization: `Bearer ${token}`,
-        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYxNzQ5NDYsImV4cCI6MTY3NjI2MTM0Nn0.SfVLAGLVlq0SOodUcnH8Xk2G3iFRnlLb6zNKk3PXGRJzYCWNUEcCLYYc5NOJ560OimORskELTfJK79suE6MasQ`,
+        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
         "Content-Type": `application/json`,
       },
     });
@@ -48,7 +48,7 @@ export async function meetingSelectAllApi() {
     const response = await fetch(`${BASE_URL}/1/meetings`, {
       headers: {
         Authorization: `Bearer ${token}`,
-        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYxNzQ5NDYsImV4cCI6MTY3NjI2MTM0Nn0.SfVLAGLVlq0SOodUcnH8Xk2G3iFRnlLb6zNKk3PXGRJzYCWNUEcCLYYc5NOJ560OimORskELTfJK79suE6MasQ`,
+        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
         Accept: "application/json",
       },
     });
@@ -67,7 +67,7 @@ export async function deleteScheduleApi(scheduleId: number) {
     await axios.delete(`${BASE_URL}/1/schedules/${scheduleId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
-        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYxNzQ5NDYsImV4cCI6MTY3NjI2MTM0Nn0.SfVLAGLVlq0SOodUcnH8Xk2G3iFRnlLb6zNKk3PXGRJzYCWNUEcCLYYc5NOJ560OimORskELTfJK79suE6MasQ`,
+        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
       },
     });
   } catch (error: any) {
@@ -81,7 +81,7 @@ export async function scheduleSelectApi(scheduleId: number) {
     const response = await fetch(`${BASE_URL}/1/schedules/${scheduleId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
-        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYxNzQ5NDYsImV4cCI6MTY3NjI2MTM0Nn0.SfVLAGLVlq0SOodUcnH8Xk2G3iFRnlLb6zNKk3PXGRJzYCWNUEcCLYYc5NOJ560OimORskELTfJK79suE6MasQ`,
+        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
         Accept: "application/json",
       },
     });
@@ -102,7 +102,7 @@ export async function scheduleUpdateApi(data: any, scheduleId: number) {
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYxNzQ5NDYsImV4cCI6MTY3NjI2MTM0Nn0.SfVLAGLVlq0SOodUcnH8Xk2G3iFRnlLb6zNKk3PXGRJzYCWNUEcCLYYc5NOJ560OimORskELTfJK79suE6MasQ`,
+          // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
           "Content-Type": `application/json`,
         },
       },

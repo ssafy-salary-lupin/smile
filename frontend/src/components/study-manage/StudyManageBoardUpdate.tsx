@@ -7,6 +7,7 @@ import { Link, useHistory, useParams } from "react-router-dom";
 import { ReactComponent as DeleteIcon } from "../../assets/icon/Delete.svg";
 import { useQuery } from "react-query";
 import { boardSelectApi } from "apis/StudyManageBoardApi";
+import Swal from "sweetalert2";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
@@ -321,52 +322,109 @@ function StudyManageBoardUpdate() {
 
   const submit = async () => {
     if (typeId === 0) {
-      alert("유형을 선택해 주세요. ");
+      // alert("유형을 선택해 주세요. ");
+      Swal.fire({
+        icon: "error",
+        title: "이런...",
+        text: "유형을 선택해주세요!!",
+      });
       return;
     }
     if (title === "") {
-      alert("제목을 입력해주세요.");
+      // alert("제목을 입력해주세요.");
+      Swal.fire({
+        icon: "error",
+        title: "이런...",
+        text: "제목을 입력해주세요!!",
+      });
       return;
     }
     if (content === "") {
-      alert("내용을 입력해주세요.");
+      // alert("내용을 입력해주세요.");
+      Swal.fire({
+        icon: "error",
+        title: "이런...",
+        text: "내용을 입력해주세요!!",
+      });
       return;
     }
 
-    if (window.confirm("수정 하시겠습니까?")) {
-      const formData = new FormData();
+    Swal.fire({
+      title: "수정을 진행하겠습니까?",
+      showCancelButton: true,
+      confirmButtonText: "수정",
+      cancelButtonText: "취소",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const formData = new FormData();
 
-      const data = {
-        title: title,
-        content: content,
-        typeId: typeId,
-      };
+        const data = {
+          title: title,
+          content: content,
+          typeId: typeId,
+        };
 
-      formData.append("data", JSON.stringify(data));
+        formData.append("data", JSON.stringify(data));
 
-      if (selectedFile !== null) {
-        for (let i = 0; i < selectedFile.length; i++) {
-          formData.append("files", selectedFile[i]);
+        if (selectedFile !== null) {
+          for (let i = 0; i < selectedFile.length; i++) {
+            formData.append("files", selectedFile[i]);
+          }
         }
-      }
 
-      try {
-        await axios.patch(
-          `https://i8b205.p.ssafy.io/be-api/studies/1/boards/${boardId}`,
-          formData,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("kakao-token")}`,
-              "Content-Type": "multipart/form-data",
+        try {
+          await axios.patch(
+            `https://i8b205.p.ssafy.io/be-api/studies/1/boards/${boardId}`,
+            formData,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("kakao-token")}`,
+                "Content-Type": "multipart/form-data",
+              },
             },
-          },
-        );
-      } catch (error) {
-        console.log(error);
-      }
+          );
+        } catch (error) {
+          console.log(error);
+        }
 
-      history.push("/manage/board");
-    }
+        history.push("/manage/board");
+        Swal.fire("수정완료!", "", "success");
+      }
+    });
+    // if (window.confirm("수정 하시겠습니까?")) {
+    //   const formData = new FormData();
+
+    //   const data = {
+    //     title: title,
+    //     content: content,
+    //     typeId: typeId,
+    //   };
+
+    //   formData.append("data", JSON.stringify(data));
+
+    //   if (selectedFile !== null) {
+    //     for (let i = 0; i < selectedFile.length; i++) {
+    //       formData.append("files", selectedFile[i]);
+    //     }
+    //   }
+
+    //   try {
+    //     await axios.patch(
+    //       `https://i8b205.p.ssafy.io/be-api/studies/1/boards/${boardId}`,
+    //       formData,
+    //       {
+    //         headers: {
+    //           Authorization: `Bearer ${localStorage.getItem("kakao-token")}`,
+    //           "Content-Type": "multipart/form-data",
+    //         },
+    //       },
+    //     );
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+
+    //   history.push("/manage/board");
+    // }
   };
 
   return (

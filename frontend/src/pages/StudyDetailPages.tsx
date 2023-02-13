@@ -15,9 +15,16 @@ import { ReactComponent as Reply } from "../assets/icon/Reply.svg";
 import { ReactComponent as Crown } from "../assets/icon/Crown.svg";
 import { theme } from "theme";
 import {
+  commentDeleteApi,
+  commentUpdateApi,
+  replyDeleteApi,
+  replyUpdateApi,
+  StudyDataApi,
   writeDetailCommentApi,
   writeDetailReplyApi,
 } from "apis/StudyDetailApi";
+import { InputProps } from "components/study-manage/StudyManageBoardDetail";
+import Swal from "sweetalert2";
 
 const BlankSpace = styled.div`
   height: 7.383vw;
@@ -232,11 +239,15 @@ const CommentContent = styled.div`
   margin-bottom: 0.556vw;
 `;
 
-const CommentTxt = styled.input`
+const CommentTxt = styled.input<InputProps>`
   font-size: 0.972vw;
   width: 100%;
   border: none;
   outline: none;
+  /* border: 1px solid ${(props) => props.theme.blackColorOpacity}; */
+  padding: 0.417vw 1.111vw;
+  border-radius: 3.472vw;
+  border: ${(props) => (!props.editState ? "none" : `1px solid black`)};
 `;
 
 const CommentFooter = styled.div`
@@ -379,31 +390,14 @@ type Params = {
 function StudyDetailPages() {
   // const profileImgUrl = props.studyInfo.studyLeader.profileImageUrl;
   // const studyImgUrl = props.studyInfo.imageUrl;
-  const BASE_URL = `https://i8b205.p.ssafy.io/be-api/studies`;
-  // const BASE_URL = `/be-api/studies`;
 
   const token = localStorage.getItem("kakao-token");
   // const [list, setList] = useState<studyDetailData[] | null>(null);
 
-  const StudyDataApi = async (id: string) => {
-    try {
-      const response = await fetch(`${BASE_URL}/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYyMTMxMjcsImV4cCI6MTY3NjI5OTUyN30.pzeJeGfEAKGtMRBZBWgF8SiDXt34UpdcPZ7p3XG07XCUIiVioSDvbPymeXLPY2enQn1OOxxQ75VvX7hk6uWeNg`,
-          Accept: "application/json",
-        },
-      });
-
-      const data = await response.json();
-      return data;
-    } catch (error: any) {
-      console.log(error);
-    }
-  };
   const { id } = useParams<Params>();
-  const { data: detailStudy, refetch } = useQuery<Data>("detailStudy", () =>
-    StudyDataApi(id),
+  const { data: detailStudy, refetch } = useQuery<Data>(
+    "detailStudy",
+    async () => await StudyDataApi(id),
   );
 
   const formData = new FormData();
@@ -432,7 +426,6 @@ function StudyDetailPages() {
   //   console.log("result", result);
   // }
   //token----------------------------
-
   if (token !== null) {
     var decoded: any = jwt_decode(token);
     // const decoded2: object = jwt_decode(token);
@@ -442,6 +435,9 @@ function StudyDetailPages() {
   } else {
     console.log("none");
   }
+
+  // const BASE_URL = `https://i8b205.p.ssafy.io/be-api/studies`;
+  const BASE_URL = `/be-api/studies`;
   const studyJoinApi = async () => {
     await axios
       .post(
@@ -464,7 +460,6 @@ function StudyDetailPages() {
   };
 
   // 댓글 관련==========================================================================
-  console.log("get : ", detailStudy);
   // 댓글작성
   const [comment, setComment] = useState("");
 
@@ -475,15 +470,15 @@ function StudyDetailPages() {
 
     await writeDetailCommentApi(data);
 
-    setComment("");
+    await setComment("");
     refetch();
   };
 
   // 대댓글 작성
   const [selectedId, setSelectedId] = useState(null);
-  const openReplyInput = (parentId: any) => {
+  const openReplyInput = async (parentId: any) => {
     // 선택한 댓글에 해당하는 애만 답글창 열게 하기
-    setSelectedId(parentId);
+    await setSelectedId(parentId);
   };
 
   const [reply, setReply] = useState<string>();
@@ -492,21 +487,91 @@ function StudyDetailPages() {
       content: reply,
     };
 
-    writeDetailReplyApi(data, parentId);
-    setSelectedId(null);
+    await writeDetailReplyApi(data, parentId);
+    await setSelectedId(null);
     refetch();
   };
 
   // 댓글 수정
-  const updateComment = (commentId: any) => {};
+  const [selectedUpdateId, setSelectedUpdateId] = useState(null);
+  const [commentForUpdate, setCommentForUpdate] = useState<string>();
+  const updateComment = (commentId: any, currentContent: string) => {
+    setSelectedUpdateId(commentId);
+    setCommentForUpdate(currentContent);
+  };
+  const onUpdateComment = async (commentId: any) => {
+    const data = {
+      content: commentForUpdate,
+    };
+    await commentUpdateApi(data, commentId);
+    await setSelectedUpdateId(null);
+    refetch();
+  };
 
   // 댓글 삭제
-  const deleteComment = (commentId: any) => {
-    if (window.confirm("댓글을 삭제하시겠습니까?")) {
-      // commentDeleteApi(boardId, commentId);
-      // refetch();
-    }
+  const deleteComment = async (commentId: any) => {
+    Swal.fire({
+      title: "댓글을 삭제하시겠습니까?",
+      showCancelButton: true,
+      confirmButtonText: "삭제",
+      cancelButtonText: "취소",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await commentDeleteApi(commentId);
+        await refetch();
+        Swal.fire("삭제완료!", "", "success");
+      }
+    });
+    // if (window.confirm("댓글을 삭제하시겠습니까?")) {
+    //   await commentDeleteApi(commentId);
+    //   await refetch();
+    // }
   };
+
+  // 대댓글 삭제
+  const deleteReply = async (commentId: any, replyId: any) => {
+    Swal.fire({
+      title: "대댓글을 삭제하시겠습니까?",
+      showCancelButton: true,
+      confirmButtonText: "삭제",
+      cancelButtonText: "취소",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await replyDeleteApi(commentId, replyId);
+        await refetch();
+        Swal.fire("삭제완료!", "", "success");
+      }
+    });
+
+    // if (window.confirm("대댓글을 삭제하시겠습니까?")) {
+    //   await replyDeleteApi(commentId, replyId);
+    //   await refetch();
+    // }
+  };
+
+  // 대댓글 수정
+  const [selectedUpdateReplyId, setSelectedUpdateReplyId] = useState(null);
+  const [replyForUpdate, setReplyForUpdate] = useState<string>();
+  const updateReply = (replyId: any, currentContent: string) => {
+    setSelectedUpdateReplyId(replyId);
+    setReplyForUpdate(currentContent);
+  };
+  const onUpdateReply = async (commentId: any, replyId: any) => {
+    const data = {
+      content: replyForUpdate,
+    };
+    await replyUpdateApi(data, commentId, replyId);
+    await setSelectedUpdateReplyId(null);
+    refetch();
+  };
+
+  const [detailInfo, setDetailInfo] = useState<Data>();
+  useEffect(() => {
+    async function stateSet() {
+      await setDetailInfo(detailStudy);
+    }
+    stateSet();
+  }, [detailStudy]);
 
   return (
     <Wrapper>
@@ -516,50 +581,50 @@ function StudyDetailPages() {
         <p>목록으로</p>
       </Text>
       <Top>
-        <TextBig>{detailStudy?.result.name}</TextBig>
-        <Link to={{ pathname: `/studies/${detailStudy?.result.id}/home` }}>
+        <TextBig>{detailInfo?.result.name}</TextBig>
+        <Link to={{ pathname: `/studies/${detailInfo?.result.id}/home` }}>
           <Btn onClick={studyJoinApi}>참여하기</Btn>
         </Link>
       </Top>
       <StudyDetail>
-        <Card src={detailStudy?.result.imgPath} id="item1" />
+        <Card src={detailInfo?.result.imgPath} id="item1" />
         <TextBigBox>
           <TextSmallBox>
             <ProfileImg
               imgUrl={
-                detailStudy?.result.imgPath !== "/root"
-                  ? detailStudy?.result.imgPath
+                detailInfo?.result.imgPath !== "/root"
+                  ? detailInfo?.result.imgPath
                   : defaultprofileImg
               }
               width="5vw"
               height="5vw"
             />
-            <p>{detailStudy?.result.leader.nickname}</p>
+            <p>{detailInfo?.result.leader.nickname}</p>
             <Crown fill={theme.mainColor} width="1.389vw" />
           </TextSmallBox>
           <TextSmallBox>
             <TextName>모집 유형 </TextName>
-            <TextSmall>{detailStudy?.result.type.name}</TextSmall>
+            <TextSmall>{detailInfo?.result.type.name}</TextSmall>
           </TextSmallBox>
           <TextSmallBox>
             <TextName>모집 인원 </TextName>
-            <TextSmall>{detailStudy?.result.maxPerson}명</TextSmall>
+            <TextSmall>{detailInfo?.result.maxPerson}명</TextSmall>
           </TextSmallBox>
           <TextSmallBox>
             <TextName>예상 기간 </TextName>
             <TextSmall>
-              {detailStudy?.result.startDate} ~ {detailStudy?.result.endDate}
+              {detailInfo?.result.startDate} ~ {detailInfo?.result.endDate}
             </TextSmall>
           </TextSmallBox>
           <TextSmallBox>
             <TextName>스터디 시간</TextName>
-            <TextSmall>{detailStudy?.result.time}</TextSmall>
+            <TextSmall>{detailInfo?.result.time}</TextSmall>
           </TextSmallBox>
         </TextBigBox>
       </StudyDetail>
       <Introduce>
         <p>스터디 소개</p>
-        <Area>{detailStudy?.result.description}</Area>
+        <Area>{detailInfo?.result.description}</Area>
       </Introduce>
       <CommentHeader>댓글</CommentHeader>
       <CommentInput>
@@ -572,7 +637,7 @@ function StudyDetailPages() {
         <WriteBtn onClick={writeComment}>작성</WriteBtn>
       </CommentInput>
       <CommentList>
-        {detailStudy?.result.comments.map((el, index) => {
+        {detailInfo?.result.comments.map((el, index) => {
           return (
             <CommentBox key={index}>
               <CommentTop>
@@ -580,14 +645,36 @@ function StudyDetailPages() {
                 <WriterName>{el.user.nickname}</WriterName>
               </CommentTop>
               <CommentContent>
-                <CommentTxt value={el.content} readOnly></CommentTxt>
+                {selectedUpdateId === el.id ? (
+                  <CommentTxt
+                    editState={true}
+                    value={commentForUpdate}
+                    onChange={(el) => setCommentForUpdate(el.target.value)}
+                  ></CommentTxt>
+                ) : (
+                  <CommentTxt
+                    value={el.content}
+                    readOnly
+                    editState={false}
+                  ></CommentTxt>
+                )}
               </CommentContent>
               <CommentFooter>
                 <ComReplyBtn onClick={() => openReplyInput(el.id)}>
                   답변
                 </ComReplyBtn>
                 <p>·</p>
-                <ComUpdateBtn onClick={updateComment}>수정</ComUpdateBtn>
+                {selectedUpdateId !== el.id ? (
+                  <ComUpdateBtn
+                    onClick={() => updateComment(el.id, el.content)}
+                  >
+                    수정
+                  </ComUpdateBtn>
+                ) : (
+                  <ComUpdateBtn onClick={() => onUpdateComment(el.id)}>
+                    수정
+                  </ComUpdateBtn>
+                )}
                 <p>·</p>
                 <ComDeleteBtn onClick={() => deleteComment(el.id)}>
                   삭제
@@ -605,14 +692,40 @@ function StudyDetailPages() {
                           <WriterName>{rep.user.nickname}</WriterName>
                         </CommentTop>
                         <CommentContent>
-                          <CommentTxt value={rep.content} readOnly></CommentTxt>
+                          {selectedUpdateReplyId === rep.id ? (
+                            <CommentTxt
+                              editState={true}
+                              value={replyForUpdate}
+                              onChange={(el) =>
+                                setReplyForUpdate(el.target.value)
+                              }
+                            ></CommentTxt>
+                          ) : (
+                            <CommentTxt
+                              value={rep.content}
+                              readOnly
+                              editState={false}
+                            ></CommentTxt>
+                          )}
                         </CommentContent>
                         <CommentFooter>
-                          <ComUpdateBtn onClick={updateComment}>
-                            수정
-                          </ComUpdateBtn>
+                          {selectedUpdateReplyId === rep.id ? (
+                            <ComUpdateBtn
+                              onClick={() => onUpdateReply(el.id, rep.id)}
+                            >
+                              수정
+                            </ComUpdateBtn>
+                          ) : (
+                            <ComUpdateBtn
+                              onClick={() => updateReply(rep.id, rep.content)}
+                            >
+                              수정
+                            </ComUpdateBtn>
+                          )}
                           <p>·</p>
-                          <ComDeleteBtn onClick={() => deleteComment(el.id)}>
+                          <ComDeleteBtn
+                            onClick={() => deleteReply(el.id, rep.id)}
+                          >
                             삭제
                           </ComDeleteBtn>
                         </CommentFooter>

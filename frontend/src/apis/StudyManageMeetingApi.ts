@@ -14,7 +14,7 @@ export async function MeetingCreateApi(data: IRegistData) {
     return await axios.post(`${BASE_URL}/1/meetings`, JSON.stringify(data), {
       headers: {
         Authorization: `Bearer ${token}`,
-        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYxODMwNzAsImV4cCI6MTY3NjI2OTQ3MH0.uEJBzNc0KOFx1iMbGapjn60vC5UBwcIULQBSOUJ2q6aWIJryr0bOJAY-t1ISh4QN-i7yq9i6IenzNJNxkunyqw`,
+        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
         "Content-Type": `application/json`,
       },
     });
@@ -30,7 +30,7 @@ export async function MeetingSelectAllApi() {
     const response = await fetch(`${BASE_URL}/1/meetings`, {
       headers: {
         Authorization: `Bearer ${token}`,
-        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYxODMwNzAsImV4cCI6MTY3NjI2OTQ3MH0.uEJBzNc0KOFx1iMbGapjn60vC5UBwcIULQBSOUJ2q6aWIJryr0bOJAY-t1ISh4QN-i7yq9i6IenzNJNxkunyqw`,
+        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
         Accept: "application/json",
       },
     });

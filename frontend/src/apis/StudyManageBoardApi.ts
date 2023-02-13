@@ -13,7 +13,7 @@ export async function boardListSelectAllApi(page: number, size: number) {
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYxODMwNzAsImV4cCI6MTY3NjI2OTQ3MH0.uEJBzNc0KOFx1iMbGapjn60vC5UBwcIULQBSOUJ2q6aWIJryr0bOJAY-t1ISh4QN-i7yq9i6IenzNJNxkunyqw`,
+          // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
           Accept: "application/json",
         },
       },
@@ -33,7 +33,7 @@ export async function noticeSelectAllApi() {
     const response = await fetch(`${BASE_URL}/1/boards?type=1`, {
       headers: {
         Authorization: `Bearer ${token}`,
-        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYxODMwNzAsImV4cCI6MTY3NjI2OTQ3MH0.uEJBzNc0KOFx1iMbGapjn60vC5UBwcIULQBSOUJ2q6aWIJryr0bOJAY-t1ISh4QN-i7yq9i6IenzNJNxkunyqw`,
+        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
         Accept: "application/json",
       },
     });
@@ -52,7 +52,7 @@ export async function boardSelectApi(boardId: string) {
     const response = await fetch(`${BASE_URL}/1/boards/${boardId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
-        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYxODMwNzAsImV4cCI6MTY3NjI2OTQ3MH0.uEJBzNc0KOFx1iMbGapjn60vC5UBwcIULQBSOUJ2q6aWIJryr0bOJAY-t1ISh4QN-i7yq9i6IenzNJNxkunyqw`,
+        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
         Accept: "application/json",
       },
     });
@@ -71,7 +71,7 @@ export async function boardTypeSelectApi() {
     const response = await fetch(`${BASE_URL}/boards/types`, {
       headers: {
         Authorization: `Bearer ${token}`,
-        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYxODMwNzAsImV4cCI6MTY3NjI2OTQ3MH0.uEJBzNc0KOFx1iMbGapjn60vC5UBwcIULQBSOUJ2q6aWIJryr0bOJAY-t1ISh4QN-i7yq9i6IenzNJNxkunyqw`,
+        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
         Accept: "application/json",
       },
     });
@@ -90,7 +90,7 @@ export async function boardeInsertApi(data: any) {
     await axios.post(`${BASE_URL}/1/boards`, data, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("kakao-token")}`,
-        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYxODMwNzAsImV4cCI6MTY3NjI2OTQ3MH0.uEJBzNc0KOFx1iMbGapjn60vC5UBwcIULQBSOUJ2q6aWIJryr0bOJAY-t1ISh4QN-i7yq9i6IenzNJNxkunyqw`,
+        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
         "Content-Type": "multipart/form-data",
       },
     });
@@ -100,12 +100,12 @@ export async function boardeInsertApi(data: any) {
 }
 
 // 게시글 삭제
-export async function deleteScheduleApi(boardId: string) {
+export async function deleteBoardApi(boardId: string) {
   try {
     await axios.delete(`${BASE_URL}/1/boards/${boardId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
-        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYxODMwNzAsImV4cCI6MTY3NjI2OTQ3MH0.uEJBzNc0KOFx1iMbGapjn60vC5UBwcIULQBSOUJ2q6aWIJryr0bOJAY-t1ISh4QN-i7yq9i6IenzNJNxkunyqw`,
+        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
       },
     });
   } catch (error: any) {
@@ -122,7 +122,7 @@ export async function writeCommentApi(data: any, boardId: string) {
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYxODMwNzAsImV4cCI6MTY3NjI2OTQ3MH0.uEJBzNc0KOFx1iMbGapjn60vC5UBwcIULQBSOUJ2q6aWIJryr0bOJAY-t1ISh4QN-i7yq9i6IenzNJNxkunyqw`,
+          // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
           "Content-Type": `application/json`,
         },
       },
@@ -145,7 +145,7 @@ export async function commentUpdateApi(
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("kakao-token")}`,
-          // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYxODMwNzAsImV4cCI6MTY3NjI2OTQ3MH0.uEJBzNc0KOFx1iMbGapjn60vC5UBwcIULQBSOUJ2q6aWIJryr0bOJAY-t1ISh4QN-i7yq9i6IenzNJNxkunyqw`,
+          // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
           "Content-Type": `application/json`,
         },
       },
@@ -157,14 +157,13 @@ export async function commentUpdateApi(
 
 // 댓글 삭제
 export async function commentDeleteApi(boardId: any, commentId: any) {
-  console.log("댓글 삭제");
   try {
     await axios.delete(
       `${BASE_URL}/1/boards/${boardId}/comments/${commentId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYyMDg0MDcsImV4cCI6MTY3NjI5NDgwN30.3sd9wHVyF1w-2xRexyZuXOe7roOzyJLO2aNg-5p1oVBOE14CglarHcJTj0FweK55txAGmw1D7QzJfZn24bajUA`,
+          // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
         },
       },
     );

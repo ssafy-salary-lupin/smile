@@ -7,6 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/esm/locale"; //한국어 설정
 import { dateState } from "atoms/StudyManageCalendarAtom";
 import { useRecoilState } from "recoil";
+import Swal from "sweetalert2";
 
 interface PropsType {
   setModalOpen: React.Dispatch<SetStateAction<boolean>>;
@@ -393,15 +394,30 @@ function ModalCalendarRegist(props: PropsType) {
   const RegistSchedule = () => {
     // form 빈칸 체크
     if (type === undefined || type < 1) {
-      alert(" 유형을 선택 하세요. ");
+      // alert(" 유형을 선택 하세요. ");
+      Swal.fire({
+        icon: "error",
+        title: "이런...",
+        text: "유형을 선택해주세요!!",
+      });
       return;
     }
     if (title === undefined || title === "") {
-      alert(" 제목을 입력 하세요. ");
+      // alert(" 제목을 입력 하세요. ");
+      Swal.fire({
+        icon: "error",
+        title: "이런...",
+        text: "제목을 선택해주세요!!",
+      });
       return;
     }
     if (desc === undefined || desc === "") {
-      alert(" 내용을 입력 하세요. ");
+      // alert(" 내용을 입력 하세요. ");
+      Swal.fire({
+        icon: "error",
+        title: "이런...",
+        text: "내용을 선택해주세요!!",
+      });
       return;
     }
 
