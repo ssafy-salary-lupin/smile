@@ -59,6 +59,10 @@ const Card = styled.div`
   /* box-shadow: 5px 5px 5px 5px gray; */
 `;
 
+const NickBox = styled.div`
+  display: flex;
+`;
+
 const Nick = styled.div`
   padding-top: 10px;
   margin-bottom: 2.222vw;
@@ -186,8 +190,15 @@ function StudyManageMember() {
                 width="50px"
                 height="50px"
               />
-              <Nick>{user.nickname}</Nick>
-              {user.leader === true ? <Crown width="1.389vw" /> : null}
+              <NickBox>
+                <Nick>{user.nickname}</Nick>
+                {user.leader === true ? (
+                  <Crown
+                    fill={`${(props) => props.theme.MainColor}`}
+                    width="1.389vw"
+                  />
+                ) : null}
+              </NickBox>
               <hr />
               <BtnBox>
                 <YellowBtn>위임</YellowBtn>
