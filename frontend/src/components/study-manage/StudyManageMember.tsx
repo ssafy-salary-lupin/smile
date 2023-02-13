@@ -19,7 +19,7 @@ import {
   StudyRecruitmentApi,
   StudyReDeadlineApi,
 } from "../../apis/StudyManageMember";
-import CrownSimple from "../../assets/icon/DuotonIcon/CrownSimple.svg";
+import { ReactComponent as Crown } from "../assets/icon/Crown.svg";
 import axios from "axios";
 
 const Wrapper = styled.div`
@@ -62,10 +62,6 @@ const Card = styled.div`
 const Nick = styled.div`
   padding-top: 10px;
   margin-bottom: 2.222vw;
-`;
-
-const Crown = styled.div`
-  color: ${(props) => props.theme.mainColor};
 `;
 
 const BtnBox = styled.div``;
@@ -191,7 +187,9 @@ function StudyManageMember() {
                 height="50px"
               />
               <Nick>{user.nickname}</Nick>
-              <Crown>{user.leader ? <CrownSimple /> : null}</Crown>
+              <Crown>
+                {user.leader === true ? <Crown width="1.389vw" /> : null}
+              </Crown>
               <hr />
               <BtnBox>
                 <YellowBtn>위임</YellowBtn>
