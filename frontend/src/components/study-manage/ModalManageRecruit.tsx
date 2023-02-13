@@ -36,6 +36,7 @@ const Btn = styled.button.attrs({})`
   border: none;
   background-color: ${(props) => props.color};
   font-size: 1.667vw;
+  color: white;
   cursor: pointer;
   span {
     /* font-size: 1.667vw; */

@@ -18,10 +18,12 @@ import {
   StudyEndApi,
   StudyRecruitmentApi,
   StudyReDeadlineApi,
-} from "../../apis/StudyManageMember";
+} from "../../apis/StudyManageMemberApi";
 import { ReactComponent as Crown } from "../../assets/icon/Crown.svg";
 import axios from "axios";
 import { theme } from "theme";
+
+import ModalManageRecruit from "./ModalManageRecruit";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
@@ -160,6 +162,9 @@ interface Data {
 
 //
 function StudyManageMember() {
+  // 모달 열기
+  const [recruitModalOpen, setRecruitModalOpen] = useState(false);
+
   // // const { id } = useParams<Params>();
   // 스터디의 회원 정보 가져오기
   const { data: userStudy } = useQuery<Data>("userStudy", () => StudyUserApi());
@@ -214,6 +219,9 @@ function StudyManageMember() {
               <Text>스터디원 모집 여부를 설정할 수 있습니다.</Text>
               <Text>설정하시겠습니까?</Text>
             </TextBox>
+            {recruitModalOpen && (
+              <ModalManageRecruit setModalOpen={setRecruitModalOpen} />
+            )}
             <BtnYellow>모집 시작</BtnYellow>
             {/* <BtnBig>모집 마감</BtnBig> */}
           </Box>
