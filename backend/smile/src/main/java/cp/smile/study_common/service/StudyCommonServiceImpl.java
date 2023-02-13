@@ -6,7 +6,6 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import cp.smile.config.response.exception.CustomException;
-import cp.smile.config.response.exception.CustomExceptionStatus;
 import cp.smile.entity.study_common.StudyComment;
 import cp.smile.entity.study_common.StudyInformation;
 import cp.smile.entity.study_common.StudyReply;
@@ -15,17 +14,13 @@ import cp.smile.entity.user.User;
 import cp.smile.entity.user.UserJoinStudy;
 import cp.smile.entity.user.UserJoinStudyId;
 import cp.smile.study_common.dto.FindFilter;
-import cp.smile.study_common.dto.request.CreateCommentDTO;
-import cp.smile.study_common.dto.request.CreateReplyDTO;
-import cp.smile.study_common.dto.request.CreateStudyDTO;
-import cp.smile.study_common.dto.response.FindAllStudyDTO;
-import cp.smile.study_common.dto.response.FindDetailStudyDTO;
-import cp.smile.study_common.dto.response.StudyTypeDTO;
-import cp.smile.study_common.dto.response.UserProfileDTO;
+import cp.smile.study_common.dto.request.*;
+import cp.smile.study_common.dto.response.*;
 import cp.smile.study_common.dto.response.comment.StudyCommentDTO;
+import cp.smile.study_common.dto.response.comment.UpdateCommentResDTO;
+import cp.smile.study_common.dto.response.comment.UpdateReplyResDTO;
 import cp.smile.study_common.repository.*;
 import cp.smile.study_management.chat.service.ChatService;
-import cp.smile.study_management.chat.service.ChatServiceImpl;
 import cp.smile.user.repository.UserJoinStudyRepository;
 import cp.smile.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -64,12 +59,9 @@ public class StudyCommonServiceImpl implements StudyCommonService{
     private String bucket;
 
 
-
     /*전체 조회.*/
     @Override
     public List<FindAllStudyDTO> findAllStudy(FindFilter findFilter)  {
-
-
 
         // TODO : QueryDsl을 사용하지 않아서 동적쿼리 짜기가 어려움 - 당장은 개별 쿼리로 짜고, 추후에 querydsl을 활용해서 수정 필요
 
@@ -138,7 +130,7 @@ public class StudyCommonServiceImpl implements StudyCommonService{
     }
 
     /*스터디 생성*/
-    public void createStudy(int userId, CreateStudyDTO createStudyDTO, MultipartFile multipartFile) {
+    public CreateStudyResponseDTO createStudy(int userId, CreateStudyDTO createStudyDTO, MultipartFile multipartFile) {
         String storeFileUrl = ""; //AWS S3 이미지 url
 
         //파일이 없다면 디폴트 경로 넣어줌.
@@ -162,8 +154,6 @@ public class StudyCommonServiceImpl implements StudyCommonService{
 
             String key  = STUDY_IMG + storeFileName; //파일 저장위치.
 
-            System.out.println(bucket);
-
             try (InputStream inputStream = multipartFile.getInputStream()) {
                 amazonS3Client.putObject(new PutObjectRequest(bucket, key, inputStream, objectMetadata)
                         .withCannedAcl(CannedAccessControlList.PublicRead));
@@ -177,7 +167,7 @@ public class StudyCommonServiceImpl implements StudyCommonService{
         }
 
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         String uuid = UUID.randomUUID().toString();
 
@@ -235,6 +225,10 @@ public class StudyCommonServiceImpl implements StudyCommonService{
         chatService.createRoom(saveStudyInformation.getId());
 
         // TODO : 방이 생성되면 studyId를 생성해서 반환해주어야 한다.
+
+        return CreateStudyResponseDTO.builder()
+                .id(saveStudyInformation.getId())
+                .build();
     }
 
     /*스터디 상세 조회*/
@@ -262,6 +256,8 @@ public class StudyCommonServiceImpl implements StudyCommonService{
         List<StudyCommentDTO> StudyCommentDTOS = studyComments.stream()
                 .map(StudyComment::createStudyCommentDTO)
                 .collect(Collectors.toList());
+
+        studyInformation.addViewCount();
 
         //스터디 상세 조회 DTO 채우기.
         return FindDetailStudyDTO.builder()
@@ -333,6 +329,122 @@ public class StudyCommonServiceImpl implements StudyCommonService{
 
     }
 
+    @Override
+    public List<StudyTypeDTO> findAllType() {
+        List<StudyType> types = studyTypeRepository.findAll();
+        return types.stream().map(StudyTypeDTO::of).collect(Collectors.toList());
+    }
+
+    //댓글 업데이트
+    @Override
+    public UpdateCommentResDTO updateComment(int userId, int studyId, int commentId, UpdateCommentDTO updateCommentDTO) {
+
+        //해당 스터디가 있는지 확인
+        studyCommonRepository
+                .findById(studyId)
+                .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY));
+
+        //해당 댓글이 존재하는지 확인.
+        StudyComment studyComment = studyCommentRepository
+                .findByIdAndIsDeletedFalse(commentId)
+                .orElseThrow(() -> new CustomException(NOT_FOUND_COMMENT));
+
+        //댓글 작성자인지 확인.
+        studyCommentRepository
+                .findByIdAndUserIdAndIsDeletedFalse(commentId,userId)
+                .orElseThrow(() -> new CustomException(USER_NOT_ACCESS_COMMENT));
+
+        //댓글 수정.
+        studyComment.updateStudyComment(updateCommentDTO.getContent());
+
+        return UpdateCommentResDTO.builder()
+                .content(studyComment.getContent()).build();
+
+    }
+
+    //댓글 삭제
+    @Override
+    public void deleteComment(int userId, int studyId, int commentId) {
+
+        //해당 스터디가 있는지 확인
+        studyCommonRepository
+                .findById(studyId)
+                .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY));
+
+        //해당 댓글이 존재하는지 확인.
+        StudyComment studyComment = studyCommentRepository
+                .findByIdAndIsDeletedFalse(commentId)
+                .orElseThrow(() -> new CustomException(NOT_FOUND_COMMENT));
+
+        //댓글 작성자인지 확인.
+        studyCommentRepository
+                .findByIdAndUserIdAndIsDeletedFalse(commentId,userId)
+                .orElseThrow(() -> new CustomException(USER_NOT_ACCESS_COMMENT));
+
+        //댓글 삭제
+        studyComment.deleteStudyComment();
+
+    }
+
+    //대댓글 업데이트
+    @Override
+    public UpdateReplyResDTO updateReply(int userId, int studyId, int commentId, int replyId, UpdateReplyDTO updateReplyDTO) {
+
+        //해당 스터디가 있는지 확인
+        studyCommonRepository
+                .findById(studyId)
+                .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY));
+
+        //해당 댓글이 존재하는지 확인.
+        studyCommentRepository
+                .findByIdAndIsDeletedFalse(commentId)
+                .orElseThrow(() -> new CustomException(NOT_FOUND_COMMENT));
+
+        //해당 대댓글이 존재하는지
+        StudyReply studyReply = studyReplyRepository
+                .findByIdAndIsDeletedFalse(replyId)
+                .orElseThrow(() -> new CustomException(NOT_FOUND_REPLY));
+
+        //대댓글 작성자인지 확인.
+        studyReplyRepository
+                .findByIdAndUserIdAndIsDeletedFalse(replyId,userId)
+                .orElseThrow(() -> new CustomException(USER_NOT_ACCESS_REPLY));
+
+        //대댓글 수정.
+        studyReply.updateStudyReply(updateReplyDTO.getContent());
+
+        return UpdateReplyResDTO.builder()
+                .content(studyReply.getContent()).build();
+    }
+
+    //대댓글 삭제.
+    @Override
+    public void deleteReply(int userId, int studyId, int commentId, int replyId) {
+
+        //해당 스터디가 있는지 확인
+        studyCommonRepository
+                .findById(studyId)
+                .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY));
+
+        //해당 댓글이 존재하는지 확인.
+        StudyComment studyComment = studyCommentRepository
+                .findByIdAndIsDeletedFalse(commentId)
+                .orElseThrow(() -> new CustomException(NOT_FOUND_COMMENT));
+
+        //해당 대댓글이 존재하는지
+        StudyReply studyReply = studyReplyRepository
+                .findByIdAndIsDeletedFalse(replyId)
+                .orElseThrow(() -> new CustomException(NOT_FOUND_REPLY));
+
+        //대댓글 작성자인지 확인.
+        studyReplyRepository
+                .findByIdAndUserIdAndIsDeletedFalse(replyId,userId)
+                .orElseThrow(() -> new CustomException(USER_NOT_ACCESS_REPLY));
+
+        //댓글 삭제.
+        studyReply.deleteStudyReply();
+
+    }
 
 
 }

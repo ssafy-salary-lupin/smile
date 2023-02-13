@@ -6,14 +6,18 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import cp.smile.config.response.exception.CustomException;
 import cp.smile.config.response.exception.CustomExceptionStatus;
+import cp.smile.entity.study_common.StudyInformation;
 import cp.smile.entity.study_management.*;
 import cp.smile.entity.user.User;
 import cp.smile.entity.user.UserJoinStudy;
+import cp.smile.study_common.repository.StudyCommonRepository;
 import cp.smile.study_management.board.dto.request.StudyBoardWriteDTO;
+import cp.smile.study_management.board.dto.request.UpdateCommentDTO;
 import cp.smile.study_management.board.repository.StudyBoardCommentRepository;
 import cp.smile.study_management.board.repository.StudyBoardFileRepository;
 import cp.smile.study_management.board.repository.StudyBoardRepository;
 import cp.smile.study_management.board.repository.StudyBoardTypeRepository;
+import cp.smile.user.repository.UserJoinStudyRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,6 +43,8 @@ import static cp.smile.config.response.exception.CustomExceptionStatus.*;
 @Transactional(readOnly = true)
 public class StudyBoardServiceImpl implements StudyBoardService {
 
+    private final UserJoinStudyRepository userJoinStudyRepository;
+    private final StudyCommonRepository studyCommonRepository;
     private final StudyBoardRepository studyBoardRepository;
     private final StudyBoardTypeRepository studyBoardTypeRepository;
     private final StudyBoardFileRepository studyBoardFileRepository;
@@ -170,7 +176,110 @@ public class StudyBoardServiceImpl implements StudyBoardService {
     }
 
     @Override
-    public Page<StudyBoard> findByStudyIdWithPaging(int studyId, Pageable pageable) {
-        return studyBoardRepository.findByStudyIdWithPaging(studyId, pageable);
+    public Page<StudyBoard> findByStudyIdWithPaging(int studyId,int typeId, Pageable pageable) {
+
+        //공지사항 조회
+        if(typeId == 1) return studyBoardRepository.findByStudyIdWithPagingNotice(studyId,pageable);
+        //나머지 조회.
+        else return studyBoardRepository.findByStudyIdWithPaging(studyId, pageable);
+    }
+
+    @Override
+    public List<StudyBoardType> findAllType() {
+        return studyBoardTypeRepository.findAll();
+    }
+
+    @Transactional(readOnly = false)
+    @Override
+    public void deleteStudyBoard(int userId, int studyId, int boardId) {
+
+        //스터디 조회
+        StudyInformation studyInformation = studyCommonRepository
+                .findById(studyId)
+                .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY));
+
+        //해당 유저가 스터디에 속한 유저인지 확인 - 여기서 스터디랑 유저 존재 여부 파악 가능.
+        userJoinStudyRepository
+                .findByUserIdAndStudyId(userId,studyInformation.getId())
+                .orElseThrow(() -> new CustomException(USER_NOT_ACCESS_STUDY));
+
+
+        //해당 유저가 스터디장인지.
+        userJoinStudyRepository
+                .findByStudyInformationAndIsLeaderTrue(studyInformation)
+                .orElseThrow(() -> new CustomException(USER_NOT_STUDY_LEADER));
+
+        //게시글이 존재하는지 확인.
+        studyBoardRepository.
+                findByIdAndIsDeletedFalse(boardId)
+                .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY_BOARD));
+
+        //게시글 작성자인지
+        StudyBoard studyBoard = studyBoardRepository.
+                findById(boardId)
+                .orElseThrow(() -> new CustomException(USER_NOT_DELETE_BOARD));
+
+        //게시글 삭제.
+        studyBoard.deleteBoard();
+    }
+
+    @Override
+    @Transactional(readOnly = false)
+    public void updateStudyBoardComment(int userId, int studyId, int boardId, int commentId, UpdateCommentDTO updateCommentDTO) {
+
+        // 스터디 조회
+        StudyInformation studyInformation = studyCommonRepository
+                .findById(studyId)
+                .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY));
+
+        // 스터디에 속한 유저인지 확인
+        userJoinStudyRepository
+                .findByUserIdAndStudyId(userId, studyInformation.getId())
+                .orElseThrow(() -> new CustomException(USER_NOT_ACCESS_STUDY));
+
+        // 게시글이 존재하는지 확인
+        studyBoardRepository.
+                findByIdAndIsDeletedFalse(boardId)
+                .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY_BOARD));
+
+        // 댓글이 존재하는지 확인
+        StudyBoardComment studyBoardComment = studyBoardCommentRepository
+                .findByIdAndIsDeletedFalse(commentId)
+                .orElseThrow(() -> new CustomException(NOT_FOUND_COMMENT));
+
+        // 댓글 작성자 id와 수정하려는 유저의 id가 같은지
+        if (studyBoardComment.getUser().getId() == userId) {
+            studyBoardComment.updateStudyBoardComment(updateCommentDTO.getContent());
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = false)
+    public void deleteStudyBoardComment(int userId, int studyId, int boardId, int commentId) {
+
+        // 스터디 조회
+        StudyInformation studyInformation = studyCommonRepository
+                .findById(studyId)
+                .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY));
+
+        // 스터디에 속한 유저인지 확인
+        userJoinStudyRepository
+                .findByUserIdAndStudyId(userId, studyInformation.getId())
+                .orElseThrow(() -> new CustomException(USER_NOT_ACCESS_STUDY));
+
+        // 게시글이 존재하는지 확인
+        studyBoardRepository.
+                findByIdAndIsDeletedFalse(boardId)
+                .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY_BOARD));
+
+        // 댓글이 존재하는지 확인
+        StudyBoardComment studyBoardComment = studyBoardCommentRepository
+                .findByIdAndIsDeletedFalse(commentId)
+                .orElseThrow(() -> new CustomException(NOT_FOUND_COMMENT));
+
+        // 댓글 작성자 id와 수정하려는 유저의 id가 같은지
+        if (studyBoardComment.getUser().getId() == userId) {
+            studyBoardComment.deleteStudyBoardComment();
+        }
     }
 }

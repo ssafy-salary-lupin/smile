@@ -47,4 +47,8 @@ public class StudyMeeting extends BaseEntity {
         this.user = user;
         this.studyMeetingType = studyMeetingType;
     }
+
+    public void close() {
+        this.isEnd = StudyMeetingStatus.end.getCode();
+    }
 }

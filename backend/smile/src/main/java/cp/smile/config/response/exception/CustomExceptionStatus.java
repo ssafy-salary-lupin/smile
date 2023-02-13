@@ -22,6 +22,8 @@ public enum CustomExceptionStatus {
     //INVALID_USER_JWT(false,403,"권한이 없는 유저의 접근입니다."),
     //NOT_AUTHENTICATED_ACCOUNT(false, 403, "로그인이 필요합니다."),
 
+    REQUEST_QUERY_ERROR(false, 400, "잘못된 쿼리 요청입니다."),
+
 
     /*user 관련*/
     ACCOUNT_NOT_FOUND(false, 404, "유저를 찾을 수 없습니다."),
@@ -55,15 +57,23 @@ public enum CustomExceptionStatus {
 
     NOT_FOUND_LOGIN_PROVIDER(false,404, "올바르지 않은 로그인 제공자 유형입니다."),
 
+    USER_NOT_DELETE_BOARD(false, 403, "게시판을 삭제할 권한이 없습니다."),
+
     /*화상회의 예외*/
     STUDY_EXISTS_MEETING(false, 409,"해당 스터디에 이미 화상회의가 생성되어있습니다."),
     NOT_FOUND_MEETING_SESSION(false,404,"존재하지 않는 세션입니다."),
     OVER_MAX_SIZE_PERSON(false,429, "최대 입장 인원을 초과하였습니다."),
 
     NOT_FOUND_MEETING(false,404,"해당 미팅정보가 없습니다."),
+    NOT_FOUND_MEETING_TYPE(false, 404, "해당 미팅 유형이 없습니다."),
+    CONNECTED_CONNECTION_EXISTS(false, 400, "연결된 커넥션이 존재합니다."),
 
     /*댓글*/
     NOT_FOUND_COMMENT(false,404,"존재하지 않는 댓글입니다."),
+
+    NOT_FOUND_REPLY(false,404,"존재하지 않는 대댓글입니다."),
+    USER_NOT_ACCESS_COMMENT(false,403, "접근 권한이 없는 댓글입니다."),
+    USER_NOT_ACCESS_REPLY(false,403,"접근 권한이 없는 대댓글입니다."),
 
 
     ;

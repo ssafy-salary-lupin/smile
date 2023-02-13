@@ -14,15 +14,19 @@ public interface UserJoinStudyRepository extends JpaRepository<UserJoinStudy, Us
     @Query(value = "select ujs from UserJoinStudy ujs " +
             "join fetch ujs.user u " +
             "join fetch ujs.studyInformation si " +
-            "where u.id = :userId")
+            "where u.id = :userId and ujs.isDeleted = false and ujs.isBan = false")
     List<UserJoinStudy> findByUserId(int userId);
 
     @Query(value = "select ujs from UserJoinStudy ujs " +
             "join fetch ujs.user u " +
             "join fetch ujs.studyInformation si " +
-            "where u.id = :userId and si.id = :studyId")
+            "where u.id = :userId and si.id = :studyId and ujs.isDeleted = false and ujs.isBan = false")
     Optional<UserJoinStudy> findByUserIdAndStudyId(int userId, int studyId);
 
     //해당 스터디의 리더 조회
     Optional<UserJoinStudy> findByStudyInformationAndIsLeaderTrue(StudyInformation studyInformation);
+
+
+
+
 }

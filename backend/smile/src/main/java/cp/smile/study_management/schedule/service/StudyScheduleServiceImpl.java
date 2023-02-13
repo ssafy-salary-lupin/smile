@@ -12,6 +12,7 @@ import cp.smile.study_common.repository.StudyCommonRepository;
 import cp.smile.study_management.schedule.dto.request.CreateScheduleDTO;
 import cp.smile.study_management.schedule.dto.request.UpdateScheduleDTO;
 import cp.smile.study_management.schedule.dto.response.ScheduleDTO;
+import cp.smile.study_management.schedule.dto.response.ScheduleTypeDTO;
 import cp.smile.study_management.schedule.repository.StudyScheduleRepository;
 import cp.smile.study_management.schedule.repository.StudyScheduleTypeRepository;
 import cp.smile.user.repository.UserJoinStudyRepository;
@@ -87,7 +88,7 @@ public class StudyScheduleServiceImpl implements StudyScheduleService{
 
         //일정 식별자에 해당하는 정보 조회
         StudySchedule studySchedule = studyScheduleRepository
-                .findById(scheduleId)
+                .findByIdAndIsDeletedFalse(scheduleId)
                 .orElseThrow(() -> new CustomException(NOT_FOUND_SCHEDULE));
 
         return studySchedule.createScheduleDTO();
@@ -121,6 +122,10 @@ public class StudyScheduleServiceImpl implements StudyScheduleService{
                 .findById(createScheduleDTO.getStudyId())
                 .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY));
 
+        //입력된 색깔이 없으면 기본색깔을 GREEN으로 함.
+        String color = "GREEN";
+        if(createScheduleDTO.getColor() != null) color = createScheduleDTO.getColor().toUpperCase(); //대문자로 바꿈
+
         //스터디 일정 엔티티에 넣기
         StudySchedule studySchedule = StudySchedule.builder()
                 .startTime(LocalDateTime.parse(createScheduleDTO.getStartTime(), formatter))
@@ -131,6 +136,7 @@ public class StudyScheduleServiceImpl implements StudyScheduleService{
                 .url(createScheduleDTO.getUrl())
                 .studyInformation(studyInformation)
                 .scheduleType(scheduleType)
+                .color(color)
                 .isDeleted(false).build();
 
         //저장.
@@ -144,7 +150,6 @@ public class StudyScheduleServiceImpl implements StudyScheduleService{
 
         StudySchedule studySchedule = studyScheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> new CustomException(NOT_FOUND_SCHEDULE));
-
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
@@ -176,6 +181,9 @@ public class StudyScheduleServiceImpl implements StudyScheduleService{
         if (updateScheduleDTO.getDescription() != null) {
             studySchedule.updateDescription(updateScheduleDTO.getDescription());
         }
+        if(updateScheduleDTO.getColor() != null){
+            studySchedule.updateColor(updateScheduleDTO.getColor());
+        }
     }
 
     @Override
@@ -190,4 +198,11 @@ public class StudyScheduleServiceImpl implements StudyScheduleService{
             studySchedule.deleteSchedule();
         }
     }
+
+    @Override
+    public List<ScheduleTypeDTO> findAllType() {
+        List<ScheduleType> types = studyScheduleTypeRepository.findAll();
+        return types.stream().map(ScheduleTypeDTO::of).collect(Collectors.toList());
+    }
 }
+

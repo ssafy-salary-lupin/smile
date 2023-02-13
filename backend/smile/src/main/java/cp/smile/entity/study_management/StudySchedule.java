@@ -3,6 +3,7 @@ package cp.smile.entity.study_management;
 
 import cp.smile.config.BaseEntity;
 import cp.smile.entity.study_common.StudyInformation;
+import cp.smile.study_management.home.dto.response.ScheduleDdayDTO;
 import cp.smile.study_management.schedule.dto.request.UpdateScheduleDTO;
 import cp.smile.study_management.schedule.dto.response.ScheduleDTO;
 import lombok.Builder;
@@ -13,6 +14,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
 
@@ -48,8 +50,12 @@ public class StudySchedule extends BaseEntity {
     @Column(name = "ss_url")
     private String url;
 
+    @Column(name = "ss_color")
+    @Enumerated(EnumType.STRING)
+    private StudyScheduleColor color;
+
     @Builder
-    public StudySchedule(int id, LocalDateTime startTime, LocalDateTime endTime, String name, String description, int part, StudyInformation studyInformation, Boolean isDeleted, ScheduleType scheduleType, String url) {
+    public StudySchedule(int id, LocalDateTime startTime, LocalDateTime endTime, String name, String description, int part, StudyInformation studyInformation, Boolean isDeleted, ScheduleType scheduleType, String url,String color) {
         this.id = id;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -60,6 +66,7 @@ public class StudySchedule extends BaseEntity {
         this.isDeleted = isDeleted;
         this.scheduleType = scheduleType;
         this.url = url;
+        this.color = StudyScheduleColor.valueOf(color);
     }
 
     public ScheduleDTO createScheduleDTO(){
@@ -70,7 +77,21 @@ public class StudySchedule extends BaseEntity {
                 .startTime(this.startTime)
                 .endTime(this.endTime)
                 .url(this.url)
+                .color(this.color.toString())
                 .description(this.description).build();
+    }
+
+    public ScheduleDdayDTO createScheduleDdayDTO(LocalDateTime currentTime){
+
+        //두 날짜 간격 구하기
+        Period period = Period.between(currentTime.toLocalDate(),this.endTime.toLocalDate());
+
+
+        return ScheduleDdayDTO.builder()
+                .id(this.id)
+                .day(period.getDays())
+                .title(this.name)
+                .build();
     }
 
     /* 스터디 일정 수정 */
@@ -95,6 +116,10 @@ public class StudySchedule extends BaseEntity {
     }
 
     public void updateUrl(String url) { this.url = url; }
+
+    public void updateColor(String color) {
+        this.color = StudyScheduleColor.valueOf(color);
+    }
 
     public void deleteSchedule() {
         this.isDeleted = true;

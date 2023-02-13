@@ -15,6 +15,10 @@ import cp.smile.user.dto.response.UserInfoDTO;
 import cp.smile.user.dto.response.UserJoinedStudies;
 import cp.smile.user.dto.response.UserTokenDTO;
 import cp.smile.user.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseCookie;
@@ -32,13 +36,20 @@ import static cp.smile.config.response.exception.CustomExceptionStatus.ACCOUNT_N
 
 @Slf4j
 @RestController
+@Tag(name = "회원 API", description = "회원 관련 API - 로그인, 회원가입 등")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
     private final ResponseService responseService;
 
+    @Tag(name="회원 API")
     /* 회원 가입 */
+    @Operation(summary = "회원가입", description =  "회원정보를 입력하여 가입함.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
     @PostMapping("/users")
     public CommonResponse join(@RequestBody UserJoinDTO userJoinDTO) {
 
@@ -48,6 +59,12 @@ public class UserController {
     }
 
     /* 회원 정보 조회 */
+    @Tag(name="회원 API")
+    @Operation(summary = "회원 정보 조회", description =  "특정 회원의 정보를 조회 - 이름,프로필 사진등")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
     @GetMapping("/users/{userId}")
     public DataResponse<UserInfoDTO> findDetailUser(@PathVariable int userId) {
 
@@ -55,6 +72,12 @@ public class UserController {
     }
 
     /* 회원 정보 수정 */
+    @Tag(name="회원 API")
+    @Operation(summary = "회원 정보 수정", description =  "회원 정보를 입력받아 기존 정보를 수정함.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
     @PatchMapping(value = "/users/{userId}", consumes = {"multipart/form-data"})
     public CommonResponse updateUserInfo(
             @PathVariable int userId,
@@ -74,6 +97,12 @@ public class UserController {
     }
 
     /* 회원 탈퇴 */
+    @Tag(name="회원 API")
+    @Operation(summary = "회원 탈퇴", description =  "회원 테이블의 삭제 체크 변수를 true 바꿔서 삭제 처리함.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
     @PatchMapping("/users/{userId}/delete")
     public CommonResponse deleteUser(
             @PathVariable int userId,
@@ -91,6 +120,12 @@ public class UserController {
     }
 
     /* 로그인 */
+    @Tag(name="회원 API")
+    @Operation(summary = "자체 로그인", description =  "자체 서비스에서 만든 로그인, 이메일과 비밀번호를 받아서 로그인하고 토큰을 반환함.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
     @PostMapping("/log-in")
     public DataResponse<Map<String, String>> login(@RequestBody UserLoginDTO userLoginDTO, HttpServletResponse response) {
 
@@ -114,6 +149,12 @@ public class UserController {
     }
 
     /* 로그아웃 */
+    @Tag(name="회원 API")
+    @Operation(summary = "로그아웃", description =  "저장된 토큰을 만료시켜서 로그아웃 구현")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
     @PostMapping("/log-out")
     public CommonResponse logout(@AuthenticationPrincipal CustomOAuth2User oAuth2User) {
 
@@ -122,6 +163,12 @@ public class UserController {
         return responseService.getSuccessResponse();
     }
 
+    @Tag(name="회원 API")
+    @Operation(summary = "스터디 가입", description =  "해당 스터디에 가입요청을 함.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
     @PostMapping("/users/{userId}/studies/{studyId}")
     public CommonResponse joinStudy(
             @PathVariable int userId,
@@ -132,6 +179,12 @@ public class UserController {
         return responseService.getSuccessResponse();
     }
 
+    @Tag(name="회원 API")
+    @Operation(summary = "가입한 스터디 목록 조회", description =  "해당 유저가 가입한 스터디정보 목록을 반환해줌.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
     @GetMapping("/users/{userId}/studies")
     public DataResponse<UserJoinedStudies> findJoinStudies(@PathVariable int userId) {
         List<UserJoinStudy> studies = userService.findJoinStudies(userId);

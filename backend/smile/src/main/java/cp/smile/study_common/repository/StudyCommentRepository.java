@@ -21,5 +21,10 @@ public interface StudyCommentRepository extends JpaRepository<StudyComment,Integ
     Set<StudyComment> findAllCommentAndReply(@Param(value = "studyId") StudyInformation studyInformation);
 
 
+    Optional<StudyComment> findByIdAndIsDeletedFalse(int commentId);
+
+    Optional<StudyComment> findByIdAndUserIdAndIsDeletedFalse(int commentId,int userId);
+
+
 
 }

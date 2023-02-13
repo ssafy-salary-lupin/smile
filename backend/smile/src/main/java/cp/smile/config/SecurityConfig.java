@@ -29,9 +29,18 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable();
+
         http.authorizeHttpRequests()
                 .antMatchers(HttpMethod.POST, "/log-in", "/users").permitAll()
-                .antMatchers(HttpMethod.GET, "/studies").permitAll()
+                .antMatchers(HttpMethod.GET, "/studies", "/**/types",
+                        "/swagger-ui/**",
+                        "/v3/api-docs/**",
+                        "/configuration/ui",
+                        "/configuration/security",
+                        "/swagger-resources/**",
+                        "/swagger-ui.html",
+                        "/webjars/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/ws-stomp/**", "/test/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .oauth2Login()
@@ -57,4 +66,6 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+
 }

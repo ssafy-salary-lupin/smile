@@ -13,7 +13,7 @@ public interface ChatRepository {
 
     void saveTopic(String roomId);
 
-    Optional<ChannelTopic> findTopic(String roomId);
+    ChannelTopic findTopic(String roomId);
 
 
 

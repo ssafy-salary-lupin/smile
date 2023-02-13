@@ -22,16 +22,23 @@ public class OpenViduServiceImpl implements OpenViduService{
 
     @Override
     public String createSession(String customSessionId) throws OpenViduJavaClientException, OpenViduHttpException {
+        openVidu.fetch();
+        log.info("{} : {}", customSessionId, openVidu.getActiveSession(customSessionId));
         if (openVidu.getActiveSession(customSessionId) != null) {
+            log.info("{} is not null", customSessionId);
             throw new CustomException(STUDY_EXISTS_MEETING);
         }
         SessionProperties properties = SessionProperties.fromJson(null).customSessionId(customSessionId).build();
-        return openVidu.createSession(properties).getSessionId();
+        Session session = openVidu.createSession(properties);
+        log.info("session created");
+        return session.getSessionId();
     }
 
     @Override
     public String createConnectionToken(String sessionId, AttendRequestDTO dto) throws OpenViduJavaClientException, OpenViduHttpException {
+        openVidu.fetch();
         Session session = openVidu.getActiveSession(sessionId);
+
         if (session == null) {
             throw new CustomException(NOT_FOUND_MEETING_SESSION);
         }
@@ -40,25 +47,35 @@ public class OpenViduServiceImpl implements OpenViduService{
             throw new CustomException(OVER_MAX_SIZE_PERSON);
         }
 
-        ConnectionProperties properties;
+//        ConnectionProperties properties;
+//
+//        if (dto != null) {
+//            properties = ConnectionProperties.fromJson(dto.toMap()).build();
+//        } else properties = ConnectionProperties.fromJson(null).build();
 
-        if (dto != null) {
-            properties = ConnectionProperties.fromJson(dto.toMap()).build();
-        } else properties = ConnectionProperties.fromJson(null).build();
-
-        log.info("ConnectionProperties: {}", properties);
-
+        ConnectionProperties properties = new ConnectionProperties.Builder().record(false).build();
         return session.createConnection(properties).getToken();
     }
 
     @Override
     public void closeSession(String sessionId) throws OpenViduJavaClientException, OpenViduHttpException {
+        openVidu.fetch();
         Session session = openVidu.getActiveSession(sessionId);
 
         if (session == null) {
             throw new CustomException(CustomExceptionStatus.NOT_FOUND_MEETING_SESSION);
         }
 
+        if (!session.getConnections().isEmpty()) {
+            throw new CustomException(CONNECTED_CONNECTION_EXISTS);
+        }
+
         session.close();
+    }
+
+    @Override
+    public boolean existsSession(String sessionId) throws OpenViduJavaClientException, OpenViduHttpException {
+        openVidu.fetch();
+        return openVidu.getActiveSession(sessionId) != null;
     }
 }
