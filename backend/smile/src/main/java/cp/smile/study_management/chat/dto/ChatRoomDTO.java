@@ -4,6 +4,7 @@ import cp.smile.study_management.chat.service.ChatService;
 import cp.smile.study_management.chat.service.ChatServiceImpl;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.Serializable;
@@ -13,6 +14,7 @@ import java.util.Set;
 
 /*레디스에 저장되는 객체들은 전부 직렬화 되어야 함.*/
 @Getter
+@Setter
 public class ChatRoomDTO implements Serializable {
 
 
