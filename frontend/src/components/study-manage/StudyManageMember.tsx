@@ -191,9 +191,7 @@ function StudyManageMember() {
                 height="50px"
               />
               <Nick>{user.nickname}</Nick>
-              <Crown>
-                {userStudy?.result.leader !== true ? <CrownSimple /> : null}
-              </Crown>
+              <Crown>{userStudy?.user.leader ? <CrownSimple /> : null}</Crown>
               <hr />
               <BtnBox>
                 <YellowBtn>위임</YellowBtn>
