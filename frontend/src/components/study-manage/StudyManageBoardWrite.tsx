@@ -7,6 +7,7 @@ import { Link, useHistory } from "react-router-dom";
 import { ReactComponent as DeleteIcon } from "../../assets/icon/Delete.svg";
 import { useQuery } from "react-query";
 import { boardeInsertApi, boardTypeSelectApi } from "apis/StudyManageBoardApi";
+import Swal from "sweetalert2";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
@@ -259,15 +260,30 @@ function StudyManageBoardWrite() {
 
   const submit = async () => {
     if (typeId === 0) {
-      alert("유형을 선택해 주세요. ");
+      // alert("유형을 선택해 주세요. ");
+      Swal.fire({
+        icon: "error",
+        title: "이런...",
+        text: "유형을 선택해주세요!!",
+      });
       return;
     }
     if (title === "") {
-      alert("제목을 입력해주세요.");
+      // alert("제목을 입력해주세요.");
+      Swal.fire({
+        icon: "error",
+        title: "이런...",
+        text: "제목을 입력해주세요!!",
+      });
       return;
     }
     if (content === "") {
-      alert("내용을 입력해주세요.");
+      // alert("내용을 입력해주세요.");
+      Swal.fire({
+        icon: "error",
+        title: "이런...",
+        text: "내용을 입력해주세요!!",
+      });
       return;
     }
 

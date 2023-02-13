@@ -14,6 +14,7 @@ import {
 import { useQuery } from "react-query";
 import { IScheduleInfo } from "./ModalCalendarCommonView";
 import { useHistory } from "react-router-dom";
+import Swal from "sweetalert2";
 
 interface PropsType {
   setModalOpen: React.Dispatch<SetStateAction<boolean>>;
@@ -312,15 +313,30 @@ function ModalCalendarUpdate(props: PropsType) {
   const RegistSchedule = () => {
     // form 빈칸 체크
     if (type === undefined || type < 1) {
-      alert(" 유형을 선택 하세요. ");
+      // alert(" 유형을 선택 하세요. ");
+      Swal.fire({
+        icon: "error",
+        title: "이런...",
+        text: "유형을 선택해주세요!!",
+      });
       return;
     }
     if (title === undefined || title === "") {
-      alert(" 제목을 입력 하세요. ");
+      // alert(" 제목을 입력 하세요. ");
+      Swal.fire({
+        icon: "error",
+        title: "이런...",
+        text: "제목을 입력해주세요!!",
+      });
       return;
     }
     if (desc === undefined || desc === "") {
-      alert(" 내용을 입력 하세요. ");
+      // alert(" 내용을 입력 하세요. ");
+      Swal.fire({
+        icon: "error",
+        title: "이런...",
+        text: "내용을 입력해주세요!!",
+      });
       return;
     }
 
@@ -406,10 +422,23 @@ function ModalCalendarUpdate(props: PropsType) {
     };
 
     // 일정 등록 메소드 실행
-    if (window.confirm("정말 수정하시곘습니까?")) {
-      props.onUpdate(data, props.scheduleId);
-      closeModal();
-    }
+    // if (window.confirm("정말 수정하시곘습니까?")) {
+    //   props.onUpdate(data, props.scheduleId);
+    //   closeModal();
+    // }
+
+    Swal.fire({
+      title: "수정을 진행하겠습니까??",
+      showCancelButton: true,
+      confirmButtonText: "수정",
+      cancelButtonText: "취소",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        props.onUpdate(data, props.scheduleId);
+        closeModal();
+        Swal.fire("수정완료!", "", "success");
+      }
+    });
   };
 
   return (

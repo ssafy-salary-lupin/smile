@@ -10,12 +10,13 @@ import {
   boardSelectApi,
   commentDeleteApi,
   commentUpdateApi,
-  deleteScheduleApi,
+  deleteBoardApi,
   writeCommentApi,
 } from "apis/StudyManageBoardApi";
 import ReactQuill from "react-quill";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TypeProps } from "./StudyManageBoardList";
+import Swal from "sweetalert2";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
@@ -343,98 +344,121 @@ type Params = {
   boardId: string;
 };
 
-interface InputProps {
+export interface InputProps {
   editState: boolean;
 }
 
 function StudyManageBoardDetail() {
-  const { boardId } = useParams<Params>();
-
-  const { data: detailData, refetch } = useQuery<Data>("detailData", () =>
-    boardSelectApi(boardId),
-  );
-
-  const date = detailData?.result.writeAt.split("T")[0];
-  const time = detailData?.result.writeAt.split("T")[1];
-  let writeAt = "";
-  if (time !== undefined) {
-    writeAt = date + time;
-  }
-
   const modules = {
     toolbar: false,
   };
 
+  const { boardId } = useParams<Params>();
+
+  const { data: detailData, refetch } = useQuery<Data>(
+    "detailData",
+    async () => await boardSelectApi(boardId),
+  );
+
+  // 글 삭제
   const history = useHistory();
   const onDelete = async () => {
-    if (window.confirm("삭제하시겠습니까?")) {
-      deleteScheduleApi(boardId);
-      history.push("/manage/board");
-    }
+    Swal.fire({
+      title: "게시글 삭제를 진행하겠습니까?",
+      showCancelButton: true,
+      confirmButtonText: "삭제",
+      cancelButtonText: "취소",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        deleteBoardApi(boardId);
+        Swal.fire("삭제완료!", "", "success");
+        refetch();
+        history.push("/manage/board");
+      }
+    });
+    // if (window.confirm("삭제하시겠습니까?")) {
+    //   await deleteScheduleApi(boardId);
+    //   refetch();
+    // }
   };
 
   // 댓글작성
   const [comment, setComment] = useState("");
-
   const writeComment = async () => {
     const data = {
       content: comment,
     };
-
     await writeCommentApi(data, boardId);
-
     setComment("");
     refetch();
-  };
-
-  // 대댓글 작성
-  const [openReply, setOpenReply] = useState<boolean>(false);
-
-  const openReplyInput = (parentId: Number) => {
-    setOpenReply(!openReply);
   };
 
   // 댓글 수정
   const [selectedId, setSelectedId] = useState(null);
   const [reply, setReply] = useState<string>();
-  const updateComment = (parentId: any, currentContent: any) => {
-    setReply(currentContent);
-    setSelectedId(parentId);
+  const updateComment = async (parentId: any, currentContent: any) => {
+    await setReply(currentContent);
+    await setSelectedId(parentId);
   };
-
-  const onUpdateComment = (parentId: any) => {
-    console.log(typeof reply);
+  const onUpdateComment = async (parentId: any) => {
     const data = {
       content: reply,
     };
-
-    commentUpdateApi(data, boardId, parentId);
-    setSelectedId(null);
+    await commentUpdateApi(data, boardId, parentId);
+    await setSelectedId(null);
     refetch();
   };
 
   // 댓글 삭제
-  const deleteComment = (commentId: any) => {
-    if (window.confirm("댓글을 삭제하시겠습니까?")) {
-      commentDeleteApi(boardId, commentId);
-      refetch();
-    }
+  const deleteComment = async (commentId: any) => {
+    Swal.fire({
+      title: "댓글을 삭제하시겠습니까?",
+      showCancelButton: true,
+      confirmButtonText: "삭제",
+      cancelButtonText: "취소",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await commentDeleteApi(boardId, commentId);
+        await refetch();
+        Swal.fire("삭제완료!", "", "success");
+      }
+    });
+
+    // if (window.confirm("댓글을 삭제하시겠습니까?")) {
+    //   await commentDeleteApi(boardId, commentId);
+    //   await refetch();
+    // }
   };
+
+  const [article, setArticle] = useState<Data>();
+  const [writeAt, setWriteAt] = useState<string>();
+  useEffect(() => {
+    async function stateSet() {
+      const date = detailData?.result.writeAt.split("T")[0];
+      const time = detailData?.result.writeAt.split("T")[1];
+      if (time !== undefined) {
+        await setWriteAt(date + " " + time);
+      }
+
+      await setArticle(detailData);
+    }
+    stateSet();
+  }, [detailData]);
 
   return (
     <Wrapper>
       <ArticleHeader>
-        {detailData !== undefined ? (
-          <TypeLabel typeId={detailData?.result.boardType.id}>
-            {detailData?.result.boardType.name}
+        {article !== undefined ? (
+          <TypeLabel typeId={article?.result.boardType.id}>
+            {article?.result.boardType.name}
           </TypeLabel>
         ) : null}
-        <Title>{detailData?.result.title}</Title>
+        <Title>{article?.result.title}</Title>
       </ArticleHeader>
       <ArticleInfo>
         <Writer>
           <ProfileImg width="2.222vw" />
-          <Name>{detailData?.result.writer.nickname}</Name>
+          <Name>{article?.result.writer.nickname}</Name>
         </Writer>
         <SubInfo>
           <Date>
@@ -443,18 +467,18 @@ function StudyManageBoardDetail() {
           </Date>
           <Look>
             <Eye stroke="#898989" width="1.667vw" />
-            <Span>{detailData?.result.views}</Span>
+            <Span>{article?.result.views}</Span>
           </Look>
           <CommentCnt>
             <Comment fill="#898989" width="1.389vw" />
-            <Span>{detailData?.result.commentCount}</Span>
+            <Span>{article?.result.commentCount}</Span>
           </CommentCnt>
         </SubInfo>
       </ArticleInfo>
       <ArticleContent>
         <ReactQuill
           theme="snow"
-          value={detailData?.result.content}
+          value={article?.result.content}
           readOnly
           modules={modules}
         />
@@ -462,9 +486,9 @@ function StudyManageBoardDetail() {
       <FileBox>
         <FileSub1>첨부 파일</FileSub1>
         <FileSub2>
-          {detailData?.result.files ? (
+          {article?.result.files ? (
             <ul>
-              {detailData?.result.files.map((el, key) => {
+              {article?.result.files.map((el, key) => {
                 return (
                   <FileListLi key={el.fileId}>
                     <FileLink href={`${el.sourceUrl}`}>{el.fileName}</FileLink>
@@ -477,7 +501,7 @@ function StudyManageBoardDetail() {
       </FileBox>
       <ArticleBtn>
         <UpdateBtn>
-          <Link to={`/manage/boardUpdate/${detailData?.result.boardId}`}>
+          <Link to={`/manage/boardUpdate/${article?.result.boardId}`}>
             수정
           </Link>
         </UpdateBtn>
@@ -497,7 +521,7 @@ function StudyManageBoardDetail() {
         <WriteBtn onClick={writeComment}>작성</WriteBtn>
       </CommentInput>
       <CommentList>
-        {detailData?.result.comments.map((el, index) => {
+        {article?.result.comments.map((el, index) => {
           return (
             <CommentBox key={index}>
               <CommentTop>

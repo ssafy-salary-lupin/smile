@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/esm/locale";
 import { MeetingCreateApi } from "apis/StudyManageMeetingApi";
+import Swal from "sweetalert2";
 
 interface PropsType {
   setModalOpen: React.Dispatch<SetStateAction<boolean>>;
@@ -201,11 +202,21 @@ function ModalMeetingCreate(props: PropsType) {
   const createMeeting = async () => {
     // 모달 창 닫기
     if (type === undefined || type < 1) {
-      alert(" 유형을 선택 하세요. ");
+      // alert(" 유형을 선택 하세요. ");
+      Swal.fire({
+        icon: "error",
+        title: "이런...",
+        text: "유형을 선택해주세요!!",
+      });
       return;
     }
     if (title === undefined || title === "") {
-      alert(" 제목을 입력 하세요. ");
+      // alert(" 제목을 입력 하세요. ");
+      Swal.fire({
+        icon: "error",
+        title: "이런...",
+        text: "제목을 입력해주세요!!",
+      });
       return;
     }
 

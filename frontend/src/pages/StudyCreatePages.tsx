@@ -13,15 +13,30 @@ import axios from "axios";
 import moment from "moment";
 
 import * as Icons from "../components/common/Icons";
+import { CreateStudyApi, studyTypeApi } from "apis/StudyCreateApi";
 
 const BlankSpace = styled.div`
   height: 7.383vw;
 `;
 
-const TotalBox = styled.div``;
+const TotalBox = styled.div`
+  margin: 0 21.111vw;
+  display: flex;
+  flex-direction: column;
+  a,
+  a:link,
+  a:visited,
+  a:hover,
+  a:active {
+    text-decoration: none;
+    color: inherit;
+  }
+`;
 
 const BetweenBox = styled.div`
   display: flex;
+  flex-direction: row;
+  align-items: center;
   justify-content: center;
 `;
 
@@ -29,12 +44,14 @@ const TextBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-right: 3.889vw;
 `;
 
 const TextBig = styled.div`
   font-size: 2.222vw;
   font-weight: bold;
   padding: 0.556vw;
+  margin-bottom: 1.111vw;
 `;
 
 const TextSmall = styled.div`
@@ -45,8 +62,8 @@ const TextSmall = styled.div`
 `;
 
 const IconBox = styled(Icon)`
-  width: 14vw;
-  height: 14vw;
+  width: 16.667vw;
+  height: 16.667vw;
 `;
 
 const RedStar = styled.div`
@@ -58,62 +75,129 @@ const RedStar = styled.div`
 const SelectName = styled.div`
   font-weight: bold;
   font-size: 1.389vw;
-  padding: 1.111vw;
+  padding: 1.111vw 0;
   display: flex;
   margin-bottom: 1.111vw;
 `;
 
 const InputBox = styled.input`
+  width: 50%;
+  outline: none;
+  font-size: 1.111vw;
   border-right: 0vw;
   border-left: 0vw;
   border-top: 0vw;
   padding: 0.556vw;
-  margin-bottom: 3.333vw;
+  /* margin-bottom: 3.333vw; */
+`;
+
+// smallTotal 전부 합친것
+const SelectBigTotal = styled.div`
+  /* display: table; */
+  /* justify-content: center; */
+  /* width: 50vw; */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin: 0 auto;
+  height: 103.472vw;
+  width: 100%;
+  padding: 0 1.667vw;
+  /* margin-bottom: 3.333vw; */
+`;
+
+const SelectWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+`;
+
+// 기간과 시간
+const DateTime = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 100%;
+  align-items: center;
+
+  p {
+    padding: 0;
+    margin: 0 0.556vw;
+  }
+
+  /* flex-direction: column; */
+  /* justify-content: center; */
+`;
+
+const TimeSelectWrapper = styled.div`
+  /* width: 100%; */
 `;
 
 const SelectBox = styled.select`
-  border-right: 0vw;
-  border-left: 0vw;
-  border-top: 0vw;
   padding: 0.556vw;
-  margin-bottom: 3.333vw;
-  width: 11.111vw;
+  /* margin-bottom: 3.333vw; */
+  width: 15.556vw;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid black;
+  font-size: 1.111vw;
 `;
+
+const CalendarBox = styled.div``;
 
 const Calendar = styled(DatePicker)`
-  border-right: 0vw;
-  border-left: 0vw;
-  border-top: 0vw;
-  display: flex;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid black;
+  padding: 0.556vw;
+  /* display: flex; */
   /* justify-content: center; */
-  font-size: 1.389vw;
-  margin-bottom: 3.333vw;
-  width: 13.889vw;
+  font-size: 1.111vw;
+  /* margin-bottom: 3.333vw; */
+  width: 100%;
 `;
 
-const Btn = styled.button`
-  /* margin: 0 32px; */
-  border-radius: 0.347vw;
+const CreateBtn = styled.button`
+  border-radius: 0.417vw;
   border: none;
-  background-color: ${(props) => props.color};
+  background-color: ${(props) => props.theme.mainColor};
   cursor: pointer;
-  border-radius: 4px;
   padding: 0.556vw 1.111vw;
   margin: 1.111vw 1.667vw 0vw 0vw;
   width: 16.667vw;
   height: 3.473vw;
   font-size: 1.111vw;
+  font-weight: bold;
+  box-shadow: 2.002px 2.002px 2.002px
+    ${(props) => props.theme.blackColorOpacity4};
 `;
 
+const CancelBtn = styled(CreateBtn)`
+  background-color: ${(props) => props.theme.pointColor};
+  color: white;
+`;
+
+// const Btn = styled.button`
+//   border-radius: 0.417vw;
+//   border: none;
+//   background-color: ${(props) => props.color};
+//   cursor: pointer;
+//   padding: 0.556vw 1.111vw;
+//   margin: 1.111vw 1.667vw 0vw 0vw;
+//   width: 16.667vw;
+//   height: 3.473vw;
+//   font-size: 1.111vw;
+//   font-weight: bold;
+//   box-shadow: 2.002px 2.002px 2.002px
+//     ${(props) => props.theme.blackColorOpacity4};
+// `;
+
 // 이름과 선택창 합친
-const SelectSmallTotal = styled.div``;
-
-// 기간과 시간
-const DateTime = styled.div`
+const SelectSmallTotal = styled.div`
+  margin-bottom: 3.889vw;
+  width: 100%;
   display: flex;
-
-  /* flex-direction: column; */
-  /* justify-content: center; */
+  flex-direction: column;
 `;
 
 // const DropZone = styled(Dropzone)``;
@@ -129,21 +213,14 @@ const User = styled(Users)`
   background-color: #f2f3e6;
   margin-bottom: 5.556vw;
 `;
-// smallTotal 전부 합친것
-const SelectBigTotal = styled.div`
-  /* display: table; */
-  /* justify-content: center; */
-  /* width: 50vw; */
-  margin: 0 auto;
-  height: 103.472vw;
-  width: 44.444vw;
-  margin-bottom: 3.333vw;
-`;
 
-const Introudce = styled.input`
+const Introudce = styled.textarea`
   height: 28.264vw;
-  width: 65.625vw;
-  margin-bottom: 3.333vw;
+  width: 100%;
+  outline: none;
+  padding: 1.667vw;
+  /* margin-bottom: 3.333vw; */
+  resize: none;
 `;
 // const IntroduceBox = styled.div``;
 const Forms = styled.form`
@@ -170,29 +247,13 @@ const ImgBox = styled.div`
   width: 11.111vw;
   height: 11.111vw;
   background-color: #f2f3e6;
-  margin-bottom: 5.556vw;
+  /* margin-bottom: 5.556vw; */
 `;
 
 const BtnBox = styled.div`
   display: flex;
   justify-content: center;
 `;
-
-// interface studyTypeData {
-//   [{
-//   id: 1; // 스터디 유형 식별자
-//   name: "면접"; // 스터디 유형 이름
-// },
-// {
-//   id: 2;
-//   name: "자격증";
-// },
-// {
-//   id: 3;
-//   name: "외국어";
-// }]
-
-// }
 
 interface StudyType {
   isSuccess: true;
@@ -216,53 +277,6 @@ interface StudyType {
   };
 }
 
-interface Data {
-  isSuccess: boolean;
-  code: number;
-  message: string;
-  result: {
-    id: number;
-    name: string; //스터디 이름
-    startDate: string; //스터디 시작 일자
-    endDate: string; //스터디 종료 일자
-    time: string; //스터디 시간
-    imgPath: string; //스터디 대표 이미지
-    currrentPerson: number; //스터디 현재 가입 인원
-    maxPerson: number; //스터디 최대 가입 인원
-    viewCount: number; //스터디 조회수
-    description: string;
-    type: {
-      id: number; //스터디 유형 식별자
-      name: string; //스터디 유형 이름
-    };
-    leader: {
-      id: number;
-      imagePath: null;
-      nickname: string;
-    };
-    comments: [
-      {
-        user: {
-          id: number; //댓글 작성자 식별자
-          imgPath: string; //프로필
-          nickname: string; //댓글 작성자 닉네임
-        };
-        content: string; //댓글 내용
-        replies: [
-          //답글리스트
-          {
-            user: {
-              id: number; //대댓글 작성자 식별자
-              imgPath: string; //프로필
-              nickname: string; //대댓글 작성자 닉네임
-            };
-            content: string; //대댓글 내용
-          },
-        ];
-      },
-    ];
-  };
-}
 function StudyCreatePages() {
   const selectType = ["미정", "면접", "자격증", "외국어"];
   const selectPeople = [3, 4, 5, 6];
@@ -294,16 +308,17 @@ function StudyCreatePages() {
     "24:00",
   ];
 
+  // 이미지 파일 경로
+  const [imgFileUrl, setImgFileUrl] = useState<any>(null);
+  // 이미지 변환할 파일
   const [imgFile, setImgFile] = useState<any>();
   const imgRef = useRef<HTMLInputElement>(null);
   const [isActive, setIsActivate] = useState<boolean>(false);
 
   // 이미지 업로드 input의 onChange
-  const saveImgFile = () => {
+  const saveImgFile = (el: any) => {
     if (imgRef.current?.files !== undefined && imgRef.current?.files !== null) {
       const file = imgRef.current?.files[0];
-      // console.log(FormDatas);
-      // console.log(file.name);
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onloadend = () => {
@@ -311,6 +326,7 @@ function StudyCreatePages() {
           setImgFile(reader.result);
         }
       };
+      setImgFileUrl(el.target.files[0]);
       setIsActivate(true);
     }
   };
@@ -323,66 +339,18 @@ function StudyCreatePages() {
   const [endTime, setEndTime] = useState<Date | null>();
 
   const time = startTime?.toString() + " ~ " + endTime?.toString();
-  // console.log("시간 : ", time);
 
   const BASE_URL = `https://i8b205.p.ssafy.io/be-api/`;
 
   const token = localStorage.getItem("kakao-token");
   // const [list, setList] = useState<studyDetailData[] | null>(null);
 
-  const studyTypeApi = async () => {
-    // console.log("실행");
-    try {
-      const response = await fetch(`${BASE_URL}studies/types`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: "application/json",
-        },
-      });
-
-      // console.log("data : ", response);
-      const data = await response.json();
-      // console.log(data);
-      return data;
-    } catch (error: any) {
-      console.log(error);
-    }
-
-    // console.log("받아온 data : ", response);
-  };
+  // 스터디 타입 불러오기
   const { data: studyType } = useQuery<StudyType>("studyTypeApi", () =>
     studyTypeApi(),
   );
-  let TType = studyType?.result.types;
-  // console.log("TType", TType);
 
-  //-------------------------------------------------------------
-  const StudyDataApi = async () => {
-    // console.log("실행");
-
-    try {
-      const response = await fetch(`${BASE_URL}studies/1`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: "application/json",
-        },
-      });
-
-      // console.log("data : ", response);
-      const data = await response.json();
-      return data;
-    } catch (error: any) {
-      console.log(error);
-    }
-
-    // console.log("받아온 data : ", response);
-  };
-  const { data: detailStudy } = useQuery<Data>("StudyDataApi", () =>
-    StudyDataApi(),
-  );
-
-  //-------------------------------------------------------------------
-  // console.log("가져온 데이타 : ", StudyData);
+  // //-------------------------------------------------------------------
   const [study_name, setStudy_name] = useState<string>("");
   const [study_typeId, setStudy_typeId] = useState<number>();
   const [study_maxPerson, setStudy_maxPerson] = useState<string>("");
@@ -392,55 +360,31 @@ function StudyCreatePages() {
   // const [study_time, setStudy_time] = useState<string>("");
   const [study_file, setStudy_file] = useState<string>("");
 
-  // useEffect(() => {
-  //   CreateStudyApi();
-  // }, []);
-  const formData = new FormData();
+  const onCreateStudy = () => {
+    const formData = new FormData();
 
-  const data = {
-    name: study_name,
-    // typeId: study_typeId,
-    typeId: study_typeId,
-    // maxPerson: study_maxPerson,
-    maxPerson: study_maxPerson,
-    startDate: changeFormat(startDate, "yyyy-MM-DD"),
-    // startDate: startDate.format(DateTimeFormatter.ofPattern("MM월 dd일(E)"),
-    // endDate: changeFormat(endDate, "yyyy.MM.DD"),
-    endDate: changeFormat(endDate, "yyyy-MM-DD"),
-    description: study_description,
-    time: time,
+    const data = {
+      name: study_name,
+      typeId: study_typeId,
+      maxPerson: study_maxPerson,
+      startDate: changeFormat(startDate, "yyyy-MM-DD"),
+      endDate: changeFormat(endDate, "yyyy-MM-DD"),
+      description: study_description,
+      time: time,
+    };
+
+    formData.append("data", JSON.stringify(data));
+    formData.append("file", imgFileUrl);
+
+    CreateStudyApi(formData);
   };
 
-  // console.log("data : ", data);
-  // console.log(Form.append("file", file));
-  formData.append("data", JSON.stringify(data));
-
-  formData.append("file", imgFile);
-
-  const CreateStudyApi = async () => {
-    console.log("토큰 : ", token);
-
-    await axios
-      .post(`${BASE_URL}studies`, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then(function (response) {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
   const Change_name = (e: any) => {
     e.preventDefault();
     setStudy_name(e.target.value);
   };
   const Change_typeId = (e: any) => {
     e.preventDefault();
-    console.log("value", e.target.value);
     setStudy_typeId(e.target.value);
   };
   const Change_maxPerson = (e: any) => {
@@ -449,12 +393,10 @@ function StudyCreatePages() {
   };
   const Change_startTime = (e: any) => {
     e.preventDefault();
-    // console.log("선택된 start time check : ", e.target.value);
     setStartTime(e.target.value);
   };
   const Change_endTime = (e: any) => {
     e.preventDefault();
-    // console.log("선택된 end time check : ", e.target.value);
     setEndTime(e.target.value);
   };
   const Change_description = (e: any) => {
@@ -462,7 +404,6 @@ function StudyCreatePages() {
     setStudy_description(e.target.value);
   };
 
-    
   return (
     <div>
       {/* <CreateContainer> */}
@@ -484,83 +425,87 @@ function StudyCreatePages() {
             </SelectName>
             <InputBox value={study_name} onChange={Change_name}></InputBox>
           </SelectSmallTotal>
-          <SelectSmallTotal>
-            <SelectName>
-              스터디 유형<RedStar>*</RedStar>
-            </SelectName>
-            <SelectBox onChange={Change_typeId}>
-              {TType?.map((item) => (
-                <option value={item.id} key={item.id}>
-                  {item.name}
-                </option>
-              ))}
-            </SelectBox>
-          </SelectSmallTotal>
-          <SelectSmallTotal>
-            <SelectName>
-              모집 인원<RedStar>*</RedStar>
-            </SelectName>
-            <SelectBox onChange={Change_maxPerson}>
-              {selectPeople.map((item) => (
-                <option value={item} key={item}>
-                  {item}
-                </option>
-              ))}
-            </SelectBox>
-          </SelectSmallTotal>
-          <SelectSmallTotal>
-            <SelectName>기간</SelectName>
-            {/* <SelectBox></SelectBox> */}
-            <DateTime>
-              <Calendar
-                dateFormat="yyyy년 MM월 dd일"
-                selected={startDate}
-                onChange={(date: Date) => setStartDate(date)}
-                selectsStart
-                minDate={new Date()}
-                startDate={startDate}
-                endDate={endDate}
-              />
-              ~
-              <Calendar
-                dateFormat="yyyy년 MM월 dd일"
-                selected={endDate}
-                onChange={(date: Date) => setEndDate(date)}
-                selectsStart
-                startDate={startDate}
-                endDate={endDate}
-                minDate={startDate}
-              />
-            </DateTime>
-          </SelectSmallTotal>
-          <SelectSmallTotal>
-            <SelectName>스터디 시간</SelectName>
-            <DateTime>
-              <SelectBox onChange={Change_startTime}>
-                {selectTime.map((item) => (
+          <SelectWrapper>
+            <SelectSmallTotal>
+              <SelectName>
+                스터디 유형<RedStar>*</RedStar>
+              </SelectName>
+              <SelectBox onChange={Change_typeId}>
+                <option value="0">-- 유형 --</option>
+                {studyType?.result.types?.map((item, index) => (
+                  <option value={item.id} key={index}>
+                    {item.name}
+                  </option>
+                ))}
+              </SelectBox>
+            </SelectSmallTotal>
+            <SelectSmallTotal>
+              <SelectName>
+                모집 인원<RedStar>*</RedStar>
+              </SelectName>
+              <SelectBox onChange={Change_maxPerson}>
+                <option value="0">-- 인원 --</option>
+                {selectPeople.map((item) => (
                   <option value={item} key={item}>
                     {item}
                   </option>
                 ))}
               </SelectBox>
-              <TextSmall>~</TextSmall>
-              <SelectBox onChange={Change_endTime}>
-                {selectTime.map((item, index) => (
-                  <option value={index} key={item}>
-                    {item}
-                  </option>
-                ))}
-              </SelectBox>
-              {/* <Calendar
-                selected={endTime}
-                onChange={(time: Date | null) => Change_endTime(time)}
-                showTimeSelect
-                showTimeSelectOnly
-                timeIntervals={30}
-                timeCaption="Time"
-                dateFormat="HH:mm"
-                placeholderText="미정"
-              /> */}
+            </SelectSmallTotal>
+          </SelectWrapper>
+          <SelectSmallTotal>
+            <SelectName>
+              기간<RedStar>*</RedStar>
+            </SelectName>
+            {/* <SelectBox></SelectBox> */}
+            <DateTime>
+              <CalendarBox>
+                <Calendar
+                  dateFormat="yyyy년 MM월 dd일"
+                  selected={startDate}
+                  onChange={(date: Date) => setStartDate(date)}
+                  selectsStart
+                  minDate={new Date()}
+                  startDate={startDate}
+                  endDate={endDate}
+                />
+              </CalendarBox>
+              <p>~</p>
+              <CalendarBox>
+                <Calendar
+                  dateFormat="yyyy년 MM월 dd일"
+                  selected={endDate}
+                  onChange={(date: Date) => setEndDate(date)}
+                  selectsStart
+                  startDate={startDate}
+                  endDate={endDate}
+                  minDate={startDate}
+                />
+              </CalendarBox>
+            </DateTime>
+          </SelectSmallTotal>
+          <SelectSmallTotal>
+            <SelectName>스터디 시간</SelectName>
+            <DateTime>
+              <TimeSelectWrapper>
+                <SelectBox onChange={Change_startTime}>
+                  {selectTime.map((item) => (
+                    <option value={item} key={item}>
+                      {item}
+                    </option>
+                  ))}
+                </SelectBox>
+              </TimeSelectWrapper>
+              <p>~</p>
+              <TimeSelectWrapper>
+                <SelectBox onChange={Change_endTime}>
+                  {selectTime.map((item, index) => (
+                    <option value={index} key={item}>
+                      {item}
+                    </option>
+                  ))}
+                </SelectBox>
+              </TimeSelectWrapper>
             </DateTime>
           </SelectSmallTotal>
           <SelectSmallTotal>
@@ -571,7 +516,7 @@ function StudyCreatePages() {
                   {isActive && typeof imgFile == "string" ? (
                     <img src={imgFile} alt="" />
                   ) : (
-                    <Icons.Users />
+                    <Icons.Camera width="100%" height="100%" />
                   )}
                 </ImgBox>
               </label>
@@ -593,26 +538,13 @@ function StudyCreatePages() {
             />
           </SelectSmallTotal>
           <BtnBox>
-            {/* <Link
-              to={{
-                pathname: `studies/1`,
-              }}
-            > */}
-              {/* <Link
-              to={{
-                pathname: `studies/${detailStudy?.result.id}/home`,
-              }}
-            > */}
-              <Btn color="#F5C82E" onClick={CreateStudyApi}>
-                스터디 생성
-              </Btn>
-            {/* </Link> */}
+            <CreateBtn onClick={onCreateStudy}>스터디 생성</CreateBtn>
             <Link
               to={{
                 pathname: `/create`,
               }}
             >
-              <Btn color="#314E8D">취소</Btn>
+              <CancelBtn>취소</CancelBtn>
             </Link>
           </BtnBox>
         </SelectBigTotal>
@@ -629,5 +561,5 @@ export function changeFormat(date: Date, format: string) {
     return moment(date).format(format);
   } else {
     return null;
-  };
+  }
 }
