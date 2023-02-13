@@ -55,8 +55,9 @@ const Btn = styled.button.attrs({})`
   background-color: ${(props) => props.bgColor};
   font-size: 1.667vw;
   cursor: pointer;
+  // TODO 글자 크기 반응형
   span {
-    /* font-size: 1.667vw; */
+    font-size: 1.667vw;
   }
 `;
 

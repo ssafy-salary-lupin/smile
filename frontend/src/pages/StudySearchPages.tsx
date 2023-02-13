@@ -222,6 +222,7 @@ export default function StudySearchPages() {
     console.log(3);
 
     const cardNumber = data?.data.result ? data.data.result.length : 0;
+
     if (!data) {
       console.log("3-1");
       setStudiesNumber(0);
