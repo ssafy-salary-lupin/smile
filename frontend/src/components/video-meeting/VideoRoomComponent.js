@@ -770,6 +770,7 @@ class VideoRoomComponent extends Component {
         },
       },
     );
+    console.log("createSession", response.data);
     return response.data; // The sessionId
   }
 
@@ -792,6 +793,7 @@ class VideoRoomComponent extends Component {
         },
       },
     );
+    console.log("createToken", response.data);
     return response.data; // The token
   }
 }
