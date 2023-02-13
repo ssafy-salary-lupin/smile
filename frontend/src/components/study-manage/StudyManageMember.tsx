@@ -152,31 +152,33 @@ function StudyManageMember() {
   return (
     <Wrapper>
       <UpContainer>
-        {userStudy?.study_users.map((user, index: any) => (
-          <Card key={index}>
-            {/* <Card> */}
-            <ProfileImg
-              imgUrl={
-                // detailStudy?.result.imgPath !== "/root"
-                //   ? detailStudy?.result.imgPath
-                // : defaultprofileImg
-                defaultprofileImg
-              }
-              width="50px"
-              height="50px"
-            />
-            <Nick>{user.nickname}</Nick>
-            {/* <Nick>{userStudy}</Nick> */}
-            {/* <Crown>
+        {userStudy?.study_users.map((user, index: any) => {
+          return (
+            <Card key={index}>
+              {/* <Card> */}
+              <ProfileImg
+                imgUrl={
+                  // detailStudy?.result.imgPath !== "/root"
+                  //   ? detailStudy?.result.imgPath
+                  // : defaultprofileImg
+                  defaultprofileImg
+                }
+                width="50px"
+                height="50px"
+              />
+              <Nick>{user.nickname}</Nick>
+              {/* <Nick>{userStudy}</Nick> */}
+              {/* <Crown>
             <Icons.CrownSimple />
           </Crown> */}
-            <hr />
-            <BtnBox>
-              {/* <BtnSmall color={#F5C82E} >위임</BtnSmall>
+              <hr />
+              <BtnBox>
+                {/* <BtnSmall color={#F5C82E} >위임</BtnSmall>
             <BtnSmall color={#314E8D} >강퇴</BtnSmall> */}
-            </BtnBox>
-          </Card>
-        ))}
+              </BtnBox>
+            </Card>
+          );
+        })}
       </UpContainer>
       <DownContainer>
         <RedBox>
