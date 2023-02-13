@@ -19,7 +19,7 @@ import {
   StudyRecruitmentApi,
   StudyReDeadlineApi,
 } from "../../apis/StudyManageMember";
-// import * as Icons from "../../assets/icon/DuotonIcon";
+import CrownSimple from "../../assets/icon/DuotonIcon/CrownSimple.svg";
 import axios from "axios";
 
 const Wrapper = styled.div`
@@ -64,7 +64,9 @@ const Nick = styled.div`
   margin-bottom: 2.222vw;
 `;
 
-const Crown = styled.div``;
+const Crown = styled.div`
+  color: ${(props) => props.theme.mainColor};
+`;
 
 const BtnBox = styled.div``;
 
@@ -189,6 +191,7 @@ function StudyManageMember() {
                 height="50px"
               />
               <Nick>{user.nickname}</Nick>
+              <Crown>{userStudy?.result.leader ? <CrownSimple /> : null}</Crown>
               <hr />
               <BtnBox>
                 <YellowBtn>위임</YellowBtn>
