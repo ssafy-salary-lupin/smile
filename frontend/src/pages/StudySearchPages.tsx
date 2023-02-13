@@ -241,7 +241,7 @@ export default function StudySearchPages() {
       // setMoreStudyList((prev) => [...prev, data.data.result.slice(9)]);
       // setStudyList((prev) => [...prev, data.data.result.slice(0, 9)]);
     }
-  }, [data, isLoading]);
+  }, [data, isLoading, StudyList]);
 
   useEffect(() => {
     console.log(5);
