@@ -52,7 +52,7 @@ const Card = styled.div`
   width: 180px;
   height: 240px;
   margin-bottom: 2.222vw;
-  padding: 0px 20px;
+  margin: 0px 20px;
   border: solid 1px #e6e8ec;
   box-shadow: 0 5px 5px -5px ${(props) => props.theme.subColor};
   /* box-shadow: 5px 5px 5px 5px gray; */
@@ -117,7 +117,7 @@ const BtnWhite = styled.button`
   height: 30px;
   border-radius: 5px;
   font-size: small;
-  background-color: white;
+  background-color: #bcbbbb;
   box-shadow: 0 5px 5px -5px #333;
   color: red;
 `;
