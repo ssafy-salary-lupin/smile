@@ -187,9 +187,7 @@ function StudyManageMember() {
                 height="50px"
               />
               <Nick>{user.nickname}</Nick>
-              <Crown>
-                {user.leader === true ? <Crown width="1.389vw" /> : null}
-              </Crown>
+              {user.leader === true ? <Crown width="1.389vw" /> : null}
               <hr />
               <BtnBox>
                 <YellowBtn>위임</YellowBtn>
