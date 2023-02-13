@@ -27,7 +27,7 @@ export async function StudyDataApi(id: string) {
 export async function studyJoinApi(userId: any, studyId: any) {
   try {
     await axios.post(
-      `${BASE_URL}/users/${userId}/studies/${studyId}`,
+      `https://i8b205.p.ssafy.io/be-api/users/${userId}/studies/${studyId}`,
       // formData,
       {
         headers: {
