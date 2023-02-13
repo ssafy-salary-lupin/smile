@@ -1,18 +1,17 @@
 import styled from "styled-components";
 import * as Icons from "../components/common/Icons";
-import React, { useRef, useState, useEffect } from "react";
+import React, { SetStateAction, useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
 import "../components/video-meeting/toolbar/ToolbarComponent.css";
-import * as DuotonIcons from "components/common/DuotonIcons";
 import ExitMeeting from "components/video-meeting/toolbar/ExitMeeting";
 import UserModel from "models/user-model";
 
 import * as ToolbarItems from "components/video-meeting/toolbar/ToolbarItems";
 
-import IconButton from "@mui/material/IconButton";
-import logo from "assets/img/smile_black.png";
 import { Link, useParams } from "react-router-dom";
-import { StudySearchAll } from "apis/StudySearchApi";
+
+import { useRecoilState } from "recoil";
+import { UserVideoInfoState } from "atoms/UserVideoInfoAtom";
 
 let localUser = new UserModel();
 
@@ -126,6 +125,11 @@ const StartVideoMeeting = styled.button`
     color: white;
   }
 `;
+
+interface WaitingPropsType {
+  setIsMeetingStart: React.Dispatch<SetStateAction<boolean>>;
+}
+
 function WaitingPages() {
   // TODO 스터디 이름 API로 받아오기
   // const [studyName, setStudyName] = useState<string>("");
@@ -151,58 +155,61 @@ function WaitingPages() {
   const videoElement = useRef<Webcam>(null);
   // const videoElement = useRef<Webcam>(null);
 
+  const [localUserState, setLocalUserState] =
+    useRecoilState(UserVideoInfoState);
+
   const videoConstraints = {
     width: 640,
     height: 480,
     facingMode: "user",
   };
 
-  const startCam = () => {
-    setIsShowVideo(true);
-  };
+  // const startCam = () => {
+  //   setIsShowVideo(true);
+  // };
 
-  const stopCam = () => {
-    console.log(videoElement.current);
-    if (videoElement.current !== null) {
-      const stream = videoElement.current.stream;
-      console.log("stream", stream);
-      if (stream !== null) {
-        const tracks = stream.getTracks();
-        console.log("tracks", tracks);
-        tracks.forEach((track: any) => track.stop());
-        setIsShowVideo(false);
-      }
-    }
-  };
-  const MikeOn = () => {
-    setIsMike(true);
-  };
-  const MikeOff = () => {
-    console.log(videoElement.current);
-    if (videoElement.current !== null) {
-      const stream = videoElement.current.stream;
-      if (stream !== null) {
-        const audios = stream.getAudioTracks();
-        audios.forEach((audio: any) => audio.stop());
-        setIsMike(false);
-      }
-    } else if (videoElement.current === null) {
-      setIsMike(false);
-    }
-  };
+  // const stopCam = () => {
+  //   console.log(videoElement.current);
+  //   if (videoElement.current !== null) {
+  //     const stream = videoElement.current.stream;
+  //     console.log("stream", stream);
+  //     if (stream !== null) {
+  //       const tracks = stream.getTracks();
+  //       console.log("tracks", tracks);
+  //       tracks.forEach((track: any) => track.stop());
+  //       setIsShowVideo(false);
+  //     }
+  //   }
+  // };
+  // const MikeOn = () => {
+  //   setIsMike(true);
+  // };
+  // const MikeOff = () => {
+  //   console.log(videoElement.current);
+  //   if (videoElement.current !== null) {
+  //     const stream = videoElement.current.stream;
+  //     if (stream !== null) {
+  //       const audios = stream.getAudioTracks();
+  //       audios.forEach((audio: any) => audio.stop());
+  //       setIsMike(false);
+  //     }
+  //   } else if (videoElement.current === null) {
+  //     setIsMike(false);
+  //   }
+  // };
 
-  const soundOff = () => {
-    let audio = document.getElementById("muteSound") as HTMLMediaElement;
-    audio.muted = true;
-    setIsSpeaker(true);
-    // console.log(audio);
-  };
-  const soundOn = () => {
-    let audio = document.getElementById("muteSound") as HTMLMediaElement;
-    audio.muted = false;
-    setIsSpeaker(false);
-    // console.log(audio);
-  };
+  // const soundOff = () => {
+  //   let audio = document.getElementById("muteSound") as HTMLMediaElement;
+  //   audio.muted = true;
+  //   setIsSpeaker(true);
+  //   // console.log(audio);
+  // };
+  // const soundOn = () => {
+  //   let audio = document.getElementById("muteSound") as HTMLMediaElement;
+  //   audio.muted = false;
+  //   setIsSpeaker(false);
+  //   // console.log(audio);
+  // };
   // const mySessionId = props.sessionId;
   // const localUser = props.user;
 
@@ -231,7 +238,7 @@ function WaitingPages() {
   // useEffect(() => {
   //   getUserCamera();
   // }, [videoElement]);
-  const [fullscreen, setFullscreen] = useState(false);
+  // const [fullscreen, setFullscreen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   // const leaveSession = () => {
   //   props.leaveSession();

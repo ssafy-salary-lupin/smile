@@ -1,6 +1,6 @@
 import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
-import React, { useState, Component } from "react";
+import React, { Component } from "react";
 import ChatComponent from "./chat/ChatComponent";
 import DialogExtensionComponent from "./dialog-extension/DialogExtension";
 import StreamComponent from "./stream/StreamComponent";
@@ -14,7 +14,7 @@ import styled from "styled-components";
 var localUser = new UserModel();
 
 // OPENVIDU_SERVER_URL: 오픈비두 서버쪽 URL (포트번호는 변경될 수 있음)
-const APPLICATION_SERVER_URL = "https://i8b205.p.ssafy.io:5000/";
+const APPLICATION_SERVER_URL = "https://i8b205.p.ssafy.io/";
 // process.env.NODE_ENV === "production" ? "" : "https://i8b205.p.ssafy.io/";
 
 const Wrapper = styled.div`
@@ -65,8 +65,11 @@ class VideoRoomComponent extends Component {
     // remotes:
     this.remotes = [];
 
-    // localUserAccessAllowed:
-    this.localUserAccessAllowed = false;
+    // userInfo
+    this.localUser = props.userInfo ? props.userInfo : this.localUser;
+    console.log("USER", props.userInfo);
+    console.log("THIS", this.localUser);
+    localUserAccessAllowed: this.localUserAccessAllowed = false;
     this.state = {
       mySessionId: sessionName,
       myUserName: userName,
@@ -766,6 +769,7 @@ class VideoRoomComponent extends Component {
         },
       },
     );
+    console.log("createSession", response.data);
     return response.data; // The sessionId
   }
 
@@ -788,6 +792,7 @@ class VideoRoomComponent extends Component {
         },
       },
     );
+    console.log("createToken", response.data);
     return response.data; // The token
   }
 }
