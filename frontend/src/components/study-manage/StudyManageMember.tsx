@@ -37,7 +37,7 @@ const Wrapper = styled.div`
 
 const UpContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 30vw);
+  grid-template-columns: repeat(3, 5vw);
   /* margin-top: 2.8vw; */
   margin-bottom: 2.222vw;
   /* @media screen and (min-width: 1680px) {
@@ -99,7 +99,7 @@ const DownContainer = styled.div``;
 
 const RedBox = styled.div`
   height: 200px;
-  width: 48.611vw;
+  width: 700px;
   border: solid 1px Red;
   border-radius: 10px;
 `;
