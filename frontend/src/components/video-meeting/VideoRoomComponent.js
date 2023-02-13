@@ -66,11 +66,10 @@ class VideoRoomComponent extends Component {
     this.remotes = [];
 
     // userInfo
-    // let userInfo = props.userInfo ? props.userInfo : this.localUser;
-    // console.log("USER", props.userInfo);
-    // console.log("THIS", this.props.userInfo);
-    // localUserAccessAllowed:
-    this.localUserAccessAllowed = false;
+    this.localUser = props.userInfo ? props.userInfo : this.localUser;
+    console.log("USER", props.userInfo);
+    console.log("THIS", this.localUser);
+    localUserAccessAllowed: this.localUserAccessAllowed = false;
     this.state = {
       mySessionId: sessionName,
       myUserName: userName,
