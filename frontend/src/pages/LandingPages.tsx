@@ -30,12 +30,19 @@ const SLandingBody = styled.div`
 const SContainer = styled.div`
   display: grid;
   grid-template-rows: 35vw 50.4vw 59.36vw 59.36vw;
-  @media screen and (min-width: 1680px) {
+  /* @media screen and (min-width: 1680px) {
     grid-template-rows: 504px 725.76px 854.784px 854.784px;
     justify-content: center;
     width: 1680px;
     margin: auto;
     grid-template-columns: 1680px;
+  } */
+  @media screen and (min-width: 1280px) {
+    grid-template-rows: 448px 645.12px 759.808px 759.808px;
+    justify-content: center;
+    width: 1280px;
+    margin: auto;
+    grid-template-columns: 1280px;
   }
   /* grid-template-rows: 44.8vw 50.4vw 59.36vw 59.36vw; */
   /* grid-template-rows: 640px 720px 848px 848px; */
@@ -46,21 +53,30 @@ const SBanner = styled.div`
   justify-content: flex-end;
   /* justify-content: center; */
   margin-left: 5.04vw;
-  @media screen and (min-width: 1680px) {
+  /* @media screen and (min-width: 1680px) {
     margin-left: 72px;
+  } */
+  @media screen and (min-width: 1280px) {
+    margin-left: 64px;
   }
 
   * {
     margin: 1.12vw 0px;
-    @media screen and (min-width: 1680px) {
+    /* @media screen and (min-width: 1680px) {
       margin: 16.128px 0vw;
+    } */
+    @media screen and (min-width: 1280px) {
+      margin: 14.336px 0vw;
     }
   }
 `;
 const SStudyList = styled.div`
   padding: 8.4vw 1.12vw;
-  @media screen and (min-width: 1680px) {
+  /* @media screen and (min-width: 1680px) {
     padding: 120.96px 0px;
+  } */
+  @media screen and (min-width: 1280px) {
+    padding: 107.52px 0px;
   }
 `;
 
@@ -68,9 +84,13 @@ const SItemTitle = styled.span`
   padding: 0vw 5.6vw;
   font-size: 2.52vw;
   font-weight: 600;
-  @media screen and (min-width: 1680px) {
+  /* @media screen and (min-width: 1680px) {
     padding: 0px 80.64px;
     font-size: 36.288px;
+  } */
+  @media screen and (min-width: 1280px) {
+    padding: 0px 71.68px;
+    font-size: 32.256px;
   }
 `;
 
@@ -79,16 +99,23 @@ const SBannerItem = styled.div`
   flex-direction: column;
   span {
     font-size: 2.52vw;
-    @media screen and (min-width: 1680px) {
+    /* @media screen and (min-width: 1680px) {
       font-size: 36px;
+    } */
+    @media screen and (min-width: 1280px) {
+      font-size: 32px;
     }
     :nth-child(2) {
       font-weight: 600;
       font-size: 3.36vw;
       margin-top: 1.68vw;
-      @media screen and (min-width: 1680px) {
+      /* @media screen and (min-width: 1680px) {
         font-size: 48px;
         margin-top: 24px;
+      } */
+      @media screen and (min-width: 1280px) {
+        font-size: 42.662px;
+        margin-top: 21.338px;
       }
     }
   }
@@ -124,11 +151,17 @@ const SBannerButton = styled.button`
   /* font-size: 24px; */
   font-size: 1.68vw;
   cursor: pointer;
-  @media screen and (min-width: 1680px) {
+  /* @media screen and (min-width: 1680px) {
     width: 240.48px;
     height: 72.576px;
     border-radius: 16.128px;
     font-size: 24.192px;
+  } */
+  @media screen and (min-width: 1280px) {
+    width: 213.76px;
+    height: 64.512px;
+    border-radius: 14.336px;
+    font-size: 21.504px;
   }
   :hover {
     animation: ${Hover} 1s forwards;
@@ -143,8 +176,11 @@ const SCards = styled.div`
   justify-content: space-around;
 
   margin-top: 2.8vw;
-  @media screen and (min-width: 1680px) {
+  /* @media screen and (min-width: 1680px) {
     margin-top: 40.32px;
+  } */
+  @media screen and (min-width: 1280px) {
+    margin-top: 35.84px;
   }
 `;
 
@@ -154,12 +190,17 @@ const SArrow = styled.div`
   img {
     width: 0.84vw;
     height: 2.03vw;
-    @media screen and (min-width: 1680px) {
+    /* @media screen and (min-width: 1680px) {
       width: 12px;
       height: 29px;
+    } */
+    @media screen and (min-width: 1280px) {
+      width: 10.662px;
+      height: 25.779px;
     }
   }
 `;
+// TODO : 화면 크기 조절 시 새로고침을 안하면 넓이를 모르는 버그
 const W = window.innerWidth / 2;
 const slideLeft = keyframes`
   from {
@@ -191,7 +232,7 @@ const mediaSlideLeft = keyframes`
     opacity: 0;
   }
   to {
-    left: ${W - 717}px;
+    left: ${W - 620}px;
     opacity: 1;
   }
   `;
@@ -202,7 +243,7 @@ const mediaSlideRight = keyframes`
       opacity: 0;
     }
     to {
-      right: ${W - 717}px;
+      right: ${W - 620}px;
       opacity: 1;
     }
   `;
@@ -210,7 +251,6 @@ const mediaSlideRight = keyframes`
 const slideLeftReverse = keyframes`
   from {
     left: 3.6vw;
- 
     opacity: 1;
   }
   to {
@@ -235,7 +275,7 @@ const slideRightReverse = keyframes`
 
 const mediaSlideLeftReverse = keyframes`
   0% {
-    left: ${W - 717}px;
+    left: ${W - 620}px;
   }
   25%{
     opacity: 0;
@@ -249,7 +289,7 @@ const mediaSlideLeftReverse = keyframes`
 
 const mediaSlideRightReverse = keyframes`
   0% {
-    right: ${W - 717}px;
+    right: ${W - 620}px;
 
   }
   25%{
@@ -277,8 +317,11 @@ const SIntroductionItem = styled.div<SIntroductionItemTextProps>`
   display: flex;
   align-items: center;
   padding: 0vw 3.6vw;
-  @media screen and (min-width: 1680px) {
+  /* @media screen and (min-width: 1680px) {
     padding: 96px;
+  } */
+  @media screen and (min-width: 1280px) {
+    padding: 85.338px;
   }
 
   img {
@@ -286,10 +329,15 @@ const SIntroductionItem = styled.div<SIntroductionItemTextProps>`
     width: 44.8vw;
     height: 52.22vw;
     border-radius: 1.12vw;
-    @media screen and (min-width: 1680px) {
+    /* @media screen and (min-width: 1680px) {
       width: 645.12px;
       height: 751.968px;
       border-radius: 16.128px;
+    } */
+    @media screen and (min-width: 1280px) {
+      width: 573.44px;
+      height: 668.416px;
+      border-radius: 14.336px;
     }
     position: absolute;
     z-index: -1;
@@ -305,7 +353,20 @@ const SIntroductionItem = styled.div<SIntroductionItemTextProps>`
             : slideRightReverse
           : imgOpacity}
       2s forwards ease-in;
-    @media screen and (min-width: 1680px) {
+    /* @media screen and (min-width: 1680px) {
+      animation: ${(props) =>
+      props.top !== 0
+        ? props.top <= 900
+          ? props.direction === "L"
+            ? mediaSlideLeft
+            : mediaSlideRight
+          : props.direction === "L"
+          ? mediaSlideLeftReverse
+          : mediaSlideRightReverse
+        : imgOpacity}
+        2.5s forwards ease-in;
+    } */
+    @media screen and (min-width: 1280px) {
       animation: ${(props) =>
           props.top !== 0
             ? props.top <= 900
@@ -331,7 +392,20 @@ const SIntroductionItem = styled.div<SIntroductionItemTextProps>`
           ? slideRightReverse
           : slideLeftReverse}
       2s forwards ease-out;
-    @media screen and (min-width: 1680px) {
+    /* @media screen and (min-width: 1680px) {
+      animation: ${(props) =>
+      props.top !== 0
+        ? props.top <= 900
+          ? props.direction === "L"
+            ? mediaSlideRight
+            : mediaSlideLeft
+          : props.direction === "L"
+          ? mediaSlideRightReverse
+          : mediaSlideLeftReverse
+        : imgOpacity}
+        2.5s forwards ease-in;
+    } */
+    @media screen and (min-width: 1280px) {
       animation: ${(props) =>
           props.top !== 0
             ? props.top <= 900
@@ -347,7 +421,14 @@ const SIntroductionItem = styled.div<SIntroductionItemTextProps>`
   }
 `;
 
-const SIntroductionItemImg = styled.img``;
+const SIntroductionItemImg = styled.img`
+  width: 44.444vw;
+  height: 51.667vw;
+  @media screen and (min-width: 1280px) {
+    width: 640px;
+    height: 744px;
+  }
+`;
 
 interface SIntroductionItemTextProps {
   direction: string;
@@ -362,9 +443,13 @@ const SIntroductionItemText = styled.div`
   /* right: 3.6vw; */
   width: 44.8vw;
   padding-left: 2.5vw;
-  @media screen and (min-width: 1680px) {
+  /* @media screen and (min-width: 1680px) {
     width: 645.12px;
     padding-left: 36px;
+  } */
+  @media screen and (min-width: 1280px) {
+    width: 573.44px;
+    padding-left: 32px;
   }
 `;
 
@@ -372,20 +457,33 @@ const STextBold = styled.span`
   font-size: 3vw;
   font-weight: 600;
   margin-bottom: 1.12vw;
-  @media screen and (min-width: 1680px) {
+  /* @media screen and (min-width: 1680px) {
     font-size: 48px;
     margin-bottom: 16.128px;
+  } */
+  @media screen and (min-width: 1280px) {
+    font-size: 42.662px;
+    margin-bottom: 14.336px;
   }
 `;
 const SText = styled.span`
   font-size: 2.24vw;
-  @media screen and (min-width: 1680px) {
+  /* @media screen and (min-width: 1680px) {
     font-size: 32px;
+  } */
+  @media screen and (min-width: 1280px) {
+    font-size: 28.442px;
   }
 `;
 
 const LinkBtn = styled(Link)`
   width: 16.7vw;
+  /* @media screen and (min-width: 1680px) {
+    width: 240.48px;
+  } */
+  @media screen and (min-width: 1280px) {
+    width: 213.76px;
+  }
 `;
 
 function LandingPages() {
