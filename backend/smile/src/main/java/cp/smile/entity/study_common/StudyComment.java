@@ -55,6 +55,7 @@ public class StudyComment extends BaseEntity {
     public StudyCommentDTO createStudyCommentDTO(){
 
         List<StudyReplyDTO> studyReplyDTOS = studyRelies.stream()
+                .filter((reply) -> reply.getIsDeleted() == false)
                 .map(StudyReply::createStudyReplyDTO)
                 .collect(Collectors.toList());
 
