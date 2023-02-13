@@ -122,7 +122,7 @@ const BtnWhite = styled.button`
 `;
 
 interface Data {
-  study_users: [
+  result: [
     {
       id: number; //사용자 식별자
       nickname: string; //사용자 닉네임
@@ -152,7 +152,7 @@ function StudyManageMember() {
   return (
     <Wrapper>
       <UpContainer>
-        {userStudy?.study_users.map((user, index: any) => {
+        {userStudy?.result.map((user: any, index: any) => {
           return (
             <Card key={index}>
               {/* <Card> */}
