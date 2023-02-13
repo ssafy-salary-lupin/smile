@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import Button1 from "../common/ButtonBasic";
-import ModalManageRecruit from "./ModalManageRecruit";
+import ModalManageRecruit1 from "./ModalManageRecruit";
 import ModalManageDeadline from "./ModalManageDeadline";
 import ModalManageEnd from "./ModalManageEnd";
 import ModalManageDrop from "./ModalManageDrop";
@@ -220,7 +220,7 @@ function StudyManageMember() {
               <Text>설정하시겠습니까?</Text>
             </TextBox>
             {recruitModalOpen && (
-              <ModalManageRecruit setModalOpen={setRecruitModalOpen} />
+              <ModalManageRecruit1 setModalOpen={setRecruitModalOpen} />
             )}
             <BtnYellow>모집 시작</BtnYellow>
             {/* <BtnBig>모집 마감</BtnBig> */}
