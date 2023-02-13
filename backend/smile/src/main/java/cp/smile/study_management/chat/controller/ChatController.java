@@ -57,11 +57,6 @@ public class ChatController {
         return responseService.getDataResponse(chatMessageInfoDTOS, RESPONSE_SUCCESS);
     }
 
-    @GetMapping("/test/createRoom")
-    public void test(){
-        chatService.createRoom(1);
-    }
-
     /* /pub/chat/message 로 들어오는 메시지 처리.*/
     @MessageMapping("/chat/message")
     public void message(ChatMessageDTO chatMessageDTO){

@@ -20,8 +20,6 @@ import java.util.*;
 @Repository
 public class ChatRepositoryImpl implements ChatRepository{
 
-    private Map<Integer, ChatRoomDTO> chatRoomDTOS;
-
 
     //채팅방id(Topic)에서 발생되는 메시지를 처리할 listener
     private final RedisMessageListenerContainer redisMessageListener;
@@ -30,7 +28,7 @@ public class ChatRepositoryImpl implements ChatRepository{
 
     //레디스에서 제공하는 Hash Type의 key 값으로 쓸 값
     //value가 자바의 map 구조가 됨.
-    private static final String CHAT_ROOMS = "";
+    private static final String CHAT_ROOMS = "CHAT_ROOM";
 
     //레디스가 제공하는 레디스 서버에 레디스명령어를 수행하기 위해 추상화 제공 - 직렬화, 커넥션 관리 등을 수행함.
     //레디스 자료형에 대한 인터페이스를 제공해줌.
