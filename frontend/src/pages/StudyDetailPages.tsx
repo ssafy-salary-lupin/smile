@@ -442,7 +442,6 @@ function StudyDetailPages() {
     await axios
       .post(
         `${BASE_URL}/users/${decoded?.userId}/studies/${detailStudy?.result.id}`,
-        formData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -451,7 +450,7 @@ function StudyDetailPages() {
         },
       )
       .then(function (response) {
-        // console.log(response.data);
+        console.log(response.data);
         console.log("1");
       })
       .catch((error) => {
