@@ -18,7 +18,7 @@ public class WebSockConfig implements WebSocketMessageBrokerConfigurer {
     }
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws").setAllowedOriginPatterns("*")
+        registry.addEndpoint("/ws-stomp").setAllowedOriginPatterns("*")
             .withSockJS(); //웹소켓 연결 엔드 포인 설정 - ws://localhost:8080/ws-stomp
     }
 
