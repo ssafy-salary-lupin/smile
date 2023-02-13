@@ -21,6 +21,7 @@ import {
 } from "../../apis/StudyManageMember";
 import { ReactComponent as Crown } from "../../assets/icon/Crown.svg";
 import axios from "axios";
+import { theme } from "theme";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
@@ -35,8 +36,8 @@ const Wrapper = styled.div`
 `;
 
 const UpContainer = styled.div`
-  display: flex;
-  justify-content: space-around;
+  display: grid;
+  grid-template-columns: repeat(3, 30vw);
   /* margin-top: 2.8vw; */
   margin-bottom: 2.222vw;
   /* @media screen and (min-width: 1680px) {
@@ -193,10 +194,7 @@ function StudyManageMember() {
               <NickBox>
                 <Nick>{user.nickname}</Nick>
                 {user.leader === true ? (
-                  <Crown
-                    fill={`${(props: any) => props.theme.MainColor}`}
-                    width="1.389vw"
-                  />
+                  <Crown fill={theme.mainColor} width="1.389vw" />
                 ) : null}
               </NickBox>
               <hr />
