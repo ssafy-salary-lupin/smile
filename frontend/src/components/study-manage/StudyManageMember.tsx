@@ -37,10 +37,11 @@ const Wrapper = styled.div`
 const UpContainer = styled.div`
   display: flex;
   justify-content: space-around;
-  margin-top: 2.8vw;
-  @media screen and (min-width: 1680px) {
+  /* margin-top: 2.8vw; */
+  margin-bottom: 2.222vw;
+  /* @media screen and (min-width: 1680px) {
     margin-top: 40.32px;
-  }
+  } */
 `;
 
 const Card = styled.div`
@@ -60,15 +61,32 @@ const Card = styled.div`
 
 const Nick = styled.div`
   padding-top: 10px;
+  margin-bottom: 2.222vw;
 `;
 
 const Crown = styled.div``;
 
 const BtnBox = styled.div``;
 
-const BtnSmall = styled(Button1)`
+const BlueBtn = styled.button`
   cursor: pointer;
   box-shadow: 0 5px 5px -5px #333;
+  width: 80px;
+  height: 30px;
+  border-radius: 5px;
+  font-size: x-small;
+  background-color: ${(props) => props.theme.subColor};
+  color: white;
+`;
+
+const YellowBtn = styled.button`
+  cursor: pointer;
+  box-shadow: 0 5px 5px -5px #333;
+  width: 80px;
+  height: 30px;
+  border-radius: 5px;
+  font-size: x-small;
+  background-color: ${(props) => props.theme.mainColor};
 `;
 
 const DownContainer = styled.div``;
@@ -168,14 +186,10 @@ function StudyManageMember() {
                 height="50px"
               />
               <Nick>{user.nickname}</Nick>
-              {/* <Nick>{userStudy}</Nick> */}
-              {/* <Crown>
-            <Icons.CrownSimple />
-          </Crown> */}
               <hr />
               <BtnBox>
-                {/* <BtnSmall color={#F5C82E} >위임</BtnSmall>
-            <BtnSmall color={#314E8D} >강퇴</BtnSmall> */}
+                <YellowBtn>위임</YellowBtn>
+                <BlueBtn>강퇴</BlueBtn>
               </BtnBox>
             </Card>
           );
