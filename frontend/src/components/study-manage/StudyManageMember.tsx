@@ -160,18 +160,12 @@ interface Data {
 
 //
 function StudyManageMember() {
-  // 모집, 마감 버튼 전환
-  // const [change, setChange] = useState(false);
-  // const changeButton = () => {
-  //   setChange(!change);
-  // };
-
   // 모집 모달 열기
   const [recruitModalOpen, setRecruitModalOpen] = useState(false);
   const openModal = () => {
     setRecruitModalOpen(!recruitModalOpen);
   };
-  // 마감 모달 열기
+  // 중단 모달 열기
 
   // // const { id } = useParams<Params>();
   // 스터디의 회원 정보 가져오기
@@ -225,19 +219,13 @@ function StudyManageMember() {
               <Text>스터디원 모집 여부를 설정할 수 있습니다.</Text>
               <Text>설정하시겠습니까?</Text>
             </TextBox>
-            {/* {change ? ( */}
-            <BtnYellow
-              onClick={openModal}
-              // onChange={changeButton}
-              {...(recruitModalOpen && (
-                <ModalManageRecruit1 setModalOpen={setRecruitModalOpen} />
-              ))}
-            >
-              모집 시작
-            </BtnYellow>
-            {/* ) : (
-              <BtnYellow onClick={openModal}>모집 마감</BtnYellow>
-            )} */}
+            {recruitModalOpen && (
+              <ModalManageRecruit1 setModalOpen={setRecruitModalOpen} />
+            )}
+            {}
+            <BtnYellow onClick={openModal}>모집 시작</BtnYellow>
+
+            {/* <BtnBig onClick={openModal}>모집 마감</BtnBig> */}
           </Box>
           <Box>
             <TextBox>
