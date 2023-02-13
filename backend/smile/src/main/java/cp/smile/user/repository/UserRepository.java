@@ -12,7 +12,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     Optional<User> findByEmail(String email);
 
-    Optional<User> findById(int id);
+    Optional<User> findByIdAAndIsDeletedFalse(int id);
 
     @Query(value = "select u from User u " +
                 "join fetch u.UserJoinStudy ujs " +

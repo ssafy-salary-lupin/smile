@@ -92,8 +92,8 @@ public class UserServiceImpl implements UserService{
     public UserInfoDTO findDetailUser(int id) {
 
         User user = userRepository
-                .findById(id)
-                .orElseThrow(RuntimeException::new);
+                .findByIdAAndIsDeletedFalse(id)
+                .orElseThrow(() -> new CustomException(ACCOUNT_NOT_FOUND));
 
         return UserInfoDTO.builder()
                 .id(user.getId())
@@ -116,7 +116,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void joinStudy(int userId, int studyId) {
-        User user = userRepository.findById(userId)
+        User user = userRepository.findByIdAAndIsDeletedFalse(userId)
                 .orElseThrow(() -> new CustomException(ACCOUNT_NOT_FOUND));
 
         log.info("find user: {}", user.getEmail());
@@ -183,9 +183,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public void updateUserInfo(int userId, UserUpdateDTO userUpdateDTO, MultipartFile multipartFile) {
 
-        // TODO 이미지 경로 처리
-
-        User user = userRepository.findById(userId)
+        User user = userRepository.findByIdAAndIsDeletedFalse(userId)
                 .orElseThrow(() -> new CustomException(ACCOUNT_NOT_FOUND));
 
         if (userUpdateDTO.getNickname() != null) {
@@ -222,8 +220,6 @@ public class UserServiceImpl implements UserService{
 
             String key  = PROFILE_IMG + storeFileName; //파일 저장위치.
 
-//            System.out.println(bucket);
-
             try (InputStream inputStream = multipartFile.getInputStream()) {
                 amazonS3Client.putObject(new PutObjectRequest(bucket, key, inputStream, objectMetadata)
                         .withCannedAcl(CannedAccessControlList.PublicRead));
@@ -242,15 +238,11 @@ public class UserServiceImpl implements UserService{
     @Override
     public void deleteUser(int userId) {
 
-        // TODO 탈퇴는 isDelete만 true로 바꿔주면 끝???
-
-        User user = userRepository.findById(userId)
+        User user = userRepository.findByIdAAndIsDeletedFalse(userId)
                 .orElseThrow(() -> new CustomException(ACCOUNT_NOT_FOUND));
 
         if (user.getIsDeleted() == false) {
             user.deleteUser();
         }
     }
-
-
 }
