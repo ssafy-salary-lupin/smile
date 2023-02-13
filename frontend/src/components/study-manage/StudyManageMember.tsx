@@ -6,12 +6,15 @@ import chatImg from "../../assets/img/chat_icon.png";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
+import Button1 from "../common/ButtonBasic";
+// import * as Icons from "../../assets/icon/DuotonIcon";
 import axios from "axios";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
   display: flex;
   flex-direction: column;
+  align-items: center;
 
   a {
     text-decoration: none;
@@ -29,6 +32,10 @@ const UpContainer = styled.div`
 `;
 
 const Card = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   border-radius: 1.12vw;
   width: 180px;
   height: 240px;
@@ -38,7 +45,15 @@ const Card = styled.div`
   /* box-shadow: 5px 5px 5px 5px gray; */
 `;
 
-const BtnSmall = styled.button`
+const Nick = styled.div`
+  padding-top: 10px;
+`;
+
+const Crown = styled.div``;
+
+const BtnBox = styled.div``;
+
+const BtnSmall = styled(Button1)`
   cursor: pointer;
   box-shadow: 0px 0px 1.12vw gray;
 `;
@@ -47,7 +62,7 @@ const DownContainer = styled.div``;
 
 const RedBox = styled.div`
   height: 200px;
-  width: 300px;
+  width: 48.611vw;
   border: solid 1px Red;
   border-radius: 10px;
 `;
@@ -60,12 +75,12 @@ const Box = styled.div`
 `;
 
 const TextBox = styled.div`
-  height: 100px;
+  height: 90px;
 `;
 const BigText = styled.div`
   font-weight: bold;
   font-size: large;
-  // margine: 100px;
+  padding: 10px;
 `;
 
 const Text = styled.div`
@@ -138,20 +153,31 @@ function StudyManageMember() {
   return (
     <Wrapper>
       <UpContainer>
-        {userStudy?.study_users.map((index: any) => (
-          <Card key={index}>
-            <ProfileImg
-              imgUrl={
-                // detailStudy?.result.imgPath !== "/root"
-                //   ? detailStudy?.result.imgPath
-                // : defaultprofileImg
-                defaultprofileImg
-              }
-              width="6vw"
-              height="6vw"
-            />
-          </Card>
-        ))}
+        {/* {userStudy?.study_users.map((user, index: any) => (
+          <Card key={index}> */}
+        <Card>
+          <ProfileImg
+            imgUrl={
+              // detailStudy?.result.imgPath !== "/root"
+              //   ? detailStudy?.result.imgPath
+              // : defaultprofileImg
+              defaultprofileImg
+            }
+            width="50px"
+            height="50px"
+          />
+          {/* <Nick>{user.nickname}</Nick> */}
+          {/* <Nick>{userStudy?.study_Info.nickname}</Nick> */}
+          {/* <Crown>
+            <Icons.CrownSimple />
+          </Crown> */}
+          <hr />
+          <BtnBox>
+            {/* <BtnSmall color={#F5C82E} >위임</BtnSmall>
+            <BtnSmall color={#314E8D} >강퇴</BtnSmall> */}
+          </BtnBox>
+        </Card>
+        {/* ))} */}
       </UpContainer>
       <DownContainer>
         <RedBox>
