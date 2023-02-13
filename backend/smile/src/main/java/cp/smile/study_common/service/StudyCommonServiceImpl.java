@@ -6,7 +6,6 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import cp.smile.config.response.exception.CustomException;
-import cp.smile.config.response.exception.CustomExceptionStatus;
 import cp.smile.entity.study_common.StudyComment;
 import cp.smile.entity.study_common.StudyInformation;
 import cp.smile.entity.study_common.StudyReply;
@@ -22,7 +21,6 @@ import cp.smile.study_common.dto.response.comment.UpdateCommentResDTO;
 import cp.smile.study_common.dto.response.comment.UpdateReplyResDTO;
 import cp.smile.study_common.repository.*;
 import cp.smile.study_management.chat.service.ChatService;
-import cp.smile.study_management.chat.service.ChatServiceImpl;
 import cp.smile.user.repository.UserJoinStudyRepository;
 import cp.smile.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -258,6 +256,8 @@ public class StudyCommonServiceImpl implements StudyCommonService{
         List<StudyCommentDTO> StudyCommentDTOS = studyComments.stream()
                 .map(StudyComment::createStudyCommentDTO)
                 .collect(Collectors.toList());
+
+        studyInformation.addViewCount();
 
         //스터디 상세 조회 DTO 채우기.
         return FindDetailStudyDTO.builder()
