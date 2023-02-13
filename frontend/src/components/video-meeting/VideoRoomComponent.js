@@ -65,13 +65,17 @@ class VideoRoomComponent extends Component {
     // remotes:
     this.remotes = [];
 
+    // userInfo
+    let userInfo = props.userInfo ? props.userInfo : this.localUser;
+    console.log("USER", props.userInfo);
+    console.log("THIS", this.props.userInfo);
     // localUserAccessAllowed:
     this.localUserAccessAllowed = false;
     this.state = {
       mySessionId: sessionName,
       myUserName: userName,
       session: undefined,
-      localUser: undefined,
+      localUser: userInfo,
       subscribers: [],
       chatDisplay: "none",
       currentVideoDevice: undefined,
