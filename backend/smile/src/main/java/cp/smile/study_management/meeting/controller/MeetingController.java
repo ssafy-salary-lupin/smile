@@ -125,6 +125,8 @@ public class MeetingController {
             @PathVariable int studyId,
             @RequestBody(required = false) AttendRequestDTO dto)
             throws OpenViduJavaClientException, OpenViduHttpException {
+        log.info("attendRequest dto: {}");
+        
         checkIsJoinedStudy(oAuth2User.getUserId(), studyId);
 
         String sessionId = String.valueOf(studyId);

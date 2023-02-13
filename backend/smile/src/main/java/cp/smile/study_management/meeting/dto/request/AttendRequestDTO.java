@@ -4,10 +4,14 @@ import io.openvidu.java.client.OpenViduRole;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Getter
+@NoArgsConstructor
+@ToString
 public class AttendRequestDTO {
 
     private String data;

@@ -47,12 +47,13 @@ public class OpenViduServiceImpl implements OpenViduService{
             throw new CustomException(OVER_MAX_SIZE_PERSON);
         }
 
-        ConnectionProperties properties;
+//        ConnectionProperties properties;
+//
+//        if (dto != null) {
+//            properties = ConnectionProperties.fromJson(dto.toMap()).build();
+//        } else properties = ConnectionProperties.fromJson(null).build();
 
-        if (dto != null) {
-            properties = ConnectionProperties.fromJson(dto.toMap()).build();
-        } else properties = ConnectionProperties.fromJson(null).build();
-
+        ConnectionProperties properties = new ConnectionProperties.Builder().record(false).build();
         return session.createConnection(properties).getToken();
     }
 
