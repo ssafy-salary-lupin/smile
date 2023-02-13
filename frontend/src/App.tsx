@@ -15,8 +15,8 @@ body {
   margin: 0;
   @import url("https://fonts.googleapis.com/css2?family=Noto+Sans&family=Noto+Sans+KR&display=swap");
   font-family: "Noto Sans KR", sans-serif;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   padding: 0;
   -ms-overflow-style: none;
   scrollbar-width: none;

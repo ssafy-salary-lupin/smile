@@ -25,7 +25,7 @@ const Wrapper = styled.div`
 const Header = styled.div`
   display: flex;
   margin: 2.222vw 0;
-  @media screen and (min-width: 1680px) {
+  @media screen and (min-width: 1280px) {
     margin: 31.997px 0;
   }
   div {
@@ -35,7 +35,7 @@ const Header = styled.div`
     h1 {
       font-size: 2.778vw;
       font-weight: 600;
-      @media screen and (min-width: 1680px) {
+      @media screen and (min-width: 1280px) {
         font-size: 40.003px;
       }
     }
@@ -62,7 +62,7 @@ const CreateBtnWrapper = styled.div`
   justify-content: flex-end;
   padding: 0 2.778vw;
   margin: 1.111vw 0 2.222vw 0;
-  @media screen and (min-width: 1680px) {
+  @media screen and (min-width: 1280px) {
     width: 1359.994px;
     padding: 0 40.003px;
     margin: 15.998px 0 31.997px 0;
@@ -75,7 +75,7 @@ const CreateBtnWrapper = styled.div`
     border-radius: 1.111vw;
     font-size: 1.667vw;
     cursor: pointer;
-    @media screen and (min-width: 1680px) {
+    @media screen and (min-width: 1280px) {
       width: 240.005px;
       height: 63.994px;
       border-radius: 15.998px;
@@ -87,7 +87,9 @@ const CreateBtnWrapper = styled.div`
   }
 `;
 
-const Section = styled.div``;
+const Section = styled.div`
+  min-height: 116.667vw;
+`;
 
 interface CardsProps {
   NumberOfCards: number;
@@ -99,7 +101,7 @@ const Cards = styled.div<CardsProps>`
   grid-template-rows: repeat(3, 38.889vw);
   margin-top: 2.8vw;
   cursor: pointer;
-  @media screen and (min-width: 1680px) {
+  @media screen and (min-width: 1280px) {
     grid-template-columns: repeat(3, 453.312px);
     grid-template-rows: repeat(3, 560.002px);
     margin-top: 40.32px;
@@ -135,8 +137,9 @@ const SkeletonCards = styled.div`
   animation-delay: 1.5s;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
-  @media screen and (min-width: 1680px) {
-    margin-top: 40.32px;
+  @media screen and (min-width: 1280px) {
+    /* margin-top: 40.32px; */
+    margin-top: 71.32px;
     grid-template-columns: repeat(3, 453.312px);
     grid-template-rows: repeat(3, 560.002px);
   }
@@ -151,7 +154,7 @@ const LoadingWrapper = styled.div`
 const HeaderImg = styled(StudyImg)`
   width: 29.444vw;
   height: 17.222vw;
-  @media screen and (min-width: 1680px) {
+  @media screen and (min-width: 1280px) {
     width: 423.994px;
     height: 247.997px;
   }
@@ -197,7 +200,7 @@ export default function StudySearchPages() {
   );
 
   const [ref, inView] = useInView();
-
+  console.log(searchType);
   // 검색 기능
   useEffect(() => {
     console.log(1);
@@ -220,28 +223,9 @@ export default function StudySearchPages() {
   // 카드 분류하기
   useEffect(() => {
     console.log(3);
-
-    const cardNumber = data?.data.result ? data.data.result.length : 0;
-
-    if (!data) {
-      console.log("3-1");
-      setStudiesNumber(0);
-      setMoreStudies(false);
-    } else if (cardNumber <= 9) {
-      console.log("3-2");
-      setStudiesNumber(cardNumber);
-      setStudyList(data.data.result.slice(0, 9));
-      setMoreStudies(false);
-    } else {
-      console.log("3-3");
-      setStudiesNumber(9);
-      setMoreStudies(true);
-      setMoreStudyList(data.data.result.slice(9));
-      setStudyList(data.data.result.slice(0, 9));
-      // setMoreStudyList((prev) => [...prev, data.data.result.slice(9)]);
-      // setStudyList((prev) => [...prev, data.data.result.slice(0, 9)]);
-    }
-  }, [data, isLoading, StudyList]);
+    setMoreStudyList(data?.data.result.slice(9));
+    setStudyList(data?.data.result.slice(0, 9));
+  }, [data]);
 
   useEffect(() => {
     console.log(5);
@@ -277,8 +261,8 @@ export default function StudySearchPages() {
                 <button>스터디 생성</button>
               </Link>
             </CreateBtnWrapper>
-            <Section>
-              <SkeletonCards>
+            <Section id="TEST2">
+              <SkeletonCards id="TEST">
                 {[...Array(9).keys()].map((index) => (
                   <LoadingWrapper key={index}>
                     <LoadingCard />
