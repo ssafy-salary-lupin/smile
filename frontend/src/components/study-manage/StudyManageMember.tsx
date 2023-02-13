@@ -7,6 +7,18 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import Button1 from "../common/ButtonBasic";
+import ModalManageRecruit from "./ModalManageRecruit";
+import ModalManageDeadline from "./ModalManageDeadline";
+import ModalManageEnd from "./ModalManageEnd";
+import ModalManageDrop from "./ModalManageDrop";
+import {
+  StudyUserApi,
+  MandateApi,
+  UserDropApi,
+  StudyEndApi,
+  StudyRecruitmentApi,
+  StudyReDeadlineApi,
+} from "../../apis/StudyManageMember";
 // import * as Icons from "../../assets/icon/DuotonIcon";
 import axios from "axios";
 
@@ -95,7 +107,7 @@ const BtnYellow = styled.button`
   border-radius: 5px;
   font-size: small;
   background-color: ${(props) => props.theme.mainColor};
-  box-shadow: 0px 0px 1.12vw gray;
+  box-shadow: 0px 0px 16.128px 0px gray;
 `;
 const BtnWhite = styled.button`
   cursor: pointer;
@@ -105,7 +117,7 @@ const BtnWhite = styled.button`
   border-radius: 5px;
   font-size: small;
   background-color: white;
-  box-shadow: 0px 0px 1.12vw gray;
+  box-shadow: 0px 0px 16.128px 0px gray;
   color: red;
 `;
 
@@ -123,61 +135,48 @@ interface Data {
 
 //
 function StudyManageMember() {
-  const BASE_URL = `https://i8b205.p.ssafy.io/be-api/studies`;
-  const token = localStorage.getItem("kakao-token");
-
-  // // 스터디에 속한 유저 정보 가져오기
-  const StudyUserApi = async () => {
-    try {
-      const response = await fetch(`${BASE_URL}/1/users`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: "application/json",
-        },
-      });
-
-      const data = await response.json();
-      console.log(data);
-      return data;
-    } catch (error: any) {
-      console.log(error);
-    }
-  };
   // // const { id } = useParams<Params>();
+  // 스터디의 회원 정보 가져오기
   const { data: userStudy } = useQuery<Data>("userStudy", () => StudyUserApi());
 
   // 위임
 
   // 강퇴
 
+  // 모집
+
+  // 마감
+
+  // 종료
+
   return (
     <Wrapper>
       <UpContainer>
-        {/* {userStudy?.study_users.map((user, index: any) => (
-          <Card key={index}> */}
-        <Card>
-          <ProfileImg
-            imgUrl={
-              // detailStudy?.result.imgPath !== "/root"
-              //   ? detailStudy?.result.imgPath
-              // : defaultprofileImg
-              defaultprofileImg
-            }
-            width="50px"
-            height="50px"
-          />
-          {/* <Nick>{user.nickname}</Nick> */}
-          {/* <Nick>{userStudy?.study_Info.nickname}</Nick> */}
-          {/* <Crown>
+        {userStudy?.study_users.map((user, index: any) => (
+          <Card key={index}>
+            {/* <Card> */}
+            <ProfileImg
+              imgUrl={
+                // detailStudy?.result.imgPath !== "/root"
+                //   ? detailStudy?.result.imgPath
+                // : defaultprofileImg
+                defaultprofileImg
+              }
+              width="50px"
+              height="50px"
+            />
+            <Nick>{user.nickname}</Nick>
+            {/* <Nick>{userStudy}</Nick> */}
+            {/* <Crown>
             <Icons.CrownSimple />
           </Crown> */}
-          <hr />
-          <BtnBox>
-            {/* <BtnSmall color={#F5C82E} >위임</BtnSmall>
+            <hr />
+            <BtnBox>
+              {/* <BtnSmall color={#F5C82E} >위임</BtnSmall>
             <BtnSmall color={#314E8D} >강퇴</BtnSmall> */}
-          </BtnBox>
-        </Card>
-        {/* ))} */}
+            </BtnBox>
+          </Card>
+        ))}
       </UpContainer>
       <DownContainer>
         <RedBox>
