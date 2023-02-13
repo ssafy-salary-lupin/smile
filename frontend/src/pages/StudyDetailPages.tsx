@@ -13,6 +13,7 @@ import { Link, useParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import { ReactComponent as Reply } from "../assets/icon/Reply.svg";
 import { ReactComponent as Crown } from "../assets/icon/Crown.svg";
+import defaultStudyImg from "assets/img/card_photo_1.png";
 import { theme } from "theme";
 import {
   commentDeleteApi,
@@ -20,6 +21,7 @@ import {
   replyDeleteApi,
   replyUpdateApi,
   StudyDataApi,
+  studyJoinApi,
   writeDetailCommentApi,
   writeDetailReplyApi,
 } from "apis/StudyDetailApi";
@@ -66,9 +68,6 @@ const Btn = styled.button`
 `;
 
 const Card = styled.img`
-  /* display: grid;
-  grid-template-rows: 21.84vw 12.91vw; */
-  /* border: 0.994px solid black; */
   box-shadow: 0 0 1.111vw 0.694vw ${(props) => props.theme.blackColorOpacity3};
   border-radius: 0.556vw;
   width: 22.083vw;
@@ -343,7 +342,7 @@ interface Data {
     startDate: string; //스터디 시작 일자
     endDate: string; //스터디 종료 일자
     time: string; //스터디 시간
-    imgPath: string; //스터디 대표 이미지
+    imagePath: string; //스터디 대표 이미지
     currrentPerson: number; //스터디 현재 가입 인원
     maxPerson: number; //스터디 최대 가입 인원
     viewCount: number; //스터디 조회수
@@ -400,62 +399,19 @@ function StudyDetailPages() {
     async () => await StudyDataApi(id),
   );
 
-  const formData = new FormData();
-  //-----------------------------------------------\
-  //-----------------------------------------------
-  // 여기부터 스터디가입 post
-  // const [userid, setUserid] = useState<number>(0);
-  // const [usernickname, setUsernickname] = useState("");
-  // const [useremail, setUseremail] = useState("");
-  // const [userimg, setUserimg] = useState("");
-  // const [userdeleted, setUserdeleted] = useState<number>(0);
+  // 스터디 참여 하기=========================================================
+  const onJoin = async () => {
+    if (token !== null) {
+      var decoded: any = jwt_decode(token);
+      // const decoded2: object = jwt_decode(token);
+      console.log("decoded : ", decoded);
+      console.log("decoded Id : ", decoded?.userId);
+      // console.log("decoded Id: ", decoded);
+    } else {
+      console.log("none");
+    }
 
-  // const data = {
-  //   id: userid, // 유저 식별자
-  //   nickname: usernickname, // 닉네임
-  //   email: useremail, // 이메일
-  //   imagePath: userimg, // 프로필 이미지
-  //   isDeleted: userdeleted,
-  // };
-  // console.log("TTTTTT");
-
-  // var base64Payload = token?.split(".")[1];
-  // if (base64Payload !== undefined) {
-  //   var payload = Buffer.from(base64Payload, "base64");
-  //   var result = JSON.parse(payload.toString());
-  //   console.log("result", result);
-  // }
-  //token----------------------------
-  if (token !== null) {
-    var decoded: any = jwt_decode(token);
-    // const decoded2: object = jwt_decode(token);
-    console.log("decoded : ", decoded);
-    console.log("decoded Id : ", decoded?.userId);
-    // console.log("decoded Id: ", decoded);
-  } else {
-    console.log("none");
-  }
-
-  // const BASE_URL = `https://i8b205.p.ssafy.io/be-api/studies`;
-  const BASE_URL = `/be-api/studies`;
-  const studyJoinApi = async () => {
-    await axios
-      .post(
-        `${BASE_URL}/users/${decoded?.userId}/studies/${detailStudy?.result.id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        },
-      )
-      .then(function (response) {
-        console.log(response.data);
-        console.log("1");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    studyJoinApi(decoded?.userId, detailInfo?.result.id);
   };
 
   // 댓글 관련==========================================================================
@@ -582,17 +538,32 @@ function StudyDetailPages() {
       <Top>
         <TextBig>{detailInfo?.result.name}</TextBig>
         <Link to={{ pathname: `/studies/${detailInfo?.result.id}/home` }}>
-          <Btn onClick={studyJoinApi}>참여하기</Btn>
+          <Btn onClick={onJoin}>참여하기</Btn>
         </Link>
       </Top>
       <StudyDetail>
-        <Card src={detailInfo?.result.imgPath} id="item1" />
+        <Card
+          src={
+            detailInfo?.result.imagePath.includes("/root")
+              ? defaultStudyImg
+              : detailInfo?.result.imagePath
+          }
+        />
+        {/* <Card
+          src={
+            detailInfo?.result.imgPath.includes("/root")
+              ? defaultStudyImg
+              : detailInfo?.result.imgPath
+          }
+        /> */}
+        {/* <Card src={detailInfo?.result.imgPath} id="item1" /> */}
         <TextBigBox>
           <TextSmallBox>
             <ProfileImg
               imgUrl={
-                detailInfo?.result.imgPath !== "/root"
-                  ? detailInfo?.result.imgPath
+                detailInfo?.result.leader.imagePath !== null &&
+                detailInfo?.result.leader.imagePath !== "/root"
+                  ? detailInfo?.result.leader.imagePath
                   : defaultprofileImg
               }
               width="5vw"
