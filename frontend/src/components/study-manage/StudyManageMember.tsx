@@ -194,7 +194,7 @@ function StudyManageMember() {
                 <Nick>{user.nickname}</Nick>
                 {user.leader === true ? (
                   <Crown
-                    fill={`${(props) => props.theme.MainColor}`}
+                    fill={`${(props: any) => props.theme.MainColor}`}
                     width="1.389vw"
                   />
                 ) : null}
