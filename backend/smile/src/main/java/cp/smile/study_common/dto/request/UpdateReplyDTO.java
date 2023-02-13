@@ -7,9 +7,4 @@ import lombok.Getter;
 public class UpdateReplyDTO {
 
     private String content;
-
-    @Builder
-    public UpdateReplyDTO(String content) {
-        this.content = content;
-    }
 }
