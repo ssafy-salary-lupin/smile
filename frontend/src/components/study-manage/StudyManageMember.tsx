@@ -164,7 +164,9 @@ interface Data {
 function StudyManageMember() {
   // 모달 열기
   const [recruitModalOpen, setRecruitModalOpen] = useState(false);
-
+  const openModal = () => {
+    setRecruitModalOpen(!recruitModalOpen);
+  };
   // // const { id } = useParams<Params>();
   // 스터디의 회원 정보 가져오기
   const { data: userStudy } = useQuery<Data>("userStudy", () => StudyUserApi());
@@ -219,12 +221,10 @@ function StudyManageMember() {
               <Text>스터디원 모집 여부를 설정할 수 있습니다.</Text>
               <Text>설정하시겠습니까?</Text>
             </TextBox>
-            <BtnYellow>
-              모집 시작
-              {recruitModalOpen && (
-                <ModalManageRecruit1 setModalOpen={setRecruitModalOpen} />
-              )}
-            </BtnYellow>
+            {recruitModalOpen && (
+              <ModalManageRecruit1 setModalOpen={setRecruitModalOpen} />
+            )}
+            <BtnYellow onClick={openModal}>모집 시작</BtnYellow>
 
             {/* <BtnBig>모집 마감</BtnBig> */}
           </Box>
