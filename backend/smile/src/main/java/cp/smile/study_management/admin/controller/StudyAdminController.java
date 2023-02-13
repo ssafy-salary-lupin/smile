@@ -73,7 +73,7 @@ public class StudyAdminController {
             @ApiResponse(responseCode = "200",description = "API 정상 동작"),
             @ApiResponse(responseCode = "400",description = "API 에러")
     })
-    @PatchMapping("studies/{studyId}/users/{userId}/delegate")
+    @PatchMapping("/studies/{studyId}/users/{userId}/delegate")
     public CommonResponse delegateStudyLeader(
             @PathVariable int studyId,
             @PathVariable int userId,
@@ -93,7 +93,7 @@ public class StudyAdminController {
             @ApiResponse(responseCode = "200",description = "API 정상 동작"),
             @ApiResponse(responseCode = "400",description = "API 에러")
     })
-    @PatchMapping("studies/{studyId}/close")
+    @PatchMapping("/studies/{studyId}/close")
     public CommonResponse closeStudy(
             @PathVariable int studyId,
             @AuthenticationPrincipal CustomOAuth2User oAuth2User) {
@@ -112,7 +112,7 @@ public class StudyAdminController {
             @ApiResponse(responseCode = "200",description = "API 정상 동작"),
             @ApiResponse(responseCode = "400",description = "API 에러")
     })
-    @PatchMapping("studies/{studyId}/recruit")
+    @PatchMapping("/studies/{studyId}/recruit")
     public CommonResponse recruitStudy(
             @PathVariable int studyId,
             @AuthenticationPrincipal CustomOAuth2User oAuth2User) {
@@ -131,7 +131,7 @@ public class StudyAdminController {
             @ApiResponse(responseCode = "200",description = "API 정상 동작"),
             @ApiResponse(responseCode = "400",description = "API 에러")
     })
-    @PatchMapping("studies/{studyId}/deadline")
+    @PatchMapping("/studies/{studyId}/deadline")
     public CommonResponse deadlineStudy(
             @PathVariable int studyId,
             @AuthenticationPrincipal CustomOAuth2User oAuth2User) {
@@ -150,7 +150,7 @@ public class StudyAdminController {
             @ApiResponse(responseCode = "200",description = "API 정상 동작"),
             @ApiResponse(responseCode = "400",description = "API 에러")
     })
-    @PatchMapping("studies/{studyId}/users/{userId}")
+    @PatchMapping("/studies/{studyId}/users/{userId}")
     public CommonResponse userBan(
             @PathVariable int studyId,
             @PathVariable int userId,
@@ -170,7 +170,7 @@ public class StudyAdminController {
             @ApiResponse(responseCode = "200",description = "API 정상 동작"),
             @ApiResponse(responseCode = "400",description = "API 에러")
     })
-    @PatchMapping("studies/{studyId}")
+    @PatchMapping("/studies/{studyId}")
     public CommonResponse updateStudyInformation(
             @PathVariable int studyId,
             @RequestBody StudyInfoDTO studyInfoDTO,
