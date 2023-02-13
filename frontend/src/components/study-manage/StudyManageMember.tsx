@@ -71,21 +71,24 @@ const BtnBox = styled.div``;
 const BlueBtn = styled.button`
   cursor: pointer;
   box-shadow: 0 5px 5px -5px #333;
-  width: 80px;
+  width: 50px;
   height: 30px;
   border-radius: 5px;
   font-size: x-small;
-  background-color: ${(props) => props.theme.subColor};
+  background-color: ${(props) => props.theme.pointColor};
+  border: ${(props) => props.theme.pointColor};
   color: white;
+  margin-left: 10px;
 `;
 
 const YellowBtn = styled.button`
   cursor: pointer;
   box-shadow: 0 5px 5px -5px #333;
-  width: 80px;
+  width: 50px;
   height: 30px;
   border-radius: 5px;
   font-size: x-small;
+  border: ${(props) => props.theme.pointColor};
   background-color: ${(props) => props.theme.mainColor};
 `;
 
