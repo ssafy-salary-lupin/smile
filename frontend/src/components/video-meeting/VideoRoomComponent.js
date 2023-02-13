@@ -1,6 +1,6 @@
 import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
-import React, { useState, Component } from "react";
+import React, { Component } from "react";
 import ChatComponent from "./chat/ChatComponent";
 import DialogExtensionComponent from "./dialog-extension/DialogExtension";
 import StreamComponent from "./stream/StreamComponent";
@@ -66,16 +66,16 @@ class VideoRoomComponent extends Component {
     this.remotes = [];
 
     // userInfo
-    let userInfo = props.userInfo ? props.userInfo : this.localUser;
-    console.log("USER", props.userInfo);
-    console.log("THIS", this.props.userInfo);
+    // let userInfo = props.userInfo ? props.userInfo : this.localUser;
+    // console.log("USER", props.userInfo);
+    // console.log("THIS", this.props.userInfo);
     // localUserAccessAllowed:
     this.localUserAccessAllowed = false;
     this.state = {
       mySessionId: sessionName,
       myUserName: userName,
       session: undefined,
-      localUser: userInfo,
+      localUser: undefined,
       subscribers: [],
       chatDisplay: "none",
       currentVideoDevice: undefined,
