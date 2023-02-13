@@ -74,6 +74,7 @@ export async function StudyEndApi() {
 // // 스터디 모집
 export async function StudyRecruitmentApi() {
   try {
+    console.log("token", token);
     console.log("???");
     const response = await axios.patch(`${BASE_URL}/1/recruit`, {
       headers: {
