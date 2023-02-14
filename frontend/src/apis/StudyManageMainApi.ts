@@ -1,6 +1,4 @@
-import { studyIdRecoil } from "atoms/StudyManage";
 import axios from "axios";
-import { useRecoilValue } from "recoil";
 
 const BASE_URL = `https://i8b205.p.ssafy.io/be-api/studies`;
 // const BASE_URL = `/be-api/studies`;
