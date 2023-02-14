@@ -411,7 +411,9 @@ function StudyDetailPages() {
       console.log("none");
     }
 
-    await studyJoinApi(decoded?.userId, detailInfo?.result.id);
+    const data = {};
+
+    await studyJoinApi(decoded?.userId, detailInfo?.result.id, data);
   };
 
   // 댓글 관련==========================================================================

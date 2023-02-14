@@ -24,17 +24,17 @@ export async function StudyDataApi(id: string) {
 }
 
 // 스터디 가입하기
-export async function studyJoinApi(userId: any, studyId: any) {
+export async function studyJoinApi(userId: any, studyId: any, data: any) {
   try {
     await axios.post(
       `https://i8b205.p.ssafy.io/be-api/users/${userId}/studies/${studyId}`,
+      JSON.stringify(data),
       // formData,
       {
         headers: {
           Authorization: `Bearer ${token}`,
           // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
-
-          "Content-Type": "multipart/form-data",
+          "Content-Type": `application/json`,
         },
       },
     );
@@ -114,7 +114,7 @@ export async function replyUpdateApi(data: any, commentId: any, replyId: any) {
       data,
       {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("kakao-token")}`,
+          Authorization: `Bearer ${token}`,
           // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
           "Content-Type": `application/json`,
         },
