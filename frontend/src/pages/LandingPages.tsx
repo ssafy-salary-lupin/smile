@@ -570,19 +570,19 @@ function LandingPages() {
       },
     },
   ];
-  const [userIdState, setUserIdState] = useRecoilState(UserIdState);
+  // const [userIdState, setUserIdState] = useRecoilState(UserIdState);
   const tt = useRecoilValue(UserIdState);
-  const tokenState = localStorage.getItem("kakao-token");
+  // const tokenState = localStorage.getItem("kakao-token");
   const test = async () => {
     console.log(tt);
-    if (tokenState !== null) {
-      var decoded: any = jwt_decode(tokenState);
-    } else {
-      console.log("none");
-    }
+    // if (tokenState !== null) {
+    //   var decoded: any = jwt_decode(tokenState);
+    // } else {
+    //   console.log("none");
+    // }
 
-    await console.log(decoded?.userId);
-    await setUserIdState(decoded?.userId);
+    // await console.log(decoded?.userId);
+    // await setUserIdState(decoded?.userId);
   };
 
   return (
