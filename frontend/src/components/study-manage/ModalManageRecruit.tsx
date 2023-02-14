@@ -58,11 +58,11 @@ function ModalManageRecruit(props: any) {
   };
 
   // 모집 / 마감 버튼 바꾸기
-  const [changeColor, setChangeColor] = useState(true);
-  // const changeBtn = () => {
-  //   setChangeColor(!changeColor);
-  // };
-  props(changeColor);
+  // const [changeColor, setChangeColor] = useState(true);
+  const changeBtn = () => {
+    props.setChangeColor(false);
+  };
+
   // 모집
   return (
     <Wrapper>
@@ -79,7 +79,13 @@ function ModalManageRecruit(props: any) {
                 pathname: `/manage/manageMember`,
               }}
             >
-              <Btn color="#F5C82E" onClick={StudyRecruitmentApi}>
+              <Btn
+                color="#F5C82E"
+                onClick={() => {
+                  StudyRecruitmentApi();
+                  changeBtn();
+                }}
+              >
                 <span>확인</span>
               </Btn>
             </Link>

@@ -173,7 +173,7 @@ function StudyManageMember() {
   // 모집 / 마감 버튼 바꾸기
   const [change, setChange] = useState(true);
   const changeColor = () => {
-    setChange(!change);
+    setChange(change);
   };
 
   // 모집 모달 열기
@@ -240,6 +240,7 @@ function StudyManageMember() {
             {recruitModalOpen && (
               <ModalManageRecruit1
                 setModalOpen={setRecruitModalOpen}
+                change={change}
                 changeColor={changeColor}
               />
             )}
