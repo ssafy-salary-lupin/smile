@@ -163,7 +163,9 @@ function NavBar(props: UrlProps) {
   const [tokenState, setTokenState] = useRecoilState(LoginState);
   const kakaoToken = localStorage.getItem("kakao-token");
 
+  console.log("네비바 랜더링");
   const userId = useRecoilValue(UserIdState);
+  console.log("userId : ", userId);
 
   useEffect(() => {
     if (props.curUrl === "/" || props.curUrl.includes("/myStudy")) {
