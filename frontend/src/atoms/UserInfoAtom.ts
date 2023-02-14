@@ -1,6 +1,6 @@
 import { atom } from "recoil";
 
-export const UserId = atom({
-  key: "UserId",
+export const UserIdState = atom({
+  key: "UserIdState",
   default: undefined,
 });

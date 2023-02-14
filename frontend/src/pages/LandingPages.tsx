@@ -13,6 +13,9 @@ import introductionImg2 from "../assets/img/introduction_img2.png";
 import { useEffect, useState } from "react";
 import { BackgroundYellow } from "components/common/BackgroundYellow";
 import { Link } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+
+import { UserIdState } from "atoms/UserInfoAtom";
 
 // import Slider from "react-slick";
 // import "slick-carousel/slick/slick.css";
@@ -565,6 +568,12 @@ function LandingPages() {
     },
   ];
 
+  const tt = useRecoilValue(UserIdState);
+
+  const test = () => {
+    console.log(tt);
+  };
+
   return (
     <Wrapper>
       <BackgroundYellow bgHeight={65} />
@@ -598,7 +607,7 @@ function LandingPages() {
           </SStudyList>
           <SIntroductionItem direction="L" top={relativeTop1}>
             <SIntroductionItemImg src={introductionImg1} id="item1" />
-            <SIntroductionItemText>
+            <SIntroductionItemText onClick={test}>
               <STextBold>당신의 스터디를 찾아보세요!</STextBold>
               <SText>어떤 스터디를 원하세요?</SText>
             </SIntroductionItemText>
