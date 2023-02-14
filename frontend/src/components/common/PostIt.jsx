@@ -6,6 +6,7 @@ import "./postIt.css";
 const BtnContainer = styled.div`
   display: flex;
   justify-content: flex-end;
+  width: 1240px;
 `;
 
 const Btn = styled.button`
@@ -16,15 +17,17 @@ const Btn = styled.button`
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
+  transition: all 0.2s linear;
   :hover {
     box-shadow: 4px 2px 13px 2px grey;
+    transform: scale(1.2);
   }
   :active {
     box-shadow: 3px 3px 7px 1px grey inset;
   }
   :nth-child(1) {
     background-color: ${(props) => props.theme.mainColor};
-    margin-right: 8px;
+    margin-right: 16px;
   }
   :nth-child(2) {
     background-color: #7d9ada;
