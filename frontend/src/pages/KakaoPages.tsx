@@ -9,23 +9,35 @@ interface ILoginToken {
 }
 
 function KakaoPages() {
+  interface decodeType {
+    exp: number;
+    iat: number;
+    iss: string;
+    role: string;
+    userEmail: string;
+    userId: number;
+  }
+
   const params = useParams<ILoginToken>();
   // const history = useHistory();
 
   const [tokenState, setTokenState] = useRecoilState(LoginState);
   const [userIdState, setUserIdState] = useRecoilState(UserIdState);
-  const [decoded, setDecoded] = useState();
+  const [decoded, setDecoded] = useState<decodeType>();
   const onJoin = async () => {
     if (params.accessToken !== null) {
-      const decodeData = jwt_decode(params.accessToken);
+      const decodeData: decodeType = jwt_decode(params.accessToken);
       console.log(decodeData);
+      setDecoded(decoded);
+      setUserIdState(decoded?.userId);
+      window.location.replace(`/myStudy/${userIdState}`);
     } else {
       console.log("none");
     }
 
     // console.log(decoded?.userId);
-    // setUserIdState(decoded?.userId);
-    // window.location.replace(`/myStudy/${userIdState}`);
+    setUserIdState(decoded?.userId);
+    window.location.replace(`/myStudy/${userIdState}`);
     // 새로고침해야 token null 값 해결 돼서 임시방편으로 바꿈 ㅠ interceptor하는 법 찾아보기
   };
 
