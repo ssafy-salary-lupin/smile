@@ -351,6 +351,7 @@ function StudyManageMain() {
 
   const [rule, setRule] = useState<string>();
   useEffect(() => {
+    console.log(params.studyId);
     setStudyIdAtom(studyId);
     setRule(studyInfo?.result.rule);
   }, [studyInfo]);
