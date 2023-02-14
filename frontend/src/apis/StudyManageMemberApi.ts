@@ -24,6 +24,7 @@ export async function StudyUserApi() {
 // // 위임
 export async function MandateApi() {
   try {
+    console.log("Man");
     const response = await axios.patch(
       `${BASE_URL}/1/users/3/delegate`,
       formData,
@@ -46,6 +47,7 @@ export async function MandateApi() {
 // // 강퇴
 export async function UserDropApi() {
   try {
+    console.log("DDDDD");
     const response = await axios.delete(`${BASE_URL}/1/users/3`, {
       headers: {
         Authorization: `Bearer ${token}`,
