@@ -160,6 +160,12 @@ interface Data {
 
 //
 function StudyManageMember() {
+  // 모집 / 마감 버튼 바꾸기
+  const [change, setChange] = useState(true);
+  const changeColor = () => {
+    setChange(!change);
+  };
+
   // 모집 모달 열기
   const [recruitModalOpen, setRecruitModalOpen] = useState(false);
   const openModal = () => {
@@ -203,10 +209,12 @@ function StudyManageMember() {
                 ) : null}
               </NickBox>
               <hr />
-              <BtnBox>
-                <YellowBtn>위임</YellowBtn>
-                <BlueBtn>강퇴</BlueBtn>
-              </BtnBox>
+              {user.leader === true ? null : (
+                <BtnBox>
+                  <YellowBtn>위임</YellowBtn>
+                  <BlueBtn>강퇴</BlueBtn>
+                </BtnBox>
+              )}
             </Card>
           );
         })}
@@ -220,12 +228,20 @@ function StudyManageMember() {
               <Text>설정하시겠습니까?</Text>
             </TextBox>
             {recruitModalOpen && (
-              <ModalManageRecruit1 setModalOpen={setRecruitModalOpen} />
+              <ModalManageRecruit1
+                setModalOpen={setRecruitModalOpen}
+                changeColor={changeColor}
+              />
             )}
-            {}
             <BtnYellow onClick={openModal}>모집 시작</BtnYellow>
-
-            {/* <BtnBig onClick={openModal}>모집 마감</BtnBig> */}
+            {change !== true && (
+              <BtnYellow
+                style={{ backgroundColor: theme.pointColor }}
+                onClick={openModal}
+              >
+                모집 마감
+              </BtnYellow>
+            )}
           </Box>
           <Box>
             <TextBox>
