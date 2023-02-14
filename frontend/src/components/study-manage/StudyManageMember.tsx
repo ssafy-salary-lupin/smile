@@ -178,11 +178,14 @@ function StudyManageMember() {
 
   // 모집 모달 열기
   const [recruitModalOpen, setRecruitModalOpen] = useState(false);
-  const openModal = () => {
+  const ReopenModal = () => {
     setRecruitModalOpen(!recruitModalOpen);
   };
   // 중단 모달 열기
-
+  const [deadLineModalOpen, setDeadLineModalOpen] = useState(false);
+  const DeopenModal = () => {
+    setDeadLineModalOpen(!deadLineModalOpen);
+  };
   // // const { id } = useParams<Params>();
   // 스터디의 회원 정보 가져오기
   const { data: userStudy } = useQuery<Data>("userStudy", () => StudyUserApi());
@@ -244,9 +247,15 @@ function StudyManageMember() {
               />
             )}
             {change !== true && (
-              <BtnYellow onClick={openModal}>모집 시작</BtnYellow>
+              <BtnYellow onClick={ReopenModal}>모집 시작</BtnYellow>
             )}
-            {change && <BtnBlue onClick={openModal}>모집 마감</BtnBlue>}
+            {deadLineModalOpen && (
+              <ModalManageDeadline
+                setModalOpen={setDeadLineModalOpen}
+                setChange={setChange}
+              />
+            )}
+            {change && <BtnBlue onClick={DeopenModal}>모집 마감</BtnBlue>}
           </Box>
           <Box>
             <TextBox>

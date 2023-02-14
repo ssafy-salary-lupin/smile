@@ -56,11 +56,15 @@ function ModalManageDeadline(props: any) {
     props.setModalOpen(false);
   };
 
-  // 모집
+  // 모집 / 마감 버튼 바꾸기
+  // const [changeColor, setChangeColor] = useState(true);
+  const changeBtn = () => {
+    props.setChange(false);
+  };
 
   return (
     <Wrapper>
-      <ModalNone setModalOpen={props.setModalOpen}>
+      <ModalNone setModalOpen={props.setModalOpen} setChange={props.setChange}>
         <Container>
           {/* <Warning width="5.556vw" height="5.556vw" /> */}
 
@@ -74,7 +78,13 @@ function ModalManageDeadline(props: any) {
                 pathname: `/manage/manageMember`,
               }}
             >
-              <Btn color="#F5C82E" onClick={StudyReDeadlineApi}>
+              <Btn
+                color="#F5C82E"
+                onClick={() => {
+                  StudyReDeadlineApi();
+                  changeBtn();
+                }}
+              >
                 <span>확인</span>
               </Btn>
             </Link>
