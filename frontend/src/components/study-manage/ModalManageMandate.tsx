@@ -71,15 +71,15 @@ function ModalManageMandate(props: any) {
             <span>스터디장을 위임하시겠습니까?</span>
           </Title>
           <Footer>
-            <Link
+            {/* <Link
               to={{
                 pathname: `/manage/manageMember`,
               }}
-            >
-              <Btn color="#F5C82E" onClick={onMandate}>
-                <span>확인</span>
-              </Btn>
-            </Link>
+            > */}
+            <Btn color="#F5C82E" onClick={onMandate}>
+              <span>확인</span>
+            </Btn>
+            {/* </Link> */}
             <Btn color="#314E8D" onClick={closeModal}>
               <span>취소</span>
             </Btn>
