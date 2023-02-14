@@ -221,7 +221,7 @@ function ModalBasic(props) {
   useEffect(() => {
     connect();
     publish();
-    return () => disconnect();
+    // return () => disconnect();
   }, []);
 
   return (
