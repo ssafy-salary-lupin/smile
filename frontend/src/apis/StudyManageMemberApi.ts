@@ -2,6 +2,7 @@ import axios from "axios";
 
 const BASE_URL = `https://i8b205.p.ssafy.io/be-api/studies`;
 const token = localStorage.getItem("kakao-token");
+const formData = new FormData();
 
 // // 스터디에 속한 유저 정보 가져오기
 export async function StudyUserApi() {
@@ -23,14 +24,15 @@ export async function StudyUserApi() {
 // // 위임
 export async function MandateApi() {
   try {
-    const response = await axios.patch(`${BASE_URL}/1/users/1`, {
+    const response = await axios.patch(`${BASE_URL}/1/users/1`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: "application/json",
       },
     });
     const data = await response;
-    // console.log(data);
+    console.log("Mandate");
+    console.log(data);
     return data;
   } catch (error: any) {
     console.log(error);
@@ -47,8 +49,8 @@ export async function UserDropApi() {
       },
     });
     const data = await response;
+    console.log("Drop");
     console.log(data);
-    console.log(1);
     return data;
   } catch (error: any) {
     console.log(error);
@@ -58,13 +60,14 @@ export async function UserDropApi() {
 // // 스터디 종료
 export async function StudyEndApi() {
   try {
-    const response = await axios.patch(`${BASE_URL}/1/close`, {
+    const response = await axios.patch(`${BASE_URL}/1/close`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: "application/json",
       },
     });
     const data = await response;
+    console.log("End");
     console.log(data);
     return data;
   } catch (error: any) {
@@ -77,13 +80,14 @@ export async function StudyRecruitmentApi() {
   try {
     console.log("token", token);
     console.log("???");
-    const response = await axios.patch(`${BASE_URL}/1/recruit`, {
+    const response = await axios.patch(`${BASE_URL}/1/recruit`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: "application/json",
       },
     });
     const data = await response;
+    console.log("recruit");
     console.log(data);
     return data;
   } catch (error: any) {
@@ -94,13 +98,14 @@ export async function StudyRecruitmentApi() {
 // // 스터디 마감
 export async function StudyReDeadlineApi() {
   try {
-    const response = await axios.patch(`${BASE_URL}/1/deadline`, {
+    const response = await axios.patch(`${BASE_URL}/1/deadline`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: "application/json",
       },
     });
     const data = await response;
+    console.log("deadline");
     console.log(data);
     return data;
   } catch (error: any) {
