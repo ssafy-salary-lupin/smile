@@ -243,7 +243,9 @@ function StudyManageMember() {
                 setChange={setChange}
               />
             )}
-            <BtnYellow onClick={openModal}>모집 시작</BtnYellow>
+            {change !== true && (
+              <BtnYellow onClick={openModal}>모집 시작</BtnYellow>
+            )}
             {change && <BtnBlue onClick={openModal}>모집 마감</BtnBlue>}
           </Box>
           <Box>
