@@ -21,6 +21,8 @@ import {
 import { ReactComponent as Crown } from "../../assets/icon/Crown.svg";
 import axios from "axios";
 import { theme } from "theme";
+import { useRecoilValue } from "recoil";
+import { studyIdRecoil } from "atoms/StudyManage";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
@@ -185,9 +187,11 @@ function StudyManageMember() {
   const DeopenModal = () => {
     setDeadLineModalOpen(!deadLineModalOpen);
   };
-  // // const { id } = useParams<Params>();
+  const studyId = useRecoilValue(studyIdRecoil);
   // 스터디의 회원 정보 가져오기
-  const { data: userStudy } = useQuery<Data>("userStudy", () => StudyUserApi());
+  const { data: userStudy } = useQuery<Data>("userStudy", () =>
+    StudyUserApi(studyId),
+  );
 
   // 위임
   const [mandateModalOpen, setMandateModalOpen] = useState(false);
@@ -233,15 +237,15 @@ function StudyManageMember() {
               <hr />
               {user.leader === true ? null : (
                 <BtnBox>
-                  {mandateModalOpen && (
-                    <ModalManageMandate setModalOpen={setMandateModalOpen} />
-                  )}
                   <YellowBtn onClick={MandateopenModal}>위임</YellowBtn>
                   {dropModalOpen && (
                     <ModalManageDrop setModalOpen={setDropModalOpen} />
                   )}
                   <BlueBtn onClick={DropopenModal}>강퇴</BlueBtn>
                 </BtnBox>
+              )}
+              {mandateModalOpen && (
+                <ModalManageMandate setModalOpen={setMandateModalOpen} />
               )}
             </Card>
           );

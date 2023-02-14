@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import ModalNone from "components/common/ModalNone";
-import { Link } from "react-router-dom";
 import { MandateApi } from "../../apis/StudyManageMemberApi";
 import { Warning } from "components/common/DuotonIcons";
+import { Link, useParams } from "react-router-dom";
+import { useQuery } from "react-query";
 
 const Wrapper = styled.div``;
 
@@ -52,14 +53,36 @@ const Footer = styled.div`
   align-items: center;
   height: 8.333vw;
 `;
+
+interface userData {
+  result: [
+    {
+      id: number; //사용자 식별자
+      nickname: string; //사용자 닉네임
+      email: string; //사용자 이메일
+      imagePath: string; //사용자 프로필 사진 url
+      isLeader: boolean; //스터디장 유무
+    },
+  ];
+}
+
+type Params = {
+  id: string;
+};
+
 function ModalManageMandate(props: any) {
   const closeModal = () => {
+    console.log("닫힘");
     props.setModalOpen(false);
   };
 
   // const onMandate = () => {
   //   console.log("on");
-  //   MandateApi();
+  //   const { id } = useParams<Params>();
+  //   const { data: studyUsers, refetch } = useQuery<userData>(
+  //     "studyUsers",
+  //     async () => await MandateApi(id),
+  //   );
   // };
 
   return (
@@ -79,7 +102,8 @@ function ModalManageMandate(props: any) {
             <Btn
               color="#F5C82E"
               onClick={() => {
-                MandateApi();
+                // MandateApi();
+                console.log("안녕");
               }}
             >
               <span>확인</span>
