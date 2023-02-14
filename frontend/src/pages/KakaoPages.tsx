@@ -26,6 +26,7 @@ function KakaoPages() {
   };
 
   useEffect(() => {
+    onJoin();
     return () => {
       onJoin();
     };
