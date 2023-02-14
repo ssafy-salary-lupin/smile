@@ -65,6 +65,7 @@ public class ChatController {
     /* /pub/chat/message 로 들어오는 메시지 처리.*/
     @MessageMapping("/chat/message")
     public void message(ChatMessageDTO chatMessageDTO){
+        log.info("message : {}", chatMessageDTO);
 
         if(ChatMessageDTO.MessageType.ENTER.equals(chatMessageDTO.getType())){
 

@@ -21,4 +21,14 @@ public class ChatMessageDTO {
 
     private String message; //메시지
 
+    @Override
+    public String toString() {
+        return "ChatMessageDTO{" +
+                "type=" + type +
+                ", roomId=" + roomId +
+                ", senderId=" + senderId +
+                ", senderName='" + senderName + '\'' +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }
