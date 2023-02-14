@@ -12,6 +12,7 @@ import cp.smile.entity.study_management.StudyBoard;
 import cp.smile.entity.study_management.StudyBoardType;
 import cp.smile.entity.user.User;
 import cp.smile.entity.user.UserJoinStudy;
+import cp.smile.study_management.board.dto.request.StudyBoardUpdateDTO;
 import cp.smile.study_management.board.dto.request.StudyBoardWriteDTO;
 import cp.smile.study_management.board.dto.request.UpdateCommentDTO;
 import cp.smile.study_management.board.dto.response.BoardTypeDTO;
@@ -36,6 +37,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static cp.smile.config.response.CustomSuccessStatus.RESPONSE_NO_CONTENT;
@@ -242,6 +244,26 @@ public class StudyBoardController {
         int userId = oAuth2User.getUserId();
 
         studyBoardService.deleteStudyBoardComment(userId, studyId, boardId, commentId);
+
+        return responseService.getSuccessResponse();
+    }
+
+    @Tag(name="스터디 게시판 API")
+    @Operation(summary = "스터디 게시글 수정", description = "스터디 게시글 수정")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
+    @PatchMapping("/studies/{studyId}/boards/{boardId}")
+    public CommonResponse updateStudyBoard(@AuthenticationPrincipal CustomOAuth2User oAuth2User,
+                                           @PathVariable int studyId,
+                                           @PathVariable int boardId,
+                                           @RequestPart("data") StudyBoardUpdateDTO dto,
+                                           @RequestPart("files") MultipartFile[] files) {
+        User writer = userRepository.findById(oAuth2User.getUserId())
+                .orElseThrow(() -> new CustomException(ACCOUNT_NOT_FOUND));
+
+        studyBoardService.updateStudyBoard(writer, boardId, dto, files);
 
         return responseService.getSuccessResponse();
     }

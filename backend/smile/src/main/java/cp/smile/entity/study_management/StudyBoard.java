@@ -2,6 +2,7 @@ package cp.smile.entity.study_management;
 
 import cp.smile.config.BaseEntity;
 import cp.smile.entity.study_common.StudyInformation;
+import cp.smile.entity.study_common.StudyType;
 import cp.smile.entity.user.User;
 import lombok.Builder;
 import lombok.Getter;
@@ -85,5 +86,34 @@ public class StudyBoard extends BaseEntity {
     //삭제 메서드 - 삭제지만 실제로 삭제하지는 않고 값만 바꿈.
     public void deleteBoard(){
         this.isDeleted = true;
+    }
+
+    public boolean isWriter(User writer) {
+        return this.user.getId() == writer.getId();
+    }
+
+    public void updateTitle(String title) {
+        this.title = title;
+    }
+
+    public void updateContent(String content) {
+        this.content = content;
+    }
+
+    public void updateType(StudyBoardType type) {
+        this.studyBoardType = type;
+    }
+
+    public void deleteFiles(List<Integer> targetFiles) {
+        if (targetFiles == null) return;
+
+        for (Integer targetId : targetFiles) {
+            for (StudyBoardFile uploadedFile : studyBoardFiles) {
+                if (uploadedFile.getId() == targetId) {
+                    uploadedFile.delete();
+                    break;
+                }
+            }
+        }
     }
 }
