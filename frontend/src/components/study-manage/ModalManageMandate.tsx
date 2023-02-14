@@ -57,6 +57,10 @@ function ModalManageMandate(props: any) {
     props.setModalOpen(false);
   };
 
+  const onMandate = () => {
+    MandateApi();
+  };
+
   return (
     <Wrapper>
       <ModalNone setModalOpen={props.setModalOpen}>
@@ -71,7 +75,7 @@ function ModalManageMandate(props: any) {
                 pathname: `/manage/manageMember`,
               }}
             >
-              <Btn color="#F5C82E" onClick={MandateApi}>
+              <Btn color="#F5C82E" onClick={onMandate}>
                 <span>확인</span>
               </Btn>
             </Link>
