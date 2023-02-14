@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { MyStudyApi } from "apis/MyStudyApi";
 import { useQuery } from "react-query";
 import { useRecoilValue } from "recoil";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { BackgroundYellow } from "components/common/BackgroundYellow";
 import styled from "styled-components";
 import Card from "components/common/Card";
@@ -359,45 +359,7 @@ export default function MyStudyPages() {
               <div id="react-container">
                 <PostIt></PostIt>
               </div>
-              {/* <DdayBox>
-                {ddayInfo
-                  ? ddayInfo.result.map((el, index) => (
-                      <DdayItems>
-                        <DdayItem>
-                          <DdayContent>
-                            <BlueBox />
-                            <ContentBox>
-                              <div>
-                                <span>D-{el.day}</span>
-                              </div>
-                              <div>
-                                <span>{el.title}</span>
-                              </div>
-                              <div>
-                                <span>{el.studyName}</span>
-                              </div>
-                            </ContentBox>
-                          </DdayContent>
-                        </DdayItem>
-                      </DdayItems>
-                      // return (
-                      //   <Dday key={index} onClick={() => showDdayModal(el.id)}>
-                      //     <Tag></Tag>
-                      //     <Text>
-                      //       D-{el.day} {el.title}
-                      //     </Text>
-                      //   </Dday>
-                      // );
-                    ))
-                  : null}
-              </DdayBox> */}
             </GraphContainer>
-            {/* <PurposeContainer>
-              <SubTitle>내 목표</SubTitle>
-              <PurposeBox>
-                <span></span>
-              </PurposeBox>
-            </PurposeContainer> */}
           </Additionalection>
         </Header>
         {!studiesLoading ? (
@@ -413,7 +375,14 @@ export default function MyStudyPages() {
                   >
                     {studiesData.current.map((study) => (
                       <CardWrapper key={study.id}>
-                        <Card studyInfo={study} />
+                        <Link
+                          style={{ textDecoration: "none", color: "black" }}
+                          to={{
+                            pathname: `/manage/${study.id}`, // 스터디 상세 조회 페이지 주소 입력하기
+                          }}
+                        >
+                          <Card studyInfo={study} />
+                        </Link>
                       </CardWrapper>
                     ))}
                   </Cards>
@@ -437,7 +406,14 @@ export default function MyStudyPages() {
                       NumberOfCards={studiesData ? studiesData.end.length : 0}
                     >
                       {studiesData.end.map((study) => (
-                        <Card key={study.id} studyInfo={study} />
+                        <Link
+                          style={{ textDecoration: "none", color: "black" }}
+                          to={{
+                            pathname: `/manage/${study.id}`, // 스터디 상세 조회 페이지 주소 입력하기
+                          }}
+                        >
+                          <Card key={study.id} studyInfo={study} />
+                        </Link>
                       ))}
                     </Cards>
                   </>
