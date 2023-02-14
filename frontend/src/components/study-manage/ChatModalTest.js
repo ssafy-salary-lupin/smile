@@ -8,24 +8,30 @@ import { useRecoilValue } from "recoil";
 import { studyIdRecoil } from "atoms/StudyManage";
 import jwt_decode from "jwt-decode";
 
-const ModalContainer = styled.div`
+// const ModalContainer = styled.div`
+//   display: flex;
+//   align-items: center;
+//   /* justify-content: center; */
+//   flex-direction: column;
+//   position: fixed;
+//   width: 22.222vw;
+//   height: 31.667vw;
+//   z-index: 999;
+//   background-color: white;
+//   border-radius: 1.111vw;
+//   position: absolute;
+//   right: 3.889vw;
+//   top: 40.556vw;
+//   transform: translate(-50%, -50%);
+//   border: 0.994px solid ${(props) => props.theme.blackColorOpacity3};
+//   box-shadow: 4.997px 4.997px 4.997px
+//     ${(props) => props.theme.blackColorOpacity};
+// `;
+const Wrapper = styled.div`
+  margin: 3.889vw 10.833vw;
+  height: 69.444vw;
   display: flex;
-  align-items: center;
-  /* justify-content: center; */
   flex-direction: column;
-  position: fixed;
-  width: 22.222vw;
-  height: 31.667vw;
-  z-index: 999;
-  background-color: white;
-  border-radius: 1.111vw;
-  position: absolute;
-  right: 3.889vw;
-  top: 40.556vw;
-  transform: translate(-50%, -50%);
-  border: 0.994px solid ${(props) => props.theme.blackColorOpacity3};
-  box-shadow: 4.997px 4.997px 4.997px
-    ${(props) => props.theme.blackColorOpacity};
 `;
 
 const ModalHeader = styled.div`
@@ -48,7 +54,7 @@ const HeaderText = styled.div`
 const ModalContent = styled.div`
   width: 100%;
   height: 80%;
-  background-color: #9bbbd4;
+  background-color: ${(props) => props.theme.whiteColor};
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -56,38 +62,6 @@ const ModalContent = styled.div`
 `;
 
 const ChatList = styled.div``;
-
-const ChatBubbleMe = styled.div`
-  position: relative;
-  background: #fee717;
-  border: 4px solid #fee717;
-
-  &::after,
-  &::before {
-    left: 100%;
-    top: 50%;
-    border: solid transparent;
-    content: "";
-    height: 0;
-    width: 0;
-    position: absolute;
-    pointer-events: none;
-  }
-
-  &::after {
-    border-color: rgba(254, 231, 23, 0);
-    border-left-color: #fee717;
-    border-width: 4px;
-    margin-top: -4px;
-  }
-
-  &::before {
-    border-color: rgba(254, 231, 23, 0);
-    border-left-color: #fee717;
-    border-width: 10px;
-    margin-top: -10px;
-  }
-`;
 
 const ModalFooter = styled.form`
   width: 100%;
@@ -130,34 +104,7 @@ const SendBtn = styled.input`
   cursor: pointer;
 `;
 
-function ModalBasic(props) {
-  const [modalBasicClose, setModalBasicClose] = useState(true);
-  // 모달 끄기
-  const closeModal = () => {
-    console.log("before : ", props.setModalOpen);
-    props.setModalOpen(false);
-  };
-  const modalRef = useRef(null);
-  useEffect(() => {
-    // 이벤트 핸들러 함수
-    const handler = (event) => {
-      // mousedown 이벤트가 발생한 영역이 모달창이 아닐 때, 모달창 제거 처리
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
-        props.setModalOpen(false);
-      }
-    };
-
-    // 이벤트 핸들러 등록
-    document.addEventListener("mousedown", handler);
-    // document.addEventListener('touchstart', handler); // 모바일 대응
-
-    return () => {
-      // 이벤트 핸들러 해제
-      document.removeEventListener("mousedown", handler);
-      // document.removeEventListener('touchstart', handler); // 모바일 대응
-    };
-  }, []);
-
+function StudyChatComponent() {
   // const { apply_id } = useParams(); // 채널을 구분하는 식별자를 URL 파라미터로 받는다. => 스터디 코드
   const client = useRef({});
 
@@ -168,13 +115,13 @@ function ModalBasic(props) {
   const studyId = useRecoilValue(studyIdRecoil);
 
   // senderId : token userId 추출
-  const token = localStorage.getItem("kakao-token");
-  if (token !== null) {
-    var decoded = jwt_decode(token);
-  } else {
-    console.log("none");
-  }
-  const userId = decoded?.userId;
+  // const token = localStorage.getItem("kakao-token");
+  // if (token !== null) {
+  //   var decoded = jwt_decode(token);
+  // } else {
+  //   console.log("none");
+  // }
+  // const userId = decoded?.userId;
 
   // senderName : user nickname
   const nickName = "정혜주";
@@ -200,7 +147,6 @@ function ModalBasic(props) {
 
         // 최초 입장시 ENTER Type 보내기 위해 설정
         if (firstEnter) {
-          console.log("입장");
           publish();
           setFirstEnter(false);
         }
@@ -224,20 +170,25 @@ function ModalBasic(props) {
       body: JSON.stringify({
         type: typeValue, //먼저 방에 들어올때 - ENTER,  메시지를 보낼떄 - TALK
         roomId: 1, //스터디 ID
-        senderId: userId, //유저 id
-        senderName: "익명" + userId, //유저 이름
+        senderId: 3, //유저 id
+        senderName: "정혜주", //유저 이름
         message: chat, //메시지
       }), // 형식에 맞게 수정해서 보내야 함.
     });
 
     setChat("");
   };
-  //
+
   // 메시지 받기 {우리 주소}/studies/{studyId}/chats
   const subscribe = () => {
     console.log("subscribe");
     // client.current.subscribe("/sub/chat/room/" + apply_id, (body) => {
+
+    console.log("client : ", client);
+    console.log("client.current : ", client.current);
+
     client.current.subscribe("/sub/chat/room/1", (body) => {
+      console.log("client.current.subscribe");
       const json_body = JSON.parse(body.body);
       console.log("json_body : ", json_body);
       setChatList((_chat_list) => [..._chat_list, json_body]);
@@ -274,17 +225,15 @@ function ModalBasic(props) {
   console.log("chatList : ", chatList);
 
   return (
-    <ModalContainer ref={modalRef}>
+    <Wrapper>
       <ModalHeader>
         <HeaderText>Message</HeaderText>
       </ModalHeader>
       <ModalContent>
         <ChatList>
-          <ChatBubbleMe>
-            {chatList?.map((el, index) => {
-              return <div key={index}> {el.message}</div>;
-            })}
-          </ChatBubbleMe>
+          {chatList?.map((el, index) => {
+            return <div key={index}> {el.message}</div>;
+          })}
         </ChatList>
       </ModalContent>
       <ModalFooter onSubmit={(event) => handleSubmit(event, chat)}>
@@ -300,7 +249,7 @@ function ModalBasic(props) {
           </SendBtn>
         </SendMsgBox>
       </ModalFooter>
-    </ModalContainer>
+    </Wrapper>
   );
 }
-export default ModalBasic;
+export default StudyChatComponent;

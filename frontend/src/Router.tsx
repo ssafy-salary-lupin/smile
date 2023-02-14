@@ -9,6 +9,8 @@ import KakaoPages from "./pages/KakaoPages";
 import StudyDetailPages from "./pages/StudyDetailPages";
 import StudySearchPages from "pages/StudySearchPages";
 import VideoMeetingPages from "pages/VideoMeetingPages";
+import ChatComponent from "components/study-manage/ChatModalTest";
+import StudyChatComponent from "components/study-manage/ChatModalTest";
 function Router() {
   return (
     <Switch>
@@ -46,6 +48,10 @@ function Router() {
       {/* 스터디 찾기 페이지 */}
       <Route path="/search">
         <StudySearchPages />
+      </Route>
+      {/* 실시간 채팅 test */}
+      <Route path="/chat">
+        <StudyChatComponent />
       </Route>
       {/* test */}
       {/* <Route path="/test">
