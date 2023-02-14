@@ -427,7 +427,7 @@ function StudyCreatePages() {
     CreateStudyApi(formData);
 
     // 나중에 내 스터디 조회로 이동 하는 걸로 수정
-    history.push("/search");
+    window.location.replace("/search");
   };
 
   const Change_name = (e: any) => {

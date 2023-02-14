@@ -195,16 +195,16 @@ function NavBar(props: UrlProps) {
       <LinksContainer>
         <Items>
           <Item1 curUrl={props.curUrl}>
-            {/* <Link to="">스터디 조회</Link> */} 스터디 조회
+            <Link to="/search">스터디 조회</Link>
           </Item1>
           <Item2 curUrl={props.curUrl}>
-            <Link to="/manage" style={{ textDecoration: "none" }}>
+            <Link to="/myStudy/6" style={{ textDecoration: "none" }}>
               내 스터디
             </Link>
           </Item2>
           {kakaoToken ? (
             <Item2 curUrl={props.curUrl}>
-              <Link to="/manage" style={{ textDecoration: "none" }}>
+              <Link to="/myStudy/6" style={{ textDecoration: "none" }}>
                 내 스터디
               </Link>
             </Item2>
