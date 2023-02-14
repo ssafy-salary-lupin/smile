@@ -181,7 +181,7 @@ function StudyManageMember() {
   const ReopenModal = () => {
     setRecruitModalOpen(!recruitModalOpen);
   };
-  // 중단 모달 열기
+  // 마감 모달 열기
   const [deadLineModalOpen, setDeadLineModalOpen] = useState(false);
   const DeopenModal = () => {
     setDeadLineModalOpen(!deadLineModalOpen);
@@ -193,8 +193,10 @@ function StudyManageMember() {
   // 위임
 
   // 강퇴
-
-  // 마감
+  const [dropModalOpen, setDropModalOpen] = useState(false);
+  const DropopenModal = () => {
+    setDropModalOpen(!dropModalOpen);
+  };
 
   // 종료
 
@@ -225,7 +227,10 @@ function StudyManageMember() {
               {user.leader === true ? null : (
                 <BtnBox>
                   <YellowBtn>위임</YellowBtn>
-                  <BlueBtn>강퇴</BlueBtn>
+                  {dropModalOpen && (
+                    <ModalManageDeadline setModalOpen={setDropModalOpen} />
+                  )}
+                  <BlueBtn onClick={DropopenModal}>강퇴</BlueBtn>
                 </BtnBox>
               )}
             </Card>
