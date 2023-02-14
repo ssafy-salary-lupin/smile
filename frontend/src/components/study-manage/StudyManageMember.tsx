@@ -257,13 +257,11 @@ function StudyManageMember() {
           </Box>
           <Box>
             <TextBox>
-              {endModalOpen && (
-                <ModalManageEnd setModalOpen={setEndModalOpen} />
-              )}
               <BigText onClick={EndopenModal}>스터디 종료</BigText>
               <Text>한번 종료하면 되돌릴 수 없습니다.</Text>
               <Text>삭제하시겠습니까?</Text>
             </TextBox>
+            {endModalOpen && <ModalManageEnd setModalOpen={setEndModalOpen} />}
             <BtnWhite>스터디 종료하기</BtnWhite>
           </Box>
         </RedBox>
