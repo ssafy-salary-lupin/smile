@@ -49,6 +49,7 @@ function KakaoPages() {
     if (localStorage.getItem("kakao-token")) setTokenState(true);
     // history.push("/");
     goMyStudy();
+    goMyStudy();
   }, [params]);
 
   return null;
