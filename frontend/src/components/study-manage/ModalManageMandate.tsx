@@ -58,6 +58,7 @@ function ModalManageMandate(props: any) {
   };
 
   const onMandate = () => {
+    console.log("on");
     MandateApi();
   };
 
