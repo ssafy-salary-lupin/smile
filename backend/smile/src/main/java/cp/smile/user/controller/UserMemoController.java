@@ -12,6 +12,10 @@ import cp.smile.user.dto.request.MemoWriteDTO;
 import cp.smile.user.dto.response.UserMemoDTO;
 import cp.smile.user.repository.UserRepository;
 import cp.smile.user.service.UserMemoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +35,12 @@ public class UserMemoController {
     private final UserMemoService userMemoService;
     private final ResponseService responseService;
 
+    @Tag(name="회원 메모 API")
+    @Operation(summary = "등록한 메모 조회", description = "사용자가 저장해 둔 메모 목록을 조회")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
     @GetMapping("/users/{userId}/memos")
     public DataResponse<Map<String, List<UserMemoDTO>>> getAll(@AuthenticationPrincipal CustomOAuth2User oAuth2User) {
         List<UserMemo> memos = userMemoService.findByUserId(oAuth2User.getUserId());
@@ -42,6 +52,12 @@ public class UserMemoController {
         return responseService.getDataResponse(data, memos.isEmpty() ? RESPONSE_NO_CONTENT : RESPONSE_SUCCESS);
     }
 
+    @Tag(name="회원 메모 API")
+    @Operation(summary = "메모 작성", description = "사용자가 메모를 작성하고 저장")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
     @PostMapping("/users/{userId}/memos")
     public CommonResponse write(@AuthenticationPrincipal CustomOAuth2User oAuth2User,
                                 @RequestBody MemoWriteDTO dto) {
@@ -50,6 +66,12 @@ public class UserMemoController {
         return responseService.getSuccessResponse();
     }
 
+    @Tag(name="회원 메모 API")
+    @Operation(summary = "메모 수정", description = "사용자가 저장해둔 메모를 수정")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
     @PatchMapping("/users/{userId}/memos/{memoId}")
     public CommonResponse modify(@AuthenticationPrincipal CustomOAuth2User oAuth2User,
                                  @PathVariable int memoId,
@@ -59,6 +81,12 @@ public class UserMemoController {
         return responseService.getSuccessResponse();
     }
 
+    @Tag(name="회원 메모 API")
+    @Operation(summary = "등록한 메모 삭제", description =  "사용자가 저장해 둔 메모 삭제")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
     @DeleteMapping("/users/{userId}/memos/{memoId}")
     public CommonResponse delete(@AuthenticationPrincipal CustomOAuth2User oAuth2User,
                                  @PathVariable int memoId) {
