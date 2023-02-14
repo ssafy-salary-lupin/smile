@@ -584,11 +584,11 @@ function LandingPages() {
               <span>{bannerText}</span>
               <span>{bannerSubText}</span>
             </SBannerItem>
-            <LinkBtn to={{ pathname: `/search` }}>
-              <SBannerButton>
-                <span>{bannerButtonText}</span>
-              </SBannerButton>
-            </LinkBtn>
+            {/* <LinkBtn to={{ pathname: `/search` }}> */}
+            <SBannerButton onClick={test}>
+              <span>{bannerButtonText}</span>
+            </SBannerButton>
+            {/* </LinkBtn> */}
           </SBanner>
           <SStudyList>
             <SItemTitle>현재 인기있는 스터디</SItemTitle>
@@ -608,7 +608,7 @@ function LandingPages() {
           <SIntroductionItem direction="L" top={relativeTop1}>
             <SIntroductionItemImg src={introductionImg1} id="item1" />
             <SIntroductionItemText>
-              <STextBold onClick={test}>당신의 스터디를 찾아보세요!</STextBold>
+              <STextBold>당신의 스터디를 찾아보세요!</STextBold>
               <SText>어떤 스터디를 원하세요?</SText>
             </SIntroductionItemText>
           </SIntroductionItem>
