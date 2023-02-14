@@ -7,6 +7,7 @@ import * as SockJS from "sockjs-client";
 import { useRecoilValue } from "recoil";
 import { studyIdRecoil } from "atoms/StudyManage";
 import jwt_decode from "jwt-decode";
+import { isError } from "react-query";
 
 const ModalContainer = styled.div`
   display: flex;
@@ -48,45 +49,88 @@ const HeaderText = styled.div`
 const ModalContent = styled.div`
   width: 100%;
   height: 80%;
-  background-color: #9bbbd4;
+  background-color: ${(props) => props.theme.whiteColor};
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0.278vw 1.111vw;
+  overflow-y: scroll;
+`;
+
+const ChatList = styled.div`
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+`;
+
+const EnterMsgBox = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 0.278vw 1.111vw;
+  /* border: 0.994px solid red; */
+  justify-content: center;
+  width: 100%;
+  padding: 0.556vw;
+
+  div {
+    /* background-color: ${(props) => props.theme.blackColorOpacity3}; */
+    width: 100%;
+    text-align: center;
+    border-radius: 3.472vw;
+    padding: 0.556vw 0;
+    font-size: 0.694vw;
+  }
 `;
 
-const ChatList = styled.div``;
+const ChatBubbleWrapperMe = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: right;
+`;
+
+const ChatBubbleWrapperYou = styled(ChatBubbleWrapperMe)`
+  justify-content: flex-start;
+  align-items: left;
+`;
+
+const NameMe = styled.div`
+  width: 100%;
+  font-size: 0.972vw;
+  margin-bottom: 0.139vw;
+  text-align: right;
+  padding-right: 0.556vw;
+`;
+
+const NameYou = styled(NameMe)`
+  text-align: left;
+  padding-right: 0;
+  padding-left: 0.556vw;
+`;
 
 const ChatBubbleMe = styled.div`
+  max-width: 13.889vw;
+  min-width: 6.944vw;
   position: relative;
-  background: #fee717;
-  border: 4px solid #fee717;
+  background: ${(props) => props.theme.mainColor};
+  padding: 0.556vw;
+  border-radius: 0.694vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  word-wrap: break-word;
 
-  &::after,
-  &::before {
-    left: 100%;
-    top: 50%;
-    border: solid transparent;
-    content: "";
-    height: 0;
-    width: 0;
-    position: absolute;
-    pointer-events: none;
+  p {
+    margin: 0;
+    font-size: 0.833vw;
   }
+`;
 
-  &::after {
-    border-color: rgba(254, 231, 23, 0);
-    border-left-color: #fee717;
-    border-width: 4px;
-    margin-top: -4px;
-  }
-
-  &::before {
-    border-color: rgba(254, 231, 23, 0);
-    border-left-color: #fee717;
-    border-width: 10px;
-    margin-top: -10px;
-  }
+const ChatBubbleYou = styled(ChatBubbleMe)`
+  background: ${(props) => props.theme.shadowColor};
 `;
 
 const ModalFooter = styled.form`
@@ -168,16 +212,43 @@ function ModalBasic(props) {
   const studyId = useRecoilValue(studyIdRecoil);
 
   // senderId : token userId 추출
-  const token = localStorage.getItem("kakao-token");
-  if (token !== null) {
-    var decoded = jwt_decode(token);
-  } else {
-    console.log("none");
-  }
-  const userId = decoded?.userId;
+  const [userId, setUserId] = useState();
 
   // senderName : user nickname
-  const nickName = "정혜주";
+  // user nickname 정보 가져오기
+  // const BASE_URL = `https://i8b205.p.ssafy.io/be-api`;
+  const BASE_URL = `/be-api`;
+  // 사용자 token값
+  const nickName = "";
+  useEffect(() => {
+    const token = localStorage.getItem("kakao-token");
+    if (token !== null) {
+      const decoded = jwt_decode(token);
+      setUserId(decoded?.userId);
+    } else {
+      console.log("none");
+    }
+
+    async function fetchData() {
+      try {
+        const response = await fetch(`${BASE_URL}/users/3`, {
+          headers: {
+            // Authorization: `Bearer ${token}`,
+            Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
+            Accept: "application/json",
+          },
+        });
+
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    const userInfo = fetchData();
+    console.log("회원 정보 : ", userInfo);
+  });
 
   // message : chat
   const [chatList, setChatList] = useState([]); // 화면에 표시괼 채팅 기록
@@ -224,8 +295,8 @@ function ModalBasic(props) {
       body: JSON.stringify({
         type: typeValue, //먼저 방에 들어올때 - ENTER,  메시지를 보낼떄 - TALK
         roomId: 1, //스터디 ID
-        senderId: userId, //유저 id
-        senderName: "익명" + userId, //유저 이름
+        senderId: 3, //유저 id
+        senderName: "익명" + 3, //유저 이름
         message: chat, //메시지
       }), // 형식에 맞게 수정해서 보내야 함.
     });
@@ -266,7 +337,6 @@ function ModalBasic(props) {
   useEffect(() => {
     setFirstEnter(true);
     connect();
-    // console.log("??");
 
     return () => disconnect();
   }, []);
@@ -280,11 +350,39 @@ function ModalBasic(props) {
       </ModalHeader>
       <ModalContent>
         <ChatList>
-          <ChatBubbleMe>
-            {chatList?.map((el, index) => {
-              return <div key={index}> {el.message}</div>;
-            })}
-          </ChatBubbleMe>
+          {chatList?.map((el, index) => {
+            if (el.type === "ENTER") {
+              return (
+                <EnterMsgBox key={index}>
+                  <div>{el.message}</div>
+                </EnterMsgBox>
+              );
+            } else {
+              if (el.senderId === userId) {
+                return (
+                  <ChatBubbleWrapperMe>
+                    {/* 내 채팅이 보여질 구간 */}
+                    <div>
+                      <NameMe>{el.senderName}</NameMe>
+                      <ChatBubbleMe>
+                        <p>{el.message}</p>
+                      </ChatBubbleMe>
+                    </div>
+                  </ChatBubbleWrapperMe>
+                );
+              } else {
+                <ChatBubbleWrapperYou>
+                  {/* 상대방 채팅이 보여질 구간 */}
+                  <div>
+                    <NameYou>{el.senderName}</NameYou>
+                    <ChatBubbleYou>
+                      <p>{el.message}</p>
+                    </ChatBubbleYou>
+                  </div>
+                </ChatBubbleWrapperYou>;
+              }
+            }
+          })}
         </ChatList>
       </ModalContent>
       <ModalFooter onSubmit={(event) => handleSubmit(event, chat)}>
