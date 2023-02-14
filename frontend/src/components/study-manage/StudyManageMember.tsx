@@ -134,6 +134,16 @@ const BtnYellow = styled.button`
   background-color: ${(props) => props.theme.mainColor};
   box-shadow: 0 5px 5px -5px #333;
 `;
+const BtnBlue = styled.button`
+  cursor: pointer;
+  border: ${(props) => props.theme.pointColor} 1px;
+  width: 150px;
+  height: 30px;
+  border-radius: 5px;
+  font-size: small;
+  background-color: ${(props) => props.theme.pointColor};
+  box-shadow: 0 5px 5px -5px #333;
+`;
 const BtnWhite = styled.button`
   cursor: pointer;
   border: 0.5px ${(props) => props.theme.subColor};
@@ -235,12 +245,7 @@ function StudyManageMember() {
             )}
             <BtnYellow onClick={openModal}>모집 시작</BtnYellow>
             {change !== true && (
-              <BtnYellow
-                style={{ backgroundColor: theme.pointColor }}
-                onClick={openModal}
-              >
-                모집 마감
-              </BtnYellow>
+              <BtnBlue onClick={openModal}>모집 마감</BtnBlue>
             )}
           </Box>
           <Box>
