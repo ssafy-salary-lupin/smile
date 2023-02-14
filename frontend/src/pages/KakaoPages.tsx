@@ -31,7 +31,7 @@ function KakaoPages() {
       console.log(decodeData.userId);
       // setDecoded(decodeData);
       // setUserIdState(decoded?.userId);
-      // window.location.replace(`/myStudy/${decodeData.userId}`);
+      window.location.replace(`/myStudy/${decodeData.userId}`);
     } else {
       console.log("none");
     }
