@@ -228,7 +228,7 @@ function StudyManageMember() {
                 <BtnBox>
                   <YellowBtn>위임</YellowBtn>
                   {dropModalOpen && (
-                    <ModalManageDeadline setModalOpen={setDropModalOpen} />
+                    <ModalManageDrop setModalOpen={setDropModalOpen} />
                   )}
                   <BlueBtn onClick={DropopenModal}>강퇴</BlueBtn>
                 </BtnBox>
@@ -253,6 +253,9 @@ function StudyManageMember() {
           </Box>
           <Box>
             <TextBox>
+              {dropModalOpen && (
+                <ModalManageDrop setModalOpen={setDropModalOpen} />
+              )}
               <BigText>스터디 종료</BigText>
               <Text>한번 종료하면 되돌릴 수 없습니다.</Text>
               <Text>삭제하시겠습니까?</Text>
