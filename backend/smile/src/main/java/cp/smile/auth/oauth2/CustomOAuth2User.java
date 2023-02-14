@@ -19,6 +19,7 @@ public class CustomOAuth2User implements OAuth2User, UserDetails {
     private String nickname;
     private String profileImagePath;
     private String profileThumbnailImagePath;
+    private boolean isDefaultProfileImage;
     private Map<String, Object> attributes;
     private Collection<? extends GrantedAuthority> authorities;
 

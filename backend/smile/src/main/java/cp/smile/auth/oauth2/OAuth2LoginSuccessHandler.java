@@ -1,10 +1,8 @@
 package cp.smile.auth.oauth2;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import cp.smile.auth.jwt.JwtProvider;
 import cp.smile.auth.oauth2.exception.UnsupportedOAuthProviderException;
 import cp.smile.auth.oauth2.provider.LoginProviderRepository;
-import cp.smile.config.response.ResponseService;
 import cp.smile.entity.user.LoginProvider;
 import cp.smile.entity.user.User;
 import cp.smile.user.service.UserService;
@@ -13,18 +11,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
+
+import static cp.smile.config.AwsS3DirectoryName.DEFAULT_PROFILE;
 
 @Component
 @Slf4j
@@ -57,13 +53,6 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         String accessToken = jwtProvider.createAccessToken(authentication);
         log.info("{}'s accessToken: {}", oAuth2User.getNickname(), accessToken);
 
-//        Map<String, String> data = new HashMap<>();
-//        data.put("accessToken", accessToken);
-//
-//        response.getWriter()
-//                .write(new ObjectMapper().writeValueAsString(responseService.getDataResponse(data)));
-
-//        clearAuthenticationAttributes(request);
         String redirectUrl = ACCESS_TOKEN_REDIRECT_URL + accessToken;
         getRedirectStrategy().sendRedirect(request, response, redirectUrl);
     }
@@ -71,8 +60,14 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     private User saveOrUpdateUser(String refreshToken, CustomOAuth2User oAuth2User) {
         User user = userService.findByEmail(oAuth2User.getEmail());
 
+        String profileImagePath = oAuth2User.isDefaultProfileImage() ?
+                DEFAULT_PROFILE : oAuth2User.getProfileThumbnailImagePath();
+
         if (user != null) {
             userService.updateRefreshToken(user, refreshToken);
+            if (user.getImagePath() == null || !user.getImagePath().equals(profileImagePath)) {
+                userService.updateProfileImage(user, profileImagePath);
+            }
             return user;
         } else {
             Optional<LoginProvider> opt = loginProviderRepository.findByProvider(oAuth2User.getProvider());
@@ -84,7 +79,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             user = User.builder()
                     .email(oAuth2User.getEmail())
                     .nickname(oAuth2User.getNickname())
-                    .imagePath(oAuth2User.getProfileImagePath())
+                    .imagePath(profileImagePath)
                     .refreshToken(refreshToken)
                     .loginProvider(opt.get())
                     .isDeleted(false)
