@@ -31,9 +31,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 
+import static cp.smile.config.AwsS3DirectoryName.DEFAULT_STUDY;
 import static cp.smile.config.AwsS3DirectoryName.STUDY_IMG;
 import static cp.smile.config.response.exception.CustomExceptionStatus.*;
 
+@Slf4j
 @RequiredArgsConstructor
 @Transactional(readOnly = false)
 @Service
@@ -153,9 +155,7 @@ public class StudyAdminServiceImpl implements StudyAdminService {
                 .findByStudyInformationAndUserAndIsLeaderTrue(studyInformation,user)
                 .orElseThrow(() -> new CustomException(USER_NOT_STUDY_LEADER));
 
-
         if(studyInfoDTO != null) {
-
             //타입 수정.
             if (studyInfoDTO.getTypeId() != 0) {
                 //수정할 타입이 없는 타입이라면,
@@ -167,7 +167,7 @@ public class StudyAdminServiceImpl implements StudyAdminService {
             }
 
             //종료일자 저장을 위한 데이터 포맷설정.
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 
             LocalDate endDate = LocalDate.parse(studyInfoDTO.getEndDate(), formatter);
@@ -199,10 +199,11 @@ public class StudyAdminServiceImpl implements StudyAdminService {
 
         //파일 수정 - 파일이 하나뿐이므로, 경로는 유지하고 기존 파일을 덮어버림.
         if(multipartFile != null && multipartFile.getSize() > 0){
-            studyInformation.updateImage(fileUpload(multipartFile, studyInformation.getImgPath()));
+            String temp = fileUpload(multipartFile, studyInformation.getImgPath());
+
+            log.info("file path : {}",temp );
+            studyInformation.updateImage(temp);
         }
-
-
     }
 
     public String fileUpload(MultipartFile multipartFile, String imagePath){
@@ -218,7 +219,7 @@ public class StudyAdminServiceImpl implements StudyAdminService {
         String fileName = imagePathSplit[imagePathSplit.length-1];
 
         //기본경로면 새로 파일이름을 생성해야됨.
-        if(imagePathSplit[imagePathSplit.length-2].equals(STUDY_IMG)){
+        if(imagePathSplit[imagePathSplit.length-2].equals("default-img")){
             String originFileName = multipartFile.getOriginalFilename();
             int index = originFileName.lastIndexOf(".");
             String ext = originFileName.substring(index + 1);
