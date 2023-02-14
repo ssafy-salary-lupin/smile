@@ -4,8 +4,10 @@ import logoImg from "../../assets/img/smile_black.png";
 import "../../assets/css/index.css";
 import { motion, useAnimation, useScroll } from "framer-motion";
 import { Link, useHistory } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { LoginState } from "atoms/LoginAtom";
+import { studyIdRecoil } from "atoms/StudyManage";
+import { UserIdState } from "atoms/UserInfoAtom";
 
 const Nav = styled(motion.nav)`
   position: fixed;
@@ -160,6 +162,7 @@ function NavBar(props: UrlProps) {
 
   const [tokenState, setTokenState] = useRecoilState(LoginState);
   const kakaoToken = localStorage.getItem("kakao-token");
+  const userId = useRecoilValue(UserIdState);
 
   useEffect(() => {
     console.log("props.curUrl : ", props.curUrl);
@@ -197,14 +200,17 @@ function NavBar(props: UrlProps) {
           <Item1 curUrl={props.curUrl}>
             <Link to="/search">스터디 조회</Link>
           </Item1>
-          <Item2 curUrl={props.curUrl}>
+          {/* <Item2 curUrl={props.curUrl}>
             <Link to="/myStudy/6" style={{ textDecoration: "none" }}>
               내 스터디
             </Link>
-          </Item2>
+          </Item2> */}
           {kakaoToken ? (
             <Item2 curUrl={props.curUrl}>
-              <Link to="/myStudy/6" style={{ textDecoration: "none" }}>
+              <Link
+                to={`/myStudy/${userId}`}
+                style={{ textDecoration: "none" }}
+              >
                 내 스터디
               </Link>
             </Item2>
