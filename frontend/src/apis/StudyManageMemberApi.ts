@@ -46,7 +46,7 @@ export async function MandateApi() {
 // // 강퇴
 export async function UserDropApi() {
   try {
-    const response = await axios.delete(`${BASE_URL}/1/users/1`, {
+    const response = await axios.delete(`${BASE_URL}/1/users/3`, {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: "application/json",
