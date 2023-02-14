@@ -251,6 +251,10 @@ const ImgBox = styled.div`
   /* margin-bottom: 5.556vw; */
 `;
 
+const Img = styled.img`
+  object-fit: contain;
+`;
+
 const BtnBox = styled.div`
   display: flex;
   justify-content: center;
@@ -279,7 +283,6 @@ interface StudyType {
 }
 
 function StudyCreatePages() {
-  const selectType = ["미정", "면접", "자격증", "외국어"];
   const selectPeople = [3, 4, 5, 6];
   const selectTime = [
     "미정",
@@ -348,11 +351,6 @@ function StudyCreatePages() {
     time = "미정";
   }
 
-  const BASE_URL = `https://i8b205.p.ssafy.io/be-api/`;
-
-  const token = localStorage.getItem("kakao-token");
-  // const [list, setList] = useState<studyDetailData[] | null>(null);
-
   // 스터디 타입 불러오기
   const { data: studyType } = useQuery<StudyType>("studyTypeApi", () =>
     studyTypeApi(),
@@ -362,11 +360,7 @@ function StudyCreatePages() {
   const [study_name, setStudy_name] = useState<string>("");
   const [study_typeId, setStudy_typeId] = useState<number>(0);
   const [study_maxPerson, setStudy_maxPerson] = useState<number>(0);
-  // const [study_startDate, setStudy_startDate] = useState<string>("");
-  // const [study_endDate, setStudy_endDate] = useState<string>("");
   const [study_description, setStudy_description] = useState<string>("");
-  // const [study_time, setStudy_time] = useState<string>("");
-  const [study_file, setStudy_file] = useState<string>("");
 
   const history = useHistory();
   const onCreateStudy = () => {
@@ -388,7 +382,6 @@ function StudyCreatePages() {
       });
       return;
     }
-
     // 최대 인원
     if (study_maxPerson === 0) {
       Swal.fire({
@@ -398,7 +391,6 @@ function StudyCreatePages() {
       });
       return;
     }
-
     // 기간
     if (startDate === null) {
       Swal.fire({
@@ -559,7 +551,7 @@ function StudyCreatePages() {
               <TimeSelectWrapper>
                 <SelectBox onChange={Change_endTime}>
                   {selectTime.map((item, index) => (
-                    <option value={index} key={item}>
+                    <option value={item} key={index}>
                       {item}
                     </option>
                   ))}
@@ -573,7 +565,7 @@ function StudyCreatePages() {
               <label className="signup-profileImg-label" htmlFor="profileImg">
                 <ImgBox>
                   {isActive && typeof imgFile == "string" ? (
-                    <img src={imgFile} alt="" />
+                    <Img src={imgFile} alt="" />
                   ) : (
                     <Icons.Camera width="100%" height="100%" />
                   )}

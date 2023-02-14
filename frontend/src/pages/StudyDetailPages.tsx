@@ -73,6 +73,8 @@ const Card = styled.img`
   width: 22.083vw;
   height: 29.167vw;
   margin-right: 2.778vw;
+  background-color: white;
+  object-fit: contain;
 `;
 
 const Profile = styled.img`
@@ -403,10 +405,6 @@ function StudyDetailPages() {
   const onJoin = async () => {
     if (token !== null) {
       var decoded: any = jwt_decode(token);
-      // const decoded2: object = jwt_decode(token);
-      console.log("decoded : ", decoded);
-      console.log("decoded Id : ", decoded?.userId);
-      // console.log("decoded Id: ", decoded);
     } else {
       console.log("none");
     }
