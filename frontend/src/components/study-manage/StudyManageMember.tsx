@@ -22,9 +22,6 @@ import { ReactComponent as Crown } from "../../assets/icon/Crown.svg";
 import axios from "axios";
 import { theme } from "theme";
 
-import ModalManageRecruit from "./ModalManageRecruit";
-import ModalManageMandate from "./ModalManageMandate";
-
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
   display: flex;
