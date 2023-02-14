@@ -165,7 +165,7 @@ function NavBar(props: UrlProps) {
 
   console.log("네비바 랜더링");
   const userId = useRecoilValue(UserIdState);
-  console.log("userId : ", userId);
+  console.log("네비바 클릭 후userId : ", userId);
 
   useEffect(() => {
     if (props.curUrl === "/" || props.curUrl.includes("/myStudy")) {
