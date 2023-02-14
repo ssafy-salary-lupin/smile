@@ -41,10 +41,10 @@ function KakaoPages() {
 
     onJoin();
 
+    window.location.replace("/myStudy/userIdState"); // 새로고침해야 token null 값 해결 돼서 임시방편으로 바꿈 ㅠ interceptor하는 법 찾아보기
     return () => {
       onJoin();
     };
-    window.location.replace("/"); // 새로고침해야 token null 값 해결 돼서 임시방편으로 바꿈 ㅠ interceptor하는 법 찾아보기
   }, [params]);
   console.log("LOGIN");
   return <div></div>;
