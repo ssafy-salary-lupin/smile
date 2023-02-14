@@ -57,9 +57,12 @@ public class ChatController {
         return responseService.getDataResponse(chatMessageInfoDTOS, RESPONSE_SUCCESS);
     }
 
-    @GetMapping("/test/createRoom")
-    public void test(){
-        chatService.createRoom(1);
+    //테스트시에 임의로 생성된 스터디들은 레디스에 방 정보 객체가 저장되어있지 않음. 이를 처리하기 위한 엔드포인트.
+    @GetMapping("/createRoom/{studyId}")
+    public void test(
+            @PathVariable int studyId
+    ){
+        chatService.createRoom(studyId);
     }
 
     /* /pub/chat/message 로 들어오는 메시지 처리.*/

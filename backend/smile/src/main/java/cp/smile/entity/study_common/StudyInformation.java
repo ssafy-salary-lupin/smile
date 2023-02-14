@@ -147,6 +147,10 @@ public class StudyInformation extends BaseEntity {
         this.studyType = studyType;
     }
 
+    public void updateImage(String imgPath){
+        this.imgPath = imgPath;
+    }
+
     public void addPerson() {
         this.currentPerson += 1;
     }

@@ -16,7 +16,11 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query(value = "select u from User u " +
                 "join fetch u.UserJoinStudy ujs " +
-                "where ujs.studyInformation.id = :studyId and ujs.isBan = false and ujs.isDeleted = false")
+                "where ujs.studyInformation.id = :studyId and ujs.isBan = false " +
+            "and ujs.isDeleted = false " +
+            "and u.isDeleted = false")
     List<User> findUserByStudy(int studyId);
+
+
 
 }

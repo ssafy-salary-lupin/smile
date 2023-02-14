@@ -272,9 +272,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `smile_db`.`study_board_files`
+-- Table `smile_db`.`stduy_board_files`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `smile_db`.`study_board_files` (
+CREATE TABLE IF NOT EXISTS `smile_db`.`stduy_board_files` (
   `sbf_id` INT NOT NULL AUTO_INCREMENT,
   `sbf_name` VARCHAR(255) NOT NULL,
   `sbf_path` VARCHAR(255) NOT NULL,
@@ -285,8 +285,8 @@ CREATE TABLE IF NOT EXISTS `smile_db`.`study_board_files` (
   `sbf_is_deleted` TINYINT NOT NULL,
   `sb_id` INT NOT NULL,
   PRIMARY KEY (`sbf_id`),
-  INDEX `fk_study_board_files_study_boards1_idx` (`sb_id` ASC) VISIBLE,
-  CONSTRAINT `fk_study_board_files_study_boards1`
+  INDEX `fk_stduy_board_files_study_boards1_idx` (`sb_id` ASC) VISIBLE,
+  CONSTRAINT `fk_stduy_board_files_study_boards1`
     FOREIGN KEY (`sb_id`)
     REFERENCES `smile_db`.`study_boards` (`sb_id`)
     ON DELETE NO ACTION
@@ -417,6 +417,30 @@ CREATE TABLE IF NOT EXISTS `smile_db`.`chat_messages` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_chat_messages_users1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `smile_db`.`users` (`user_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `smile_db`.`user_memos`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `smile_db`.`user_memos` (
+  `um_id` INT NOT NULL AUTO_INCREMENT,
+  `um_content` TEXT NOT NULL,
+  `um_x` INT NULL,
+  `um_y` INT NULL,
+  `um_is_deleted` TINYINT NOT NULL,
+  `update_time` TIMESTAMP NOT NULL,
+  `create_time` TIMESTAMP NOT NULL,
+  `update_id` INT NOT NULL,
+  `create_id` INT NOT NULL,
+  `user_id` INT NOT NULL,
+  PRIMARY KEY (`um_id`),
+  INDEX `fk_user_memos_users1_idx` (`user_id` ASC) VISIBLE,
+  CONSTRAINT `fk_user_memos_users1`
     FOREIGN KEY (`user_id`)
     REFERENCES `smile_db`.`users` (`user_id`)
     ON DELETE NO ACTION

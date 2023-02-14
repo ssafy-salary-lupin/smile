@@ -1,5 +1,9 @@
 package cp.smile.study_management.admin.service;
 
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import cp.smile.config.response.exception.CustomException;
 import cp.smile.config.response.exception.CustomExceptionStatus;
 import cp.smile.entity.study_common.StudyInformation;
@@ -13,15 +17,21 @@ import cp.smile.user.repository.UserJoinStudyRepository;
 import cp.smile.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.UUID;
 
+import static cp.smile.config.AwsS3DirectoryName.STUDY_IMG;
 import static cp.smile.config.response.exception.CustomExceptionStatus.*;
 
 @RequiredArgsConstructor
@@ -33,6 +43,11 @@ public class StudyAdminServiceImpl implements StudyAdminService {
     private final UserJoinStudyRepository userJoinStudyRepository;
     private final StudyCommonRepository studyCommonRepository;
     private final StudyTypeRepository studyTypeRepository;
+
+    private final AmazonS3Client amazonS3Client;
+
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
 
     @Override
     public List<User> findUserByStudy(int studyId) {
@@ -121,51 +136,119 @@ public class StudyAdminServiceImpl implements StudyAdminService {
     }
 
     @Override
-    public void updateStudyInfo(int studyLeaderId, int studyId, StudyInfoDTO studyInfoDTO) {
-        UserJoinStudy studyLeader = userJoinStudyRepository.findByUserIdAndStudyId(studyLeaderId, studyId)
-                .orElseThrow(() -> new CustomException(USER_NOT_ACCESS_STUDY));
+    public void updateStudyInfo(int studyLeaderId, int studyId, StudyInfoDTO studyInfoDTO, MultipartFile multipartFile) {
 
-        if (studyLeader.getIsLeader() == true) { // 스터디장이 맞으면
-            StudyInformation studyInfo = studyCommonRepository.findById(studyId)
-                    .orElseThrow(() -> new CustomException(USER_NOT_STUDY_LEADER));
+        //해당 유저가 있는지 확인.
+        User user = userRepository
+                .findById(studyLeaderId)
+                .orElseThrow(() -> new CustomException(ACCOUNT_NOT_FOUND));
 
-            StudyType studyType = studyTypeRepository
-                    .findById(studyInfoDTO.getTypeId())
-                    .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY_TYPE));
+        //해당 스터디가 있는지 확인
+        StudyInformation studyInformation = studyCommonRepository
+                .findById(studyId)
+                .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY));
 
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일");
+        //해당 유저가 해당 스터디의 리더인지.
+        userJoinStudyRepository
+                .findByStudyInformationAndUserAndIsLeaderTrue(studyInformation,user)
+                .orElseThrow(() -> new CustomException(USER_NOT_STUDY_LEADER));
+
+
+        if(studyInfoDTO != null) {
+
+            //타입 수정.
+            if (studyInfoDTO.getTypeId() != 0) {
+                //수정할 타입이 없는 타입이라면,
+                StudyType studyType = studyTypeRepository
+                        .findById(studyInfoDTO.getTypeId())
+                        .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY_TYPE));
+
+                studyInformation.updateStudyType(studyType);
+            }
+
+            //종료일자 저장을 위한 데이터 포맷설정.
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+
 
             LocalDate endDate = LocalDate.parse(studyInfoDTO.getEndDate(), formatter);
 
             if (studyInfoDTO.getName() != null) {
-                studyInfo.updateName(studyInfoDTO.getName());
+                studyInformation.updateName(studyInfoDTO.getName());
             }
 
             if (studyInfoDTO.getEndDate() != null) {
-                studyInfo.updateEndDate(endDate);
+                studyInformation.updateEndDate(endDate);
             }
 
             if (studyInfoDTO.getTime() != null) {
-                studyInfo.updateTime(studyInfoDTO.getTime());
+                studyInformation.updateTime(studyInfoDTO.getTime());
             }
 
             if (studyInfoDTO.getMaxPerson() != null) {
-                studyInfo.updateMaxPerson(studyInfoDTO.getMaxPerson());
+                studyInformation.updateMaxPerson(studyInfoDTO.getMaxPerson());
             }
 
             if (studyInfoDTO.getDescription() != null) {
-                studyInfo.updateDescription(studyInfoDTO.getDescription());
+                studyInformation.updateDescription(studyInfoDTO.getDescription());
             }
 
             if (studyInfoDTO.getRule() != null) {
-                studyInfo.updateRule(studyInfoDTO.getRule());
-            }
-
-            if (studyType != null) {
-                studyInfo.updateStudyType(studyType);
+                studyInformation.updateRule(studyInfoDTO.getRule());
             }
         }
 
+        //파일 수정 - 파일이 하나뿐이므로, 경로는 유지하고 기존 파일을 덮어버림.
+        if(multipartFile != null && multipartFile.getSize() > 0){
+            studyInformation.updateImage(fileUpload(multipartFile, studyInformation.getImgPath()));
+        }
+
+
+    }
+
+    public String fileUpload(MultipartFile multipartFile, String imagePath){
+
+        String storeFileName = "";
+        String fileSavePath = "";//파일 저장 위치
+
+        // 기존 파일 경로 가져와서 저장할 경로와 파일이름 추출
+        //기존 이미지경로에서 파일 이름 추출
+        String[] imagePathSplit = imagePath.split("/");
+
+        //확장자가 포함된 파일 이름.
+        String fileName = imagePathSplit[imagePathSplit.length-1];
+
+        //기본경로면 새로 파일이름을 생성해야됨.
+        if(imagePathSplit[imagePathSplit.length-2].equals(STUDY_IMG)){
+            String originFileName = multipartFile.getOriginalFilename();
+            int index = originFileName.lastIndexOf(".");
+            String ext = originFileName.substring(index + 1);
+
+            storeFileName = UUID.randomUUID().toString() + "." + ext;
+
+        }
+        else{
+            storeFileName = fileName;
+
+        }
+
+        fileSavePath = STUDY_IMG + storeFileName;
+
+        // TODO : 확장자를 제한할 필요가 있음
+
+        //파일 저장
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentType(multipartFile.getContentType());
+        objectMetadata.setContentLength(multipartFile.getSize());
+
+        try (InputStream inputStream = multipartFile.getInputStream()) {
+            amazonS3Client.putObject(new PutObjectRequest(bucket, fileSavePath, inputStream, objectMetadata)
+                    .withCannedAcl(CannedAccessControlList.PublicRead));
+
+        } catch (IOException e) {
+            throw new CustomException(FILE_SAVE_FAIL);
+        }
+
+        return amazonS3Client.getUrl(bucket,fileSavePath).toString();
     }
 
 }
