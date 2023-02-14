@@ -60,7 +60,7 @@ function ModalManageRecruit(props: any) {
   // 모집 / 마감 버튼 바꾸기
   // const [changeColor, setChangeColor] = useState(true);
   const changeBtn = () => {
-    props.setChangeColor(false);
+    props.setChange(false);
   };
 
   // 모집
