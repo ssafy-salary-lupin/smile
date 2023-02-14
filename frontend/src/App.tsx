@@ -4,6 +4,7 @@ import Router from "./Router";
 import { createGlobalStyle } from "styled-components";
 import { BrowserRouter } from "react-router-dom";
 import { useEffect } from "react";
+import ScrollTop from "components/common/ScrollTop";
 
 const GlobalStyle = createGlobalStyle`
 /* @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap"); */
@@ -279,6 +280,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
+        <ScrollTop />
         <GlobalStyle />
         {!curPath.includes("videoMeeting") && <NavBar curUrl={curPath} />}
         <Router />

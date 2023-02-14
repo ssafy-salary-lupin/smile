@@ -14,6 +14,7 @@ import moment from "moment";
 
 import * as Icons from "../components/common/Icons";
 import { CreateStudyApi, studyTypeApi } from "apis/StudyCreateApi";
+import Swal from "sweetalert2";
 
 const BlankSpace = styled.div`
   height: 7.383vw;
@@ -331,14 +332,21 @@ function StudyCreatePages() {
     }
   };
 
-  const [startDate, setStartDate] = useState<any>(new Date());
-  const [endDate, setEndDate] = useState<any>(new Date());
+  const [startDate, setStartDate] = useState<any>(null);
+  const [endDate, setEndDate] = useState<any>(null);
   // 시작 시간
-  const [startTime, setStartTime] = useState<Date | null>();
+  const [startTime, setStartTime] = useState<Date | null>(null);
   // 종료 시간
-  const [endTime, setEndTime] = useState<Date | null>();
+  const [endTime, setEndTime] = useState<Date | null>(null);
 
-  const time = startTime?.toString() + " ~ " + endTime?.toString();
+  let time = "";
+  if (startTime !== null && endTime !== null) {
+    time = startTime?.toString() + " ~ " + endTime?.toString();
+  } else if (startTime !== null && endTime === null) {
+    time = startTime?.toString() + " ~ 미정";
+  } else {
+    time = "미정";
+  }
 
   const BASE_URL = `https://i8b205.p.ssafy.io/be-api/`;
 
@@ -352,8 +360,8 @@ function StudyCreatePages() {
 
   // //-------------------------------------------------------------------
   const [study_name, setStudy_name] = useState<string>("");
-  const [study_typeId, setStudy_typeId] = useState<number>();
-  const [study_maxPerson, setStudy_maxPerson] = useState<string>("");
+  const [study_typeId, setStudy_typeId] = useState<number>(0);
+  const [study_maxPerson, setStudy_maxPerson] = useState<number>(0);
   // const [study_startDate, setStudy_startDate] = useState<string>("");
   // const [study_endDate, setStudy_endDate] = useState<string>("");
   const [study_description, setStudy_description] = useState<string>("");
@@ -361,6 +369,53 @@ function StudyCreatePages() {
   const [study_file, setStudy_file] = useState<string>("");
 
   const onCreateStudy = () => {
+    // 이름
+    if (study_name === "") {
+      Swal.fire({
+        icon: "error",
+        title: "이런...",
+        text: "이름을 입력해주세요!!",
+      });
+      return;
+    }
+    // 스터디 유형
+    if (study_typeId === 0) {
+      Swal.fire({
+        icon: "error",
+        title: "이런...",
+        text: "유형을 선택해주세요!!",
+      });
+      return;
+    }
+
+    // 최대 인원
+    if (study_maxPerson === 0) {
+      Swal.fire({
+        icon: "error",
+        title: "이런...",
+        text: "인원을 선택해주세요!!",
+      });
+      return;
+    }
+
+    // 기간
+    if (startDate === null) {
+      Swal.fire({
+        icon: "error",
+        title: "이런...",
+        text: "시작 날짜를 선택해주세요!!",
+      });
+      return;
+    }
+    if (endDate === null) {
+      Swal.fire({
+        icon: "error",
+        title: "이런...",
+        text: "마감 날짜를 선택해주세요!!",
+      });
+      return;
+    }
+
     const formData = new FormData();
 
     const data = {
@@ -539,13 +594,9 @@ function StudyCreatePages() {
           </SelectSmallTotal>
           <BtnBox>
             <CreateBtn onClick={onCreateStudy}>스터디 생성</CreateBtn>
-            <Link
-              to={{
-                pathname: `/create`,
-              }}
-            >
-              <CancelBtn>취소</CancelBtn>
-            </Link>
+            <CancelBtn>
+              <Link to="/search">취소</Link>
+            </CancelBtn>
           </BtnBox>
         </SelectBigTotal>
       </TotalBox>
