@@ -8,7 +8,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import React, { useState, useEffect, useRef, MouseEventHandler } from "react";
 import { useQuery } from "react-query";
 // import ButtonBasic from "../components/common/ButtonBasic";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
 
@@ -368,6 +368,7 @@ function StudyCreatePages() {
   // const [study_time, setStudy_time] = useState<string>("");
   const [study_file, setStudy_file] = useState<string>("");
 
+  const history = useHistory();
   const onCreateStudy = () => {
     // 이름
     if (study_name === "") {
@@ -432,6 +433,9 @@ function StudyCreatePages() {
     formData.append("file", imgFileUrl);
 
     CreateStudyApi(formData);
+
+    // 나중에 내 스터디 조회로 이동 하는 걸로 수정
+    history.push("/search");
   };
 
   const Change_name = (e: any) => {
