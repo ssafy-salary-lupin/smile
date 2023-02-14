@@ -20,7 +20,7 @@ function KakaoPages() {
   }
 
   const params = useParams<ILoginToken>();
-  // const history = useHistory();
+  const history = useHistory();
 
   const [tokenState, setTokenState] = useRecoilState(LoginState);
   // const [userIdState, setUserIdState] = useRecoilState(UserIdState);
@@ -47,7 +47,7 @@ function KakaoPages() {
       localStorage.setItem("kakao-token", params.accessToken);
     }
     if (localStorage.getItem("kakao-token")) setTokenState(true);
-    // history.push("/");
+    history.push("/");
     // goMyStudy();
   }, [params]);
 
