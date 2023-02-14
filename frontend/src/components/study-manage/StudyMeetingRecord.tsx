@@ -5,6 +5,7 @@ import { useQuery } from "react-query";
 import { MeetingSelectAllApi } from "apis/StudyManageMeetingApi";
 import { useRecoilValue } from "recoil";
 import { studyIdRecoil } from "atoms/StudyManage";
+import { Link } from "react-router-dom";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
@@ -242,7 +243,8 @@ interface IData {
 }
 
 function StudyMeetingRecord() {
-  const studyId = useRecoilValue(studyIdRecoil);
+  // const studyId = useRecoilValue(studyIdRecoil);
+  const studyId = "1";
 
   // 1. 회의 생성 post
   // 모달창 노출 여부 state
@@ -291,7 +293,10 @@ function StudyMeetingRecord() {
                     </MeetingContent>
                   </MeetingCardFront>
                   <MeetingCardBack>
-                    <AttendBtn>참여하기</AttendBtn>
+                    <AttendBtn>
+                      {/* TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */}
+                      <Link to="/meeting/:studyId/:userId">참여하기</Link>
+                    </AttendBtn>
                   </MeetingCardBack>
                 </div>
               );
