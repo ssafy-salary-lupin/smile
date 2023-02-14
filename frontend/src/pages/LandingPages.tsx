@@ -607,8 +607,8 @@ function LandingPages() {
           </SStudyList>
           <SIntroductionItem direction="L" top={relativeTop1}>
             <SIntroductionItemImg src={introductionImg1} id="item1" />
-            <SIntroductionItemText onClick={test}>
-              <STextBold>당신의 스터디를 찾아보세요!</STextBold>
+            <SIntroductionItemText>
+              <STextBold onClick={test}>당신의 스터디를 찾아보세요!</STextBold>
               <SText>어떤 스터디를 원하세요?</SText>
             </SIntroductionItemText>
           </SIntroductionItem>
