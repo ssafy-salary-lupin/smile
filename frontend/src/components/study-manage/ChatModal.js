@@ -232,7 +232,7 @@ function ModalBasic(props) {
 
     setChat("");
   };
-
+  //
   // 메시지 받기 {우리 주소}/studies/{studyId}/chats
   const subscribe = () => {
     console.log("subscribe");

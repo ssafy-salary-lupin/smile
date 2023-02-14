@@ -1,5 +1,5 @@
 import axios from "axios";
-
+//
 const BASE_URL = `https://i8b205.p.ssafy.io/be-api/studies`;
 // const BASE_URL = `/be-api/studies`;
 
