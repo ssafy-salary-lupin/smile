@@ -2,8 +2,8 @@ import { LoginState } from "atoms/LoginAtom";
 import { useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import jwt_decode from "jwt-decode";
 import { UserIdState } from "atoms/UserInfoAtom";
+import jwt_decode from "jwt-decode";
 interface ILoginToken {
   accessToken: string;
 }
@@ -26,7 +26,6 @@ function KakaoPages() {
   };
 
   useEffect(() => {
-    onJoin();
     return () => {
       onJoin();
     };
