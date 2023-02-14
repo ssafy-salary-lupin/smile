@@ -40,12 +40,12 @@ public enum CustomExceptionStatus {
     USER_NOT_STUDY_LEADER(false, 403, "스터디 장만 접근이 가능합니다."),
 
 
-
     /*스터디 일반 관련*/
-
+    NOT_JOINED_STUDY(false, 400, "가입한 스터디가 아닙니다"),
     NOT_FOUND_STUDY(false,404, "스터디를 찾을 수 없습니다."),
     NOT_FOUND_STUDY_TYPE(false, 404, "올바르지 않은 스터디 유형입니다."),
     NOT_FOUND_CHAT_ROOM(false, 404, "해당 채팅방을 찾을 수 없습니다."),
+    LEADER_CAN_NOT_LEAVE(false, 400, "스터디장은 탈퇴할 수 없습니다"),
 
     /* 스터디 일정 관련 */
     NOT_FOUND_SCHEDULE(false,404, "일정을 찾을 수 없습니다."),
