@@ -27,6 +27,9 @@ public interface UserJoinStudyRepository extends JpaRepository<UserJoinStudy, Us
     Optional<UserJoinStudy> findByStudyInformationAndIsLeaderTrue(StudyInformation studyInformation);
 
 
+    //해당 스터디의 유저가 리더인지 확인
+    Optional<UserJoinStudy> findByStudyIdAndUserIdAndIsLeaderTrue(int studyId,int userId);
+
 
 
 }

@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
@@ -174,12 +175,14 @@ public class StudyAdminController {
     @PatchMapping("/studies/{studyId}")
     public CommonResponse updateStudyInformation(
             @PathVariable int studyId,
-            @RequestBody StudyInfoDTO studyInfoDTO,
+            @RequestPart(value = "data", required = false) StudyInfoDTO studyInfoDTO,
+            @RequestPart(value = "files", required = false) MultipartFile multipartFile,
             @AuthenticationPrincipal CustomOAuth2User oAuth2User) {
 
-        int studyLeaderId = oAuth2User.getUserId();
+        int userId = oAuth2User.getUserId();
 
-        studyAdminService.updateStudyInfo(studyLeaderId, studyId, studyInfoDTO);
+
+        studyAdminService.updateStudyInfo(userId, studyId, studyInfoDTO,multipartFile);
 
         return responseService.getSuccessResponse();
     }

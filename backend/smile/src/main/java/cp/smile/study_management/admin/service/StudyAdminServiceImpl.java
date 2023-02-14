@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
@@ -121,51 +122,74 @@ public class StudyAdminServiceImpl implements StudyAdminService {
     }
 
     @Override
-    public void updateStudyInfo(int studyLeaderId, int studyId, StudyInfoDTO studyInfoDTO) {
-        UserJoinStudy studyLeader = userJoinStudyRepository.findByUserIdAndStudyId(studyLeaderId, studyId)
-                .orElseThrow(() -> new CustomException(USER_NOT_ACCESS_STUDY));
+    public void updateStudyInfo(int studyLeaderId, int studyId, StudyInfoDTO studyInfoDTO, MultipartFile multipartFile) {
 
-        if (studyLeader.getIsLeader() == true) { // 스터디장이 맞으면
-            StudyInformation studyInfo = studyCommonRepository.findById(studyId)
-                    .orElseThrow(() -> new CustomException(USER_NOT_STUDY_LEADER));
+        //해당 유저가 있는지 확인.
+        userRepository
+                .findById(studyLeaderId)
+                .orElseThrow(() -> new CustomException(ACCOUNT_NOT_FOUND));
 
+        //해당 스터디가 있는지 확인
+        StudyInformation studyInformation = studyCommonRepository
+                .findById(studyId)
+                .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY));
+
+        //해당 유저가 해당 스터디의 리더인지.
+        userJoinStudyRepository
+                .findByStudyIdAndUserIdAndIsLeaderTrue(studyId,studyLeaderId)
+                .orElseThrow(() -> new CustomException(USER_NOT_STUDY_LEADER));
+
+        //타입 수정.
+        if(studyInfoDTO.getTypeId() != 0){
+            //수정할 타입이 없는 타입이라면,
             StudyType studyType = studyTypeRepository
                     .findById(studyInfoDTO.getTypeId())
                     .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY_TYPE));
 
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일");
-
-            LocalDate endDate = LocalDate.parse(studyInfoDTO.getEndDate(), formatter);
-
-            if (studyInfoDTO.getName() != null) {
-                studyInfo.updateName(studyInfoDTO.getName());
-            }
-
-            if (studyInfoDTO.getEndDate() != null) {
-                studyInfo.updateEndDate(endDate);
-            }
-
-            if (studyInfoDTO.getTime() != null) {
-                studyInfo.updateTime(studyInfoDTO.getTime());
-            }
-
-            if (studyInfoDTO.getMaxPerson() != null) {
-                studyInfo.updateMaxPerson(studyInfoDTO.getMaxPerson());
-            }
-
-            if (studyInfoDTO.getDescription() != null) {
-                studyInfo.updateDescription(studyInfoDTO.getDescription());
-            }
-
-            if (studyInfoDTO.getRule() != null) {
-                studyInfo.updateRule(studyInfoDTO.getRule());
-            }
-
-            if (studyType != null) {
-                studyInfo.updateStudyType(studyType);
-            }
+            studyInformation.updateStudyType(studyType);
         }
 
+        //종료일자 저장을 위한 데이터 포맷설정.
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+
+
+        LocalDate endDate = LocalDate.parse(studyInfoDTO.getEndDate(), formatter);
+
+        if (studyInfoDTO.getName() != null) {
+            studyInformation.updateName(studyInfoDTO.getName());
+        }
+
+        if (studyInfoDTO.getEndDate() != null) {
+            studyInformation.updateEndDate(endDate);
+        }
+
+        if (studyInfoDTO.getTime() != null) {
+            studyInformation.updateTime(studyInfoDTO.getTime());
+        }
+
+        if (studyInfoDTO.getMaxPerson() != null) {
+            studyInformation.updateMaxPerson(studyInfoDTO.getMaxPerson());
+        }
+
+        if (studyInfoDTO.getDescription() != null) {
+            studyInformation.updateDescription(studyInfoDTO.getDescription());
+        }
+
+        if (studyInfoDTO.getRule() != null) {
+            studyInformation.updateRule(studyInfoDTO.getRule());
+        }
+
+        //파일 수정 - 파일이 하나뿐이므로, 경로는 유지하고 기존 파일을 덮어버림.
+        if(multipartFile != null && multipartFile.getSize() > 0){
+            fileUpload(multipartFile, studyInformation.getImgPath());
+        }
+
+
+    }
+
+    public void fileUpload(MultipartFile multipartFile, String imagePath){
+
+        // rlwhsdml
     }
 
 }
