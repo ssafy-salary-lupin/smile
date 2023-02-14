@@ -246,8 +246,10 @@ function StudyManageMember() {
                 setChange={setChange}
               />
             )}
-            {change !== true && (
+            {change !== true ? (
               <BtnYellow onClick={ReopenModal}>모집 시작</BtnYellow>
+            ) : (
+              <BtnBlue onClick={DeopenModal}>모집 마감</BtnBlue>
             )}
             {deadLineModalOpen && (
               <ModalManageDeadline
@@ -255,7 +257,7 @@ function StudyManageMember() {
                 setChange={setChange}
               />
             )}
-            {change && <BtnBlue onClick={DeopenModal}>모집 마감</BtnBlue>}
+            {/* {change && <BtnBlue onClick={DeopenModal}>모집 마감</BtnBlue>} */}
           </Box>
           <Box>
             <TextBox>
