@@ -71,12 +71,7 @@ function ModalManageMandate(props: any) {
                 pathname: `/manage/manageMember`,
               }}
             >
-              <Btn
-                color="#F5C82E"
-                onClick={() => {
-                  MandateApi();
-                }}
-              >
+              <Btn color="#F5C82E" onClick={MandateApi}>
                 <span>확인</span>
               </Btn>
             </Link>
