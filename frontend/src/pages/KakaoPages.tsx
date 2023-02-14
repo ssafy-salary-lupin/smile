@@ -26,12 +26,16 @@ function KakaoPages() {
 
   const goMyStudy = async () => {
     if (params.accessToken !== null) {
+      console.log(
+        "실행!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1",
+      );
+
       const decodeData: decodeType = await jwt_decode(params.accessToken);
-      console.log(decodeData);
       console.log("decodeData.userId : ", decodeData.userId);
+
       await setUserIdState(decodeData.userId);
       console.log("set 이후 : ", userIdState);
-      // window.location.replace("/");
+      window.location.replace("/");
       // window.location.replace(`/myStudy/${decodeData.userId}`); // 새로고침해야 token null 값 해결 돼서 임시방편으로 바꿈 ㅠ interceptor하는 법 찾아보기
     } else {
       console.log("none");
