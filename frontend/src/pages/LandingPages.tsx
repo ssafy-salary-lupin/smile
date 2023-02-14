@@ -13,6 +13,8 @@ import introductionImg2 from "../assets/img/introduction_img2.png";
 import { useEffect, useState } from "react";
 import { BackgroundYellow } from "components/common/BackgroundYellow";
 import { Link } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { UserIdState } from "atoms/UserInfoAtom";
 
 // import Slider from "react-slick";
 // import "slick-carousel/slick/slick.css";
@@ -498,6 +500,12 @@ function LandingPages() {
   function onWidth() {
     setWindowWidth(window.innerWidth);
   }
+
+  const userID = useRecoilValue(UserIdState);
+  useEffect(() => {
+    console.log("userId 토큰 값 가져오기");
+    console.log("landing userId : ", userID);
+  });
 
   useEffect(() => {
     window.addEventListener("scroll", onScroll);
