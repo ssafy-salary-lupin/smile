@@ -24,7 +24,7 @@ export async function StudyUserApi() {
 // // 위임
 export async function MandateApi() {
   try {
-    const response = await axios.patch(`${BASE_URL}/1/users/1`, formData, {
+    const response = await axios.patch(`${BASE_URL}/1/users/7`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: "application/json",
