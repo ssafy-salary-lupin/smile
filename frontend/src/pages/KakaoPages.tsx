@@ -9,11 +9,6 @@ interface ILoginToken {
   accessToken: string;
 }
 
-const Div = styled.div`
-  height: 34.722vw;
-  width: 34.722vw;
-`;
-
 function KakaoPages() {
   interface decodeType {
     exp: number;
@@ -29,16 +24,23 @@ function KakaoPages() {
 
   const [tokenState, setTokenState] = useRecoilState(LoginState);
   const [userIdState, setUserIdState] = useRecoilState(UserIdState);
+  const [flag, setFlag] = useState<boolean>(false);
 
   const goMyStudy = async () => {
     if (params.accessToken !== null) {
       const decodeData: decodeType = await jwt_decode(params.accessToken);
-      console.log("decodeData.userId : ", decodeData.userId);
 
       await setUserIdState(decodeData.userId);
 
       console.log("userIdRecoil : ", userIdState);
       console.log("tokenState : ", tokenState);
+
+      if (flag === false) {
+        goMyStudy();
+        setFlag(true);
+      } else {
+        window.location.replace("/");
+      }
 
       // window.location.replace("/");
       // window.location.replace(`/myStudy/${decodeData.userId}`); // 새로고침해야 token null 값 해결 돼서 임시방편으로 바꿈 ㅠ interceptor하는 법 찾아보기
@@ -56,13 +58,7 @@ function KakaoPages() {
     goMyStudy();
   }, [params]);
 
-  console.log("LOGIN");
-
-  const check = () => {
-    goMyStudy();
-  };
-
-  return <Div onClick={check}>클릭하세요</Div>;
+  return null;
 }
 
 export default KakaoPages;
