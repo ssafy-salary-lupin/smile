@@ -184,7 +184,7 @@ function StudyManageMember() {
   // 중단 모달 열기
   const [deadLineModalOpen, setDeadLineModalOpen] = useState(false);
   const DeopenModal = () => {
-    setDeadLineModalOpen(!deadLineModalOpen);
+    // setDeadLineModalOpen(!deadLineModalOpen);
   };
   // // const { id } = useParams<Params>();
   // 스터디의 회원 정보 가져오기
