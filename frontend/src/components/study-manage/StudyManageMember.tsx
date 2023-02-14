@@ -255,19 +255,19 @@ function StudyManageMember() {
             <BtnWhite>스터디 종료하기</BtnWhite>
           </Box>
         </RedBox>
+        {recruitModalOpen && (
+          <ModalManageRecruit1
+            setModalOpen={setRecruitModalOpen}
+            setChange={setChange}
+          />
+        )}
+        {deadLineModalOpen && (
+          <ModalManageDeadline
+            setModalOpen={setDeadLineModalOpen}
+            setChange={setChange}
+          />
+        )}
       </DownContainer>
-      {recruitModalOpen && (
-        <ModalManageRecruit1
-          setModalOpen={setRecruitModalOpen}
-          setChange={setChange}
-        />
-      )}
-      {deadLineModalOpen && (
-        <ModalManageDeadline
-          setModalOpen={setDeadLineModalOpen}
-          setChange={setChange}
-        />
-      )}
     </Wrapper>
   );
 }
