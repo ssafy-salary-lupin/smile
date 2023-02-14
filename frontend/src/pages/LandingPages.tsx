@@ -17,6 +17,9 @@ import { useRecoilValue } from "recoil";
 
 import { UserIdState } from "atoms/UserInfoAtom";
 
+import { useRecoilState } from "recoil";
+import jwt_decode from "jwt-decode";
+
 // import Slider from "react-slick";
 // import "slick-carousel/slick/slick.css";
 // import "slick-carousel/slick/slick-theme.css";
@@ -567,11 +570,19 @@ function LandingPages() {
       },
     },
   ];
-
+  const [userIdState, setUserIdState] = useRecoilState(UserIdState);
   const tt = useRecoilValue(UserIdState);
-
-  const test = () => {
+  const tokenState = localStorage.getItem("kakao-token");
+  const test = async () => {
     console.log(tt);
+    if (tokenState !== null) {
+      var decoded: any = jwt_decode(tokenState);
+    } else {
+      console.log("none");
+    }
+
+    await console.log(decoded?.userId);
+    await setUserIdState(decoded?.userId);
   };
 
   return (
