@@ -38,7 +38,7 @@ function Router() {
         <StudyDetailPages />
       </Route>
       {/* 화상회의 입장 */}
-      <Route path="/videoMeeting/:studyId/:userId">
+      <Route path="/meeting/:studyId/:userId">
         <VideoMeetingPages />
       </Route>
       {/* 카카오 로그인 redirect위한 페이지 */}
