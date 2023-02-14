@@ -252,4 +252,16 @@ public class UserServiceImpl implements UserService{
             user.deleteUser();
         }
     }
+
+    @Override
+    public void leaveStudy(int userId, int studyId) {
+        UserJoinStudy userJoinStudy = userJoinStudyRepository.findByUserIdAndStudyId(userId, studyId)
+                .orElseThrow(() -> new CustomException(NOT_JOINED_STUDY));
+
+        if (userJoinStudy.getIsLeader()) {
+            throw new CustomException(LEADER_CAN_NOT_LEAVE);
+        }
+
+        userJoinStudy.leave();
+    }
 }

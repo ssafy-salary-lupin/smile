@@ -35,4 +35,6 @@ public interface UserService {
     void updateUserInfo(int userId, UserUpdateDTO userUpdateDTO, MultipartFile multipartFile);
 
     void deleteUser(int userId);
+
+    void leaveStudy(int userId, int studyId);
 }
