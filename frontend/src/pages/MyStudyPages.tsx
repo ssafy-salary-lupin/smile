@@ -11,6 +11,8 @@ import SearchComponent from "components/common/SearchComponent";
 import { CaretDown, CaretUp } from "components/common/DuotonIcons";
 import MyStudyNotFound from "components/common/MyStudyNotFound";
 
+import PostIt from "components/common/PostIt";
+
 const SearchBar = styled.div`
   display: flex;
   justify-content: center;
@@ -353,8 +355,11 @@ export default function MyStudyPages() {
           <Title>내 스터디</Title>
           <Additionalection>
             <GraphContainer>
-              <SubTitle>일정</SubTitle>
-              <DdayBox>
+              <SubTitle>메모</SubTitle>
+              <div id="react-container">
+                <PostIt></PostIt>
+              </div>
+              {/* <DdayBox>
                 {ddayInfo
                   ? ddayInfo.result.map((el, index) => (
                       <DdayItems>
@@ -385,7 +390,7 @@ export default function MyStudyPages() {
                       // );
                     ))
                   : null}
-              </DdayBox>
+              </DdayBox> */}
             </GraphContainer>
             {/* <PurposeContainer>
               <SubTitle>내 목표</SubTitle>
