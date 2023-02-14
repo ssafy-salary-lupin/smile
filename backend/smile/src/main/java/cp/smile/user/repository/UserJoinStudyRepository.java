@@ -1,6 +1,7 @@
 package cp.smile.user.repository;
 
 import cp.smile.entity.study_common.StudyInformation;
+import cp.smile.entity.user.User;
 import cp.smile.entity.user.UserJoinStudy;
 import cp.smile.entity.user.UserJoinStudyId;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -28,7 +29,7 @@ public interface UserJoinStudyRepository extends JpaRepository<UserJoinStudy, Us
 
 
     //해당 스터디의 유저가 리더인지 확인
-    Optional<UserJoinStudy> findByStudyIdAndUserIdAndIsLeaderTrue(int studyId,int userId);
+    Optional<UserJoinStudy> findByStudyInformationAndUserAndIsLeaderTrue(StudyInformation study, User user);
 
 
 
