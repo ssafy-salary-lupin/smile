@@ -115,6 +115,12 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public void updateProfileImage(User user, String newImagePath) {
+        user = findOne(user.getId());
+        user.updateImagePath(newImagePath);
+    }
+
+    @Override
     public void joinStudy(int userId, int studyId) {
         User user = userRepository.findByIdAndIsDeletedFalse(userId)
                 .orElseThrow(() -> new CustomException(ACCOUNT_NOT_FOUND));
