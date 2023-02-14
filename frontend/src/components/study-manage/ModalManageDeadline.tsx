@@ -23,7 +23,7 @@ const Title = styled.div`
   width: 100%;
   height: 100%;
   span {
-    font-size: 2.222vw;
+    font-size: 1.111vw;
     font-weight: 500;
     color: #061c3d;
   }
