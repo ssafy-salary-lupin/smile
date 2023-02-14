@@ -225,11 +225,6 @@ function NavBar(props: UrlProps) {
               {/* </Link> */}
             </Item2>
           ) : null}
-          {/* {kakaoToken ? (
-            <Item3 curUrl={props.curUrl} onClick={forceUpdate}>
-              내 정보
-            </Item3>
-          ) : null} */}
 
           {kakaoToken ? (
             <NabBtn onClick={signOut}>로그아웃</NabBtn>
