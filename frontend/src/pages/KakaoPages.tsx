@@ -31,14 +31,13 @@ function KakaoPages() {
       console.log(decodeData.userId);
       // setDecoded(decodeData);
       // setUserIdState(decoded?.userId);
-      window.location.replace(`/myStudy/${decodeData.userId}`);
+      // window.location.replace(`/myStudy/${decodeData.userId}`);
     } else {
       console.log("none");
     }
 
     // console.log(decoded?.userId);
     // setUserIdState(decoded?.userId);
-    window.location.replace(`/myStudy/${userIdState}`);
     // 새로고침해야 token null 값 해결 돼서 임시방편으로 바꿈 ㅠ interceptor하는 법 찾아보기
   };
 
@@ -50,6 +49,10 @@ function KakaoPages() {
     // history.push("/");
 
     onJoin();
+
+    return () => {
+      onJoin();
+    };
   }, [params]);
   console.log("LOGIN");
   return <div></div>;
