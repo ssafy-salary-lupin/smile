@@ -280,7 +280,14 @@ export default function StudySearchPages() {
               <Cards NumberOfCards={studiesNumber}>
                 {StudyList.map((study) => (
                   <CardWrapper key={study.id}>
-                    <Card studyInfo={study} />
+                    <Link
+                      style={{ textDecoration: "none", color: "black" }}
+                      to={{
+                        pathname: `/detail/${study.id}`, // 스터디 상세 조회 페이지 주소 입력하기
+                      }}
+                    >
+                      <Card studyInfo={study} />
+                    </Link>
                   </CardWrapper>
                 ))}
               </Cards>
