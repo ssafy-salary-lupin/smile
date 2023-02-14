@@ -66,7 +66,7 @@ function ModalManageRecruit(props: any) {
   // 모집
   return (
     <Wrapper>
-      <ModalNone setModalOpen={props.setModalOpen}>
+      <ModalNone setModalOpen={props.setModalOpen} setChange={props.setChange}>
         <Container>
           {/* <Warning width="5.556vw" height="5.556vw" /> */}
 

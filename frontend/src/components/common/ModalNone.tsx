@@ -4,6 +4,7 @@ import styled from "styled-components";
 interface PropsType {
   children?: React.ReactNode;
   setModalOpen: React.Dispatch<SetStateAction<boolean>>;
+  setChange?: React.Dispatch<SetStateAction<boolean>>;
 }
 
 const ModalContainer = styled.div`
