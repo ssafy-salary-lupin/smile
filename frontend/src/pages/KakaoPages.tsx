@@ -15,8 +15,8 @@ function KakaoPages() {
   const [tokenState, setTokenState] = useRecoilState(LoginState);
   const [userIdState, setUserIdState] = useRecoilState(UserIdState);
   const onJoin = async () => {
-    if (tokenState !== null) {
-      var decoded: any = jwt_decode(tokenState);
+    if (params.accessToken !== null) {
+      var decoded: any = jwt_decode(params.accessToken);
     } else {
       console.log("none");
     }
@@ -25,12 +25,12 @@ function KakaoPages() {
     await setUserIdState(decoded?.userId);
   };
 
-  useEffect(() => {
-    onJoin();
-    return () => {
-      onJoin();
-    };
-  }, []);
+  // useEffect(() => {
+  //   onJoin();
+  //   return () => {
+  //     onJoin();
+  //   };
+  // }, []);
 
   useEffect(() => {
     if (params) {
@@ -38,6 +38,9 @@ function KakaoPages() {
     }
     if (localStorage.getItem("kakao-token")) setTokenState(true);
     // history.push("/");
+
+    onJoin();
+
     window.location.replace("/"); // 새로고침해야 token null 값 해결 돼서 임시방편으로 바꿈 ㅠ interceptor하는 법 찾아보기
   }, [params]);
   console.log("LOGIN");
