@@ -23,14 +23,8 @@ function KakaoPages() {
 
     await console.log(decoded?.userId);
     await setUserIdState(decoded?.userId);
+    await window.location.replace(`/myStudy/${userIdState}`); // 새로고침해야 token null 값 해결 돼서 임시방편으로 바꿈 ㅠ interceptor하는 법 찾아보기
   };
-
-  useEffect(() => {
-    onJoin();
-    return () => {
-      onJoin();
-    };
-  }, [tokenState]);
 
   useEffect(() => {
     if (params) {
@@ -40,11 +34,6 @@ function KakaoPages() {
     // history.push("/");
 
     onJoin();
-
-    window.location.replace(`/myStudy/${userIdState}`); // 새로고침해야 token null 값 해결 돼서 임시방편으로 바꿈 ㅠ interceptor하는 법 찾아보기
-    return () => {
-      onJoin();
-    };
   }, [params]);
   console.log("LOGIN");
   return <div></div>;
