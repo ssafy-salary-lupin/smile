@@ -1,6 +1,7 @@
 package cp.smile.user.dto.response;
 
 import cp.smile.entity.user.UserMemo;
+import cp.smile.user.dto.request.MemoWriteDTO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,17 +14,15 @@ public class UserMemoDTO {
 
     private int id;
     private String content;
-    private int posX;
-    private int posY;
+    private MemoWriteDTO.Pos pos;
     private LocalDateTime creatTime;
     private LocalDateTime updateTime;
 
     @Builder
-    public UserMemoDTO(int id, String content, int posX, int posY, LocalDateTime creatTime, LocalDateTime updateTime) {
+    public UserMemoDTO(int id, String content, MemoWriteDTO.Pos pos, LocalDateTime creatTime, LocalDateTime updateTime) {
         this.id = id;
         this.content = content;
-        this.posX = posX;
-        this.posY = posY;
+        this.pos = pos;
         this.creatTime = creatTime;
         this.updateTime = updateTime;
     }
@@ -32,8 +31,7 @@ public class UserMemoDTO {
         return UserMemoDTO.builder()
                 .id(memo.getId())
                 .content(memo.getContent())
-                .posX(memo.getPosX())
-                .posY(memo.getPosY())
+                .pos(new MemoWriteDTO.Pos(memo.getPosY(), memo.getPosX()))
                 .creatTime(memo.getCreateTime())
                 .updateTime(memo.getUpdateTime())
                 .build();

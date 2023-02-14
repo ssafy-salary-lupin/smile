@@ -45,4 +45,21 @@ public class UserMemo extends BaseEntity {
         this.isDeleted = isDeleted;
         this.user = user;
     }
+
+    public boolean isWriter(User writer) {
+        return this.user.getId() == writer.getId();
+    }
+
+    public void updateContent(String content) {
+        this.content = content;
+    }
+
+    public void updatePos(int posX, int posY) {
+        this.posX = posX;
+        this.posY = posY;
+    }
+
+    public void delete() {
+        this.isDeleted = true;
+    }
 }

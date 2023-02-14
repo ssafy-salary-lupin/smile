@@ -2,7 +2,6 @@ package cp.smile.user.controller;
 
 import cp.smile.auth.oauth2.CustomOAuth2User;
 import cp.smile.config.response.CommonResponse;
-import cp.smile.config.response.CustomSuccessStatus;
 import cp.smile.config.response.DataResponse;
 import cp.smile.config.response.ResponseService;
 import cp.smile.config.response.exception.CustomException;
@@ -15,10 +14,7 @@ import cp.smile.user.repository.UserRepository;
 import cp.smile.user.service.UserMemoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -49,12 +45,30 @@ public class UserMemoController {
     @PostMapping("/users/{userId}/memos")
     public CommonResponse write(@AuthenticationPrincipal CustomOAuth2User oAuth2User,
                                 @RequestBody MemoWriteDTO dto) {
-        User writer = userRepository.findById(oAuth2User.getUserId())
-                .orElseThrow(() -> new CustomException(CustomExceptionStatus.ACCOUNT_NOT_FOUND));
-
+        User writer = getWriter(oAuth2User);
         userMemoService.write(writer, dto);
-
         return responseService.getSuccessResponse();
     }
 
+    @PatchMapping("/users/{userId}/memos/{memoId}")
+    public CommonResponse modify(@AuthenticationPrincipal CustomOAuth2User oAuth2User,
+                                 @PathVariable int memoId,
+                                 @RequestBody MemoWriteDTO dto) {
+        User writer = getWriter(oAuth2User);
+        userMemoService.update(writer, memoId, dto);
+        return responseService.getSuccessResponse();
+    }
+
+    @DeleteMapping("/users/{userId}/memos/{memoId}")
+    public CommonResponse delete(@AuthenticationPrincipal CustomOAuth2User oAuth2User,
+                                 @PathVariable int memoId) {
+        User writer = getWriter(oAuth2User);
+        userMemoService.delete(writer, memoId);
+        return responseService.getSuccessResponse();
+    }
+
+    private User getWriter(CustomOAuth2User oAuth2User) {
+        return userRepository.findById(oAuth2User.getUserId())
+                .orElseThrow(() -> new CustomException(CustomExceptionStatus.ACCOUNT_NOT_FOUND));
+    }
 }
