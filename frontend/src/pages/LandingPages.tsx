@@ -13,8 +13,9 @@ import introductionImg2 from "../assets/img/introduction_img2.png";
 import { useEffect, useState } from "react";
 import { BackgroundYellow } from "components/common/BackgroundYellow";
 import { Link } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { UserIdState } from "atoms/UserInfoAtom";
+import jwt_decode from "jwt-decode";
 
 // import Slider from "react-slick";
 // import "slick-carousel/slick/slick.css";
@@ -488,6 +489,15 @@ const LinkBtn = styled(Link)`
   }
 `;
 
+interface decodeType {
+  exp: number;
+  iat: number;
+  iss: string;
+  role: string;
+  userEmail: string;
+  userId: number;
+}
+
 function LandingPages() {
   const bannerText = "어떤 스터디를 원하세요?";
   const bannerSubText = "당신의 스터디를 찾아보세요!";
@@ -501,11 +511,26 @@ function LandingPages() {
     setWindowWidth(window.innerWidth);
   }
 
-  const userID = useRecoilValue(UserIdState);
+  // user Id 저장.... ㅠㅠㅠ 카카오페이지 왜 안되지
+  const [userIdState, setUserIdState] = useRecoilState(UserIdState);
+  const token = localStorage.getItem("kakao-token");
   useEffect(() => {
-    console.log("userId 토큰 값 가져오기");
-    console.log("landing userId : ", userID);
+    async function decodeFunction() {
+      if (token !== null) {
+        const decodeData: decodeType = await jwt_decode(token);
+        console.log("decodeData.userId : ", decodeData.userId);
+
+        await setUserIdState(decodeData.userId);
+
+        console.log("userIdRecoil : ", userIdState);
+      } else {
+        console.log("none");
+      }
+    }
+    decodeFunction();
   });
+
+  console.log("landing userId : ", UserIdState);
 
   useEffect(() => {
     window.addEventListener("scroll", onScroll);
