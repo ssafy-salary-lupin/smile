@@ -24,12 +24,16 @@ export async function StudyUserApi() {
 // // 위임
 export async function MandateApi() {
   try {
-    const response = await axios.patch(`${BASE_URL}/1/users/3`, formData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: "application/json",
+    const response = await axios.patch(
+      `${BASE_URL}/1/users/3/delegate`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
       },
-    });
+    );
     const data = await response;
     console.log("Mandate");
     console.log(data);
