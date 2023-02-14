@@ -28,15 +28,15 @@ function KakaoPages() {
     if (params.accessToken !== null) {
       const decodeData: decodeType = jwt_decode(params.accessToken);
       console.log(decodeData);
-      setDecoded(decoded);
-      setUserIdState(decoded?.userId);
-      window.location.replace(`/myStudy/${userIdState}`);
+      // setDecoded(decodeData);
+      // setUserIdState(decoded?.userId);
+      window.location.replace(`/myStudy/${decodeData.userId}`);
     } else {
       console.log("none");
     }
 
     // console.log(decoded?.userId);
-    setUserIdState(decoded?.userId);
+    // setUserIdState(decoded?.userId);
     window.location.replace(`/myStudy/${userIdState}`);
     // 새로고침해야 token null 값 해결 돼서 임시방편으로 바꿈 ㅠ interceptor하는 법 찾아보기
   };
