@@ -187,7 +187,7 @@ function NavBar(props: UrlProps) {
     history.push("/");
   };
 
-  const [, updateState] = useState();
+  const [, updateState] = useState({});
   const forceUpdate = useCallback(() => updateState({}), []);
 
   return (
