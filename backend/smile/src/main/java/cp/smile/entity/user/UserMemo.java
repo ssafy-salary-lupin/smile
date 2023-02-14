@@ -25,9 +25,9 @@ public class UserMemo extends BaseEntity {
     private String content;
 
     @Column(name = "um_x")
-    private int posX;
+    private Integer posX;
     @Column(name = "um_y")
-    private int posY;
+    private Integer posY;
 
     @Column(name = "um_is_deleted")
     private boolean isDeleted;
@@ -44,5 +44,22 @@ public class UserMemo extends BaseEntity {
         this.posY = posY;
         this.isDeleted = isDeleted;
         this.user = user;
+    }
+
+    public boolean isWriter(User writer) {
+        return this.user.getId() == writer.getId();
+    }
+
+    public void updateContent(String content) {
+        this.content = content;
+    }
+
+    public void updatePos(int posX, int posY) {
+        this.posX = posX;
+        this.posY = posY;
+    }
+
+    public void delete() {
+        this.isDeleted = true;
     }
 }

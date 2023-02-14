@@ -79,6 +79,9 @@ public enum CustomExceptionStatus {
     USER_NOT_ACCESS_COMMENT(false,403, "접근 권한이 없는 댓글입니다."),
     USER_NOT_ACCESS_REPLY(false,403,"접근 권한이 없는 대댓글입니다."),
 
+    /* 사용자 메모관련 */
+    NOT_EXISTS_MEMO(false, 400, "존재하지 않는 메모입니다"),
+
 
     ;
     private final Boolean isSuccess;
