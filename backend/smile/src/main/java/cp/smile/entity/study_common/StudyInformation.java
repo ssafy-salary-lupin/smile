@@ -155,4 +155,7 @@ public class StudyInformation extends BaseEntity {
         this.viewCount += 1;
     }
 
+    public void leavePerson() {
+        this.currentPerson -= 1;
+    }
 }

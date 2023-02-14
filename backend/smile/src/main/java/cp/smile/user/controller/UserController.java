@@ -193,4 +193,17 @@ public class UserController {
 
         return responseService.getDataResponse(userJoinedStudies, RESPONSE_SUCCESS);
     }
+
+    @Tag(name="회원 API")
+    @Operation(summary = "스터디 탈퇴", description =  "해당 유저가 가입한 스터디를 탈퇴")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "API 정상 동작"),
+            @ApiResponse(responseCode = "400",description = "API 에러")
+    })
+    @DeleteMapping("/users/{userId}/studies/{studyId}")
+    public CommonResponse leaveStudy(@AuthenticationPrincipal CustomOAuth2User oAuth2User,
+                                     @PathVariable int studyId) {
+        userService.leaveStudy(oAuth2User.getUserId(), studyId);
+        return responseService.getSuccessResponse();
+    }
 }

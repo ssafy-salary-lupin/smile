@@ -72,4 +72,21 @@ public class UserJoinStudy extends BaseEntity {
     public void ban() {
         this.isBan = true;
     }
+
+    public void leave() {
+        this.isDeleted = true;
+        for (UserJoinStudy userJoinStudy : user.getUserJoinStudy()) {
+            if (userJoinStudy == this) {
+                user.getUserJoinStudy().remove(this);
+                break;
+            }
+        }
+
+        studyInformation.leavePerson();
+        for (UserJoinStudy userJoinStudy : studyInformation.getUserJoinStudies()) {
+            if (userJoinStudy == this) {
+                studyInformation.getUserJoinStudies().remove(this);
+            }
+        }
+    }
 }
