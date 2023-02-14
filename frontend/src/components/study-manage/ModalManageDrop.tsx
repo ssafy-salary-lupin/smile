@@ -23,7 +23,7 @@ const Title = styled.div`
   width: 100%;
   height: 100%;
   span {
-    font-size: 2.222vw;
+    font-size: 1.111vw;
     font-weight: 500;
     color: #061c3d;
   }
@@ -36,7 +36,7 @@ const Btn = styled.button.attrs({})`
   border-radius: 0.347vw;
   border: none;
   background-color: ${(props) => props.color};
-  font-size: 1.667vw;
+  font-size: 24.005px;
   color: white;
   cursor: pointer;
   span {
