@@ -2,7 +2,7 @@ import { LoginState } from "atoms/LoginAtom";
 import { useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { useRecoilState } from "recoil";
-
+import jwt_decode from "jwt-decode";
 interface ILoginToken {
   accessToken: string;
 }
@@ -39,6 +39,3 @@ function KakaoPages() {
 }
 
 export default KakaoPages;
-function jwt_decode(token: any): any {
-  throw new Error("Function not implemented.");
-}
