@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { PostItInfo } from "apis/PostItApi";
 
 import "./postIt.css";
 
@@ -132,6 +133,8 @@ class Note extends React.Component {
   }
 }
 
+var postArr = PostItInfo.api.get();
+
 //parent component for notes
 class Board extends React.Component {
   constructor() {
@@ -194,6 +197,11 @@ class Board extends React.Component {
       );
     }
   }
+
+  async componentWillUnmount() {
+    PostItInfo.api.post();
+  }
+
   add(text) {
     var arr = this.state.notesStringArray;
     arr.push({
@@ -232,17 +240,17 @@ class Board extends React.Component {
   }
 }
 
-Board.propTypes = {
-  count: function (props, propName) {
-    if (typeof props[propName] !== "number") {
-      return new Error("THe count property must be a number");
-    }
+// Board.propTypes = {
+//   count: function (props, propName) {
+//     if (typeof props[propName] !== "number") {
+//       return new Error("THe count property must be a number");
+//     }
 
-    if (props[propName] > 100) {
-      return new Error("Creating " + props[propName] + "notes is ridiculous ");
-    }
-  },
-};
+//     if (props[propName] > 100) {
+//       return new Error("Creating " + props[propName] + "notes is ridiculous ");
+//     }
+//   },
+// };
 
 export default function PostIt() {
   return <Board count={50}></Board>;
