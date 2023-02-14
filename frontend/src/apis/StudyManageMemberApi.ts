@@ -48,6 +48,7 @@ export async function UserDropApi() {
     });
     const data = await response;
     console.log(data);
+    console.log(1);
     return data;
   } catch (error: any) {
     console.log(error);
