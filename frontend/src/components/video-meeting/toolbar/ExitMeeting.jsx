@@ -46,18 +46,19 @@ const Footer = styled.div`
 `;
 
 // 완료 버튼
-const Btn = styled.button.attrs({})`
+const Btn = styled.button`
   margin: 0 2.222vw;
   width: 5.556vw;
   height: 3.333vw;
   border-radius: 0.347vw;
   border: none;
-  background-color: ${(props) => props.bgColor};
-  font-size: 1.667vw;
+  background-color: ${(props) => props.backgroundColor};
+  font-size: 1vw;
   cursor: pointer;
   // TODO 글자 크기 반응형
   span {
-    font-size: 1.667vw;
+    color: black;
+    font-size: 1vw;
   }
 `;
 
@@ -81,11 +82,11 @@ function ExitMeeting(props) {
                 pathname: `/manage`,
               }}
             >
-              <Btn bgColor="#F5C82E" onClick={props.leaveSession}>
+              <Btn backgroundColor="#F5C82E" onClick={props.leaveSession}>
                 <span>확인</span>
               </Btn>
             </Link>
-            <Btn bgColor="#314E8D" onClick={closeModal}>
+            <Btn backgroundColor="#314E8D" onClick={closeModal}>
               <span>취소</span>
             </Btn>
           </Footer>
