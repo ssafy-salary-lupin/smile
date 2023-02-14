@@ -26,15 +26,18 @@ function KakaoPages() {
   };
 
   useEffect(() => {
+    return () => {
+      onJoin();
+    };
+  }, [tokenState]);
+
+  useEffect(() => {
     if (params) {
       localStorage.setItem("kakao-token", params.accessToken);
     }
     if (localStorage.getItem("kakao-token")) setTokenState(true);
     // history.push("/");
     window.location.replace("/"); // 새로고침해야 token null 값 해결 돼서 임시방편으로 바꿈 ㅠ interceptor하는 법 찾아보기
-    return () => {
-      onJoin();
-    };
   }, [params]);
   console.log("LOGIN");
   return <div></div>;
