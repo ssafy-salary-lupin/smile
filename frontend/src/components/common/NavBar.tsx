@@ -7,7 +7,7 @@ import { Link, useHistory } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { LoginState } from "atoms/LoginAtom";
 import { studyIdRecoil } from "atoms/StudyManage";
-import { UserIdState } from "atoms/UserInfoAtom";
+import { SelectorUserId, UserIdState } from "atoms/UserInfoAtom";
 
 const Nav = styled(motion.nav)`
   position: fixed;
@@ -164,7 +164,8 @@ function NavBar(props: UrlProps) {
   const kakaoToken = localStorage.getItem("kakao-token");
 
   console.log("네비바 랜더링");
-  const userId = useRecoilValue(UserIdState);
+  // const userId = useRecoilValue(UserIdState);
+  const userId = useRecoilValue(SelectorUserId);
   console.log("네비바 클릭 후userId : ", userId);
 
   useEffect(() => {
