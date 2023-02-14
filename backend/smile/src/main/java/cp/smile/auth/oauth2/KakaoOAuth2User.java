@@ -20,6 +20,7 @@ public class KakaoOAuth2User extends CustomOAuth2User{
         super.setNickname((String) profile.get("nickname"));
         super.setProfileImagePath((String) profile.get("profile_image_url"));
         super.setProfileThumbnailImagePath((String) profile.get("thumbnail_image_url"));
+        super.setDefaultProfileImage((Boolean) profile.get("is_default_image"));
         super.setProvider(OAuth2Provider.kakao);
     }
 }

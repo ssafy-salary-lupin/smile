@@ -22,6 +22,7 @@ public interface UserService {
     User findByEmail(String email);
 
     void updateRefreshToken(User user, String refreshToken);
+    void updateProfileImage(User user, String newImagePath);
 
     void joinStudy(int userId, int studyId);
 
