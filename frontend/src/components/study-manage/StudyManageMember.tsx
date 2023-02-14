@@ -171,9 +171,9 @@ interface Data {
 //
 function StudyManageMember() {
   // 모집 / 마감 버튼 바꾸기
-  const [change, setChange] = useState(true);
+  const [change, setChange] = useState(false);
   const changeColor = () => {
-    setChange(change);
+    setChange(false);
   };
 
   // 모집 모달 열기
@@ -245,9 +245,7 @@ function StudyManageMember() {
               />
             )}
             <BtnYellow onClick={openModal}>모집 시작</BtnYellow>
-            {change !== true && (
-              <BtnBlue onClick={openModal}>모집 마감</BtnBlue>
-            )}
+            {change && <BtnBlue onClick={openModal}>모집 마감</BtnBlue>}
           </Box>
           <Box>
             <TextBox>
