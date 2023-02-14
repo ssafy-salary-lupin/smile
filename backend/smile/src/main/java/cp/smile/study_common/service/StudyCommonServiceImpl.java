@@ -39,6 +39,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static cp.smile.config.AwsS3DirectoryName.DEFAULT_STUDY;
+import static cp.smile.config.AwsS3DirectoryName.STUDY_IMG;
 import static cp.smile.config.response.exception.CustomExceptionStatus.*;
 
 @Slf4j
@@ -47,7 +49,6 @@ import static cp.smile.config.response.exception.CustomExceptionStatus.*;
 @Transactional(readOnly = false)
 public class StudyCommonServiceImpl implements StudyCommonService{
 
-    private final AwsS3DirectoryName awsS3DirectoryName;
     private final StudyCommonRepository studyCommonRepository;
     private final UserJoinStudyRepository userJoinStudyRepository;
     private final StudyTypeRepository studyTypeRepository;
@@ -136,7 +137,7 @@ public class StudyCommonServiceImpl implements StudyCommonService{
 
         //파일이 없다면 디폴트 경로 넣어줌.
         if(multipartFile == null || multipartFile.getSize() == 0){
-            storeFileUrl = awsS3DirectoryName.DEFAULT_STUDY;
+            storeFileUrl = DEFAULT_STUDY;
         }
         //파일이 있으면 s3에 저장.
         else{
@@ -153,7 +154,7 @@ public class StudyCommonServiceImpl implements StudyCommonService{
 
             String storeFileName = UUID.randomUUID().toString() + "." + ext; // 저장할 이름- 중복되지 않도록 하기 위해 uuid 사용(이름 중복이면 덮어씀.)
 
-            String key  = awsS3DirectoryName.STUDY_IMG + storeFileName; //파일 저장위치.
+            String key  = STUDY_IMG + storeFileName; //파일 저장위치.
 
             try (InputStream inputStream = multipartFile.getInputStream()) {
                 amazonS3Client.putObject(new PutObjectRequest(bucket, key, inputStream, objectMetadata)
