@@ -12,33 +12,45 @@ import VideoMeetingPages from "pages/VideoMeetingPages";
 function Router() {
   return (
     <Switch>
+      {/* 랜딩 페이지 */}
       <Route exact path="/">
         <LandingPages />
       </Route>
+      {/* 스터디 관리 페이지 => studyId가 param으로 추가 */}
       <Route path="/manage">
         <StudyManagePages />
       </Route>
+      {/* <Route path="/manage/:studyId">
+        <StudyManagePages />
+      </Route> */}
+      {/* 내 스터디 페이지 */}
       <Route path="/myStudy/:userId">
         <MyStudyPages />
       </Route>
-      <Route path="/test">
-        <TestPages />
-      </Route>
+      {/* 스터디 생성 페이지 */}
       <Route path="/create">
         <StudyCreatePages />
       </Route>
+      {/* 스터디 상세 조회 페이지 */}
       <Route path="/detail/:id">
         <StudyDetailPages />
       </Route>
+      {/* 화상회의 입장 */}
       <Route path="/videoMeeting/:studyId/:userId">
         <VideoMeetingPages />
       </Route>
+      {/* 카카오 로그인 redirect위한 페이지 */}
       <Route path="/kakao/redirect/:accessToken">
         <KakaoPages />
       </Route>
+      {/* 스터디 찾기 페이지 */}
       <Route path="/search">
         <StudySearchPages />
       </Route>
+      {/* test */}
+      {/* <Route path="/test">
+        <TestPages />
+      </Route> */}
     </Switch>
   );
 }

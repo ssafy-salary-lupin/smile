@@ -5,8 +5,8 @@ import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClic
 import { useState, useEffect } from "react";
 import ModalCalendarCommonView from "./ModalCalendarCommonView";
 import { useQuery } from "react-query";
-import { useRecoilState } from "recoil";
-import { dateState, Schedules } from "atoms/StudyManageCalendarAtom";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { dateState, Schedules, studyIdRecoil } from "atoms/StudyManage";
 import ModalCalendarRegist, { IRegistData } from "./ModalCalendarRegist";
 import ModalCalendarMeetingView from "./ModalCalendarMeetingView";
 import {
@@ -73,6 +73,8 @@ interface IMeetingData {
 }
 
 function StudyManageCalendar() {
+  const studyId = useRecoilValue(studyIdRecoil);
+
   // 모달
   const [MeetingModalOpen, setMeetingModalOpen] = useState<boolean>(false);
   const [CommonModalOpen, setCommonModalOpen] = useState<boolean>(false);
@@ -142,28 +144,28 @@ function StudyManageCalendar() {
   // db에서 전체 일정 데이터 받아오기
   const { data: commonSchedules, refetch } = useQuery<IScheduleData>(
     "allSchedules",
-    () => calendarSelectAllApi(),
+    () => calendarSelectAllApi(studyId),
   );
 
   // 전체 회의 일정 조회
   const { data: meeetingSchedules } = useQuery<IMeetingData>(
     "allMeetings",
-    () => meetingSelectAllApi(),
+    () => meetingSelectAllApi(studyId),
   );
 
   // 일정 등록, 수정 ,삭제
   const onRegist = async (registData: IRegistData) => {
-    await calendarCreateApi(registData);
+    await calendarCreateApi(registData, studyId);
     refetch();
   };
 
   const onUpdate = async (registData: any, id: number) => {
-    await scheduleUpdateApi(registData, id);
+    await scheduleUpdateApi(registData, id, studyId);
     refetch();
   };
 
   const onDelete = async (id: number) => {
-    await deleteScheduleApi(id);
+    await deleteScheduleApi(id, studyId);
     refetch();
   };
 

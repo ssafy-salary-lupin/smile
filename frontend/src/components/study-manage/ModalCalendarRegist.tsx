@@ -5,7 +5,7 @@ import { ReactComponent as Check } from "../../assets/icon/Check.svg";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/esm/locale"; //한국어 설정
-import { dateState } from "atoms/StudyManageCalendarAtom";
+import { dateState } from "atoms/StudyManage";
 import { useRecoilState } from "recoil";
 import Swal from "sweetalert2";
 

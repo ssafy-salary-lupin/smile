@@ -11,8 +11,10 @@ import {
   StudyInfoSelectApi,
 } from "apis/StudyManageMainApi";
 import ReactQuill from "react-quill";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import ModalCalendarCommonOnlyView from "./ModalCalendarCommonOnlyView";
+import { useRecoilState } from "recoil";
+import { studyIdRecoil } from "atoms/StudyManage";
 
 const Wrapper = styled.div`
   margin: 3.889vw 10.833vw;
@@ -291,7 +293,17 @@ interface DdayInfo {
   ];
 }
 
+interface IStudyId {
+  studyId: string;
+}
+
 function StudyManageMain() {
+  // studyId param값 가져오기
+  const params = useParams<IStudyId>();
+  const studyId = params.studyId;
+  // studyId recoil 변수에 저장
+  const [studyIdAtom, setStudyIdAtom] = useRecoilState(studyIdRecoil);
+
   // 스터디 룰 모달창 노출 여부 state
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const showModal = () => {
@@ -312,11 +324,11 @@ function StudyManageMain() {
   // 4. 스터디 가입 멤버
   const { data: studyInfo, refetch } = useQuery<DataInfo>(
     "studyInfoSelectApi",
-    () => StudyInfoSelectApi(),
+    () => StudyInfoSelectApi(studyId),
   );
 
   const { data: ddayInfo } = useQuery<DdayInfo>("ddaySelectApi", () =>
-    DdaySelectApi(),
+    DdaySelectApi(studyId),
   );
 
   // 디데이 모달창 띄우기 + 클릭한 아이디 모달창에 넘겨주기
@@ -333,13 +345,13 @@ function StudyManageMain() {
   };
 
   const createRule = (data: any) => {
-    ruleCreateApi(data);
+    ruleCreateApi(data, studyId);
     refetch();
   };
 
   const [rule, setRule] = useState<string>();
   useEffect(() => {
-    console.log("useEffect");
+    setStudyIdAtom(studyId);
     setRule(studyInfo?.result.rule);
   }, [studyInfo]);
 

@@ -6,6 +6,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/esm/locale";
 import { MeetingCreateApi } from "apis/StudyManageMeetingApi";
 import Swal from "sweetalert2";
+import { useRecoilValue } from "recoil";
+import { studyIdRecoil } from "atoms/StudyManage";
 
 interface PropsType {
   setModalOpen: React.Dispatch<SetStateAction<boolean>>;
@@ -146,6 +148,8 @@ export interface IRegistData {
 }
 
 function ModalMeetingCreate(props: PropsType) {
+  const studyId = useRecoilValue(studyIdRecoil);
+
   // 모달 관련 코드 ======================================
   const closeModal = () => {
     props.setModalOpen(false);
@@ -220,7 +224,7 @@ function ModalMeetingCreate(props: PropsType) {
       return;
     }
 
-    const response = await MeetingCreateApi(registData);
+    const response = await MeetingCreateApi(registData, studyId);
     console.log(response);
 
     if (response.data.code === 200) {

@@ -1,12 +1,15 @@
+import { studyIdRecoil } from "atoms/StudyManage";
 import axios from "axios";
+import { useRecoilValue } from "recoil";
 
 const BASE_URL = `https://i8b205.p.ssafy.io/be-api/studies`;
 // const BASE_URL = `/be-api/studies`;
 
+// 사용자 token값
 const token = localStorage.getItem("kakao-token");
 
 // 스터디 정보 조회 /studies/1/home
-export async function StudyInfoSelectApi() {
+export async function StudyInfoSelectApi(studyId: string) {
   try {
     const response = await fetch(`${BASE_URL}/1/home`, {
       headers: {
@@ -25,7 +28,7 @@ export async function StudyInfoSelectApi() {
 
 // 디데이 정보 조회
 // /studies/{study_id}/home/d-day
-export async function DdaySelectApi() {
+export async function DdaySelectApi(studyId: string) {
   try {
     const response = await fetch(`${BASE_URL}/1/home/d-day`, {
       headers: {
@@ -43,7 +46,7 @@ export async function DdaySelectApi() {
 }
 
 // 규칙 등록하기 /studies/{study-id}/schedules
-export async function ruleCreateApi(data: any) {
+export async function ruleCreateApi(data: any, studyId: string) {
   try {
     await axios.patch(`${BASE_URL}/1`, JSON.stringify(data), {
       headers: {
@@ -59,7 +62,7 @@ export async function ruleCreateApi(data: any) {
 }
 
 // 스터디 정보 조회 /studies/1/home
-export async function StudySelectApi() {
+export async function StudySelectApi(studyId: string) {
   try {
     const response = await fetch(`${BASE_URL}/1`, {
       headers: {

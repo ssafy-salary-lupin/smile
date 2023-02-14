@@ -5,8 +5,8 @@ import { ReactComponent as Check } from "../../assets/icon/Check.svg";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/esm/locale"; //한국어 설정
-import { dateState } from "atoms/StudyManageCalendarAtom";
-import { useRecoilState } from "recoil";
+import { dateState, studyIdRecoil } from "atoms/StudyManage";
+import { useRecoilState, useRecoilValue } from "recoil";
 import {
   scheduleSelectApi,
   scheduleUpdateApi,
@@ -231,6 +231,8 @@ const ModalBtn = styled.button`
 `;
 
 function ModalCalendarUpdate(props: PropsType) {
+  const studyId = useRecoilValue(studyIdRecoil);
+
   // 이벤트 클릭 상태값
   const [dateClickState, setDateClickState] = useRecoilState(dateState);
 
@@ -263,7 +265,7 @@ function ModalCalendarUpdate(props: PropsType) {
 
   const { data: scheduleInfo } = useQuery<IScheduleInfo>(
     "scheduleSelectApi",
-    () => scheduleSelectApi(props.scheduleId),
+    () => scheduleSelectApi(props.scheduleId, studyId),
   );
 
   const [startDate, setStartDate] = useState<Date>(new Date(props.start));

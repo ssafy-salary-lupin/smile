@@ -10,6 +10,8 @@ import {
   scheduleSelectApi,
 } from "apis/StudyManageCalendarAPi";
 import { useHistory } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { studyIdRecoil } from "atoms/StudyManage";
 
 interface PropsType {
   setModalOpen: React.Dispatch<SetStateAction<boolean>>;
@@ -197,6 +199,8 @@ export interface IScheduleInfo {
 }
 
 function ModalCalendarCommonOnlyView(props: PropsType) {
+  const studyId = useRecoilValue(studyIdRecoil);
+
   const [title, setTitle] = useState<string | undefined>("");
   const [content, setContent] = useState<string | undefined>("");
   const [start, setStart] = useState<string | undefined>("");
@@ -232,7 +236,7 @@ function ModalCalendarCommonOnlyView(props: PropsType) {
   // 일정 단건 조회 scheduleId
   const { data: scheduleInfo } = useQuery<IScheduleInfo>(
     "scheduleSelectApi",
-    () => scheduleSelectApi(props.scheduleId),
+    () => scheduleSelectApi(props.scheduleId, studyId),
   );
 
   useEffect(() => {
