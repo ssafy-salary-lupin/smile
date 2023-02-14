@@ -53,12 +53,12 @@ const Btn = styled.button`
   border-radius: 0.347vw;
   border: none;
   background-color: ${(props) => props.backgroundColor};
-  font-size: 1.667vw;
+  font-size: 1vw;
   cursor: pointer;
   // TODO 글자 크기 반응형
   span {
     color: black;
-    font-size: 1.667vw;
+    font-size: 1vw;
   }
 `;
 
