@@ -240,8 +240,7 @@ function StudyManageMember() {
             {recruitModalOpen && (
               <ModalManageRecruit1
                 setModalOpen={setRecruitModalOpen}
-                change={setChange}
-                changeColor={changeColor}
+                setChange={setChange}
               />
             )}
             <BtnYellow onClick={openModal}>모집 시작</BtnYellow>
