@@ -26,10 +26,11 @@ function KakaoPages() {
   };
 
   useEffect(() => {
+    onJoin();
     return () => {
       onJoin();
     };
-  }, [tokenState]);
+  }, []);
 
   useEffect(() => {
     if (params) {
