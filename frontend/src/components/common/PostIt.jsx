@@ -3,7 +3,36 @@ import styled from "styled-components";
 
 import "./postIt.css";
 
-const Btn = styled.button``;
+const BtnContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  width: 1240px;
+`;
+
+const Btn = styled.button`
+  width: 80px;
+  height: 32px;
+  border: none;
+  border-radius: 15px 15px 0 0;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s linear;
+  :hover {
+    box-shadow: 4px 2px 13px 2px grey;
+    transform: scale(1.2);
+  }
+  :active {
+    box-shadow: 3px 3px 7px 1px grey inset;
+  }
+  :nth-child(1) {
+    background-color: ${(props) => props.theme.mainColor};
+    margin-right: 16px;
+  }
+  :nth-child(2) {
+    background-color: #7d9ada;
+  }
+`;
 
 class Note extends React.Component {
   constructor(props) {
@@ -47,7 +76,6 @@ class Note extends React.Component {
     this.setState({ editing: false });
   }
   remove() {
-    debugger;
     this.props.onRemove(this.props.index);
   }
   handleClick() {
@@ -108,11 +136,11 @@ class Note extends React.Component {
 class Board extends React.Component {
   constructor() {
     super();
-    debugger;
 
     this.update = this.update.bind(this);
     this.eachNote = this.eachNote.bind(this);
     this.remove = this.remove.bind(this);
+    this.removeAll = this.removeAll.bind(this);
     this.add = this.add.bind(this);
     this.state = {
       notesStringArray: [],
@@ -176,12 +204,19 @@ class Board extends React.Component {
     this.setState({ notesStringArray: arr });
   }
 
+  removeAll() {
+    var arr = this.state.notesStringArray;
+    arr.length = 0;
+    this.setState({ notesStringArray: arr });
+  }
+
   render() {
     return (
       <>
-        <div>
-          <Btn onClick={this.add.bind(null, "New Note!")}>+</Btn>
-        </div>
+        <BtnContainer>
+          <Btn onClick={this.add.bind(null, "New Note!")}>생성</Btn>
+          <Btn onClick={this.removeAll}>삭제</Btn>
+        </BtnContainer>
         <div className="board">
           {" "}
           {this.state.notesStringArray.map(this.eachNote)}
