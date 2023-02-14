@@ -240,24 +240,11 @@ function StudyManageMember() {
               <Text>스터디원 모집 여부를 설정할 수 있습니다.</Text>
               <Text>설정하시겠습니까?</Text>
             </TextBox>
-            {recruitModalOpen && (
-              <ModalManageRecruit1
-                setModalOpen={setRecruitModalOpen}
-                setChange={setChange}
-              />
-            )}
             {change !== true ? (
               <BtnYellow onClick={ReopenModal}>모집 시작</BtnYellow>
             ) : (
               <BtnBlue onClick={DeopenModal}>모집 마감</BtnBlue>
             )}
-            {deadLineModalOpen && (
-              <ModalManageDeadline
-                setModalOpen={setDeadLineModalOpen}
-                setChange={setChange}
-              />
-            )}
-            {/* {change && <BtnBlue onClick={DeopenModal}>모집 마감</BtnBlue>} */}
           </Box>
           <Box>
             <TextBox>
@@ -269,6 +256,18 @@ function StudyManageMember() {
           </Box>
         </RedBox>
       </DownContainer>
+      {recruitModalOpen && (
+        <ModalManageRecruit1
+          setModalOpen={setRecruitModalOpen}
+          setChange={setChange}
+        />
+      )}
+      {deadLineModalOpen && (
+        <ModalManageDeadline
+          setModalOpen={setDeadLineModalOpen}
+          setChange={setChange}
+        />
+      )}
     </Wrapper>
   );
 }
