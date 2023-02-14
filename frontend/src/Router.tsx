@@ -19,12 +19,12 @@ function Router() {
         <LandingPages />
       </Route>
       {/* 스터디 관리 페이지 => studyId가 param으로 추가 */}
-      <Route path="/manage">
-        <StudyManagePages />
-      </Route>
-      {/* <Route path="/manage/:studyId">
+      {/* <Route path="/manage">
         <StudyManagePages />
       </Route> */}
+      <Route path="/manage/:studyId">
+        <StudyManagePages />
+      </Route>
       {/* 내 스터디 페이지 */}
       <Route path="/myStudy/:userId">
         <MyStudyPages />

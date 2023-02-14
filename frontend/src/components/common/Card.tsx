@@ -310,62 +310,55 @@ export default function Card(props: PropsType) {
   };
 
   return (
-    <Link
-      style={{ textDecoration: "none", color: "black" }}
-      to={{
-        pathname: `/detail/${props.studyInfo.id}`, // 스터디 상세 조회 페이지 주소 입력하기
-      }}
-    >
-      <SContainer>
-        <SCardImg
-          src={studyImgUrl.includes("/root") ? defaultStudyImg : studyImgUrl}
-        />
-        <Description id={"overD"}>
-          <span>{props.studyInfo.description}</span>
-        </Description>
-        <SCardItem>
-          <SCardInfo>
-            <SCardInfoItem>
-              <img src={require("../../assets/img/Door.png")} />
-              <span>
-                {visitedCount}
-                <span>View</span>
-              </span>
-            </SCardInfoItem>
-            <SCardInfoItem>
-              <img src={require("../../assets/img/Users.png")} />
-              <span>
-                {props.studyInfo.currentPerson}/{props.studyInfo.maxPerson}
-              </span>
-            </SCardInfoItem>
-          </SCardInfo>
-          <SCardDescription>
-            {/* <span>{props.studyInfo.description}</span> */}
-            <span>{props.studyInfo.name}</span>
-          </SCardDescription>
-          <SCardUser>
-            <ProfileImg
-              imgUrl={
-                profileImgUrl && profileImgUrl.includes("/root")
-                  ? profileImgUrl
-                  : defaultprofileImg
-              }
-              width="3.36vw"
-              height="3.36vw"
-            />
-            <SCardUserItem>
-              <span>{props.studyInfo.leader.nickname}</span>
-              <span>
-                {props.studyInfo.lastVisitTime
-                  ? passedTime(props.studyInfo.lastVisitTime)
-                  : props.studyInfo.lastVisitedTime
-                  ? passedTime(props.studyInfo.lastVisitedTime)
-                  : "방금 전"}
-              </span>
-            </SCardUserItem>
-          </SCardUser>
-        </SCardItem>
-      </SContainer>
-    </Link>
+    <SContainer>
+      <SCardImg
+        src={studyImgUrl.includes("/root") ? defaultStudyImg : studyImgUrl}
+      />
+      <Description id={"overD"}>
+        <span>{props.studyInfo.description}</span>
+      </Description>
+      <SCardItem>
+        <SCardInfo>
+          <SCardInfoItem>
+            <img src={require("../../assets/img/Door.png")} />
+            <span>
+              {visitedCount}
+              <span>View</span>
+            </span>
+          </SCardInfoItem>
+          <SCardInfoItem>
+            <img src={require("../../assets/img/Users.png")} />
+            <span>
+              {props.studyInfo.currentPerson}/{props.studyInfo.maxPerson}
+            </span>
+          </SCardInfoItem>
+        </SCardInfo>
+        <SCardDescription>
+          {/* <span>{props.studyInfo.description}</span> */}
+          <span>{props.studyInfo.name}</span>
+        </SCardDescription>
+        <SCardUser>
+          <ProfileImg
+            imgUrl={
+              profileImgUrl && profileImgUrl.includes("/root")
+                ? profileImgUrl
+                : defaultprofileImg
+            }
+            width="3.36vw"
+            height="3.36vw"
+          />
+          <SCardUserItem>
+            <span>{props.studyInfo.leader.nickname}</span>
+            <span>
+              {props.studyInfo.lastVisitTime
+                ? passedTime(props.studyInfo.lastVisitTime)
+                : props.studyInfo.lastVisitedTime
+                ? passedTime(props.studyInfo.lastVisitedTime)
+                : "방금 전"}
+            </span>
+          </SCardUserItem>
+        </SCardUser>
+      </SCardItem>
+    </SContainer>
   );
 }
