@@ -13,8 +13,8 @@ const ModalContainer = styled.div`
   justify-content: center;
   flex-direction: column;
   position: fixed;
-  width: 20.833vw;
-  height: 13.889vw;
+  width: 27.778vw;
+  height: 20.833vw;
   z-index: 999;
   background-color: white;
   border-radius: 0.556vw;
