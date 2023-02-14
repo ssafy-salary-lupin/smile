@@ -2,6 +2,7 @@ import styled from "styled-components";
 import ModalNone from "components/common/ModalNone";
 import { Link } from "react-router-dom";
 import { StudyRecruitmentApi } from "../../apis/StudyManageMemberApi";
+import { useState } from "react";
 
 const Wrapper = styled.div``;
 
@@ -56,8 +57,13 @@ function ModalManageRecruit(props: any) {
     props.setModalOpen(false);
   };
 
+  // 모집 / 마감 버튼 바꾸기
+  const [changeColor, setChangeColor] = useState(true);
+  // const changeBtn = () => {
+  //   setChangeColor(!changeColor);
+  // };
+  props(changeColor);
   // 모집
-
   return (
     <Wrapper>
       <ModalNone setModalOpen={props.setModalOpen}>
@@ -67,7 +73,6 @@ function ModalManageRecruit(props: any) {
           <Title>
             <span>스터디원을 모집하시겠습니까?</span>
           </Title>
-          {/* <Close onClick={closeModal} width="2.778vw" height="2.778vw" /> */}
           <Footer>
             <Link
               to={{
