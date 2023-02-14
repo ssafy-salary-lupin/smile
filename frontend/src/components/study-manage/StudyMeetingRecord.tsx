@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import ModalMeetingCreate from "./ModalMeetingCreate";
 import { useQuery } from "react-query";
 import { MeetingSelectAllApi } from "apis/StudyManageMeetingApi";
+import { useRecoilValue } from "recoil";
+import { studyIdRecoil } from "atoms/StudyManage";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
@@ -240,6 +242,8 @@ interface IData {
 }
 
 function StudyMeetingRecord() {
+  const studyId = useRecoilValue(studyIdRecoil);
+
   // 1. 회의 생성 post
   // 모달창 노출 여부 state
   const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -251,7 +255,7 @@ function StudyMeetingRecord() {
 
   // 2. 회의 전체 조회(진행중 + 지난 ) GET
   const { data: meetingList } = useQuery<IData>("allMeetings", () =>
-    MeetingSelectAllApi(),
+    MeetingSelectAllApi(studyId),
   );
 
   const [proceedingCheck, setProceedingCheck] = useState<boolean>(false);

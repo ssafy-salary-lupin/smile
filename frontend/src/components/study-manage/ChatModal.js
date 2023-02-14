@@ -3,6 +3,10 @@ import styled from "styled-components";
 import { ReactComponent as Send } from "../../assets/icon/Send.svg";
 import { useParams } from "react-router-dom";
 import * as StompJs from "@stomp/stompjs";
+import * as SockJS from "sockjs-client";
+import { useRecoilValue } from "recoil";
+import { studyIdRecoil } from "atoms/StudyManage";
+import jwt_decode from "jwt-decode";
 
 const ModalContainer = styled.div`
   display: flex;
@@ -122,19 +126,37 @@ function ModalBasic(props) {
     };
   }, []);
 
-  //,,,
-  // 채팅
+  // const { apply_id } = useParams(); // 채널을 구분하는 식별자를 URL 파라미터로 받는다. => 스터디 코드
+  const client = useRef({});
+
+  // type : ENTER , TALK
+  const [typeValue, setTypeValue] = useState("ENTER");
+
+  // roomId : studyId
+  const studyId = useRecoilValue(studyIdRecoil);
+
+  // senderId : token userId 추출
+  const token = localStorage.getItem("kakao-token");
+  if (token !== null) {
+    var decoded = jwt_decode(token);
+  } else {
+    console.log("none");
+  }
+  const userId = decoded?.userId;
+
+  // senderName : user nickname
+  const nickName = "정혜주";
+
+  // message : chat
   const [chatList, setChatList] = useState([]); // 화면에 표시괼 채팅 기록
   const [chat, setChat] = useState(""); // 입력되는 채팅
 
-  const { apply_id } = useParams(); // 채널을 구분하는 식별자를 URL 파라미터로 받는다. => 스터디 코드
-  const client = useRef({});
-
   const connect = () => {
     // 연결할 때
-    console.log("connect 실행");
     client.current = new StompJs.Client({
-      brokerURL: "ws://i8b205.p.ssafy.io/be-api/ws-stomp",
+      // brokerURL: "ws://i8b205.p.ssafy.io/be-api/ws-stomp",
+      webSocketFactory: () =>
+        new SockJS("https://i8b205.p.ssafy.io/be-api/ws-stomp"), // proxy를 통한 접속
       onConnect: () => {
         console.log("connect success");
         subscribe(); // 연결 성공 시 구독하는 로직 실행
@@ -148,19 +170,20 @@ function ModalBasic(props) {
   };
 
   const publish = (chat) => {
-    console.log("publish client ", client);
     if (!client.current.connected) {
       console.log("publish : 클라이언트 연결 FAIL");
       return; // 연결되지 않았으면 메시지를 보내지 않는다.
     }
 
-    console.log("publish : 클라이언트 연결 SUCCESS");
     // 메시지 보내기
     client.current.publish({
       destination: "/pub/chat/message",
       body: JSON.stringify({
-        applyId: apply_id,
-        chat: chat,
+        type: typeValue, //먼저 방에 들어올때 - ENTER,  메시지를 보낼떄 - TALK
+        roomId: 1, //스터디 ID
+        senderId: 3, //유저 id
+        senderName: "정혜주", //유저 이름
+        message: chat, //메시지
       }), // 형식에 맞게 수정해서 보내야 함.
     });
 
@@ -169,8 +192,9 @@ function ModalBasic(props) {
 
   // 메시지 받기 {우리 주소}/studies/{studyId}/chats
   const subscribe = () => {
-    console.log("subcribe");
-    client.current.subscribe("/sub/chat/room/" + apply_id, (body) => {
+    console.log("subscribe");
+    // client.current.subscribe("/sub/chat/room/" + apply_id, (body) => {
+    client.current.subscribe("/sub/chat/room/1", (body) => {
       const json_body = JSON.parse(body.body);
       setChatList((_chat_list) => [..._chat_list, json_body]);
     });
@@ -190,14 +214,13 @@ function ModalBasic(props) {
   const handleSubmit = (event, chat) => {
     // 보내기 버튼 눌렀을 때 publish
     event.preventDefault(); // form 제출 막기
-
+    setTypeValue("TALK");
     publish(chat);
   };
 
   useEffect(() => {
-    console.log("useEffect 실행 => connect");
     connect();
-
+    publish();
     return () => disconnect();
   }, []);
 

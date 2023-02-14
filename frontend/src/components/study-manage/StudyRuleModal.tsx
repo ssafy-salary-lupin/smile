@@ -6,6 +6,8 @@ import ReactQuill from "react-quill";
 import { StudyInfoSelectApi, StudySelectApi } from "apis/StudyManageMainApi";
 import { useQuery } from "react-query";
 import { DataInfo } from "./StudyManageMain";
+import { useRecoilValue } from "recoil";
+import { studyIdRecoil } from "atoms/StudyManage";
 
 // 모달의 크기 설정
 const Wrapper = styled.div`
@@ -161,14 +163,16 @@ interface IDataInfo {
 }
 
 function StudyRuleModal(props: IPropsType) {
+  const studyId = useRecoilValue(studyIdRecoil);
+
   const closeModal = () => {
     props.setModalOpen(false);
   };
   const { data: studyInfo } = useQuery<IDataInfo>("studySelectApi", () =>
-    StudySelectApi(),
+    StudySelectApi(studyId),
   );
   const { data: studyMainInfo } = useQuery<DataInfo>("studyInfoSelectApi", () =>
-    StudyInfoSelectApi(),
+    StudyInfoSelectApi(studyId),
   );
   const [rule, setRule] = useState(studyMainInfo?.result.rule);
 

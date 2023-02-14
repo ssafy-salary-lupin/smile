@@ -423,7 +423,7 @@ function StudyDetailPages() {
       content: comment,
     };
 
-    await writeDetailCommentApi(data);
+    await writeDetailCommentApi(data, id);
 
     await setComment("");
     refetch();
@@ -442,7 +442,7 @@ function StudyDetailPages() {
       content: reply,
     };
 
-    await writeDetailReplyApi(data, parentId);
+    await writeDetailReplyApi(data, parentId, id);
     await setSelectedId(null);
     refetch();
   };
@@ -458,7 +458,7 @@ function StudyDetailPages() {
     const data = {
       content: commentForUpdate,
     };
-    await commentUpdateApi(data, commentId);
+    await commentUpdateApi(data, commentId, id);
     await setSelectedUpdateId(null);
     refetch();
   };
@@ -472,7 +472,7 @@ function StudyDetailPages() {
       cancelButtonText: "취소",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        await commentDeleteApi(commentId);
+        await commentDeleteApi(commentId, id);
         await refetch();
         Swal.fire("삭제완료!", "", "success");
       }
@@ -492,7 +492,7 @@ function StudyDetailPages() {
       cancelButtonText: "취소",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        await replyDeleteApi(commentId, replyId);
+        await replyDeleteApi(commentId, replyId, id);
         await refetch();
         Swal.fire("삭제완료!", "", "success");
       }
@@ -515,7 +515,7 @@ function StudyDetailPages() {
     const data = {
       content: replyForUpdate,
     };
-    await replyUpdateApi(data, commentId, replyId);
+    await replyUpdateApi(data, commentId, replyId, id);
     await setSelectedUpdateReplyId(null);
     refetch();
   };

@@ -8,6 +8,8 @@ import { ReactComponent as DeleteIcon } from "../../assets/icon/Delete.svg";
 import { useQuery } from "react-query";
 import { boardSelectApi } from "apis/StudyManageBoardApi";
 import Swal from "sweetalert2";
+import { useRecoilValue } from "recoil";
+import { studyIdRecoil } from "atoms/StudyManage";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
@@ -224,10 +226,12 @@ type Params = {
 };
 
 function StudyManageBoardUpdate() {
+  const studyId = useRecoilValue(studyIdRecoil);
+
   const { boardId } = useParams<Params>();
 
   const { data: detailData } = useQuery<Data>("detailData", () =>
-    boardSelectApi(boardId),
+    boardSelectApi(boardId, studyId),
   );
 
   useEffect(() => {

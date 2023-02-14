@@ -6,10 +6,14 @@ const BASE_URL = `https://i8b205.p.ssafy.io/be-api/studies`;
 const token = localStorage.getItem("kakao-token");
 
 // 게시판 목록 조회(공지 제외)
-export async function boardListSelectAllApi(page: number, size: number) {
+export async function boardListSelectAllApi(
+  page: number,
+  size: number,
+  studyId: string,
+) {
   try {
     const response = await fetch(
-      `${BASE_URL}/1/boards?page=${page}&size=${size}`,
+      `${BASE_URL}/${studyId}/boards?page=${page}&size=${size}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -28,9 +32,9 @@ export async function boardListSelectAllApi(page: number, size: number) {
 }
 
 // 게시판 목록 조회(공지만)
-export async function noticeSelectAllApi() {
+export async function noticeSelectAllApi(studyId: string) {
   try {
-    const response = await fetch(`${BASE_URL}/1/boards?type=1`, {
+    const response = await fetch(`${BASE_URL}/${studyId}/boards?type=1`, {
       headers: {
         Authorization: `Bearer ${token}`,
         // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
@@ -47,9 +51,9 @@ export async function noticeSelectAllApi() {
 }
 
 // 게시판 상세 조회
-export async function boardSelectApi(boardId: string) {
+export async function boardSelectApi(boardId: string, studyId: string) {
   try {
-    const response = await fetch(`${BASE_URL}/1/boards/${boardId}`, {
+    const response = await fetch(`${BASE_URL}/${studyId}/boards/${boardId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
@@ -85,9 +89,9 @@ export async function boardTypeSelectApi() {
 }
 
 // 게시글 입력
-export async function boardeInsertApi(data: any) {
+export async function boardeInsertApi(data: any, studyId: string) {
   try {
-    await axios.post(`${BASE_URL}/1/boards`, data, {
+    await axios.post(`${BASE_URL}/${studyId}/boards`, data, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("kakao-token")}`,
         // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
@@ -100,9 +104,9 @@ export async function boardeInsertApi(data: any) {
 }
 
 // 게시글 삭제
-export async function deleteBoardApi(boardId: string) {
+export async function deleteBoardApi(boardId: string, studyId: string) {
   try {
-    await axios.delete(`${BASE_URL}/1/boards/${boardId}`, {
+    await axios.delete(`${BASE_URL}/${studyId}/boards/${boardId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
@@ -114,10 +118,14 @@ export async function deleteBoardApi(boardId: string) {
 }
 
 // 댓글 작성
-export async function writeCommentApi(data: any, boardId: string) {
+export async function writeCommentApi(
+  data: any,
+  boardId: string,
+  studyId: string,
+) {
   try {
     await axios.post(
-      `${BASE_URL}/1/boards/${boardId}/comments`,
+      `${BASE_URL}/${studyId}/boards/${boardId}/comments`,
       JSON.stringify(data),
       {
         headers: {
@@ -137,10 +145,11 @@ export async function commentUpdateApi(
   data: any,
   boardId: any,
   commentId: any,
+  studyId: string,
 ) {
   try {
     await axios.patch(
-      `${BASE_URL}/1/boards/${boardId}/comments/${commentId}`,
+      `${BASE_URL}/${studyId}/boards/${boardId}/comments/${commentId}`,
       data,
       {
         headers: {
@@ -156,10 +165,14 @@ export async function commentUpdateApi(
 }
 
 // 댓글 삭제
-export async function commentDeleteApi(boardId: any, commentId: any) {
+export async function commentDeleteApi(
+  boardId: any,
+  commentId: any,
+  studyId: string,
+) {
   try {
     await axios.delete(
-      `${BASE_URL}/1/boards/${boardId}/comments/${commentId}`,
+      `${BASE_URL}/${studyId}/boards/${boardId}/comments/${commentId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

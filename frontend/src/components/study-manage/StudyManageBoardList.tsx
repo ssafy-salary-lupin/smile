@@ -2,10 +2,12 @@ import {
   boardListSelectAllApi,
   noticeSelectAllApi,
 } from "apis/StudyManageBoardApi";
+import { studyIdRecoil } from "atoms/StudyManage";
 import PagiNation from "components/common/Pagination";
 import { useEffect, useState } from "react";
 import { useQueries, useQuery } from "react-query";
 import { Link } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
@@ -168,6 +170,9 @@ interface ListData {
 }
 
 function StudyManageBoardList() {
+  // studyId값 가져오기
+  const studyId = useRecoilValue(studyIdRecoil);
+
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(5);
   const [totalElements, setTotalElements] = useState(0);
@@ -178,11 +183,11 @@ function StudyManageBoardList() {
   const res = useQueries([
     {
       queryKey: ["listData"],
-      queryFn: () => boardListSelectAllApi(page, size),
+      queryFn: () => boardListSelectAllApi(page, size, studyId),
     },
     {
       queryKey: ["noticeData"],
-      queryFn: () => noticeSelectAllApi(),
+      queryFn: () => noticeSelectAllApi(studyId),
     },
   ]);
 

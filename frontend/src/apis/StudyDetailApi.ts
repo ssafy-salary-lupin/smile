@@ -44,9 +44,9 @@ export async function studyJoinApi(userId: any, studyId: any, data: any) {
 }
 
 // 댓글 작성
-export async function writeDetailCommentApi(data: any) {
+export async function writeDetailCommentApi(data: any, studyId: string) {
   try {
-    await axios.post(`${BASE_URL}/1/comments`, JSON.stringify(data), {
+    await axios.post(`${BASE_URL}/${studyId}/comments`, JSON.stringify(data), {
       headers: {
         Authorization: `Bearer ${token}`,
         // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
@@ -59,10 +59,14 @@ export async function writeDetailCommentApi(data: any) {
 }
 
 // 답변 작성
-export async function writeDetailReplyApi(data: any, parentId: any) {
+export async function writeDetailReplyApi(
+  data: any,
+  parentId: any,
+  studyId: string,
+) {
   try {
     await axios.post(
-      `${BASE_URL}/1/comments/${parentId}/replies`,
+      `${BASE_URL}/${studyId}/comments/${parentId}/replies`,
       JSON.stringify(data),
       {
         headers: {
@@ -78,9 +82,13 @@ export async function writeDetailReplyApi(data: any, parentId: any) {
 }
 
 // 댓글 수정
-export async function commentUpdateApi(data: any, commentId: any) {
+export async function commentUpdateApi(
+  data: any,
+  commentId: any,
+  studyId: string,
+) {
   try {
-    await axios.patch(`${BASE_URL}/1/comments/${commentId}`, data, {
+    await axios.patch(`${BASE_URL}/${studyId}/comments/${commentId}`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
         // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
@@ -93,9 +101,9 @@ export async function commentUpdateApi(data: any, commentId: any) {
 }
 
 // 댓글 삭제 /studies/{study-id}/comments/{comment-id}
-export async function commentDeleteApi(commentId: any) {
+export async function commentDeleteApi(commentId: any, studyId: string) {
   try {
-    await axios.delete(`${BASE_URL}/1/comments/${commentId}`, {
+    await axios.delete(`${BASE_URL}/${studyId}/comments/${commentId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
@@ -107,10 +115,15 @@ export async function commentDeleteApi(commentId: any) {
 }
 
 // 대댓글 수정
-export async function replyUpdateApi(data: any, commentId: any, replyId: any) {
+export async function replyUpdateApi(
+  data: any,
+  commentId: any,
+  replyId: any,
+  studyId: string,
+) {
   try {
     await axios.patch(
-      `${BASE_URL}/1/comments/${commentId}/replies/${replyId}`,
+      `${BASE_URL}/${studyId}/comments/${commentId}/replies/${replyId}`,
       data,
       {
         headers: {
@@ -126,10 +139,14 @@ export async function replyUpdateApi(data: any, commentId: any, replyId: any) {
 }
 
 // 대댓글 삭제
-export async function replyDeleteApi(commentId: any, replyId: any) {
+export async function replyDeleteApi(
+  commentId: any,
+  replyId: any,
+  studyId: string,
+) {
   try {
     await axios.delete(
-      `${BASE_URL}/1/comments/${commentId}/replies/${replyId}`,
+      `${BASE_URL}/${studyId}/comments/${commentId}/replies/${replyId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

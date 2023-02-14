@@ -8,6 +8,8 @@ import { ReactComponent as DeleteIcon } from "../../assets/icon/Delete.svg";
 import { useQuery } from "react-query";
 import { boardeInsertApi, boardTypeSelectApi } from "apis/StudyManageBoardApi";
 import Swal from "sweetalert2";
+import { useRecoilValue } from "recoil";
+import { studyIdRecoil } from "atoms/StudyManage";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
@@ -186,6 +188,8 @@ interface IBoardType {
 }
 
 function StudyManageBoardWrite() {
+  const studyId = useRecoilValue(studyIdRecoil);
+
   const modules = {
     toolbar: {
       container: [
@@ -303,7 +307,7 @@ function StudyManageBoardWrite() {
       }
     }
 
-    boardeInsertApi(formData);
+    boardeInsertApi(formData, studyId);
 
     history.push("/manage/board");
   };

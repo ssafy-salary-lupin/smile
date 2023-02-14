@@ -17,6 +17,8 @@ import ReactQuill from "react-quill";
 import { useEffect, useState } from "react";
 import { TypeProps } from "./StudyManageBoardList";
 import Swal from "sweetalert2";
+import { useRecoilValue } from "recoil";
+import { studyIdRecoil } from "atoms/StudyManage";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
@@ -349,6 +351,8 @@ export interface InputProps {
 }
 
 function StudyManageBoardDetail() {
+  const studyId = useRecoilValue(studyIdRecoil);
+
   const modules = {
     toolbar: false,
   };
@@ -357,7 +361,7 @@ function StudyManageBoardDetail() {
 
   const { data: detailData, refetch } = useQuery<Data>(
     "detailData",
-    async () => await boardSelectApi(boardId),
+    async () => await boardSelectApi(boardId, studyId),
   );
 
   // 글 삭제
@@ -370,7 +374,7 @@ function StudyManageBoardDetail() {
       cancelButtonText: "취소",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        deleteBoardApi(boardId);
+        deleteBoardApi(boardId, studyId);
         Swal.fire("삭제완료!", "", "success");
         refetch();
         history.push("/manage/board");
@@ -388,7 +392,7 @@ function StudyManageBoardDetail() {
     const data = {
       content: comment,
     };
-    await writeCommentApi(data, boardId);
+    await writeCommentApi(data, boardId, studyId);
     setComment("");
     refetch();
   };
@@ -404,7 +408,7 @@ function StudyManageBoardDetail() {
     const data = {
       content: reply,
     };
-    await commentUpdateApi(data, boardId, parentId);
+    await commentUpdateApi(data, boardId, parentId, studyId);
     await setSelectedId(null);
     refetch();
   };
@@ -418,7 +422,7 @@ function StudyManageBoardDetail() {
       cancelButtonText: "취소",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        await commentDeleteApi(boardId, commentId);
+        await commentDeleteApi(boardId, commentId, studyId);
         await refetch();
         Swal.fire("삭제완료!", "", "success");
       }
