@@ -25,9 +25,9 @@ public class UserMemo extends BaseEntity {
     private String content;
 
     @Column(name = "um_x")
-    private int posX;
+    private Integer posX;
     @Column(name = "um_y")
-    private int posY;
+    private Integer posY;
 
     @Column(name = "um_is_deleted")
     private boolean isDeleted;
