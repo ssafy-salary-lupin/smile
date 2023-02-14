@@ -215,7 +215,6 @@ public class UserServiceImpl implements UserService{
 
             int index = originFileName.lastIndexOf(".");
             String ext = originFileName.substring(index+1);//확장자
-
             String storeFileName = UUID.randomUUID().toString() + "." + ext; // 저장할 이름- 중복되지 않도록 하기 위해 uuid 사용(이름 중복이면 덮어씀.)
 
             String key  = PROFILE_IMG + storeFileName; //파일 저장위치.
