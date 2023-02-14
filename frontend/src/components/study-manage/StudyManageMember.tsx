@@ -9,6 +9,7 @@ import { useQuery } from "react-query";
 import Button1 from "../common/ButtonBasic";
 import ModalManageRecruit1 from "./ModalManageRecruit";
 import ModalManageDeadline from "./ModalManageDeadline";
+import ModalManageMandate from "./ModalManageMandate";
 import ModalManageEnd from "./ModalManageEnd";
 import ModalManageDrop from "./ModalManageDrop";
 import {
@@ -22,6 +23,7 @@ import axios from "axios";
 import { theme } from "theme";
 
 import ModalManageRecruit from "./ModalManageRecruit";
+import ModalManageMandate from "./ModalManageMandate";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
@@ -191,6 +193,10 @@ function StudyManageMember() {
   const { data: userStudy } = useQuery<Data>("userStudy", () => StudyUserApi());
 
   // 위임
+  const [mandateModalOpen, setMandateModalOpen] = useState(false);
+  const MandateopenModal = () => {
+    setMandateModalOpen(!mandateModalOpen);
+  };
 
   // 강퇴
   const [dropModalOpen, setDropModalOpen] = useState(false);
@@ -230,7 +236,10 @@ function StudyManageMember() {
               <hr />
               {user.leader === true ? null : (
                 <BtnBox>
-                  <YellowBtn>위임</YellowBtn>
+                  {mandateModalOpen && (
+                    <ModalManageMandate setModalOpen={setMandateModalOpen} />
+                  )}
+                  <YellowBtn onClick={MandateopenModal}>위임</YellowBtn>
                   {dropModalOpen && (
                     <ModalManageDrop setModalOpen={setDropModalOpen} />
                   )}
@@ -257,12 +266,12 @@ function StudyManageMember() {
           </Box>
           <Box>
             <TextBox>
-              <BigText onClick={EndopenModal}>스터디 종료</BigText>
+              <BigText>스터디 종료</BigText>
               <Text>한번 종료하면 되돌릴 수 없습니다.</Text>
               <Text>삭제하시겠습니까?</Text>
             </TextBox>
             {endModalOpen && <ModalManageEnd setModalOpen={setEndModalOpen} />}
-            <BtnWhite>스터디 종료하기</BtnWhite>
+            <BtnWhite onClick={EndopenModal}>스터디 종료하기</BtnWhite>
           </Box>
         </RedBox>
         {recruitModalOpen && (
