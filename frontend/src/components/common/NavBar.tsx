@@ -192,6 +192,11 @@ function NavBar(props: UrlProps) {
   const [, updateState] = useState({});
   const forceUpdate = useCallback(() => updateState({}), []);
 
+  const goMyStudy = () => {
+    forceUpdate();
+    history.push(`/myStudy/${userId}`);
+  };
+
   return (
     <Nav variants={navVariants} animate={navAnimation} initial={"top"}>
       <NavHeader>
@@ -210,20 +215,20 @@ function NavBar(props: UrlProps) {
             </Link>
           </Item2> */}
           {kakaoToken ? (
-            <Item2 curUrl={props.curUrl} onClick={forceUpdate}>
-              <Link
+            <Item2 curUrl={props.curUrl} onClick={goMyStudy}>
+              {/* <Link
                 to={`/myStudy/${userId}`}
                 style={{ textDecoration: "none" }}
-              >
-                내 스터디
-              </Link>
+              > */}
+              내 스터디
+              {/* </Link> */}
             </Item2>
           ) : null}
-          {kakaoToken ? (
+          {/* {kakaoToken ? (
             <Item3 curUrl={props.curUrl} onClick={forceUpdate}>
               내 정보
             </Item3>
-          ) : null}
+          ) : null} */}
 
           {kakaoToken ? (
             <NabBtn onClick={signOut}>로그아웃</NabBtn>
