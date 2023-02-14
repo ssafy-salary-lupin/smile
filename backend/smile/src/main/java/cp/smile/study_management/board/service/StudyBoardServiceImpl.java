@@ -4,6 +4,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import cp.smile.config.AwsS3DirectoryName;
 import cp.smile.config.response.exception.CustomException;
 import cp.smile.config.response.exception.CustomExceptionStatus;
 import cp.smile.entity.study_common.StudyInformation;
@@ -36,7 +37,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static cp.smile.config.AwsS3DirectoryName.STUDY_FILE;
 import static cp.smile.config.response.exception.CustomExceptionStatus.*;
 
 @Service
@@ -44,6 +44,8 @@ import static cp.smile.config.response.exception.CustomExceptionStatus.*;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class StudyBoardServiceImpl implements StudyBoardService {
+
+    private final AwsS3DirectoryName awsS3DirectoryName;
 
     private final UserJoinStudyRepository userJoinStudyRepository;
     private final StudyCommonRepository studyCommonRepository;
@@ -154,7 +156,7 @@ public class StudyBoardServiceImpl implements StudyBoardService {
             String storeFileName = UUID.randomUUID().toString() + "." + ext;
 
             // key: study-file/{스터디식별자}/{게시글식별자}/파일명
-            String key = STUDY_FILE + studyBoard.getStudyInformation().getId()
+            String key = awsS3DirectoryName.STUDY_FILE + studyBoard.getStudyInformation().getId()
                     + "/" + studyBoard.getId()
                     + "/" + storeFileName;
 

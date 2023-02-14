@@ -8,6 +8,7 @@ import com.sun.xml.bind.v2.TODO;
 import cp.smile.auth.jwt.JwtProvider;
 import cp.smile.auth.oauth2.provider.LoginProviderRepository;
 import cp.smile.auth.oauth2.provider.OAuth2Provider;
+import cp.smile.config.AwsS3DirectoryName;
 import cp.smile.config.response.exception.CustomException;
 import cp.smile.config.response.exception.CustomExceptionStatus;
 import cp.smile.entity.study_common.StudyInformation;
@@ -49,6 +50,8 @@ import static cp.smile.config.response.exception.CustomExceptionStatus.*;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
 
+    private final AwsS3DirectoryName awsS3DirectoryName;
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final StudyCommonRepository studyCommonRepository;
@@ -76,7 +79,7 @@ public class UserServiceImpl implements UserService{
                 .email(userJoinDTO.getEmail())
                 .nickname(userJoinDTO.getNickname())
                 .password(userJoinDTO.getPassword())
-                .imagePath(DEFAULT_PROFILE)
+                .imagePath(awsS3DirectoryName.DEFAULT_PROFILE)
                 .isDeleted(false)
                 .loginProvider(loginProvider)
                 .build();
@@ -223,7 +226,7 @@ public class UserServiceImpl implements UserService{
             String ext = originFileName.substring(index+1);//확장자
             String storeFileName = UUID.randomUUID().toString() + "." + ext; // 저장할 이름- 중복되지 않도록 하기 위해 uuid 사용(이름 중복이면 덮어씀.)
 
-            String key  = PROFILE_IMG + storeFileName; //파일 저장위치.
+            String key  = awsS3DirectoryName.PROFILE_IMG + storeFileName; //파일 저장위치.
 
             try (InputStream inputStream = multipartFile.getInputStream()) {
                 amazonS3Client.putObject(new PutObjectRequest(bucket, key, inputStream, objectMetadata)

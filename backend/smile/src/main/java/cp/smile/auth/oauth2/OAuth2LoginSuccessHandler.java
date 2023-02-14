@@ -3,6 +3,7 @@ package cp.smile.auth.oauth2;
 import cp.smile.auth.jwt.JwtProvider;
 import cp.smile.auth.oauth2.exception.UnsupportedOAuthProviderException;
 import cp.smile.auth.oauth2.provider.LoginProviderRepository;
+import cp.smile.config.AwsS3DirectoryName;
 import cp.smile.entity.user.LoginProvider;
 import cp.smile.entity.user.User;
 import cp.smile.user.service.UserService;
@@ -20,13 +21,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-import static cp.smile.config.AwsS3DirectoryName.DEFAULT_PROFILE;
-
 @Component
 @Slf4j
 @RequiredArgsConstructor
 public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
+
+    private final AwsS3DirectoryName awsS3DirectoryName;
     private final JwtProvider jwtProvider;
     private final UserService userService;
     private final LoginProviderRepository loginProviderRepository;
@@ -61,7 +62,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         User user = userService.findByEmail(oAuth2User.getEmail());
 
         String profileImagePath = oAuth2User.isDefaultProfileImage() ?
-                DEFAULT_PROFILE : oAuth2User.getProfileThumbnailImagePath();
+                awsS3DirectoryName.DEFAULT_PROFILE : oAuth2User.getProfileThumbnailImagePath();
 
         if (user != null) {
             userService.updateRefreshToken(user, refreshToken);

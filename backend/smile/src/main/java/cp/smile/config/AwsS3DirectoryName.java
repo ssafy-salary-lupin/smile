@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /*AWS S3 디렉토리 명*/
+@Configuration
 public class AwsS3DirectoryName {
 
     @Value("${cloud.aws.s3.bucket.directory.default.profile}")
