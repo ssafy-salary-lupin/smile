@@ -199,6 +199,10 @@ function StudyManageMember() {
   };
 
   // 종료
+  const [endModalOpen, setEndModalOpen] = useState(false);
+  const EndopenModal = () => {
+    setEndModalOpen(!endModalOpen);
+  };
 
   return (
     <Wrapper>
@@ -253,10 +257,10 @@ function StudyManageMember() {
           </Box>
           <Box>
             <TextBox>
-              {dropModalOpen && (
-                <ModalManageDrop setModalOpen={setDropModalOpen} />
+              {endModalOpen && (
+                <ModalManageEnd setModalOpen={setEndModalOpen} />
               )}
-              <BigText>스터디 종료</BigText>
+              <BigText onClick={EndopenModal}>스터디 종료</BigText>
               <Text>한번 종료하면 되돌릴 수 없습니다.</Text>
               <Text>삭제하시겠습니까?</Text>
             </TextBox>
