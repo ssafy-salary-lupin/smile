@@ -371,15 +371,17 @@ function ModalBasic(props) {
                   </ChatBubbleWrapperMe>
                 );
               } else {
-                <ChatBubbleWrapperYou>
-                  {/* 상대방 채팅이 보여질 구간 */}
-                  <div>
-                    <NameYou>{el.senderName}</NameYou>
-                    <ChatBubbleYou>
-                      <p>{el.message}</p>
-                    </ChatBubbleYou>
-                  </div>
-                </ChatBubbleWrapperYou>;
+                return (
+                  <ChatBubbleWrapperYou>
+                    {/* 상대방 채팅이 보여질 구간 */}
+                    <div>
+                      <NameYou>{el.senderName}</NameYou>
+                      <ChatBubbleYou>
+                        <p>{el.message}</p>
+                      </ChatBubbleYou>
+                    </div>
+                  </ChatBubbleWrapperYou>
+                );
               }
             }
           })}

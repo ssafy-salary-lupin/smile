@@ -109,6 +109,7 @@ function StudyManageCalendar() {
 
   // 날짜 클릭 시 일정 등록 모달 띄우기
   const handleDateClick = (arg: any) => {
+    console.log("일정 클릭!!!");
     if (userId !== studyCeo) {
       Swal.fire({
         icon: "error",
