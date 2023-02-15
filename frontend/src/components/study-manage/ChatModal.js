@@ -9,6 +9,7 @@ import { studyIdRecoil } from "atoms/StudyManage";
 import jwt_decode from "jwt-decode";
 import { isError } from "react-query";
 import sendImg from "../../assets/img/SendImg.png";
+import { UserIdState } from "atoms/UserInfoAtom";
 
 const ModalContainer = styled.div`
   display: flex;
@@ -235,42 +236,33 @@ function ChatModal(props) {
   const studyId = useRecoilValue(studyIdRecoil);
 
   // senderId : token userId 추출
-  const [userId, setUserId] = useState();
+  const userId = useRecoilValue(UserIdState);
 
   // senderName : user nickname
   // user nickname 정보 가져오기
-  // const BASE_URL = `https://i8b205.p.ssafy.io/be-api`;
-  const BASE_URL = `/be-api`;
+  const BASE_URL = `https://i8b205.p.ssafy.io/be-api`;
+  // const BASE_URL = `/be-api`;
   // 사용자 token값
-  const nickName = "";
+  const [nickName, setNickName] = useState("");
   useEffect(() => {
     const token = localStorage.getItem("kakao-token");
-    if (token !== null) {
-      const decoded = jwt_decode(token);
-      setUserId(decoded?.userId);
-    } else {
-      console.log("none");
-    }
-
     async function fetchData() {
       try {
-        const response = await fetch(`${BASE_URL}/users/3`, {
+        const response = await fetch(`${BASE_URL}/users/${userId}`, {
           headers: {
-            // Authorization: `Bearer ${token}`,
-            Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
+            Authorization: `Bearer ${token}`,
+            // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
             Accept: "application/json",
           },
         });
-
         const data = await response.json();
         return data;
       } catch (error) {
         console.log(error);
       }
     }
-
     const userInfo = fetchData();
-    console.log("회원 정보 : ", userInfo);
+    setNickName(userInfo.result.nickname);
   });
 
   // message : chat
@@ -278,9 +270,7 @@ function ChatModal(props) {
   const [chat, setChat] = useState(""); // 입력되는 채팅
 
   // 최초 입장시 Enter type 보내기위해 임시 설정
-  const [firstEnter, setFirstEnter] = useState(false);
-
-  console.log("charList : ", chatList);
+  const [firstEnter, setFirstEnter] = useState(true);
 
   const connect = () => {
     // 연결할 때
@@ -294,9 +284,9 @@ function ChatModal(props) {
 
         // 최초 입장시 ENTER Type 보내기 위해 설정
         if (firstEnter) {
-          console.log("입장");
           publish();
           setFirstEnter(false);
+          setTypeValue("TALK");
         }
       },
       debug: function (str) {
@@ -317,9 +307,9 @@ function ChatModal(props) {
       destination: "/pub/chat/message",
       body: JSON.stringify({
         type: typeValue, //먼저 방에 들어올때 - ENTER,  메시지를 보낼떄 - TALK
-        roomId: 1, //스터디 ID
-        senderId: 3, //유저 id
-        senderName: "익명" + 3, //유저 이름
+        roomId: studyId, //스터디 ID
+        senderId: userId, //유저 id
+        senderName: nickName, //유저 이름
         message: chat, //메시지
       }), // 형식에 맞게 수정해서 보내야 함.
     });
@@ -331,10 +321,10 @@ function ChatModal(props) {
   const subscribe = () => {
     console.log("subscribe");
     // client.current.subscribe("/sub/chat/room/" + apply_id, (body) => {
-    client.current.subscribe("/sub/chat/room/1", (body) => {
+    client.current.subscribe(`/sub/chat/room/${studyId}`, async (body) => {
       const json_body = JSON.parse(body.body);
-      console.log("json_body : ", json_body);
-      setChatList((_chat_list) => [..._chat_list, json_body]);
+      // console.log("json_body : ", json_body);
+      await setChatList((_chat_list) => [..._chat_list, json_body]);
     });
   };
 
@@ -351,14 +341,11 @@ function ChatModal(props) {
 
   const handleSubmit = (event, chat) => {
     // 보내기 버튼 눌렀을 때 publish
-    console.log("handleSubmit");
     event.preventDefault(); // form 제출 막기
-    setTypeValue("TALK");
     publish(chat);
   };
 
   useEffect(() => {
-    setFirstEnter(true);
     connect();
 
     return () => disconnect();
