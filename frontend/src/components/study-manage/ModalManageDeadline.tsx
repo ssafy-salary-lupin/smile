@@ -2,6 +2,8 @@ import styled from "styled-components";
 import ModalNone from "components/common/ModalNone";
 import { Link } from "react-router-dom";
 import { StudyReDeadlineApi } from "../../apis/StudyManageMemberApi";
+import { useRecoilValue } from "recoil";
+import { studyIdRecoil } from "atoms/StudyManage";
 
 const Wrapper = styled.div``;
 
@@ -62,6 +64,8 @@ function ModalManageDeadline(props: any) {
     props.setChange(false);
   };
 
+  const studyId = useRecoilValue(studyIdRecoil);
+
   return (
     <Wrapper>
       <ModalNone setModalOpen={props.setModalOpen} setChange={props.setChange}>
@@ -81,7 +85,7 @@ function ModalManageDeadline(props: any) {
               <Btn
                 color="#F5C82E"
                 onClick={() => {
-                  StudyReDeadlineApi();
+                  StudyReDeadlineApi(studyId);
                   changeBtn();
                 }}
               >

@@ -4,6 +4,8 @@ import { MandateApi } from "../../apis/StudyManageMemberApi";
 import { Warning } from "components/common/DuotonIcons";
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
+import { useRecoilValue } from "recoil";
+import { studyIdRecoil } from "atoms/StudyManage";
 
 const Wrapper = styled.div``;
 
@@ -76,6 +78,7 @@ function ModalManageMandate(props: any) {
     props.setModalOpen(false);
   };
 
+  const studyId = useRecoilValue(studyIdRecoil);
   // const onMandate = () => {
   //   console.log("on");
   //   const { id } = useParams<Params>();
@@ -102,7 +105,7 @@ function ModalManageMandate(props: any) {
             <Btn
               color="#F5C82E"
               onClick={() => {
-                // MandateApi();
+                // MandateApi(studyId, );
                 console.log("안녕");
               }}
             >

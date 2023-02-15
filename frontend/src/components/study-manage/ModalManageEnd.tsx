@@ -3,6 +3,8 @@ import ModalNone from "components/common/ModalNone";
 import { Link } from "react-router-dom";
 import { StudyEndApi } from "../../apis/StudyManageMemberApi";
 import { Warning } from "components/common/DuotonIcons";
+import { useRecoilValue } from "recoil";
+import { studyIdRecoil } from "atoms/StudyManage";
 
 const Wrapper = styled.div``;
 
@@ -57,6 +59,8 @@ function ModalManageEnd(props: any) {
     props.setModalOpen(false);
   };
 
+  const studyId = useRecoilValue(studyIdRecoil);
+
   return (
     <Wrapper>
       <ModalNone setModalOpen={props.setModalOpen}>
@@ -74,7 +78,7 @@ function ModalManageEnd(props: any) {
               <Btn
                 color="#F5C82E"
                 onClick={() => {
-                  StudyEndApi();
+                  StudyEndApi(studyId);
                 }}
               >
                 <span>확인</span>
