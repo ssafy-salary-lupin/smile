@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Webcam from "react-webcam";
 import styled from "styled-components";
@@ -106,12 +106,66 @@ function VideoMeetingPages() {
     };
   }
 
+  interface studyDataType {
+    id: number;
+    name: string;
+    startDate: string;
+    endDatee: string;
+    time: string;
+    imagePath: string;
+    currrentPerson: number;
+    maxPerson: number;
+    viewCount: number;
+    description: string;
+    type: {
+      id: number;
+      name: string;
+    };
+    leader: {
+      id: number;
+      imagePath: string;
+      nickname: string;
+    };
+    comments: {
+      user: {
+        id: number;
+        imagePath: string;
+        nickname: string;
+      };
+      content: string;
+      replies: {
+        user: {
+          id: number;
+          imagePath: string;
+          nickname: string;
+        };
+        content: string;
+      }[];
+    }[];
+  }
+
   const { data: userData } = useQuery("userInfo", () =>
     UserInfoApi.api.get(`/users/${userId}`),
   );
-  const { data: studyInfo } = useQuery("userInfo", () =>
+  const { data: studyData } = useQuery("userInfo", () =>
     UserInfoApi.api.get(`/studies/${params.studyId}`),
   );
+
+  const [userInfo, setUserInfo] = useState<userDataType>();
+  const [studyInfo, setStudyInfo] = useState<studyDataType>();
+
+  const getUserInfo = async () => {
+    const data: userDataType = await UserInfoApi.api.get(
+      `/studies/${params.studyId}`,
+    );
+    if (data) {
+      setUserInfo(data);
+    }
+  };
+
+  useEffect(() => {
+    getUserInfo();
+  }, []);
 
   const params: paramsType = useParams();
 
@@ -170,8 +224,9 @@ function VideoMeetingPages() {
   };
 
   console.log(params);
-  console.log(userData);
-  console.log(studyInfo);
+  console.log("1", userData);
+  console.log("2", studyData);
+  console.log("3", userInfo);
   return (
     <>
       {isMeetingStart ? (
@@ -187,8 +242,8 @@ function VideoMeetingPages() {
           <Container>
             <StudyName>
               {/* TODO 스터디 이름 받아오기*/}
-              <span>{studyInfo}</span>
-              {/* <span>SSAFY 스터디</span> */}
+              {/* <span>{studystudyDataInfo}</span> */}
+              <span>SSAFY 스터디</span>
             </StudyName>
             <Back>
               {isShowVideo ? (
@@ -202,7 +257,7 @@ function VideoMeetingPages() {
                 />
               ) : (
                 <UserContainer>
-                  //TODO
+                  {/* TODO */}
                   <span>{userData}</span>
                 </UserContainer>
               )}
