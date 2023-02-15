@@ -250,6 +250,9 @@ function ChatModal(props) {
   const [firstEnter, setFirstEnter] = useState(true);
 
   useEffect(() => {
+    console.log("타입 체크 userID ", typeof userId);
+    console.log("타입 체크 userInfo ", typeof props.userInfo.result[0].id);
+
     props.userInfo.result.map(async (el) => {
       if (el.id.toString() === userId) {
         await setNickName(el.nickName);
