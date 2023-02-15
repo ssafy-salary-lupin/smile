@@ -27,6 +27,7 @@ import {
 } from "apis/StudyDetailApi";
 import { InputProps } from "components/study-manage/StudyManageBoardDetail";
 import Swal from "sweetalert2";
+import { LoginAlert } from "components/common/LoginAlert";
 
 const BlankSpace = styled.div`
   height: 7.383vw;
@@ -522,6 +523,11 @@ function StudyDetailPages() {
     await setSelectedUpdateReplyId(null);
     refetch();
   };
+
+  // 로그인 알람
+  useEffect(() => {
+    LoginAlert();
+  }, []);
 
   const [detailInfo, setDetailInfo] = useState<Data>();
   useEffect(() => {

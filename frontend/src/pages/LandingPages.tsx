@@ -16,6 +16,7 @@ import { Link } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { UserIdState } from "atoms/UserInfoAtom";
 import jwt_decode from "jwt-decode";
+import { LoginAlert } from "components/common/LoginAlert";
 
 // import Slider from "react-slick";
 // import "slick-carousel/slick/slick.css";
@@ -520,6 +521,11 @@ function LandingPages() {
   // let windowWidth = window.innerWidth;
   // console.log("width:", windowWidth);
   // console.log("Y:", position);
+
+  const goLogin = () => {
+    LoginAlert();
+  };
+
   const studyList = [
     {
       id: 1,
@@ -591,7 +597,9 @@ function LandingPages() {
                 <img src={arrowL} alt="" />
               </SArrow> */}
               {studyList.map((study) => (
-                <Card key={study.id} studyInfo={study} />
+                <div onClick={goLogin} key={study.id}>
+                  <Card studyInfo={study} />
+                </div>
               ))}
 
               {/* <SArrow>

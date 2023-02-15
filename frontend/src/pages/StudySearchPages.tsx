@@ -8,11 +8,12 @@ import { useEffect, useState } from "react";
 import Card from "components/common/Card";
 import { AxiosError } from "axios";
 import MyStudyNotFound from "components/common/MyStudyNotFound";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { SearchNameState, SearchTypeState } from "atoms/SearchAtom";
 import LoadingCard from "components/common/LoadingCard";
 import { useInView } from "react-intersection-observer";
+import { LoginAlert } from "components/common/LoginAlert";
 // 스터디 조회 페이지 전체를 감사는 div
 const Wrapper = styled.div`
   display: flex;
@@ -187,6 +188,7 @@ const NotFound = styled(MyStudyNotFound)`
 `;
 
 export default function StudySearchPages() {
+  const history = useHistory();
   const searchName = useRecoilValue<string>(SearchNameState);
   const searchType = useRecoilValue<number[]>(SearchTypeState);
 
@@ -244,6 +246,20 @@ export default function StudySearchPages() {
     }
   }, [inView, isLoading]);
 
+  const goCreate = () => {
+    const isLogin = LoginAlert();
+    if (isLogin) {
+      history.replace(`/create`);
+    }
+  };
+
+  const goDetail = (id: number) => {
+    const isLogin = LoginAlert();
+    if (isLogin) {
+      history.replace(`/detail/${id}`);
+    }
+  };
+
   // console.log("SEARCH", searchValue);
   console.log("DATA:", isLoading, data);
   // console.log("INVIEW", inView);
@@ -262,9 +278,9 @@ export default function StudySearchPages() {
         </Header>
         <SearchComponent />
         <CreateBtnWrapper>
-          <Link to={{ pathname: `/create` }}>
-            <button>스터디 생성</button>
-          </Link>
+          {/* <Link to={{ pathname: `/create` }}> */}
+          <button onClick={goCreate}>스터디 생성</button>
+          {/* </Link> */}
         </CreateBtnWrapper>
         {!isLoading && StudyList ? (
           <>
@@ -279,15 +295,20 @@ export default function StudySearchPages() {
 
               <Cards NumberOfCards={studiesNumber}>
                 {StudyList.map((study) => (
-                  <CardWrapper key={study.id}>
-                    <Link
+                  <CardWrapper
+                    key={study.id}
+                    onClick={() => {
+                      goDetail(study.id);
+                    }}
+                  >
+                    {/* <Link
                       style={{ textDecoration: "none", color: "black" }}
                       to={{
                         pathname: `/detail/${study.id}`, // 스터디 상세 조회 페이지 주소 입력하기
                       }}
-                    >
-                      <Card studyInfo={study} />
-                    </Link>
+                    > */}
+                    <Card studyInfo={study} />
+                    {/* </Link> */}
                   </CardWrapper>
                 ))}
               </Cards>
