@@ -51,11 +51,11 @@ export async function DdaySelectApi(studyId: string) {
 // 규칙 등록하기 /studies/{study-id}/schedules
 export async function ruleCreateApi(data: any, studyId: string) {
   try {
-    await axios.patch(`${BASE_URL}/${studyId}`, JSON.stringify(data), {
+    await axios.patch(`${BASE_URL}/${studyId}`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
         // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
-        "Content-Type": `application/json`,
+        "Content-Type": "multipart/form-data",
       },
     });
   } catch (error: any) {
