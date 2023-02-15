@@ -512,23 +512,23 @@ function LandingPages() {
   }
 
   // user Id 저장.... ㅠㅠㅠ 카카오페이지 왜 안되지
-  const [userIdState, setUserIdState] = useRecoilState(UserIdState);
-  const token = localStorage.getItem("kakao-token");
-  useEffect(() => {
-    async function decodeFunction() {
-      if (token !== null) {
-        const decodeData: decodeType = await jwt_decode(token);
-        console.log("decodeData.userId : ", decodeData.userId);
+  // const [userIdState, setUserIdState] = useRecoilState(UserIdState);
+  // const token = localStorage.getItem("kakao-token");
+  // useEffect(() => {
+  //   async function decodeFunction() {
+  //     if (token !== null) {
+  //       const decodeData: decodeType = await jwt_decode(token);
+  //       console.log("decodeData.userId : ", decodeData.userId);
 
-        await setUserIdState(decodeData.userId);
+  //       await setUserIdState(decodeData.userId);
 
-        console.log("userIdRecoil : ", userIdState);
-      } else {
-        console.log("none");
-      }
-    }
-    decodeFunction();
-  });
+  //       console.log("userIdRecoil : ", userIdState);
+  //     } else {
+  //       console.log("none");
+  //     }
+  //   }
+  //   decodeFunction();
+  // });
 
   console.log("landing userId : ", UserIdState);
 
