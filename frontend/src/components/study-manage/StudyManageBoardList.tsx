@@ -172,6 +172,7 @@ interface ListData {
 function StudyManageBoardList() {
   // studyId값 가져오기
   const studyId = useRecoilValue(studyIdRecoil);
+  console.log("studyId : ", studyId);
 
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(5);
