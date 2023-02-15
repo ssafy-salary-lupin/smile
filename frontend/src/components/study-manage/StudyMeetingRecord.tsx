@@ -243,8 +243,7 @@ interface IData {
 }
 
 function StudyMeetingRecord() {
-  // const studyId = useRecoilValue(studyIdRecoil);
-  const studyId = "1";
+  const studyId = useRecoilValue(studyIdRecoil);
 
   // 1. 회의 생성 post
   // 모달창 노출 여부 state
