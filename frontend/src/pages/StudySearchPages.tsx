@@ -27,7 +27,7 @@ const Header = styled.div`
   display: flex;
   margin: 2.222vw 0;
   @media screen and (min-width: 1280px) {
-    margin: 31.997px 0;
+    margin: 24px 0;
   }
   div {
     display: flex;
@@ -37,7 +37,7 @@ const Header = styled.div`
       font-size: 2.778vw;
       font-weight: 600;
       @media screen and (min-width: 1280px) {
-        font-size: 40.003px;
+        font-size: 30px;
       }
     }
     span {
@@ -64,9 +64,9 @@ const CreateBtnWrapper = styled.div`
   padding: 0 2.778vw;
   margin: 1.111vw 0 2.222vw 0;
   @media screen and (min-width: 1280px) {
-    width: 1359.994px;
-    padding: 0 40.003px;
-    margin: 15.998px 0 31.997px 0;
+    width: 1020px;
+    padding: 0 30px;
+    margin: 12px 0 24px 0;
   }
   button {
     background-color: ${(props) => props.theme.mainColor};
@@ -77,10 +77,10 @@ const CreateBtnWrapper = styled.div`
     font-size: 1.667vw;
     cursor: pointer;
     @media screen and (min-width: 1280px) {
-      width: 240.005px;
-      height: 63.994px;
-      border-radius: 15.998px;
-      font-size: 24.005px;
+      width: 180px;
+      height: 48px;
+      border-radius: 12px;
+      font-size: 18px;
     }
     :hover {
       animation: ${BtnHover} 1s forwards;
@@ -101,9 +101,9 @@ const Cards = styled.div<CardsProps>`
   margin-top: 2.8vw;
   cursor: pointer;
   @media screen and (min-width: 1280px) {
-    grid-template-columns: repeat(3, 453.312px);
-    grid-template-rows: repeat(3, 560.002px);
-    margin-top: 40.32px;
+    grid-template-columns: repeat(3, 339.984px);
+    grid-template-rows: repeat(3, 420px);
+    margin-top: 30.24px;
   }
 `;
 
@@ -137,10 +137,9 @@ const SkeletonCards = styled.div`
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
   @media screen and (min-width: 1280px) {
-    /* margin-top: 40.32px; */
-    margin-top: 71.32px;
-    grid-template-columns: repeat(3, 453.312px);
-    grid-template-rows: repeat(3, 560.002px);
+    margin-top: 53.491px;
+    grid-template-columns: repeat(3, 339.984px);
+    grid-template-rows: repeat(3, 420px);
   }
 `;
 
@@ -154,8 +153,8 @@ const HeaderImg = styled(StudyImg)`
   width: 29.444vw;
   height: 17.222vw;
   @media screen and (min-width: 1280px) {
-    width: 423.994px;
-    height: 247.997px;
+    width: 318px;
+    height: 186px;
   }
 `;
 
@@ -179,12 +178,11 @@ interface StudiesDataType {
   };
 }
 
-const BlankDiv = styled.div`
-  height: 300vw;
-`;
-
 const NotFound = styled(MyStudyNotFound)`
   min-height: 116.667vw;
+  @media screen and (min-width: 1280px) {
+    min-height: 1120.003px;
+  }
 `;
 
 export default function StudySearchPages() {

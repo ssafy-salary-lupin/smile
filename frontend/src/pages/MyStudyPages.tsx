@@ -20,11 +20,11 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   /* margin: 0 2.778vw; */
-  margin: auto;
-  margin: 0 32px;
+  /* margin: auto; */
+  margin: 0 2.5vw;
   @media screen and (min-width: 1280px) {
     justify-content: center;
-    width: 1280px;
+    width: 100vw;
     margin: auto;
     /* margin: 0 40.003px; */
   }
@@ -35,7 +35,7 @@ const Header = styled.div`
   flex-direction: column;
   margin: 3.889vw 0 5.556vw 0;
   @media screen and (min-width: 1280px) {
-    margin: 49.779px 0 5.556vw 0;
+    margin: 3.889vw 0 5.556vw 0;
   }
 `;
 
@@ -43,7 +43,7 @@ const Title = styled.h1`
   font-size: 3.333vw;
   font-weight: 600;
   @media screen and (min-width: 1280px) {
-    font-size: 42.662px;
+    font-size: 3.333vw;
   }
 `;
 
@@ -51,7 +51,7 @@ const SubTitle = styled.h2`
   font-size: 2.5vw;
   font-weight: 600;
   @media screen and (min-width: 1280px) {
-    font-size: 32px;
+    font-size: 2.5vw;
   }
 `;
 
@@ -68,7 +68,7 @@ const StudyContainer = styled.div`
   :first-child {
     margin-bottom: 3.333vw;
     @media screen and (min-width: 1280px) {
-      margin-bottom: 42.662px;
+      margin-bottom: 3.333vw;
     }
   }
 `;
@@ -79,8 +79,8 @@ const StatusTitle = styled.summary`
   cursor: pointer;
   margin: 3.333vw 0;
   @media screen and (min-width: 1280px) {
-    font-size: 32px;
-    margin: 42.662px 0;
+    font-size: 2.5vw;
+    margin: 3.333vw 0;
   }
 `;
 
@@ -91,13 +91,10 @@ const Cards = styled.div<NumberOfCardsProps>`
   grid-template-rows: repeat(${(props) => props.NumberOfCards / 3}, 38.889vw);
   margin-top: 2.8vw;
   @media screen and (min-width: 1280px) {
-    grid-template-columns: repeat(3, 402.944px);
-    /* grid-template-rows: repeat(2, 497.779px); */
-    grid-template-rows: repeat(
-      ${(props) => props.NumberOfCards / 3},
-      497.779px
-    );
-    margin-top: 35.84px;
+    grid-template-columns: repeat(3, 31.48vw);
+    /* grid-template-rows: repeat(2, 38.889vw); */
+    grid-template-rows: repeat(${(props) => props.NumberOfCards / 3}, 38.889vw);
+    margin-top: 2.8vw;
   }
 `;
 
@@ -110,9 +107,9 @@ const CardWrapper = styled.div`
 const SearchContainer = styled.div`
   display: flex;
   justify-content: center;
-  margin: 2.222vw 0;
-  @media screen and (min-width: 1280px) {
-    margin: 28.442px 0;
+  margin: 28.442px 0;
+  @media screen and (min-width: 100vw) {
+    margin: 2.222vw 0;
   }
 `;
 

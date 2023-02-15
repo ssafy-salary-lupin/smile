@@ -14,7 +14,7 @@ export const BackgroundYellow = styled.div<bgProps>`
   );
   height: ${(props) => String(props.bgHeight) + "vw"};
   @media screen and (min-width: 1440px) {
-    height: ${(props) => String(props.bgHeight / 0.069) + "px"};
+    height: ${(props) => String(props.bgHeight / 0.104) + "px"};
   }
   width: 100vw;
   top: 0;

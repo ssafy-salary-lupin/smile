@@ -43,7 +43,7 @@ const fold = keyframes`
 const SSelectContainer = styled.div<{ isActive: boolean }>`
   position: relative;
   width: 13.542vw;
-  height: 3.333vw;
+  height: 4vw;
   border-radius: 0.694vw;
 
   border: 2px solid rgba(0, 0, 0, 0.5);
@@ -52,10 +52,10 @@ const SSelectContainer = styled.div<{ isActive: boolean }>`
   /* background-size: 20px; */
   cursor: pointer;
   ${(props) => (props.isActive ? "border: 2px solid #2551b3;" : null)}
-  @media screen and (min-width: 1680px) {
-    width: 195.005px;
-    height: 47.995px;
-    border-radius: 9.994px;
+  @media screen and (min-width: 1280px) {
+    width: 146.256px;
+    height: 40px;
+    border-radius: 7.498px;
   }
   :hover {
     animation: ${SelectColor} 1s forwards;
@@ -78,8 +78,8 @@ const SSelectContainer = styled.div<{ isActive: boolean }>`
   ul {
     ::-webkit-scrollbar {
       width: 0.417vw;
-      @media screen and (min-width: 1680px) {
-        width: 6.005px;
+      @media screen and (min-width: 1280px) {
+        width: 4.502px;
       }
     }
     ::-webkit-scrollbar-track {
@@ -116,38 +116,33 @@ const SSelectContainer = styled.div<{ isActive: boolean }>`
 
 const SLabelBtn = styled.button`
   display: flex;
+  justify-content: center;
   align-items: center;
+
   width: inherit;
   height: inherit;
   border: 0 none;
   outline: 0 none;
-  padding-left: 1.042vw;
+  /* padding-left: 1.042vw; */
   background: transparent;
   cursor: pointer;
-  font-size: 1.389vw;
+  font-size: 2vw;
   font-weight: 600;
-  @media screen and (min-width: 1680px) {
-    font-size: 20.002px;
-    padding-left: 15.005px;
+  @media screen and (min-width: 1280px) {
+    font-size: 15.005px;
+    /* padding-left: 11.251px; */
   }
 `;
 
 const SOptionList = styled.ul`
   position: absolute;
-  /* display: flex; */
-  /* flex-direction: column; */
-  /* justify-content: center; */
-  /* align-items: flex-start; */
-  /* top: 3.472vw; */
+
   left: 0;
   width: 100%;
-  /* height: 13.889vw; */
-  /* background: lightcoral; */
   background: white;
   color: black;
   list-style-type: none;
   padding: 0;
-  /* padding: 28px 54px; */
   border-radius: 0.417vw;
   overflow: hidden;
   max-height: 0;
@@ -201,12 +196,11 @@ const SOptionItem = styled.label`
   transition: 0.1s;
   font-size: 1.111vw;
   cursor: pointer;
-  @media screen and (min-width: 1680px) {
-    padding: 4.997px 15.005px 4.997px;
-    margin: 15.998px 0vw;
-    font-size: 15.998px;
+  @media screen and (min-width: 1280px) {
+    padding: 3.744px 11.251px 3.744px;
+    margin: 12px 0vw;
+    font-size: 12px;
   }
-  /* font-weight: 600; */
 `;
 
 interface ISelectProps {
