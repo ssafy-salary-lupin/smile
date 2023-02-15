@@ -166,21 +166,34 @@ function NavBar(props: UrlProps) {
 
   console.log("네비바 클릭 후userId : ", userId);
 
-  useEffect(() => {
-    console.log("네비바 useeffect 실행");
-    if (props.curUrl === "/" || props.curUrl.includes("/myStudy")) {
-      scrollY.onChange(() => {
-        if (scrollY.get() > 80) {
-          navAnimation.start("scroll");
-        } else {
-          navAnimation.start("top");
-        }
-      });
-    } else {
-      console.log("fix 입니다 : ", props.curUrl);
-      navAnimation.start("fix");
-    }
-  }, [scrollY, navAnimation, props.curUrl]);
+  if (props.curUrl === "/" || props.curUrl.includes("/myStudy")) {
+    scrollY.onChange(() => {
+      if (scrollY.get() > 80) {
+        navAnimation.start("scroll");
+      } else {
+        navAnimation.start("top");
+      }
+    });
+  } else {
+    console.log("fix 입니다 : ", props.curUrl);
+    navAnimation.start("fix");
+  }
+
+  // useEffect(() => {
+  //   console.log("네비바 useeffect 실행");
+  //   if (props.curUrl === "/" || props.curUrl.includes("/myStudy")) {
+  //     scrollY.onChange(() => {
+  //       if (scrollY.get() > 80) {
+  //         navAnimation.start("scroll");
+  //       } else {
+  //         navAnimation.start("top");
+  //       }
+  //     });
+  //   } else {
+  //     console.log("fix 입니다 : ", props.curUrl);
+  //     navAnimation.start("fix");
+  //   }
+  // }, [scrollY, navAnimation, props.curUrl]);
 
   const history = useHistory();
 
