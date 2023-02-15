@@ -227,7 +227,7 @@ function StudyManageBoardList() {
       <Head>
         <HeadSub1>총 {totalElements}건</HeadSub1>
         <HeadSub2>
-          <Link to="/manage/boardWrite">글 쓰기</Link>
+          <Link to={`/manage/boardWrite/${studyId}`}>글 쓰기</Link>
         </HeadSub2>
       </Head>
       <BoardListBox>
