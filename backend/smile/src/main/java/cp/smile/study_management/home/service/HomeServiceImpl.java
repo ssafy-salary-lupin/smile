@@ -96,7 +96,7 @@ public class HomeServiceImpl implements HomeService {
                 .findAllByEndTimeLimit5(currentTime, studyInformation, PageRequest.of(0,5))
                 .orElseThrow(() -> new CustomException(CustomExceptionStatus.NOT_FOUND_SCHEDULE));
 
-        
+
 
         //스터디일정을 d-day DTO로 변환
         List<ScheduleDdayDTO> scheduleDdayDTOS = studySchedules.stream()
