@@ -73,7 +73,7 @@ interface Data {
       nickname: string; //사용자 닉네임
       email: string; //사용자 이메일
       imgPath: string; //사용자 프로필 사진 url
-      isLeader: boolean; //스터디장 유무
+      leader: boolean; //스터디장 유무
     },
   ];
 }
@@ -106,7 +106,7 @@ function StudyNavBar() {
         </ItemText>
         <Itemline>|</Itemline>
         <ItemText>
-          {userStudy.result.isLeader === true ? (
+          {userStudy.result.leader ? (
             <Link to={`/manage/manageMember/${studyId}`}>스터디 관리</Link>
           ) : null}
         </ItemText>
