@@ -271,7 +271,7 @@ function ChatModal(props) {
     }
     const userInfo = fetchData();
 
-    userInfo.result.map(async (el) => {
+    userInfo.map(async (el) => {
       if (el.id === userId) {
         console.log("나다!");
         await setNickName(el.nickName);
