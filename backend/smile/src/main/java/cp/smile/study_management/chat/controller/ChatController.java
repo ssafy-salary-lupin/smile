@@ -81,6 +81,7 @@ public class ChatController {
         //레디스로 데이터 발행.
         redisPublisher.publish(chatService.getTopic(chatMessageDTO.getRoomId()), chatMessageDTO);
 
+
     }
 
 }

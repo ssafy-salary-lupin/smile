@@ -181,7 +181,6 @@ public class StudyAdminController {
 
         int userId = oAuth2User.getUserId();
 
-
         studyAdminService.updateStudyInfo(userId, studyId, studyInfoDTO,multipartFile);
 
         return responseService.getSuccessResponse();
