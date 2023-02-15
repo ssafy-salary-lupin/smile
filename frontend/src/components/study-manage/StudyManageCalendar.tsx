@@ -116,6 +116,7 @@ function StudyManageCalendar() {
         title: "이런...",
         text: "스터디장만 입력가능합니다!",
       });
+      return;
     } else {
       setDateClickState(true);
       const endDate = new Date(arg.end);

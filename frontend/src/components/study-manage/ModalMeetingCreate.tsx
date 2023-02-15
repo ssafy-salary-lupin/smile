@@ -231,6 +231,7 @@ function ModalMeetingCreate(props: PropsType) {
     } else {
       alert(response.data.message);
     }
+    window.location.replace("/manage/meetingRecord/" + studyId);
     closeModal();
   };
 
