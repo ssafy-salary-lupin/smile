@@ -1,6 +1,6 @@
 // import { Link } from "react-router-dom";
 import { StudyUserApi } from "apis/StudyManageMemberApi";
-import { studyIdRecoil } from "atoms/StudyManage";
+import { StudyCeoRecoil, studyIdRecoil } from "atoms/StudyManage";
 import { UserIdState } from "atoms/UserInfoAtom";
 import { useEffect } from "react";
 import { useQuery } from "react-query";
@@ -88,6 +88,8 @@ function StudyNavBar() {
     StudyUserApi(studyId),
   );
 
+  const studyCeo = useRecoilValue(StudyCeoRecoil);
+  const userId = useRecoilValue(UserIdState);
   return (
     <StudyNav>
       <BlankSpace />
@@ -109,7 +111,7 @@ function StudyNavBar() {
         </ItemText>
         <Itemline>|</Itemline>
         <ItemText>
-          {userStudy?.result.leader ? (
+          {studyCeo === userId ? (
             <Link to={`/manage/manageMember/${studyId}`}>스터디 관리</Link>
           ) : null}
         </ItemText>
