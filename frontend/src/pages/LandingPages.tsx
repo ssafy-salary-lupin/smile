@@ -130,6 +130,10 @@ const SBannerButton = styled.button`
   :not(:hover) {
     animation: ${NotHover} 1s forwards;
   }
+  :active {
+    /* box-shadow: 0px 0px 1vw #666b70; */
+    box-shadow: 1.997px 1.997px 4.666px 0.662px #666b70 inset;
+  }
 `;
 
 const SCards = styled.div`

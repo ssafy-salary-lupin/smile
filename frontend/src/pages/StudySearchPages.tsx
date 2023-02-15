@@ -88,7 +88,7 @@ const CreateBtnWrapper = styled.div`
     }
     :active {
       /* box-shadow: 0px 0px 1vw #666b70; */
-      box-shadow: 1.997px 1.997px 4.666px 0.662px #666b70 inset;
+      box-shadow: 1.997px 1.997px 14px 0px #666b70 inset;
     }
   }
 `;
