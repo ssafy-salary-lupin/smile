@@ -22,7 +22,8 @@ public interface StudyCommonRepository extends JpaRepository<StudyInformation, I
             "left join fetch s.userJoinStudies ujs " +
             "left join fetch s.studyComments sc " +
             "left join fetch ujs.user u " +
-            "where s.deadline = false and s.isEnd = false and ujs.isDeleted = false")
+            "where s.deadline = false and s.isEnd = false " +
+            "and ujs.isLeader = true")
     List<StudyInformation> findAllByStudyInformation();
 
     /**검색조건이 name 하나일때*/
