@@ -224,6 +224,7 @@ function ModalMeetingCreate(props: PropsType) {
       });
       return;
     }
+    console.log("회의 생성");
     props.createMeeting(registData);
     closeModal();
   };

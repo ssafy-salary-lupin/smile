@@ -276,8 +276,6 @@ function StudyMeetingRecord() {
   const createMeeting = async (data: any) => {
     // 회의생성
     const response = await MeetingCreateApi(data, studyId);
-    console.log(response);
-
     if (response.data.code === 200) {
     } else {
       Swal.fire({
