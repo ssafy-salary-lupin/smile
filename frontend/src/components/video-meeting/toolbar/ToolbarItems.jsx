@@ -5,7 +5,7 @@ import styled from "styled-components";
 export const ToolbarContainer = styled.div`
   display: flex;
   justify-content: space-around;
-  height: 8.333vw;
+  height: 15vh;
   width: 100vw;
   background-color: ${(props) => props.theme.videoRoomColor};
   position: absolute;
