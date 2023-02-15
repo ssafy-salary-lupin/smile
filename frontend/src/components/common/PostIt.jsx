@@ -8,6 +8,9 @@ const BtnContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   width: 86.111vw;
+  @media screen and (min-width: 1280px) {
+    width: 1102.221px;
+  }
 `;
 
 const Btn = styled.button`
@@ -32,6 +35,30 @@ const Btn = styled.button`
   }
   :nth-child(2) {
     background-color: #7d9ada;
+  }
+  @media screen and (min-width: 1280px) {
+    width: 71.117px;
+    height: 28.442px;
+    border: none;
+    border-radius: 13.338px 13.338px 0 0;
+    font-size: 14.221px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s linear;
+    :hover {
+      box-shadow: 3.558px 1.779px 11.558px 1.779px grey;
+      transform: scale(1.2);
+    }
+    :active {
+      box-shadow: 2.662px 2.662px 6.221px 0.883px grey inset;
+    }
+    :nth-child(1) {
+      background-color: ${(props) => props.theme.mainColor};
+      margin-right: 14.221px;
+    }
+    :nth-child(2) {
+      background-color: #7d9ada;
+    }
   }
 `;
 
