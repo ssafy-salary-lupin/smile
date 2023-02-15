@@ -31,8 +31,8 @@ function ProfileImg(props: IProfileImgProps) {
   const [H, setH] = useState<number>(0);
   useEffect(() => {
     if (props.width?.slice(-2) === "vw") {
-      setW(Number(props.width?.slice(0, -2)) / 0.07);
-      setH(Number(props.height?.slice(0, -2)) / 0.07);
+      setW(Number(props.width?.slice(0, -2)) / 0.104);
+      setH(Number(props.height?.slice(0, -2)) / 0.104);
     } else {
       setW(Number(props.width?.slice(0, -2)));
       setH(Number(props.height?.slice(0, -2)));
