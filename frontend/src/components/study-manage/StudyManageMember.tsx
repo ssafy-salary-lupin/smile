@@ -12,12 +12,7 @@ import ModalManageDeadline from "./ModalManageDeadline";
 import ModalManageMandate from "./ModalManageMandate";
 import ModalManageEnd from "./ModalManageEnd";
 import ModalManageDrop from "./ModalManageDrop";
-import {
-  StudyUserApi,
-  MandateApi,
-  UserDropApi,
-  StudyEndApi,
-} from "../../apis/StudyManageMemberApi";
+import { StudyUserApi } from "../../apis/StudyManageMemberApi";
 import { ReactComponent as Crown } from "../../assets/icon/Crown.svg";
 import axios from "axios";
 import { theme } from "theme";
