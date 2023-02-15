@@ -79,7 +79,7 @@ const SkeletonSection = styled.section`
   justify-content: space-between;
   div {
     :nth-child(1) {
-      width: 10vw;
+      width: 16vw;
       height: 1.68vw;
       @media screen and (min-width: 1280px) {
         width: 128px;
