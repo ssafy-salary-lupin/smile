@@ -65,7 +65,6 @@ const Itemline = styled.ul`
   display: flex;
   align-items: center;
 `;
-const Box = styled.div``;
 
 interface Data {
   code: number;
@@ -111,12 +110,12 @@ function StudyNavBar() {
           <Link to={`/manage/meetingRecord/${studyId}`}>화상 회의</Link>
         </ItemText>
         {studyCeo === userId ? (
-          <Box>
+          <>
             <Itemline>|</Itemline>
             <ItemText>
               <Link to={`/manage/manageMember/${studyId}`}>스터디 관리</Link>
             </ItemText>
-          </Box>
+          </>
         ) : null}
       </Items>
     </StudyNav>
