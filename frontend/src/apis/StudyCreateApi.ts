@@ -26,6 +26,7 @@ export async function studyTypeApi() {
 
 // 스터디 생성
 export async function CreateStudyApi(formData: any) {
+  console.log("token : ", token);
   try {
     console.log("formdata : ", formData);
     await axios.post(`${BASE_URL}`, formData, {
