@@ -296,7 +296,7 @@ export interface DataInfo {
     rule: string; // 스터디 규칙
     users: [
       {
-        userId: number;
+        id: number;
         nickname: string;
       },
     ];
@@ -347,9 +347,6 @@ function StudyManageMain() {
   // 스터디 룰 모달창 노출 여부 state
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const showModal = () => {
-    console.log("userId : ", userId);
-    console.log("studyCeo : ", studyCeoAtom);
-
     if (userId !== studyCeoAtom) {
       Swal.fire({
         icon: "error",
@@ -364,7 +361,6 @@ function StudyManageMain() {
   //채팅 모달창 띄우기
   const [chatModalOpen, setChatModalOpen] = useState<boolean>(false);
   const showChatModal = () => {
-    console.log("채팅");
     setChatModalOpen(!chatModalOpen);
   };
 
@@ -403,6 +399,7 @@ function StudyManageMain() {
   const createRule = (formData: any) => {
     ruleCreateApi(formData, studyId);
     refetch();
+    window.location.replace("/manage/" + studyId);
   };
 
   // 스터디 정보 갱신
@@ -451,7 +448,7 @@ function StudyManageMain() {
               <MemberTitle>스터디 멤버</MemberTitle>
               <MemberBox>
                 {studyInfo?.result.users?.map((el, index) => {
-                  if (el.userId === studyCeoAtom) {
+                  if (el.id === studyCeoAtom) {
                     return (
                       <Member key={index}>
                         <Name>{el.nickname} (스터디장)</Name>
