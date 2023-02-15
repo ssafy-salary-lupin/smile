@@ -259,7 +259,7 @@ function VideoMeetingPages() {
               ) : (
                 <UserContainer>
                   {/* TODO */}
-                  <span>{userInfo?.result.nickname}</span>
+                  <span>{userInfo?.data.result.nickname}</span>
                 </UserContainer>
               )}
             </Back>
