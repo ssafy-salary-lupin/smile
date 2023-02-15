@@ -83,8 +83,8 @@ class Note extends React.Component {
     this.style = {
       // left: "0px",
       // top: "0px",
-      left: this.randomBetween(0, 76.389) + "vw",
-      top: this.randomBetween(0, 13.889) + "vw",
+      left: this.randomBetween(0, 100) + "%",
+      top: this.randomBetween(0, 100) + "%",
       transform: "rotate( " + this.randomBetween(-15, 15) + "deg)",
     };
   }
