@@ -258,6 +258,10 @@ function ChatModal(props) {
 
   useEffect(() => {
     console.log("사용자 : ", userInfo);
+
+    const data = StudyUserApi(studyId);
+    console.log("data.... : ", data);
+
     userInfo.result.map(async (el) => {
       if (el.id === userId) {
         console.log("나다!");
