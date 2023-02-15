@@ -339,11 +339,7 @@ export default function Card(props: PropsType) {
         </SCardDescription>
         <SCardUser>
           <ProfileImg
-            imgUrl={
-              profileImgUrl && profileImgUrl.includes("/root")
-                ? profileImgUrl
-                : defaultprofileImg
-            }
+            imgUrl={profileImgUrl ? profileImgUrl : defaultprofileImg}
             width="3.36vw"
             height="3.36vw"
           />
