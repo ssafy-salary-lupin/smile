@@ -161,7 +161,7 @@ class Note extends React.Component {
     }
   }
 }
-console.log("OUTSIDE", this.state.notesStringArray);
+// console.log("OUTSIDE", this.state.notesStringArray);
 //parent component for notes
 class Board extends React.Component {
   constructor(props) {
