@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MyStudyApi } from "apis/MyStudyApi";
 import { useQuery } from "react-query";
 import { Link, useParams } from "react-router-dom";
@@ -10,6 +10,9 @@ import SearchComponent from "components/common/SearchComponent";
 import MyStudyNotFound from "components/common/MyStudyNotFound";
 
 import PostIt from "components/common/PostIt";
+// import Swal from "sweetalert2";
+
+import { LoginAlert } from "components/common/LoginAlert";
 
 const Wrapper = styled.div``;
 
@@ -17,7 +20,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   /* margin: 0 2.778vw; */
-  /* margin: auto; */
+  margin: auto;
   margin: 0 32px;
   @media screen and (min-width: 1280px) {
     justify-content: center;
@@ -162,6 +165,22 @@ interface NumberOfCardsProps {
 }
 
 export default function MyStudyPages() {
+  useEffect(() => {
+    // const token = localStorage.getItem("kakao-token");
+    // if (!token) {
+    //   Swal.fire({
+    //     icon: "warning",
+    //     title: "로그인이 필요한 서비스입니다.",
+    //     text: "로그인 페이지로 이동합니다.",
+    //   }).then((result) => {
+    //     window.location.replace(
+    //       "https://i8b205.p.ssafy.io/be-api/oauth2/authorization/kakao",
+    //     );
+    //   });
+    // }
+    LoginAlert();
+  }, []);
+
   // 유저 아이디
   const userId = useParams<Iparams>().userId;
   const [isOpenCurrent, setIsOpenCurrent] = useState(false);
@@ -236,9 +255,9 @@ export default function MyStudyPages() {
               <StudyContainer>
                 {!studiesLoading && studiesData ? (
                   <>
-                    {/* <SearchContainer>
+                    <SearchContainer>
                       <SearchComponent />
-                    </SearchContainer> */}
+                    </SearchContainer>
                     <Cards
                       NumberOfCards={studiesData ? studiesData.end.length : 0}
                     >
