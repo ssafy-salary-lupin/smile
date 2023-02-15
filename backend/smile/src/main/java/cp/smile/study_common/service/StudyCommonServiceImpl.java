@@ -136,65 +136,22 @@ public class StudyCommonServiceImpl implements StudyCommonService{
         String storeFileUrl = ""; //AWS S3 이미지 url
 
         //파일이 없다면 디폴트 경로 넣어줌.
-        if(multipartFile == null || multipartFile.getSize() == 0){
-            storeFileUrl = DEFAULT_STUDY;
-        }
+        if(multipartFile == null || multipartFile.getSize() == 0) storeFileUrl = DEFAULT_STUDY;
+
         //파일이 있으면 s3에 저장.
-        else{
-            /*파일 저장*/
-            ObjectMetadata objectMetadata = new ObjectMetadata();
-            objectMetadata.setContentType(multipartFile.getContentType());
-            objectMetadata.setContentLength(multipartFile.getSize());
+        else storeFileUrl = saveFile(multipartFile);
 
-            String originFileName = multipartFile.getOriginalFilename();
-
-
-            int index = originFileName.lastIndexOf(".");
-            String ext = originFileName.substring(index+1);//확장자
-
-            String storeFileName = UUID.randomUUID().toString() + "." + ext; // 저장할 이름- 중복되지 않도록 하기 위해 uuid 사용(이름 중복이면 덮어씀.)
-
-            String key  = STUDY_IMG + storeFileName; //파일 저장위치.
-
-            try (InputStream inputStream = multipartFile.getInputStream()) {
-                amazonS3Client.putObject(new PutObjectRequest(bucket, key, inputStream, objectMetadata)
-                        .withCannedAcl(CannedAccessControlList.PublicRead));
-            }
-            catch(IOException e){
-
-                throw new CustomException(FILE_SAVE_FAIL);
-            }
-
-            storeFileUrl = amazonS3Client.getUrl(bucket, key).toString(); //저장된 Url
-        }
-
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-        String uuid = UUID.randomUUID().toString();
 
         //스터디 유형 조회.
         StudyType studyType = studyTypeRepository
                 .findById(createStudyDTO.getTypeId())
                 .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY_TYPE));
 
+        //스터디 생성.
+        StudyInformation studyInformation = createStudyDTO.createStudyInformation(storeFileUrl);
 
-        //스터디 테이블 넣기
-        StudyInformation studyInformation = StudyInformation.builder()
-                .name(createStudyDTO.getName())
-                .startDate(LocalDate.parse(createStudyDTO.getStartDate(), formatter))
-                .endDate(LocalDate.parse(createStudyDTO.getEndDate(), formatter))
-                .time(createStudyDTO.getTime())
-                .currentPerson(1)
-                .maxPerson(createStudyDTO.getMaxPerson())
-                .description(createStudyDTO.getDescription())
-                .viewCount(0)
-                .deadline(false)
-                .chatroomId(uuid)
-                .isEnd(false)
-                .studyType(studyType)
-                .imgPath(storeFileUrl)
-                .lastVisitedTime(LocalDateTime.now()).build();
+        //연관관계 넣기
+        studyInformation.addStudyType(studyType);
 
 
         //저장 - 저장한 객체를 반환해서 해당 id로 채팅방 생성.
@@ -210,6 +167,7 @@ public class StudyCommonServiceImpl implements StudyCommonService{
                 .userId(user.getId())
                 .studyInformationId(studyInformation.getId()).build();
 
+        //TODO : userjoinstudy테이블에 create 메서드 만들어서 리팩토링 필요.
         //유저 스터디 가입 정보 테이블에 넣기.
         UserJoinStudy userJoinStudy = UserJoinStudy.builder()
                 .id(userJoinStudyId)
@@ -231,6 +189,36 @@ public class StudyCommonServiceImpl implements StudyCommonService{
         return CreateStudyResponseDTO.builder()
                 .id(saveStudyInformation.getId())
                 .build();
+    }
+
+    //파일 업로드 하는 로직 - s3에 데이터 넣음.
+    private String saveFile(MultipartFile multipartFile) {
+        String storeFileUrl;
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentType(multipartFile.getContentType());
+        objectMetadata.setContentLength(multipartFile.getSize());
+
+        String originFileName = multipartFile.getOriginalFilename();
+
+
+        int index = originFileName.lastIndexOf(".");
+        String ext = originFileName.substring(index+1);//확장자
+
+        String storeFileName = UUID.randomUUID().toString() + "." + ext; // 저장할 이름- 중복되지 않도록 하기 위해 uuid 사용(이름 중복이면 덮어씀.)
+
+        String key  = STUDY_IMG + storeFileName; //파일 저장위치.
+
+        try (InputStream inputStream = multipartFile.getInputStream()) {
+            amazonS3Client.putObject(new PutObjectRequest(bucket, key, inputStream, objectMetadata)
+                    .withCannedAcl(CannedAccessControlList.PublicRead));
+        }
+        catch(IOException e){
+
+            throw new CustomException(FILE_SAVE_FAIL);
+        }
+
+        storeFileUrl = amazonS3Client.getUrl(bucket, key).toString(); //저장된 Url
+        return storeFileUrl;
     }
 
     /*스터디 상세 조회*/

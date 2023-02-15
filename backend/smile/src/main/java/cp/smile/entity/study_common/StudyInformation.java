@@ -108,6 +108,12 @@ public class StudyInformation extends BaseEntity {
                 .name(this.name).build();
     }
 
+    //연관관계 메서드
+    public void addStudyType(StudyType studyType){
+        this.studyType = studyType;
+
+    }
+
     public void close() {
         this.isEnd = true;
     }
