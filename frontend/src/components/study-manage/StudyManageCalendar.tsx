@@ -116,6 +116,7 @@ function StudyManageCalendar() {
         title: "이런...",
         text: "스터디장만 입력가능합니다!",
       });
+      // alert창 두번 뜨는 문제 해결..
       return;
     } else {
       setDateClickState(true);
