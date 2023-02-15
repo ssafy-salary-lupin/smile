@@ -244,6 +244,14 @@ function ChatModal(props) {
   // const BASE_URL = `/be-api`;
   // 사용자 token값
   const [nickName, setNickName] = useState("");
+
+  // message : chat
+  const [chatList, setChatList] = useState([]); // 화면에 표시괼 채팅 기록
+  const [chat, setChat] = useState(""); // 입력되는 채팅
+
+  // 최초 입장시 Enter type 보내기위해 임시 설정
+  const [firstEnter, setFirstEnter] = useState(true);
+
   useEffect(() => {
     const token = localStorage.getItem("kakao-token");
     async function fetchData() {
@@ -262,16 +270,17 @@ function ChatModal(props) {
       }
     }
     const userInfo = fetchData();
-    console.log(userInfo);
-    setNickName(userInfo.nickname);
-  });
+    async function setName() {
+      await setNickName(userInfo.nickname);
+    }
+    setName();
 
-  // message : chat
-  const [chatList, setChatList] = useState([]); // 화면에 표시괼 채팅 기록
-  const [chat, setChat] = useState(""); // 입력되는 채팅
+    console.log("닉네임 : ", nickName);
 
-  // 최초 입장시 Enter type 보내기위해 임시 설정
-  const [firstEnter, setFirstEnter] = useState(true);
+    connect();
+
+    return () => disconnect();
+  }, []);
 
   const connect = () => {
     // 연결할 때
@@ -345,12 +354,6 @@ function ChatModal(props) {
     event.preventDefault(); // form 제출 막기
     publish(chat);
   };
-
-  useEffect(() => {
-    connect();
-
-    return () => disconnect();
-  }, []);
 
   console.log("chatList : ", chatList);
 
