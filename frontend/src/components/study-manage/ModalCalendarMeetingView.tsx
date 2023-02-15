@@ -154,11 +154,6 @@ const ModalBtn = styled.button`
   color: white;
 `;
 function ModalCalendarMeetingView(props: PropsType) {
-  const history = useHistory();
-  interface paramsType {
-    studyId: string;
-  }
-  const params: paramsType = useParams();
   // const [modalOpen, setModalOpen] = useState<boolean>(true);
   // 모달 끄기
   const closeModal = () => {
