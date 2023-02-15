@@ -56,7 +56,7 @@ const SkeletonHeader = styled.section`
   div {
     :nth-child(1) {
       width: 7vw;
-      height: 1.68vw;
+      height: 2vw;
       @media screen and (min-width: 1280px) {
         width: 67.498px;
         height: 16.128px;
@@ -64,7 +64,7 @@ const SkeletonHeader = styled.section`
     }
     :nth-child(2) {
       width: 5vw;
-      height: 1.68vw;
+      height: 2vw;
       @media screen and (min-width: 1280px) {
         width: 48px;
         height: 16.128px;
@@ -87,7 +87,7 @@ const SkeletonSection = styled.section`
       }
     }
     :nth-child(2) {
-      width: 5vw;
+      width: 10vw;
       height: 1.68vw;
       margin-bottom: 0.5vw;
       @media screen and (min-width: 1280px) {
@@ -154,8 +154,8 @@ const SkeletonText = styled.div`
 `;
 
 const SkeletonProfile = styled.div`
-  width: 5vw;
-  height: 5vw;
+  width: 3.5vw;
+  height: 3.5vw;
   border-radius: 50px !important;
   /* @media screen and (min-width: 1680px) {
     width: 50px;
