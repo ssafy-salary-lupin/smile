@@ -250,15 +250,13 @@ function ChatModal(props) {
   const [firstEnter, setFirstEnter] = useState(true);
 
   useEffect(() => {
-    props.userInfo.result.forEach((element) => {
+    props.userInfo.result.forEach(async (element) => {
       console.log("요소 출력 : ", element);
+      if (element.id === userId) {
+        console.log("일치!!");
+        await setNickName(element.nickname);
+      }
     });
-
-    // props.userInfo.result.map(async (el) => {
-    //   if (el.id === userId) {
-    //     await setNickName(el.nickName);
-    //   }
-    // });
   });
 
   useEffect(() => {
@@ -304,7 +302,7 @@ function ChatModal(props) {
         type: typeValue, //먼저 방에 들어올때 - ENTER,  메시지를 보낼떄 - TALK
         roomId: studyId, //스터디 ID
         senderId: userId, //유저 id
-        senderName: "익명" + userId, // nickName, //유저 이름
+        senderName: nickName, // nickName, //유저 이름
         message: chat, //메시지
       }), // 형식에 맞게 수정해서 보내야 함.
     });
