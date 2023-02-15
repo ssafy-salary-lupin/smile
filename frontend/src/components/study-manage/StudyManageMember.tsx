@@ -191,6 +191,7 @@ function StudyManageMember() {
   // 위임
   const [mandateModalOpen, setMandateModalOpen] = useState(false);
   const MandateopenModal = () => {
+    // 위임 모달
     setMandateModalOpen(!mandateModalOpen);
   };
 
@@ -210,44 +211,40 @@ function StudyManageMember() {
     <Wrapper>
       <UpContainer>
         {userStudy?.result.map((user: any, index: any) => {
-          return (
-            <Card key={index}>
-              {/* <Card> */}
-              <ProfileImg
-                imgUrl={
-                  user?.imgPath !== "/root" ? user?.imgPath : defaultprofileImg
-                  // defaultprofileImg
-                }
-                width="50px"
-                height="50px"
+          // return (
+          <Card key={index}>
+            {/* <Card> */}
+            <ProfileImg
+              imgUrl={
+                user?.imgPath !== "/root" ? user?.imgPath : defaultprofileImg
+                // defaultprofileImg
+              }
+              width="50px"
+              height="50px"
+            />
+            <NickBox>
+              <Nick>{user.nickname}</Nick>
+              {user.leader === true ? (
+                <Crown fill={theme.mainColor} width="1.389vw" />
+              ) : null}
+            </NickBox>
+            <hr />
+            {user.leader === true ? null : (
+              <BtnBox>
+                <YellowBtn onClick={MandateopenModal}>위임</YellowBtn>
+                <BlueBtn onClick={DropopenModal}>강퇴</BlueBtn>
+              </BtnBox>
+            )}
+            {dropModalOpen && (
+              <ModalManageDrop id={user.id} setModalOpen={setDropModalOpen} />
+            )}
+            {mandateModalOpen && (
+              <ModalManageMandate
+                id={user.id}
+                setModalOpen={setMandateModalOpen}
               />
-              <NickBox>
-                <Nick>{user.nickname}</Nick>
-                {user.leader === true ? (
-                  <Crown fill={theme.mainColor} width="1.389vw" />
-                ) : null}
-              </NickBox>
-              <hr />
-              {user.leader === true ? null : (
-                <BtnBox>
-                  <YellowBtn onClick={MandateopenModal}>위임</YellowBtn>
-                  {dropModalOpen && (
-                    <ModalManageDrop
-                      id={user.id}
-                      setModalOpen={setDropModalOpen}
-                    />
-                  )}
-                  <BlueBtn onClick={DropopenModal}>강퇴</BlueBtn>
-                </BtnBox>
-              )}
-              {mandateModalOpen && (
-                <ModalManageMandate
-                  id={user.id}
-                  setModalOpen={setMandateModalOpen}
-                />
-              )}
-            </Card>
-          );
+            )}
+          </Card>;
         })}
       </UpContainer>
       <DownContainer>
