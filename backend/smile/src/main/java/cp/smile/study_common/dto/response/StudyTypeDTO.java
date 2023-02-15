@@ -25,4 +25,6 @@ public class StudyTypeDTO {
                 .name(type.getName().name())
                 .build();
     }
+
+
 }

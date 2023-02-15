@@ -25,6 +25,7 @@ public enum CustomExceptionStatus {
     REQUEST_QUERY_ERROR(false, 400, "잘못된 쿼리 요청입니다."),
 
 
+
     /*user 관련*/
     ACCOUNT_NOT_FOUND(false, 404, "유저를 찾을 수 없습니다."),
     ACCOUNT_NOT_VALID(false, 401, "유효한 사용자가 아닙니다."),

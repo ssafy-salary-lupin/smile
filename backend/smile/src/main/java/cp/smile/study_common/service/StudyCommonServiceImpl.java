@@ -93,38 +93,9 @@ public class StudyCommonServiceImpl implements StudyCommonService{
         }
 
 
-        List<FindAllStudyDTO> findAllStudyDTOS = new ArrayList<>();
-
-        // TODO : 스트림으로 코드를 좀 더 깔끔하게 처리할 필요가 있음, - 또는 디비구조를 개편해서 코드를 줄이는 방법 생각(join을 안쓸 순 없음.)
-        /*조인 한 결과를 response DTO에 담음.*/
-        for(StudyInformation studyInformation : studyInformations){
-            //스터디 타입 객체 매핑
-            StudyTypeDTO studyTypeDTO = studyInformation.getStudyType().createStudyTypeDTO();
-
-            //유저 프로필 정보 객체 매핑
-            UserProfileDTO userProfileDTO = studyInformation.getUserJoinStudies().iterator().next().getUser().createUserProfileDTO();
-
-            //댓글의 수 구하기 - 삭제 된 것도 있기 때문에 스트림을 이용해서 개수를 세어줌.
-            int commentCount = (int)studyInformation.getStudyComments().stream()
-                    .filter((comment) -> comment.isDeleted() == false)
-                    .count();
-
-            //스터디 전체 조회시에 프론트로 리턴할 객체.
-            FindAllStudyDTO findAllStudyDTO = FindAllStudyDTO.builder()
-                    .id(studyInformation.getId())
-                    .name(studyInformation.getName())
-                    .imagePath(studyInformation.getImgPath())
-                    .currentPerson(studyInformation.getCurrentPerson())
-                    .maxPerson(studyInformation.getMaxPerson())
-                    .description(studyInformation.getDescription())
-                    .viewCount(studyInformation.getViewCount())
-                    .lastVisitedTime(studyInformation.getLastVisitedTime())
-                    .type(studyTypeDTO)
-                    .commentCount(commentCount)
-                    .leader(userProfileDTO).build();
-
-            findAllStudyDTOS.add(findAllStudyDTO);
-        }
+        List<FindAllStudyDTO> findAllStudyDTOS = studyInformations.stream()
+                .map(StudyInformation::createFindAllStudyDTO)
+                .collect(Collectors.toList());
 
 
         return findAllStudyDTOS;

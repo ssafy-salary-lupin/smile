@@ -3,6 +3,7 @@ package cp.smile.entity.user;
 
 import cp.smile.config.BaseEntity;
 import cp.smile.entity.study_common.StudyInformation;
+import cp.smile.study_common.dto.response.UserProfileDTO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -60,6 +61,11 @@ public class UserJoinStudy extends BaseEntity {
 //                .studyInformationId(study.getId())
 //                .build();
     }
+
+    public UserProfileDTO createLeaderProfileDTO(){
+        return this.user.createUserProfileDTO();
+    }
+
 
     public void delegate() {
         this.isLeader = true;
