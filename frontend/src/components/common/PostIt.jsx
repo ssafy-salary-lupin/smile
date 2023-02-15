@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { PostItInfo } from "apis/PostItApi";
 
@@ -281,7 +281,13 @@ class Board extends React.Component {
 
 export default function PostIt() {
   const userId = useRecoilValue(UserIdState);
-  const postArr = PostItInfo.api.get(`/users/${userId}/memos`);
-  console.log("POST IT", postArr);
+  const getPostIt = async () => {
+    const postArr = await PostItInfo.api.get(`/users/${userId}/memos`);
+    console.log("POST IT", postArr);
+  };
+
+  useEffect(() => {
+    getPostIt();
+  }, []);
   return <Board count={50}></Board>;
 }
