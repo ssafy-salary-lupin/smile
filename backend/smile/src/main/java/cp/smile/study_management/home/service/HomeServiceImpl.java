@@ -82,14 +82,21 @@ public class HomeServiceImpl implements HomeService {
                 .findByUserIdAndStudyId(userId,studyId)
                 .orElseThrow(() -> new CustomException(CustomExceptionStatus.USER_NOT_ACCESS_STUDY));
 
+        //스터디 조회
+        StudyInformation studyInformation = studyCommonRepository
+                .findById(studyId)
+                .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY));
+
         //현재시간 조회
         LocalDateTime currentTime = LocalDateTime.now();
         log.info("[current time - {}]",currentTime);
 
         //스터디의 일정 조회
         List<StudySchedule> studySchedules = studyScheduleRepository
-                .findAllByEndTimeLimit5(currentTime, PageRequest.of(0,5))
+                .findAllByEndTimeLimit5(currentTime, studyInformation, PageRequest.of(0,5))
                 .orElseThrow(() -> new CustomException(CustomExceptionStatus.NOT_FOUND_SCHEDULE));
+
+        
 
         //스터디일정을 d-day DTO로 변환
         List<ScheduleDdayDTO> scheduleDdayDTOS = studySchedules.stream()
