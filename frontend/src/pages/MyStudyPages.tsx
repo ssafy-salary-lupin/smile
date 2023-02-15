@@ -60,6 +60,7 @@ const GraphContainer = styled.div``;
 
 const StudyContainer = styled.div`
   display: flex;
+  flex-direction: column;
 `;
 
 const StatusTitle = styled.summary`
