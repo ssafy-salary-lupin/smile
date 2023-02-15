@@ -220,6 +220,7 @@ function NavBar(props: UrlProps) {
             <NabBtn>
               {/* 이 경로로 보내면 server에서 특정 페이지로 redirect */}
               <NabBtnLink href="https://i8b205.p.ssafy.io/be-api/oauth2/authorization/kakao">
+                {/* <NabBtnLink href="Login"> */}
                 로그인
               </NabBtnLink>
             </NabBtn>
