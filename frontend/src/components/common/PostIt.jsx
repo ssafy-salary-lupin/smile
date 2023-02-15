@@ -31,7 +31,7 @@ const Btn = styled.button`
   }
   :nth-child(1) {
     background-color: ${(props) => props.theme.mainColor};
-    margin-right: 1.111vw;
+    margin-right: 1.667vw;
   }
   :nth-child(2) {
     background-color: #7d9ada;
@@ -54,7 +54,7 @@ const Btn = styled.button`
     }
     :nth-child(1) {
       background-color: ${(props) => props.theme.mainColor};
-      margin-right: 14.221px;
+      margin-right: 21.338px;
     }
     :nth-child(2) {
       background-color: #7d9ada;

@@ -81,7 +81,8 @@ div.note:active {
 div.note p {
   font-size: 1.528vw;
   padding: 0.347vw;
-  font-family: "noteFont", "Shadows Into Light", "Tangerine", Arial;
+  font-family: "Shadows Into Light", "Tangerine", Arial, "Nanum Pen Script",
+    cursive;
 }
 
 div.note:hover > span {
@@ -184,7 +185,8 @@ p {
   div.note p {
     font-size: 19.558px;
     padding: 4.442px;
-    font-family: "Shadows Into Light", "Tangerine", Arial;
+    font-family: "Shadows Into Light", "Tangerine", Arial, "Nanum Pen Script",
+      cursive;
   }
 
   div.note:hover > span {
