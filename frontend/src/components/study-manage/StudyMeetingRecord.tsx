@@ -252,7 +252,6 @@ function StudyMeetingRecord() {
   // 모달창 노출 => 생성은 모달에서
   const showModal = () => {
     setModalOpen(true);
-    window.location.replace("/manage/meetingRecord/" + studyId);
   };
 
   // 2. 회의 전체 조회(진행중 + 지난 ) GET
