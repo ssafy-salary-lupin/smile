@@ -2,6 +2,7 @@ import { DefaultTheme } from "styled-components";
 
 export const theme: DefaultTheme = {
   backgroundSize: "100% 100%",
+  bgColor: "#ffffff",
   mainColor: "#F5C82E",
   pointColor: "#314E8D",
   subColor: "#F2F3E6",
