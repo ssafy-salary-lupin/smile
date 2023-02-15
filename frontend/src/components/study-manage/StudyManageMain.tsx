@@ -454,7 +454,7 @@ function StudyManageMain() {
                   if (el.id === studyCeoAtom) {
                     return (
                       <Member key={index}>
-                        <Name>{el.nickname} (스터디장)</Name>
+                        <Name>{el.nickname}</Name>
                         <Status>
                           <Crown fill={theme.mainColor} width="100%" />
                         </Status>
