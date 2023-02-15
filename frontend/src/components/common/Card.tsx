@@ -298,8 +298,8 @@ export default function Card(props: PropsType) {
         <SCardUser>
           <ProfileImg
             imgUrl={profileImgUrl ? profileImgUrl : defaultprofileImg}
-            width="32.256px"
-            height="32.256px"
+            width="3.36vw"
+            height="3.36vw"
           />
           <SCardUserItem>
             <span>{props.studyInfo.leader.nickname}</span>
