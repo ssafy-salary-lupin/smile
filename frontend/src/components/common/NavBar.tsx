@@ -191,13 +191,13 @@ function NavBar(props: UrlProps) {
     history.push("/");
   };
 
-  const [, updateState] = useState({});
-  const forceUpdate = useCallback(() => updateState({}), []);
+  // const [, updateState] = useState({});
+  // const forceUpdate = useCallback(() => updateState({}), []);
 
-  const goMyStudy = () => {
-    forceUpdate();
-    history.push(`/myStudy/${userId}`);
-  };
+  // const goMyStudy = () => {
+  //   forceUpdate();
+  //   history.push(`/myStudy/${userId}`);
+  // };
 
   return (
     <Nav variants={navVariants} animate={navAnimation} initial={"top"}>
@@ -208,12 +208,14 @@ function NavBar(props: UrlProps) {
       </NavHeader>
       <LinksContainer>
         <Items>
-          <Item1 curUrl={props.curUrl} onClick={forceUpdate}>
+          {/*  onClick={forceUpdate} */}
+          <Item1 curUrl={props.curUrl}>
             <Link to="/search">스터디 조회</Link>
           </Item1>
           {kakaoToken ? (
-            <Item2 curUrl={props.curUrl} onClick={goMyStudy}>
-              내 스터디
+            // onClick={goMyStudy}
+            <Item2 curUrl={props.curUrl}>
+              <Link to={`/myStudy/${userId}`}>내 스터디</Link>
             </Item2>
           ) : null}
           {kakaoToken ? (
