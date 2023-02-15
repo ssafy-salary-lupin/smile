@@ -377,13 +377,9 @@ function StudyManageBoardDetail() {
         deleteBoardApi(boardId, studyId);
         Swal.fire("삭제완료!", "", "success");
         refetch();
-        history.push("/manage/board");
+        history.push("/manage/board/" + studyId);
       }
     });
-    // if (window.confirm("삭제하시겠습니까?")) {
-    //   await deleteScheduleApi(boardId);
-    //   refetch();
-    // }
   };
 
   // 댓글작성
@@ -427,11 +423,6 @@ function StudyManageBoardDetail() {
         Swal.fire("삭제완료!", "", "success");
       }
     });
-
-    // if (window.confirm("댓글을 삭제하시겠습니까?")) {
-    //   await commentDeleteApi(boardId, commentId);
-    //   await refetch();
-    // }
   };
 
   const [article, setArticle] = useState<Data>();
@@ -511,7 +502,7 @@ function StudyManageBoardDetail() {
         </UpdateBtn>
         <DeleteBtn onClick={onDelete}>삭제</DeleteBtn>
         <ListBtn>
-          <Link to="/manage/board">목록</Link>
+          <Link to={`/manage/board/${studyId}`}>목록</Link>
         </ListBtn>
       </ArticleBtn>
       <CommentHeader>댓글</CommentHeader>
