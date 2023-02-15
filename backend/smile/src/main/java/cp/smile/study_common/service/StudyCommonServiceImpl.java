@@ -72,9 +72,7 @@ public class StudyCommonServiceImpl implements StudyCommonService{
         List<StudyInformation> studyInformations = null;
         /**검색 조건이 없을때*/
         if(findFilter.getName() == null && findFilter.getType() == 0){
-
             studyInformations = studyCommonRepository.findAllByStudyInformation();
-
         }
 
         /**검색조건이 name 하나일때*/
@@ -93,6 +91,7 @@ public class StudyCommonServiceImpl implements StudyCommonService{
             studyInformations = studyCommonRepository
                     .findAllByNameIsContainingAndStudyType(findFilter.getName(),findFilter.getType());
         }
+
 
         List<FindAllStudyDTO> findAllStudyDTOS = new ArrayList<>();
 
