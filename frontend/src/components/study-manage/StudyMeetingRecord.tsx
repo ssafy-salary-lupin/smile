@@ -294,7 +294,7 @@ function StudyMeetingRecord() {
                   <MeetingCardBack>
                     <AttendBtn>
                       {/* TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */}
-                      <Link to="/meeting/:studyId/:userId">참여하기</Link>
+                      <Link to={`/meeting/${studyId}`}>참여하기</Link>
                     </AttendBtn>
                   </MeetingCardBack>
                 </div>

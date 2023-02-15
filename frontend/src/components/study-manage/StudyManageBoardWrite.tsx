@@ -310,7 +310,8 @@ function StudyManageBoardWrite() {
 
     boardeInsertApi(formData, studyId);
 
-    history.push("/manage/board/" + studyId);
+    // history.push("/manage/board/" + studyId);
+    window.location.replace("/manage/board/" + studyId);
   };
 
   // 게시글 유형
