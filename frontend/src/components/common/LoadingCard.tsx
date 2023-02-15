@@ -168,7 +168,7 @@ const SkeletonProfile = styled.div`
     width: 33.331px;
     height: 33.331px;
     border-radius: 37.498px !important;
-    margin-left: 3.197px;
+    margin-left: 2.997px;
     margin-bottom: 0.576px;
   }
 `;
