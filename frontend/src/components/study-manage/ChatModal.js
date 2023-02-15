@@ -262,7 +262,8 @@ function ChatModal(props) {
       }
     }
     const userInfo = fetchData();
-    setNickName(userInfo.result.nickname);
+    console.log(userInfo);
+    setNickName(userInfo.nickname);
   });
 
   // message : chat
