@@ -378,7 +378,8 @@ function StudyManageBoardDetail() {
         deleteBoardApi(boardId, studyId);
         Swal.fire("삭제완료!", "", "success");
         refetch();
-        history.push("/manage/board/" + studyId);
+        // history.push("/manage/board/" + studyId);
+        window.location.replace("/manage/board/" + studyId);
       }
     });
   };
