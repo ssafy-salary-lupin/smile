@@ -87,6 +87,7 @@ function ModalManageDeadline(props: any) {
                 onClick={() => {
                   StudyReDeadlineApi(studyId);
                   changeBtn();
+                  closeModal();
                 }}
               >
                 <span>확인</span>

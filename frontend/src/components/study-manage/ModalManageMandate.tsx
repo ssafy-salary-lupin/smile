@@ -97,16 +97,17 @@ function ModalManageMandate(props: any) {
             <span>스터디장을 위임하시겠습니까?</span>
           </Title>
           <Footer>
-            {/* <Link
+            <Link
               to={{
-                pathname: `/manage/manageMember`,
+                pathname: `/manage/manageMember/${studyId}`,
               }}
-            > */}
+            >
             <Btn
               color="#F5C82E"
               onClick={() => {
                 // MandateApi(studyId, );
                 console.log("안녕");
+                closeModal();
               }}
             >
               <span>확인</span>

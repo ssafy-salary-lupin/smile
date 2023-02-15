@@ -79,6 +79,7 @@ function ModalManageEnd(props: any) {
                 color="#F5C82E"
                 onClick={() => {
                   StudyEndApi(studyId);
+                  closeModal();
                 }}
               >
                 <span>확인</span>
