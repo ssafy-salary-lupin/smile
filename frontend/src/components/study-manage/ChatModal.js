@@ -258,8 +258,11 @@ function ChatModal(props) {
     props.userInfo.result.map(async (el) => {
       if (el.id === userId) {
         await setNickName(el.nickName);
+        console.log("el nickname : ", el.nickName);
       }
     });
+
+    console.log("state nickname : ", nickName);
 
     connect();
 
