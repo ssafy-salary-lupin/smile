@@ -11,8 +11,8 @@ interface ISearchContainer {
 }
 
 const SSearchContainer = styled.div<ISearchContainer>`
-  width: ${(props) => props.widthValue + props.unit};
-  height: ${(props) => props.heightValue + props.unit};
+  width: 27.778vw;
+  height: 4vw;
   border: solid 1px black;
   border-radius: 0.694vw;
   display: flex;
@@ -20,10 +20,10 @@ const SSearchContainer = styled.div<ISearchContainer>`
   align-items: center;
   z-index: 1;
   opacity: 1;
-  @media screen and (min-width: 1680px) {
-    border-radius: 9.994px;
-    width: ${(props) => props.widthValue / 0.07}px;
-    height: ${(props) => props.heightValue / 0.07}px;
+  @media screen and (min-width: 1280px) {
+    border-radius: 7.498px;
+    width: 266.669px;
+    height: 40px;
   }
 `;
 
@@ -31,9 +31,9 @@ const SSearchIcon = styled.img.attrs({ src: searchIcon })`
   width: 2.222vw;
   height: 2.222vw;
   cursor: pointer;
-  @media screen and (min-width: 1680px) {
-    width: 31.997px;
-    height: 31.997px;
+  @media screen and (min-width: 1280px) {
+    width: 24px;
+    height: 24px;
   }
 `;
 
@@ -49,22 +49,22 @@ const SSearchInput = styled.input.attrs((props: IInput) => ({
   placeholder: props.inputInnerText,
   // placeholder: "궁금한 스터디를 검색하세요.",
 }))<IInput>`
-  width: ${(props) => props.inputWidth + props.unit};
-  height: ${(props) => props.inputHeight + props.unit};
+  width: 23vw;
+  height: 3.125vw;
   border: none;
   outline: none;
   -webkit-appearance: none;
   overflow: auto; //검색어가 길어졌을때 오른쪽으로 자연스럽게 검색되도록 하기 위해
-  font-size: ${(props) => props.inputWidth * 0.06 + props.unit};
-  @media screen and (min-width: 1680px) {
-    font-size: ${(props) => (props.inputWidth * 0.06) / 0.07}px;
-    width: ${(props) => props.inputWidth / 0.07}px;
-    height: ${(props) => props.inputHeight / 0.07}px;
+  font-size: 1.38vw;
+  @media screen and (min-width: 1280px) {
+    font-size: 16px;
+    width: 220.8px;
+    height: 30px;
   }
   ::placeholder {
-    font-size: ${(props) => props.inputWidth * 0.06 + props.unit};
-    @media screen and (min-width: 1680px) {
-      font-size: ${(props) => (props.inputWidth * 0.06) / 0.07}px;
+    font-size: 1.38vw;
+    @media screen and (min-width: 1280px) {
+      font-size: 16px;
     }
   }
 `;
