@@ -1,9 +1,11 @@
 package cp.smile.entity.study_common;
 
 import cp.smile.config.BaseEntity;
+import cp.smile.config.response.exception.CustomException;
 import cp.smile.entity.study_management.ChatMessage;
 import cp.smile.entity.study_management.StudyBoard;
 import cp.smile.entity.user.UserJoinStudy;
+import cp.smile.study_common.dto.response.FindAllStudyDTO;
 import cp.smile.study_management.chat.dto.ChatRoomDTO;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,10 +17,9 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+
+import static cp.smile.config.response.exception.CustomExceptionStatus.REQUEST_ERROR;
 
 @Getter
 @NoArgsConstructor
@@ -106,6 +107,33 @@ public class StudyInformation extends BaseEntity {
         return ChatRoomDTO.builder()
                 .roomId(this.id)
                 .name(this.name).build();
+    }
+
+    public FindAllStudyDTO createFindAllStudyDTO(){
+
+        //댓글 수 구하기.
+        long count = studyComments.stream()
+                .filter((comment) -> comment.isDeleted() == false)
+                .count();
+
+        //스터디 유저 정보 리턴.
+        UserJoinStudy userJoinStudy = userJoinStudies.stream()
+                .filter((ujs) -> ujs.getIsLeader() == true)
+                .findAny()
+                .orElseThrow(() -> new CustomException(REQUEST_ERROR));
+
+        return FindAllStudyDTO.builder()
+                .id(this.id)
+                .name(this.name)
+                .imagePath(this.imgPath)
+                .currentPerson(this.currentPerson)
+                .maxPerson(this.maxPerson)
+                .description(this.description)
+                .viewCount(this.viewCount)
+                .lastVisitedTime(this.lastVisitedTime)
+                .type(studyType.createStudyTypeDTO())
+                .commentCount((int) count)
+                .leader(userJoinStudy.createLeaderProfileDTO()).build();
     }
 
     //연관관계 메서드

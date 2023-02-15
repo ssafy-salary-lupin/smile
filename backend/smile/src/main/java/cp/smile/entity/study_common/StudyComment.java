@@ -66,6 +66,8 @@ public class StudyComment extends BaseEntity {
                 .replies(studyReplyDTOS).build();
     }
 
+
+
     public void updateStudyComment(String content){
         this.content = content;
     }
