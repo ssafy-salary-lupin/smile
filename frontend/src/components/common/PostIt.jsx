@@ -211,10 +211,11 @@ class Board extends React.Component {
     return elm;
   }
   componentWillMount() {
+    console.log("HERE", this.state.notesStringArray);
     var self = this;
     if (this.props.count) {
       $.getJSON(
-        "http://baconipsom.com/api/?type=all-meat&sentences=" +
+        "https://baconipsom.com/api/?type=all-meat&sentences=" +
           this.props.count +
           "&start-with-lorem=1&callback=?",
         function (results) {
