@@ -9,8 +9,6 @@ import KakaoPages from "./pages/KakaoPages";
 import StudyDetailPages from "./pages/StudyDetailPages";
 import StudySearchPages from "pages/StudySearchPages";
 import VideoMeetingPages from "pages/VideoMeetingPages";
-import ChatComponent from "components/study-manage/ChatModalTest";
-import StudyChatComponent from "components/study-manage/ChatModalTest";
 import LoginPages from "pages/LoginPages";
 function Router() {
   return (
@@ -50,14 +48,6 @@ function Router() {
       <Route path="/search">
         <StudySearchPages />
       </Route>
-      {/* 실시간 채팅 test */}
-      <Route path="/chat">
-        <StudyChatComponent />
-      </Route>
-      {/* test */}
-      {/* <Route path="/test">
-        <TestPages />
-      </Route> */}
       <Route path="/Login">
         <LoginPages />
       </Route>
