@@ -150,8 +150,11 @@ const ModalBtn = styled.button`
   background-color: transparent;
   cursor: pointer;
   font-size: 0.972vw;
-  text-decoration: none;
-  color: white;
+
+  a {
+    color: white;
+    text-decoration: none;
+  }
 `;
 function ModalCalendarMeetingView(props: PropsType) {
   // const [modalOpen, setModalOpen] = useState<boolean>(true);
