@@ -226,6 +226,7 @@ const DdayBox = styled.div`
 
 const NoDday = styled.div`
   margin: 0.556vw;
+  height: 100%;
   background-color: ${(props) => props.theme.subColor};
   display: flex;
   align-items: center;
@@ -369,7 +370,7 @@ function StudyManageMain() {
   // 2. 스터디명
   // 3. 스터디 유형이름 + 스터디 시간 + 스터디 시작 일자 + 스터디 종료 일자
   // 4. 스터디 가입 멤버
-  const { data: studyInfo, refetch } = useQuery<DataInfo>(
+  const { data: studyInfo, refetch } = useQuery<DataInfo | undefined>(
     "studyInfoSelectApi",
     () => StudyInfoSelectApi(studyId),
   );
@@ -472,7 +473,7 @@ function StudyManageMain() {
             <StudyDday>
               <DdayTitle>디데이</DdayTitle>
               <DdayBox>
-                {ddayInfo ? (
+                {ddayInfo !== undefined && ddayInfo?.result.length > 0 ? (
                   ddayInfo.result.map((el, index) => {
                     return (
                       <Dday key={index} onClick={() => showDdayModal(el.id)}>
@@ -485,7 +486,7 @@ function StudyManageMain() {
                   })
                 ) : (
                   <NoDday>
-                    <p>등록된 일정이 없습니다.</p>
+                    <p>앞으로의 일정이 없습니다.</p>
                   </NoDday>
                 )}
               </DdayBox>
