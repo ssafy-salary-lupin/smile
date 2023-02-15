@@ -93,10 +93,23 @@ function VideoMeetingPages() {
   const [modalOpen, setModalOpen] = useState(false);
   const userId = useRecoilValue(UserIdState);
 
-  const [data: userData] = useQuery("userInfo", () =>
+  interface userDataType {
+    isSuccess: boolean;
+    code: number;
+    message: string;
+    result: {
+      id: number;
+      nickname: string;
+      email: string;
+      imagePath: string;
+      deleted: boolean;
+    };
+  }
+
+  const { data: userData } = useQuery("userInfo", () =>
     UserInfoApi.api.get(`/users/${userId}`),
   );
-  const [data: studyInfo] = useQuery("userInfo", () =>
+  const { data: studyInfo } = useQuery("userInfo", () =>
     UserInfoApi.api.get(`/studies/${params.studyId}`),
   );
 
@@ -157,13 +170,16 @@ function VideoMeetingPages() {
   };
 
   console.log(params);
+  console.log(userData);
+  console.log(studyInfo);
   return (
     <>
       {isMeetingStart ? (
         <VideoRoomComponent
           sessionName={params.studyId}
           userInfo={localUser}
-          user={userData.nickname}
+          //TODO
+          user={userData}
         />
       ) : (
         // 화상 회의 대기 방
@@ -171,7 +187,7 @@ function VideoMeetingPages() {
           <Container>
             <StudyName>
               {/* TODO 스터디 이름 받아오기*/}
-              <span>{studyInfo.name}</span>
+              <span>{studyInfo}</span>
               {/* <span>SSAFY 스터디</span> */}
             </StudyName>
             <Back>
@@ -186,7 +202,8 @@ function VideoMeetingPages() {
                 />
               ) : (
                 <UserContainer>
-                  <span>{userData.nickname}</span>
+                  //TODO
+                  <span>{userData}</span>
                 </UserContainer>
               )}
             </Back>

@@ -11,6 +11,6 @@ const api = axios.create({
   },
 });
 
-export const StudySearchAll = {
+export const UserInfoApi = {
   api: api,
 };
