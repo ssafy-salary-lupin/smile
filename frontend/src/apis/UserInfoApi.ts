@@ -11,6 +11,6 @@ const api = axios.create({
   },
 });
 
-export const UserInfoApi = {
+export const InfoApi = {
   api: api,
 };

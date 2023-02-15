@@ -9,7 +9,7 @@ import UserModel from "models/user-model";
 import { useRecoilValue } from "recoil";
 import { UserIdState } from "atoms/UserInfoAtom";
 import { useQuery } from "react-query";
-import { UserInfoApi } from "apis/UserInfoApi";
+import { InfoApi } from "apis/UserInfoApi";
 
 // TODO : 대기 화면
 
@@ -144,27 +144,27 @@ function VideoMeetingPages() {
     }[];
   }
 
-  const { data: userData } = useQuery("userInfo", () =>
-    UserInfoApi.api.get(`/users/${userId}`),
-  );
-  const { data: studyData } = useQuery("userInfo", () =>
-    UserInfoApi.api.get(`/studies/${params.studyId}`),
-  );
-
   const [userInfo, setUserInfo] = useState<userDataType>();
   const [studyInfo, setStudyInfo] = useState<studyDataType>();
 
   const getUserInfo = async () => {
-    const data: userDataType = await UserInfoApi.api.get(
+    const data: userDataType = await InfoApi.api.get(`/users/${userId}`);
+    if (data) {
+      setUserInfo(data);
+    }
+  };
+  const getStudyInfo = async () => {
+    const data: studyDataType = await InfoApi.api.get(
       `/studies/${params.studyId}`,
     );
     if (data) {
-      setUserInfo(data);
+      setStudyInfo(data);
     }
   };
 
   useEffect(() => {
     getUserInfo();
+    getStudyInfo();
   }, []);
 
   const params: paramsType = useParams();
@@ -224,9 +224,7 @@ function VideoMeetingPages() {
   };
 
   console.log(params);
-  console.log("1", userData);
-  console.log("2", studyData);
-  console.log("3", userInfo);
+  console.log(userInfo);
   return (
     <>
       {isMeetingStart ? (
@@ -234,7 +232,7 @@ function VideoMeetingPages() {
           sessionName={params.studyId}
           userInfo={localUser}
           //TODO
-          user={userData}
+          user={userInfo?.result.nickname}
         />
       ) : (
         // 화상 회의 대기 방
@@ -242,8 +240,8 @@ function VideoMeetingPages() {
           <Container>
             <StudyName>
               {/* TODO 스터디 이름 받아오기*/}
-              {/* <span>{studystudyDataInfo}</span> */}
-              <span>SSAFY 스터디</span>
+              <span>{studyInfo?.name}</span>
+              {/* <span>SSAFY 스터디</span> */}
             </StudyName>
             <Back>
               {isShowVideo ? (
@@ -258,7 +256,7 @@ function VideoMeetingPages() {
               ) : (
                 <UserContainer>
                   {/* TODO */}
-                  <span>{userData}</span>
+                  <span>{userInfo?.result.nickname}</span>
                 </UserContainer>
               )}
             </Back>

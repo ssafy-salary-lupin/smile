@@ -9,7 +9,7 @@ import ExitMeeting from "components/video-meeting/toolbar/ExitMeeting";
 const ToolbarContainer = styled.div`
   display: flex;
   justify-content: space-around;
-  height: 15vh;
+  height: 15vh !important;
   width: 100vw;
   background-color: ${(props) => props.theme.videoRoomColor};
   position: absolute;
