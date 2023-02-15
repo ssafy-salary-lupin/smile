@@ -5,6 +5,8 @@ import { UserDropApi } from "../../apis/StudyManageMemberApi";
 import { useRecoilValue } from "recoil";
 import { studyIdRecoil } from "atoms/StudyManage";
 import jwt_decode from "jwt-decode";
+import { StudyUserApi } from "../../apis/StudyManageMemberApi";
+import { useQuery } from "react-query";
 
 const Wrapper = styled.div``;
 
@@ -54,19 +56,27 @@ const Footer = styled.div`
   align-items: center;
   height: 8.333vw;
 `;
+interface Data {
+  result: [
+    {
+      id: number; //사용자 식별자
+      nickname: string; //사용자 닉네임
+      email: string; //사용자 이메일
+      imagePath: string; //사용자 프로필 사진 url
+      isLeader: boolean; //스터디장 유무
+    },
+  ];
+}
+
 function ModalManageDrop(props: any) {
   const closeModal = () => {
     props.setModalOpen(false);
   };
 
-  const studyId = useRecoilValue(studyIdRecoil);
-  const token = localStorage.getItem("kakao-token");
-  if (token !== null) {
-    var decoded: any = jwt_decode(token);
-    console.log("decode", decoded);
-  } else {
-    console.log("none");
-  }
+  // 스터디의 회원정보 가져오기
+  const { data: userStudy } = useQuery<Data>("userStudy", () =>
+    StudyUserApi(studyId),
+  );
 
   const studyId = useRecoilValue(studyIdRecoil);
   return (
@@ -86,7 +96,7 @@ function ModalManageDrop(props: any) {
               <Btn
                 color="#F5C82E"
                 onClick={() => {
-                  UserDropApi(studyId, decoded?.userId);
+                  UserDropApi(studyId, userStudy?.result.id);
                   closeModal();
                 }}
               >

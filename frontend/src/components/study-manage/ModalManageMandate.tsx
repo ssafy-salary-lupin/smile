@@ -2,11 +2,11 @@ import styled from "styled-components";
 import ModalNone from "components/common/ModalNone";
 import { MandateApi } from "../../apis/StudyManageMemberApi";
 import { Warning } from "components/common/DuotonIcons";
-import { Link, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { useRecoilValue } from "recoil";
 import { studyIdRecoil } from "atoms/StudyManage";
 import jwt_decode from "jwt-decode";
+import { StudyUserApi } from "../../apis/StudyManageMemberApi";
 
 const Wrapper = styled.div``;
 
@@ -57,7 +57,7 @@ const Footer = styled.div`
   height: 8.333vw;
 `;
 
-interface userData {
+interface Data {
   result: [
     {
       id: number; //사용자 식별자
@@ -80,13 +80,11 @@ function ModalManageMandate(props: any) {
   };
 
   const studyId = useRecoilValue(studyIdRecoil);
-  const token = localStorage.getItem("kakao-token");
-  if (token !== null) {
-    var decoded: any = jwt_decode(token);
-    console.log("decode", decoded);
-  } else {
-    console.log("none");
-  }
+
+  // 스터디의 회원정보 가져오기
+  const { data: userStudy } = useQuery<Data>("userStudy", () =>
+    StudyUserApi(studyId),
+  );
 
   return (
     <Wrapper>
@@ -105,7 +103,7 @@ function ModalManageMandate(props: any) {
             <Btn
               color="#F5C82E"
               onClick={() => {
-                MandateApi(studyId, decoded?.userId);
+                MandateApi(studyId, userStudy?.result.id);
                 console.log("안녕");
                 closeModal();
               }}
