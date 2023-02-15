@@ -27,6 +27,8 @@ import {
 } from "apis/StudyDetailApi";
 import { InputProps } from "components/study-manage/StudyManageBoardDetail";
 import Swal from "sweetalert2";
+import { useRecoilValue } from "recoil";
+import { UserIdState } from "atoms/UserInfoAtom";
 
 const BlankSpace = styled.div`
   height: 7.383vw;
@@ -334,7 +336,7 @@ const ReplyInput = styled.input`
 
 const ReplyBtn = styled(WriteBtn)``;
 
-interface Data {
+export interface Data {
   isSuccess: boolean;
   code: number;
   message: string;
@@ -391,6 +393,7 @@ type Params = {
 function StudyDetailPages() {
   // const profileImgUrl = props.studyInfo.studyLeader.profileImageUrl;
   // const studyImgUrl = props.studyInfo.imageUrl;
+  const userId = useRecoilValue(UserIdState);
 
   const token = localStorage.getItem("kakao-token");
   // const [list, setList] = useState<studyDetailData[] | null>(null);
@@ -616,7 +619,7 @@ function StudyDetailPages() {
           return (
             <CommentBox key={index}>
               <CommentTop>
-                <ProfileImg width="2.222vw" />
+                <ProfileImg width="2.222vw" imgUrl={el.user.imgPath} />
                 <WriterName>{el.user.nickname}</WriterName>
               </CommentTop>
               <CommentContent>
@@ -639,21 +642,26 @@ function StudyDetailPages() {
                   답변
                 </ComReplyBtn>
                 <p>·</p>
-                {selectedUpdateId !== el.id ? (
-                  <ComUpdateBtn
-                    onClick={() => updateComment(el.id, el.content)}
-                  >
-                    수정
-                  </ComUpdateBtn>
-                ) : (
-                  <ComUpdateBtn onClick={() => onUpdateComment(el.id)}>
-                    수정
-                  </ComUpdateBtn>
-                )}
-                <p>·</p>
-                <ComDeleteBtn onClick={() => deleteComment(el.id)}>
-                  삭제
-                </ComDeleteBtn>
+
+                {userId === el.user.id ? (
+                  <>
+                    {selectedUpdateId !== el.id ? (
+                      <ComUpdateBtn
+                        onClick={() => updateComment(el.id, el.content)}
+                      >
+                        수정
+                      </ComUpdateBtn>
+                    ) : (
+                      <ComUpdateBtn onClick={() => onUpdateComment(el.id)}>
+                        수정
+                      </ComUpdateBtn>
+                    )}
+                    <p>·</p>
+                    <ComDeleteBtn onClick={() => deleteComment(el.id)}>
+                      삭제
+                    </ComDeleteBtn>
+                  </>
+                ) : null}
               </CommentFooter>
               {/* 답변 */}
               {el.replies.length > 0 &&
@@ -663,7 +671,10 @@ function StudyDetailPages() {
                       {/* <StyledReplyIcon fill={theme.mainColor} width="1.389vw" /> */}
                       <ReplySubWrapper>
                         <CommentTop>
-                          <ProfileImg width="2.222vw" />
+                          <ProfileImg
+                            width="2.222vw"
+                            imgUrl={rep.user.imgPath}
+                          />
                           <WriterName>{rep.user.nickname}</WriterName>
                         </CommentTop>
                         <CommentContent>
@@ -684,25 +695,31 @@ function StudyDetailPages() {
                           )}
                         </CommentContent>
                         <CommentFooter>
-                          {selectedUpdateReplyId === rep.id ? (
-                            <ComUpdateBtn
-                              onClick={() => onUpdateReply(el.id, rep.id)}
-                            >
-                              수정
-                            </ComUpdateBtn>
-                          ) : (
-                            <ComUpdateBtn
-                              onClick={() => updateReply(rep.id, rep.content)}
-                            >
-                              수정
-                            </ComUpdateBtn>
-                          )}
-                          <p>·</p>
-                          <ComDeleteBtn
-                            onClick={() => deleteReply(el.id, rep.id)}
-                          >
-                            삭제
-                          </ComDeleteBtn>
+                          {userId === rep.user.id ? (
+                            <>
+                              {selectedUpdateReplyId === rep.id ? (
+                                <ComUpdateBtn
+                                  onClick={() => onUpdateReply(el.id, rep.id)}
+                                >
+                                  수정
+                                </ComUpdateBtn>
+                              ) : (
+                                <ComUpdateBtn
+                                  onClick={() =>
+                                    updateReply(rep.id, rep.content)
+                                  }
+                                >
+                                  수정
+                                </ComUpdateBtn>
+                              )}
+                              <p>·</p>
+                              <ComDeleteBtn
+                                onClick={() => deleteReply(el.id, rep.id)}
+                              >
+                                삭제
+                              </ComDeleteBtn>
+                            </>
+                          ) : null}
                         </CommentFooter>
                       </ReplySubWrapper>
                     </ReplyWrapper>

@@ -19,6 +19,7 @@ import { TypeProps } from "./StudyManageBoardList";
 import Swal from "sweetalert2";
 import { useRecoilValue } from "recoil";
 import { studyIdRecoil } from "atoms/StudyManage";
+import { UserIdState } from "atoms/UserInfoAtom";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
@@ -440,6 +441,8 @@ function StudyManageBoardDetail() {
     stateSet();
   }, [detailData]);
 
+  const userId = useRecoilValue(UserIdState);
+
   return (
     <Wrapper>
       <ArticleHeader>
@@ -452,7 +455,10 @@ function StudyManageBoardDetail() {
       </ArticleHeader>
       <ArticleInfo>
         <Writer>
-          <ProfileImg width="2.222vw" />
+          <ProfileImg
+            width="2.222vw"
+            imgUrl={article?.result.writer.profileImageUrl}
+          />
           <Name>{article?.result.writer.nickname}</Name>
         </Writer>
         <SubInfo>
@@ -495,12 +501,17 @@ function StudyManageBoardDetail() {
         </FileSub2>
       </FileBox>
       <ArticleBtn>
-        <UpdateBtn>
-          <Link to={`/manage/boardUpdate/${article?.result.boardId}`}>
-            수정
-          </Link>
-        </UpdateBtn>
-        <DeleteBtn onClick={onDelete}>삭제</DeleteBtn>
+        {userId === article?.result.writer.writerId ? (
+          <>
+            <UpdateBtn>
+              <Link to={`/manage/boardUpdate/${article?.result.boardId}`}>
+                수정
+              </Link>
+            </UpdateBtn>
+            <DeleteBtn onClick={onDelete}>삭제</DeleteBtn>
+          </>
+        ) : null}
+
         <ListBtn>
           <Link to={`/manage/board/${studyId}`}>목록</Link>
         </ListBtn>
@@ -520,7 +531,10 @@ function StudyManageBoardDetail() {
           return (
             <CommentBox key={index}>
               <CommentTop>
-                <ProfileImg width="2.222vw" />
+                <ProfileImg
+                  width="2.222vw"
+                  imgUrl={el.writer.profileImageUrl}
+                />
                 <WriterName>{el.writer.nickname}</WriterName>
                 <p>
                   {el.writeAt.split("T")[0] + " " + el.writeAt.split("T")[1]}
@@ -542,21 +556,27 @@ function StudyManageBoardDetail() {
                 )}
               </CommentContent>
               <CommentFooter>
-                {selectedId !== el.commentId ? (
-                  <ComUpdateBtn
-                    onClick={() => updateComment(el.commentId, el.content)}
-                  >
-                    수정
-                  </ComUpdateBtn>
-                ) : (
-                  <ComUpdateBtn onClick={() => onUpdateComment(el.commentId)}>
-                    수정
-                  </ComUpdateBtn>
-                )}
-                <p>·</p>
-                <ComDeleteBtn onClick={() => deleteComment(el.commentId)}>
-                  삭제
-                </ComDeleteBtn>
+                {userId === el.commentId ? (
+                  <>
+                    {selectedId !== el.commentId ? (
+                      <ComUpdateBtn
+                        onClick={() => updateComment(el.commentId, el.content)}
+                      >
+                        수정
+                      </ComUpdateBtn>
+                    ) : (
+                      <ComUpdateBtn
+                        onClick={() => onUpdateComment(el.commentId)}
+                      >
+                        수정
+                      </ComUpdateBtn>
+                    )}
+                    <p>·</p>
+                    <ComDeleteBtn onClick={() => deleteComment(el.commentId)}>
+                      삭제
+                    </ComDeleteBtn>
+                  </>
+                ) : null}
               </CommentFooter>
             </CommentBox>
           );
