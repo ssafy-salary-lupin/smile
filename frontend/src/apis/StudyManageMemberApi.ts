@@ -8,7 +8,7 @@ const formData = new FormData();
 // // 스터디에 속한 유저 정보 가져오기
 export async function StudyUserApi(studyId: string) {
   try {
-    const response = await fetch(`${BASE_URL}/1/users`, {
+    const response = await fetch(`${BASE_URL}/${studyId}/users`, {
       headers: {
         // Authorization: `Bearer ${token}`,
         Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoidGhkcmxmazkzQG5hdmVyLmNvbSIsInVzZXJJZCI6NywiaXNzIjoiaXNzdWVyIiwiaWF0IjoxNjc2MzUyNDM3LCJleHAiOjE2NzY0Mzg4Mzd9.sqgqiWk9EIMREdpt4FgA5vjz_Qr8-Fgx1rhKuq-1MRyPbQ2SLUN3Ohyr755_cYa_eQ_dPnisLwsnXF0ig2AEVg`,
