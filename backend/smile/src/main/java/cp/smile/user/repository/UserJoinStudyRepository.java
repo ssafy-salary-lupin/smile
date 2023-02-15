@@ -6,6 +6,7 @@ import cp.smile.entity.user.UserJoinStudy;
 import cp.smile.entity.user.UserJoinStudyId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +32,13 @@ public interface UserJoinStudyRepository extends JpaRepository<UserJoinStudy, Us
     //해당 스터디의 유저가 리더인지 확인
     Optional<UserJoinStudy> findByStudyInformationAndUserAndIsLeaderTrue(StudyInformation study, User user);
 
+
+    @Query(value = "select ujs from UserJoinStudy ujs " +
+            "left join fetch ujs.studyInformation si " +
+            "left join fetch ujs.user uu " +
+            "where si.id in (select uj.studyInformation.id from UserJoinStudy uj where uj.user.id = :userId and uj.isDeleted = false) " +
+            "and ujs.isLeader = true")
+    List<UserJoinStudy> findAllByJoinStudyAndLeaderTrue(@Param("userId") int userId);
 
 
 }
