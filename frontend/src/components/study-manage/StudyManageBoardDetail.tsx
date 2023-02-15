@@ -397,7 +397,7 @@ function StudyManageBoardDetail() {
     refetch();
   };
 
-  // 댓글 수정
+  // 댓글 수정..
   const [selectedId, setSelectedId] = useState(null);
   const [reply, setReply] = useState<string>();
   const updateComment = async (parentId: any, currentContent: any) => {
