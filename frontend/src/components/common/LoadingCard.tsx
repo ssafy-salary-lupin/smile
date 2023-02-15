@@ -77,6 +77,9 @@ const SkeletonSection = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  @media screen and (max-width: 1280px) {
+    margin-left: -0.4vw;
+  }
   div {
     :nth-child(1) {
       width: 16vw;
@@ -102,7 +105,12 @@ const SkeletonSection = styled.section`
 const SkeletonFooter = styled.section`
   display: flex;
   align-items: center;
-
+  @media screen and (max-width: 1280px) {
+    margin-bottom: 0.4vw;
+    margin-right: -0.8vw;
+    margin-left: -0.2vw;
+    /* margin: 0 -0.8vw -0.2vw 0.4vw; */
+  }
   section {
     display: flex;
     flex-direction: column;
