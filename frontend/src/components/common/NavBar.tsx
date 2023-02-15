@@ -4,7 +4,7 @@ import logoImg from "../../assets/img/smile_black.png";
 import "../../assets/css/index.css";
 import { motion, useAnimation, useScroll } from "framer-motion";
 import { Link, useHistory } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import { LoginState } from "atoms/LoginAtom";
 import { studyIdRecoil } from "atoms/StudyManage";
 import { UserIdState } from "atoms/UserInfoAtom";
