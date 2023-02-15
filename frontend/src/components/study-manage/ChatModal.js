@@ -258,7 +258,7 @@ function ChatModal(props) {
     console.log("prop ; ", props.userInfo);
 
     props.userInfo.result.map(async (el) => {
-      if (el.id === userId) {
+      if (el.id.toString() === userId) {
         await setNickName(el.nickName);
         console.log("el nickname : ", el.nickName);
       }
