@@ -13,7 +13,7 @@ import StudyManageBoardUpdate from "components/study-manage/StudyManageBoardUpda
 import StudyMeetingRecord from "components/study-manage/StudyMeetingRecord";
 import StudyManageMember from "components/study-manage/StudyManageMember";
 
-// submenu 들어갈 자리
+// submenu 들어갈 자리//
 const SubMenu = styled.div`
   height: 11.667vw;
 `;
