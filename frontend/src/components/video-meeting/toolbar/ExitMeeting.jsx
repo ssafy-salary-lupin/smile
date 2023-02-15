@@ -4,6 +4,8 @@ import ModalNone from "components/common/ModalNone";
 import { Close as CloseIcon } from "components/common/Icons";
 import { Warning } from "components/common/DuotonIcons";
 import { Link } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { studyIdRecoil } from "atoms/StudyManage";
 // 모달의 크기 설정
 const Wrapper = styled.div`
   .modalBox {
