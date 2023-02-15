@@ -271,12 +271,13 @@ function ChatModal(props) {
     }
     const userInfo = fetchData();
 
-    userInfo.map(async (el) => {
-      if (el.id === userId) {
-        console.log("나다!");
-        await setNickName(el.nickName);
-      }
-    });
+    console.log("사용자 : ", userInfo);
+    // userInfo.map(async (el) => {
+    //   if (el.id === userId) {
+    //     console.log("나다!");
+    //     await setNickName(el.nickName);
+    //   }
+    // });
 
     console.log("닉네임 : ", nickName);
   });
