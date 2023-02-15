@@ -30,6 +30,7 @@ export async function StudyInfoSelectApi(studyId: string) {
 // 디데이 정보 조회
 // /studies/{study_id}/home/d-day
 export async function DdaySelectApi(studyId: string) {
+  console.log("디데이 studyID : ", studyId);
   try {
     const response = await fetch(`${BASE_URL}/${studyId}/home/d-day`, {
       headers: {
