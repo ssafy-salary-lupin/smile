@@ -12,5 +12,8 @@ export const LoginAlert = () => {
         "https://i8b205.p.ssafy.io/be-api/oauth2/authorization/kakao",
       );
     });
+    return false;
+  } else {
+    return true;
   }
 };

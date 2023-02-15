@@ -11,6 +11,7 @@ import StudySearchPages from "pages/StudySearchPages";
 import VideoMeetingPages from "pages/VideoMeetingPages";
 import ChatComponent from "components/study-manage/ChatModalTest";
 import StudyChatComponent from "components/study-manage/ChatModalTest";
+import LoginPages from "pages/LoginPages";
 function Router() {
   return (
     <Switch>
@@ -57,6 +58,9 @@ function Router() {
       {/* <Route path="/test">
         <TestPages />
       </Route> */}
+      <Route path="/Login">
+        <LoginPages />
+      </Route>
     </Switch>
   );
 }
