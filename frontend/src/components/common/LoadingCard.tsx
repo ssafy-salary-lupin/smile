@@ -103,10 +103,10 @@ const SkeletonSection = styled.section`
 const SkeletonFooter = styled.section`
   display: flex;
   align-items: center;
-  /* margin-bottom: 0.4vw;
+  margin-bottom: 0.4vw;
   margin-right: -0.8vw;
-  margin-left: -0.2vw; */
-  margin: 0 -0.8vw -0.2vw 0.4vw;
+  margin-left: -0.2vw;
+  /* margin: 0 -0.8vw -0.2vw 0.4vw; */
   section {
     display: flex;
     flex-direction: column;
