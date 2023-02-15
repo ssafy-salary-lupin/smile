@@ -67,6 +67,9 @@ const Itemline = styled.ul`
 `;
 
 interface Data {
+  code: number;
+  isSuccess: boolean;
+  message: string;
   result: [
     {
       id: number; //사용자 식별자
