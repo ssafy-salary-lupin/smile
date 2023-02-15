@@ -5,6 +5,7 @@ import { StudyEndApi } from "../../apis/StudyManageMemberApi";
 import { Warning } from "components/common/DuotonIcons";
 import { useRecoilValue } from "recoil";
 import { studyIdRecoil } from "atoms/StudyManage";
+import jwt_decode from "jwt-decode";
 
 const Wrapper = styled.div``;
 
@@ -64,6 +65,7 @@ function ModalManageEnd(props: any) {
   const token = localStorage.getItem("kakao-token");
   if (token !== null) {
     var decoded: any = jwt_decode(token);
+    console.log("decode", decoded);
   } else {
     console.log("none");
   }
@@ -74,7 +76,7 @@ function ModalManageEnd(props: any) {
         <Container>
           <Warning width="5.556vw" height="5.556vw" />
           <Title>
-            <span>스터디원를 종료하시겠습니까?</span>
+            <span>스터디를 삭제하시겠습니까?</span>
           </Title>
           <Footer>
             <Link
@@ -103,6 +105,3 @@ function ModalManageEnd(props: any) {
 }
 
 export default ModalManageEnd;
-function jwt_decode(token: string): any {
-  throw new Error("Function not implemented.");
-}
