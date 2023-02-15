@@ -324,6 +324,9 @@ function StudyManageBoardWrite() {
   const userId = useRecoilValue(UserIdState);
   const studyCeo = useRecoilValue(StudyCeoRecoil);
 
+  console.log("userId : ", userId);
+  console.log("studyCeo : ", studyCeo);
+
   return (
     <Wrapper>
       <Bracket>
@@ -334,14 +337,18 @@ function StudyManageBoardWrite() {
             {Options?.map((el, index) => {
               if (el.id === 1) {
                 if (userId === studyCeo) {
-                  <Option value={el.id} key={index}>
-                    {el.name}
-                  </Option>;
+                  return (
+                    <Option value={el.id} key={index}>
+                      {el.name}
+                    </Option>
+                  );
                 }
               } else {
-                <Option value={el.id} key={index}>
-                  {el.name}
-                </Option>;
+                return (
+                  <Option value={el.id} key={index}>
+                    {el.name}
+                  </Option>
+                );
               }
             })}
           </Select>

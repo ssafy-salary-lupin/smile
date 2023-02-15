@@ -399,11 +399,13 @@ function StudyManageMain() {
     toolbar: false,
   };
 
+  // 규칙 생성
   const createRule = (formData: any) => {
     ruleCreateApi(formData, studyId);
     refetch();
   };
 
+  // 스터디 정보 갱신
   const [rule, setRule] = useState<string>();
   useEffect(() => {
     setStudyIdAtom(studyId);
@@ -452,7 +454,7 @@ function StudyManageMain() {
                   if (el.userId === studyCeoAtom) {
                     return (
                       <Member key={index}>
-                        <Name>{el.nickname}</Name>
+                        <Name>{el.nickname} (스터디장)</Name>
                         <Status>
                           <Crown fill={theme.mainColor} width="100%" />
                         </Status>
