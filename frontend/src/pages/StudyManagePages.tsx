@@ -31,6 +31,9 @@ function StudyManagePages() {
         <Route path="/manage/board/:studyId">
           <StudyManageBoardList />
         </Route>
+        <Route path="/manage/board/:studyId">
+          <StudyManageBoardList />
+        </Route>
         <Route path="/manage/calendar/:studyId">
           <StudyManageCalendar />
         </Route>

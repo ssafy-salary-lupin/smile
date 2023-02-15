@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import profileImg from "../../assets/img/study_manage_profile_img.jpg";
+
 import chatImg from "../../assets/img/chat_icon.png";
 import { useEffect, useState } from "react";
 import StudyRuleModal from "./StudyRuleModal";
@@ -254,6 +255,7 @@ const Dday = styled.div`
 `;
 
 const Tag = styled.div`
+  /* background-color: #f7faff; */
   background-color: #314e8d;
   border-radius: 0.556vw 0 0 0.556vw;
   width: 15%;
