@@ -1,9 +1,13 @@
 import { atom, selector } from "recoil";
+import { recoilPersist } from "recoil-persist";
+
+const { persistAtom } = recoilPersist();
 
 // Study Id 저장
 export const studyIdRecoil = atom({
   key: "studyId",
   default: "",
+  effects_UNSTABLE: [persistAtom],
 });
 
 // 이벤트 클릭 상태값
