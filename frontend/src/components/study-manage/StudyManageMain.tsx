@@ -226,7 +226,7 @@ const DdayBox = styled.div`
 
 const NoDday = styled.div`
   margin: 0.556vw;
-  height: 100%;
+  height: 80%;
   background-color: ${(props) => props.theme.subColor};
   display: flex;
   align-items: center;
