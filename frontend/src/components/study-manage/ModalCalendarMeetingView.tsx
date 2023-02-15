@@ -1,4 +1,7 @@
+import { studyIdRecoil } from "atoms/StudyManage";
 import { SetStateAction, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { ReactComponent as Close } from "../../assets/icon/Close.svg";
 import { ReactComponent as Meeting } from "../../assets/icon/Meeting.svg";
@@ -174,6 +177,9 @@ function ModalCalendarMeetingView(props: PropsType) {
       // document.removeEventListener('touchstart', handler); // 모바일 대응
     };
   });
+
+  const studyId = useRecoilValue(studyIdRecoil);
+
   return (
     <Backdrop>
       <ModalContainer ref={modalRef}>
@@ -206,7 +212,9 @@ function ModalCalendarMeetingView(props: PropsType) {
           </ModalContent>
         </ModalConWrapper>
         <ModalBtnBox>
-          <ModalBtn>회의 참여하기 →</ModalBtn>
+          <ModalBtn>
+            <Link to={`/meeting/${studyId}`}>회의 참여하기 →</Link>
+          </ModalBtn>
         </ModalBtnBox>
       </ModalContainer>
     </Backdrop>
