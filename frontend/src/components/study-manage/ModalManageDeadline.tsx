@@ -79,7 +79,7 @@ function ModalManageDeadline(props: any) {
           <Footer>
             <Link
               to={{
-                pathname: `/manage/manageMember`,
+                pathname: `/manage/manageMember/${studyId}`,
               }}
             >
               <Btn
