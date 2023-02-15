@@ -172,6 +172,7 @@ const Area = styled.div`
   width: 50.667vw;
   margin-bottom: 2vw;
   padding: 2vw 2vw;
+  overflow-y: scroll;
 `;
 
 // 댓글

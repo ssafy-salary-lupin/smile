@@ -8,6 +8,7 @@ import { useRecoilValue } from "recoil";
 import { studyIdRecoil } from "atoms/StudyManage";
 import jwt_decode from "jwt-decode";
 import { isError } from "react-query";
+import sendImg from "../../assets/img/SendImg.png";
 
 const ModalContainer = styled.div`
   display: flex;
@@ -16,10 +17,10 @@ const ModalContainer = styled.div`
   flex-direction: column;
   position: fixed;
   width: 22.222vw;
-  height: 31.667vw;
+  height: 33.333vw;
   z-index: 999;
   background-color: white;
-  border-radius: 1.111vw;
+  border-radius: 0.694vw;
   position: absolute;
   right: 3.889vw;
   top: 40.556vw;
@@ -31,29 +32,38 @@ const ModalContainer = styled.div`
 
 const ModalHeader = styled.div`
   width: 100%;
-  height: 10%;
-  background-color: ${(props) => props.theme.mainColor};
-  border-radius: 1.111vw 1.111vw 0 0;
+  height: 8%;
+  background-color: #b0bad2;
+  border-radius: 0.694vw 0.694vw 0 0;
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
   padding: 0.278vw 1.111vw;
 `;
 
 const HeaderText = styled.div`
+  width: 100%;
   font-weight: 600;
   font-size: 1.111vw;
-  justify-content: flex-start;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  p {
+    margin: 0;
+  }
 `;
 
 const ModalContent = styled.div`
   width: 100%;
-  height: 80%;
-  background-color: ${(props) => props.theme.whiteColor};
+  height: 84%;
+  background-color: #f1f5ff;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
+  /* align-items: center; */
   padding: 0.278vw 1.111vw;
   overflow-y: scroll;
 `;
@@ -89,7 +99,8 @@ const ChatBubbleWrapperMe = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  align-items: right;
+  margin-bottom: 0.972vw;
+  /* align-items: right; */
 `;
 
 const ChatBubbleWrapperYou = styled(ChatBubbleWrapperMe)`
@@ -99,10 +110,11 @@ const ChatBubbleWrapperYou = styled(ChatBubbleWrapperMe)`
 
 const NameMe = styled.div`
   width: 100%;
-  font-size: 0.972vw;
-  margin-bottom: 0.139vw;
+  font-size: 0.833vw;
+  margin-bottom: 0.278vw;
   text-align: right;
   padding-right: 0.556vw;
+  color: ${(props) => props.theme.blackColorOpacity2};
 `;
 
 const NameYou = styled(NameMe)`
@@ -112,16 +124,20 @@ const NameYou = styled(NameMe)`
 `;
 
 const ChatBubbleMe = styled.div`
-  max-width: 13.889vw;
+  max-width: 12.778vw;
   min-width: 6.944vw;
   position: relative;
-  background: ${(props) => props.theme.mainColor};
+  background: ${(props) => props.theme.pointColor};
+  color: white;
+  line-height: 1.111vw;
   padding: 0.556vw;
   border-radius: 0.694vw;
   display: flex;
   align-items: center;
   justify-content: center;
   word-wrap: break-word;
+  box-shadow: 0.208vw 0.208vw 0.208vw
+    ${(props) => props.theme.blackColorOpacity};
 
   p {
     margin: 0;
@@ -130,12 +146,16 @@ const ChatBubbleMe = styled.div`
 `;
 
 const ChatBubbleYou = styled(ChatBubbleMe)`
-  background: ${(props) => props.theme.shadowColor};
+  background: #f7faff;
+  color: black;
 `;
 
 const ModalFooter = styled.form`
+  /* border-top: 1px solid ${(props) => props.theme.shadowColor}; */
+  background-color: #b0bad2;
+  border-radius: 0 0 0.694vw 0.694vw;
   width: 100%;
-  height: 10%;
+  height: 8%;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -147,10 +167,10 @@ const ModalFooter = styled.form`
 `;
 
 const TextBox = styled.input`
-  width: 85%;
+  width: 100%;
   border-radius: 1.111vw;
   border: none;
-  background-color: #edebeb;
+  /* border: 0.139vw solid #c1cdea; */
   height: 100%;
   outline: none;
   font-size: 0.556vw;
@@ -168,13 +188,16 @@ const SendBtn = styled.input`
   width: 100%;
   height: 100%;
   border: none;
-  background-color: ${(props) => props.theme.mainColor};
+  font-weight: bold;
+  background-color: transparent;
   display: flex;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
   cursor: pointer;
 `;
 
-function ModalBasic(props) {
+function ChatModal(props) {
   const [modalBasicClose, setModalBasicClose] = useState(true);
   // 모달 끄기
   const closeModal = () => {
@@ -346,7 +369,9 @@ function ModalBasic(props) {
   return (
     <ModalContainer ref={modalRef}>
       <ModalHeader>
-        <HeaderText>Message</HeaderText>
+        <HeaderText>
+          <p>Message</p>
+        </HeaderText>
       </ModalHeader>
       <ModalContent>
         <ChatList>
@@ -385,6 +410,31 @@ function ModalBasic(props) {
               }
             }
           })}
+          {/* <EnterMsgBox>
+            <div>정혜주님이 입장하셨습니다. </div>
+          </EnterMsgBox>
+          <ChatBubbleWrapperMe>
+            <div>
+              <NameMe>정혜주</NameMe>
+              <ChatBubbleMe>
+                <p>
+                  안녕하세요? 반갑습니다. 저는 정혜주입니다. 앞으로 잘
+                  부탁드립니다.
+                </p>
+              </ChatBubbleMe>
+            </div>
+          </ChatBubbleWrapperMe>
+          <ChatBubbleWrapperYou>
+            <div>
+              <NameYou>정혜주</NameYou>
+              <ChatBubbleYou>
+                <p>
+                  안녕하세요? 반갑습니다. 저는 정혜주입니다. 앞으로 잘
+                  부탁드립니다.
+                </p>
+              </ChatBubbleYou>
+            </div>
+          </ChatBubbleWrapperYou> */}
         </ChatList>
       </ModalContent>
       <ModalFooter onSubmit={(event) => handleSubmit(event, chat)}>
@@ -393,9 +443,11 @@ function ModalBasic(props) {
           name={"chatInput"}
           onChange={handleChange}
           value={chat}
+          placeholder="메시지를 입력하세요."
+          autoComplete="off"
         ></TextBox>
         <SendMsgBox>
-          <SendBtn type={"submit"}>
+          <SendBtn type={"submit"} value={"Send"}>
             {/* <Send width="100%" height="100%" /> */}
           </SendBtn>
         </SendMsgBox>
@@ -403,4 +455,4 @@ function ModalBasic(props) {
     </ModalContainer>
   );
 }
-export default ModalBasic;
+export default ChatModal;
