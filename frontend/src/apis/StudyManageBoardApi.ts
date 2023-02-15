@@ -93,6 +93,8 @@ export async function boardTypeSelectApi() {
 // 게시글 입력
 export async function boardeInsertApi(data: any, studyId: string) {
   try {
+    console.log("작성한 data : ", data);
+
     await axios.post(`${BASE_URL}/${studyId}/boards`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
