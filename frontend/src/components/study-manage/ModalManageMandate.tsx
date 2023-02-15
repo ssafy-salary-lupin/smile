@@ -6,6 +6,7 @@ import { Link, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { useRecoilValue } from "recoil";
 import { studyIdRecoil } from "atoms/StudyManage";
+import jwt_decode from "jwt-decode";
 
 const Wrapper = styled.div``;
 
@@ -79,14 +80,13 @@ function ModalManageMandate(props: any) {
   };
 
   const studyId = useRecoilValue(studyIdRecoil);
-  // const onMandate = () => {
-  //   console.log("on");
-  //   const { id } = useParams<Params>();
-  //   const { data: studyUsers, refetch } = useQuery<userData>(
-  //     "studyUsers",
-  //     async () => await MandateApi(id),
-  //   );
-  // };
+  const token = localStorage.getItem("kakao-token");
+  if (token !== null) {
+    var decoded: any = jwt_decode(token);
+    console.log("decode", decoded);
+  } else {
+    console.log("none");
+  }
 
   return (
     <Wrapper>
@@ -105,7 +105,7 @@ function ModalManageMandate(props: any) {
             <Btn
               color="#F5C82E"
               onClick={() => {
-                // MandateApi(studyId, );
+                MandateApi(studyId, decoded?.userId);
                 console.log("안녕");
                 closeModal();
               }}
