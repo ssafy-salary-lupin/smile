@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { UserDropApi } from "../../apis/StudyManageMemberApi";
 import { useRecoilValue } from "recoil";
 import { studyIdRecoil } from "atoms/StudyManage";
+import jwt_decode from "jwt-decode";
 
 const Wrapper = styled.div``;
 
@@ -59,6 +60,15 @@ function ModalManageDrop(props: any) {
   };
 
   const studyId = useRecoilValue(studyIdRecoil);
+  const token = localStorage.getItem("kakao-token");
+  if (token !== null) {
+    var decoded: any = jwt_decode(token);
+    console.log("decode", decoded);
+  } else {
+    console.log("none");
+  }
+
+  const studyId = useRecoilValue(studyIdRecoil);
   return (
     <Wrapper>
       <ModalNone setModalOpen={props.setModalOpen}>
@@ -76,7 +86,7 @@ function ModalManageDrop(props: any) {
               <Btn
                 color="#F5C82E"
                 onClick={() => {
-                  UserDropApi();
+                  UserDropApi(studyId, decoded?.userId);
                   closeModal();
                 }}
               >
