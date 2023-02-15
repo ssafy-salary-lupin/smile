@@ -79,7 +79,7 @@ const SkeletonSection = styled.section`
   justify-content: space-between;
   div {
     :nth-child(1) {
-      width: 7vw;
+      width: 10vw;
       height: 1.68vw;
       @media screen and (min-width: 1280px) {
         width: 128px;
@@ -141,7 +141,7 @@ const SkeletonImg = styled.div`
     border-radius: 10.752px 10.752px 0vw 0vw !important;
     width: 285.677px;
 
-    height: 209.664px;
+    height: 210.664px;
   }
   /* position: relative;
   top: -0.24vw;
@@ -154,8 +154,8 @@ const SkeletonText = styled.div`
 `;
 
 const SkeletonProfile = styled.div`
-  width: 3.36vw;
-  height: 3.36vw;
+  width: 5vw;
+  height: 5vw;
   border-radius: 50px !important;
   /* @media screen and (min-width: 1680px) {
     width: 50px;
@@ -165,8 +165,8 @@ const SkeletonProfile = styled.div`
     margin-bottom: 3px;
   } */
   @media screen and (min-width: 1280px) {
-    width: 33.331px;
-    height: 33.331px;
+    width: 35px;
+    height: 35px;
     border-radius: 37.498px !important;
     margin-left: 2.997px;
     margin-bottom: 0.576px;
