@@ -545,7 +545,7 @@ function StudyDetailPages() {
       <BlankSpace />
       <Text>
         <Icons.CaretLeft width="1.667vw" />
-        <Link to={{ pathname: `/studies/search` }}>
+        <Link to={{ pathname: `/search` }}>
           <p>목록으로</p>
         </Link>
       </Text>
