@@ -254,6 +254,8 @@ function ChatModal(props) {
     async () => await StudyUserApi(studyId),
   );
 
+  console.log("결과 : ", userInfo);
+
   useEffect(() => {
     console.log("사용자 : ", userInfo);
     userInfo.result.map(async (el) => {
