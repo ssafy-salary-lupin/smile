@@ -95,6 +95,8 @@ export async function StudyUserApi(studyId: string) {
     });
     const data = await response.json();
 
+    console.log("데이타 : ", data);
+
     return data;
   } catch (error: any) {
     console.log(error);
