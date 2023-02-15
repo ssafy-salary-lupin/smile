@@ -17,16 +17,16 @@ public interface StudyCommonRepository extends JpaRepository<StudyInformation, I
 
 
     //스터디 전체 조회
-    @Query(value = "select s from StudyInformation s " +
+    @Query(value = "select distinct s from StudyInformation s " +
             "left join fetch s.studyType st " +
             "left join fetch s.userJoinStudies ujs " +
             "left join fetch s.studyComments sc " +
-            "left join fetch ujs.user " +
-            "where s.deadline = false and s.isEnd = false and ujs.isDeleted = false ")
+            "left join fetch ujs.user u " +
+            "where s.deadline = false and s.isEnd = false and ujs.isDeleted = false")
     List<StudyInformation> findAllByStudyInformation();
 
     /**검색조건이 name 하나일때*/
-    @Query(value = "select s from StudyInformation s " +
+    @Query(value = "select distinct s from StudyInformation s " +
             "left join fetch s.studyType st " +
             "left join fetch s.userJoinStudies ujs " +
             "left join fetch s.studyComments sc " +
@@ -37,7 +37,7 @@ public interface StudyCommonRepository extends JpaRepository<StudyInformation, I
 
 
     /** 검색 조건이 type 하나일 때*/
-    @Query(value = "select s from StudyInformation s " +
+    @Query(value = "select distinct s from StudyInformation s " +
             "left join fetch s.studyType st " +
             "left join fetch s.userJoinStudies ujs " +
             "left join fetch s.studyComments sc " +
@@ -48,7 +48,7 @@ public interface StudyCommonRepository extends JpaRepository<StudyInformation, I
 
 
     /** 검색 조건이 둘다 일때.*/
-    @Query(value = "select s from StudyInformation s " +
+    @Query(value = "select distinct s from StudyInformation s " +
             "left join fetch s.studyType st " +
             "left join fetch s.userJoinStudies ujs " +
             "left join fetch s.studyComments sc " +
