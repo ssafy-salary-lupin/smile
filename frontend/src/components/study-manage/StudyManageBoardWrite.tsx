@@ -9,7 +9,8 @@ import { useQuery } from "react-query";
 import { boardeInsertApi, boardTypeSelectApi } from "apis/StudyManageBoardApi";
 import Swal from "sweetalert2";
 import { useRecoilValue } from "recoil";
-import { studyIdRecoil } from "atoms/StudyManage";
+import { StudyCeoRecoil, studyIdRecoil } from "atoms/StudyManage";
+import { UserIdState } from "atoms/UserInfoAtom";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
@@ -320,6 +321,9 @@ function StudyManageBoardWrite() {
 
   const Options = typeData?.result.types;
 
+  const userId = useRecoilValue(UserIdState);
+  const studyCeo = useRecoilValue(StudyCeoRecoil);
+
   return (
     <Wrapper>
       <Bracket>
@@ -327,11 +331,19 @@ function StudyManageBoardWrite() {
         <Sub2>
           <Select name="bracket" onChange={handleTypeId}>
             <Option value="0">-- 말머리 --</Option>
-            {Options?.map((el, index) => (
-              <Option value={el.id} key={index}>
-                {el.name}
-              </Option>
-            ))}
+            {Options?.map((el, index) => {
+              if (el.id === 1) {
+                if (userId === studyCeo) {
+                  <Option value={el.id} key={index}>
+                    {el.name}
+                  </Option>;
+                }
+              } else {
+                <Option value={el.id} key={index}>
+                  {el.name}
+                </Option>;
+              }
+            })}
           </Select>
         </Sub2>
       </Bracket>

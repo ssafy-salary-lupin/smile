@@ -82,3 +82,21 @@ export async function StudySelectApi(studyId: string) {
     console.log(error);
   }
 }
+
+// 스터디 유저 조회
+export async function StudyUserApi(studyId: string) {
+  try {
+    const response = await fetch(`${BASE_URL}/${studyId}/users`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
+        Accept: "application/json",
+      },
+    });
+    const data = await response.json();
+
+    return data;
+  } catch (error: any) {
+    console.log(error);
+  }
+}

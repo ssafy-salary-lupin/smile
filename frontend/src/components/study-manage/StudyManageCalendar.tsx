@@ -6,7 +6,12 @@ import { useState, useEffect } from "react";
 import ModalCalendarCommonView from "./ModalCalendarCommonView";
 import { useQuery } from "react-query";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { dateState, Schedules, studyIdRecoil } from "atoms/StudyManage";
+import {
+  dateState,
+  Schedules,
+  StudyCeoRecoil,
+  studyIdRecoil,
+} from "atoms/StudyManage";
 import ModalCalendarRegist, { IRegistData } from "./ModalCalendarRegist";
 import ModalCalendarMeetingView from "./ModalCalendarMeetingView";
 import {
@@ -17,6 +22,8 @@ import {
   scheduleUpdateApi,
 } from "apis/StudyManageCalendarAPi";
 import ModalCalendarUpdate from "./ModalCalendarUpdate";
+import { UserIdState } from "atoms/UserInfoAtom";
+import Swal from "sweetalert2";
 
 const Wrapper = styled.div`
   margin: 3.889vw 10.833vw;
@@ -74,6 +81,8 @@ interface IMeetingData {
 
 function StudyManageCalendar() {
   const studyId = useRecoilValue(studyIdRecoil);
+  const userId = useRecoilValue(UserIdState);
+  const studyCeo = useRecoilValue(StudyCeoRecoil);
 
   // 모달
   const [MeetingModalOpen, setMeetingModalOpen] = useState<boolean>(false);
@@ -100,22 +109,30 @@ function StudyManageCalendar() {
 
   // 날짜 클릭 시 일정 등록 모달 띄우기
   const handleDateClick = (arg: any) => {
-    setDateClickState(true);
-    const endDate = new Date(arg.end);
-    const yesterday = new Date(
-      endDate.getFullYear(),
-      endDate.getMonth(),
-      endDate.getDate() - 1,
-    );
-    const endStr =
-      yesterday.getFullYear().toString() +
-      "-" +
-      (yesterday.getMonth() + 1).toString() +
-      "-" +
-      yesterday.getDate().toString();
-    setSelectStart(arg.startStr);
-    setSelectEnd(endStr);
-    setRegistModalOpen(true);
+    if (userId !== studyCeo) {
+      Swal.fire({
+        icon: "error",
+        title: "이런...",
+        text: "스터디장만 입력가능합니다!",
+      });
+    } else {
+      setDateClickState(true);
+      const endDate = new Date(arg.end);
+      const yesterday = new Date(
+        endDate.getFullYear(),
+        endDate.getMonth(),
+        endDate.getDate() - 1,
+      );
+      const endStr =
+        yesterday.getFullYear().toString() +
+        "-" +
+        (yesterday.getMonth() + 1).toString() +
+        "-" +
+        yesterday.getDate().toString();
+      setSelectStart(arg.startStr);
+      setSelectEnd(endStr);
+      setRegistModalOpen(true);
+    }
   };
 
   // 날짜 연속 클릭 방지용

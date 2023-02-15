@@ -9,12 +9,15 @@ import {
   DdaySelectApi,
   ruleCreateApi,
   StudyInfoSelectApi,
+  StudyUserApi,
 } from "apis/StudyManageMainApi";
 import ReactQuill from "react-quill";
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import ModalCalendarCommonOnlyView from "./ModalCalendarCommonOnlyView";
 import { useRecoilState } from "recoil";
-import { studyIdRecoil } from "atoms/StudyManage";
+import { StudyCeoRecoil, studyIdRecoil } from "atoms/StudyManage";
+import { ReactComponent as Crown } from "../../assets/icon/Crown.svg";
+import { theme } from "theme";
 
 const Wrapper = styled.div`
   margin: 3.889vw 10.833vw;
@@ -180,10 +183,13 @@ const Name = styled.div`
 `;
 
 const Status = styled.div`
-  background-color: greenyellow;
+  /* background-color: greenyellow; */
   width: 1.111vw;
   height: 1.111vw;
   border-radius: 100%;
+  /* 임시로 추가 */
+  display: flex;
+  align-items: center;
 `;
 
 const Space = styled.div`
@@ -213,6 +219,21 @@ const DdayBox = styled.div`
     height: 17%;
     background-color: ${(props) => props.theme.pointColor};
     border-radius: 10px;
+  }
+`;
+
+const NoDday = styled.div`
+  margin: 0.556vw;
+  background-color: ${(props) => props.theme.subColor};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top: 0.139vw solid black;
+  border-bottom: 0.139vw solid black;
+
+  p {
+    margin: 0;
+    font-size: 1.111vw;
   }
 `;
 
@@ -293,6 +314,21 @@ interface DdayInfo {
   ];
 }
 
+interface IUserInfo {
+  code: number;
+  isSuccess: boolean;
+  message: string;
+  result: [
+    {
+      email: string;
+      id: number;
+      imgPath: string;
+      leader: boolean;
+      nickname: string;
+    },
+  ];
+}
+
 interface IStudyId {
   studyId: string;
 }
@@ -303,6 +339,7 @@ function StudyManageMain() {
   const studyId = params.studyId;
   // studyId recoil 변수에 저장
   const [studyIdAtom, setStudyIdAtom] = useRecoilState(studyIdRecoil);
+  const [studyCeoAtom, setStudyCeoAtom] = useRecoilState(StudyCeoRecoil);
 
   // 스터디 룰 모달창 노출 여부 state
   const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -331,6 +368,10 @@ function StudyManageMain() {
     DdaySelectApi(studyId),
   );
 
+  const { data: userInfo } = useQuery<IUserInfo>("userInfoApi", () =>
+    StudyUserApi(studyId),
+  );
+
   // 디데이 모달창 띄우기 + 클릭한 아이디 모달창에 넘겨주기
   const [ddayModalOpen, setDdayModalOpen] = useState<boolean>(false);
   const [selectedId, setSelectedId] = useState<number>(0);
@@ -354,7 +395,13 @@ function StudyManageMain() {
     console.log(params.studyId);
     setStudyIdAtom(studyId);
     setRule(studyInfo?.result.rule);
-  }, [studyInfo]);
+
+    userInfo?.result.map((el: any) => {
+      if (el.leader) {
+        setStudyCeoAtom(el.id);
+      }
+    });
+  }, [studyInfo, userInfo]);
 
   return (
     <Wrapper>
@@ -362,7 +409,7 @@ function StudyManageMain() {
         <StudyPropfile>
           <StudyImgWrapper>
             <StudyImg>
-              <Profile src={profileImg} />
+              <Profile src={studyInfo?.result.imagePath} />
             </StudyImg>
           </StudyImgWrapper>
           <StudyName>
@@ -389,12 +436,23 @@ function StudyManageMain() {
               <MemberTitle>스터디 멤버</MemberTitle>
               <MemberBox>
                 {studyInfo?.result.users?.map((el, index) => {
-                  return (
-                    <Member key={index}>
-                      <Name>{el.nickname}</Name>
-                      <Status></Status>
-                    </Member>
-                  );
+                  if (el.userId === studyCeoAtom) {
+                    return (
+                      <Member key={index}>
+                        <Name>{el.nickname}</Name>
+                        <Status>
+                          <Crown fill={theme.mainColor} width="100%" />
+                        </Status>
+                      </Member>
+                    );
+                  } else {
+                    return (
+                      <Member key={index}>
+                        <Name>{el.nickname}</Name>
+                        <Status></Status>
+                      </Member>
+                    );
+                  }
                 })}
               </MemberBox>
             </StudyMember>
@@ -402,18 +460,22 @@ function StudyManageMain() {
             <StudyDday>
               <DdayTitle>디데이</DdayTitle>
               <DdayBox>
-                {ddayInfo
-                  ? ddayInfo.result.map((el, index) => {
-                      return (
-                        <Dday key={index} onClick={() => showDdayModal(el.id)}>
-                          <Tag></Tag>
-                          <Text>
-                            D-{el.day} {el.title}
-                          </Text>
-                        </Dday>
-                      );
-                    })
-                  : null}
+                {ddayInfo ? (
+                  ddayInfo.result.map((el, index) => {
+                    return (
+                      <Dday key={index} onClick={() => showDdayModal(el.id)}>
+                        <Tag></Tag>
+                        <Text>
+                          D-{el.day} {el.title}
+                        </Text>
+                      </Dday>
+                    );
+                  })
+                ) : (
+                  <NoDday>
+                    <p>등록된 일정이 없습니다.</p>
+                  </NoDday>
+                )}
               </DdayBox>
             </StudyDday>
           </StudySub>

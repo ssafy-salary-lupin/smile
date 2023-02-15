@@ -10,6 +10,13 @@ export const studyIdRecoil = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
+// 스터디장 ID 저장
+export const StudyCeoRecoil = atom({
+  key: "studyCeo",
+  default: 0,
+  effects_UNSTABLE: [persistAtom],
+});
+
 // 이벤트 클릭 상태값
 export const dateState = atom({
   key: "dateState",
