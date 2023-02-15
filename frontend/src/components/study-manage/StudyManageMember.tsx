@@ -12,12 +12,7 @@ import ModalManageDeadline from "./ModalManageDeadline";
 import ModalManageMandate from "./ModalManageMandate";
 import ModalManageEnd from "./ModalManageEnd";
 import ModalManageDrop from "./ModalManageDrop";
-import {
-  StudyUserApi,
-  MandateApi,
-  UserDropApi,
-  StudyEndApi,
-} from "../../apis/StudyManageMemberApi";
+import { StudyUserApi } from "../../apis/StudyManageMemberApi";
 import { ReactComponent as Crown } from "../../assets/icon/Crown.svg";
 import axios from "axios";
 import { theme } from "theme";
@@ -163,7 +158,7 @@ interface Data {
       id: number; //사용자 식별자
       nickname: string; //사용자 닉네임
       email: string; //사용자 이메일
-      imagePath: string; //사용자 프로필 사진 url
+      imgPath: string; //사용자 프로필 사진 url
       isLeader: boolean; //스터디장 유무
     },
   ];
@@ -196,6 +191,7 @@ function StudyManageMember() {
   // 위임
   const [mandateModalOpen, setMandateModalOpen] = useState(false);
   const MandateopenModal = () => {
+    // 위임 모달
     setMandateModalOpen(!mandateModalOpen);
   };
 
@@ -220,10 +216,8 @@ function StudyManageMember() {
               {/* <Card> */}
               <ProfileImg
                 imgUrl={
-                  // detailStudy?.result.imgPath !== "/root"
-                  //   ? detailStudy?.result.imgPath
-                  // : defaultprofileImg
-                  defaultprofileImg
+                  user?.imgPath !== "/root" ? user?.imgPath : defaultprofileImg
+                  // defaultprofileImg
                 }
                 width="50px"
                 height="50px"
@@ -238,11 +232,11 @@ function StudyManageMember() {
               {user.leader === true ? null : (
                 <BtnBox>
                   <YellowBtn onClick={MandateopenModal}>위임</YellowBtn>
-                  {dropModalOpen && (
-                    <ModalManageDrop setModalOpen={setDropModalOpen} />
-                  )}
                   <BlueBtn onClick={DropopenModal}>강퇴</BlueBtn>
                 </BtnBox>
+              )}
+              {dropModalOpen && (
+                <ModalManageDrop setModalOpen={setDropModalOpen} />
               )}
               {mandateModalOpen && (
                 <ModalManageMandate setModalOpen={setMandateModalOpen} />

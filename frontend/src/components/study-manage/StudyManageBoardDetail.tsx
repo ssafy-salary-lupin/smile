@@ -19,6 +19,7 @@ import { TypeProps } from "./StudyManageBoardList";
 import Swal from "sweetalert2";
 import { useRecoilValue } from "recoil";
 import { studyIdRecoil } from "atoms/StudyManage";
+import { UserIdState } from "atoms/UserInfoAtom";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
@@ -377,13 +378,10 @@ function StudyManageBoardDetail() {
         deleteBoardApi(boardId, studyId);
         Swal.fire("삭제완료!", "", "success");
         refetch();
-        history.push("/manage/board");
+        // history.push("/manage/board/" + studyId);
+        window.location.replace("/manage/board/" + studyId);
       }
     });
-    // if (window.confirm("삭제하시겠습니까?")) {
-    //   await deleteScheduleApi(boardId);
-    //   refetch();
-    // }
   };
 
   // 댓글작성
@@ -397,7 +395,7 @@ function StudyManageBoardDetail() {
     refetch();
   };
 
-  // 댓글 수정
+  // 댓글 수정..
   const [selectedId, setSelectedId] = useState(null);
   const [reply, setReply] = useState<string>();
   const updateComment = async (parentId: any, currentContent: any) => {
@@ -427,11 +425,6 @@ function StudyManageBoardDetail() {
         Swal.fire("삭제완료!", "", "success");
       }
     });
-
-    // if (window.confirm("댓글을 삭제하시겠습니까?")) {
-    //   await commentDeleteApi(boardId, commentId);
-    //   await refetch();
-    // }
   };
 
   const [article, setArticle] = useState<Data>();
@@ -449,6 +442,8 @@ function StudyManageBoardDetail() {
     stateSet();
   }, [detailData]);
 
+  const userId = useRecoilValue(UserIdState);
+
   return (
     <Wrapper>
       <ArticleHeader>
@@ -461,7 +456,10 @@ function StudyManageBoardDetail() {
       </ArticleHeader>
       <ArticleInfo>
         <Writer>
-          <ProfileImg width="2.222vw" />
+          <ProfileImg
+            width="2.222vw"
+            imgUrl={article?.result.writer.profileImageUrl}
+          />
           <Name>{article?.result.writer.nickname}</Name>
         </Writer>
         <SubInfo>
@@ -504,14 +502,19 @@ function StudyManageBoardDetail() {
         </FileSub2>
       </FileBox>
       <ArticleBtn>
-        <UpdateBtn>
-          <Link to={`/manage/boardUpdate/${article?.result.boardId}`}>
-            수정
-          </Link>
-        </UpdateBtn>
-        <DeleteBtn onClick={onDelete}>삭제</DeleteBtn>
+        {userId === article?.result.writer.writerId ? (
+          <>
+            <UpdateBtn>
+              <Link to={`/manage/boardUpdate/${article?.result.boardId}`}>
+                수정
+              </Link>
+            </UpdateBtn>
+            <DeleteBtn onClick={onDelete}>삭제</DeleteBtn>
+          </>
+        ) : null}
+
         <ListBtn>
-          <Link to="/manage/board">목록</Link>
+          <Link to={`/manage/board/${studyId}`}>목록</Link>
         </ListBtn>
       </ArticleBtn>
       <CommentHeader>댓글</CommentHeader>
@@ -529,7 +532,10 @@ function StudyManageBoardDetail() {
           return (
             <CommentBox key={index}>
               <CommentTop>
-                <ProfileImg width="2.222vw" />
+                <ProfileImg
+                  width="2.222vw"
+                  imgUrl={el.writer.profileImageUrl}
+                />
                 <WriterName>{el.writer.nickname}</WriterName>
                 <p>
                   {el.writeAt.split("T")[0] + " " + el.writeAt.split("T")[1]}
@@ -551,21 +557,27 @@ function StudyManageBoardDetail() {
                 )}
               </CommentContent>
               <CommentFooter>
-                {selectedId !== el.commentId ? (
-                  <ComUpdateBtn
-                    onClick={() => updateComment(el.commentId, el.content)}
-                  >
-                    수정
-                  </ComUpdateBtn>
-                ) : (
-                  <ComUpdateBtn onClick={() => onUpdateComment(el.commentId)}>
-                    수정
-                  </ComUpdateBtn>
-                )}
-                <p>·</p>
-                <ComDeleteBtn onClick={() => deleteComment(el.commentId)}>
-                  삭제
-                </ComDeleteBtn>
+                {userId === el.writer.writerId ? (
+                  <>
+                    {selectedId !== el.commentId ? (
+                      <ComUpdateBtn
+                        onClick={() => updateComment(el.commentId, el.content)}
+                      >
+                        수정
+                      </ComUpdateBtn>
+                    ) : (
+                      <ComUpdateBtn
+                        onClick={() => onUpdateComment(el.commentId)}
+                      >
+                        수정
+                      </ComUpdateBtn>
+                    )}
+                    <p>·</p>
+                    <ComDeleteBtn onClick={() => deleteComment(el.commentId)}>
+                      삭제
+                    </ComDeleteBtn>
+                  </>
+                ) : null}
               </CommentFooter>
             </CommentBox>
           );

@@ -30,6 +30,7 @@ export async function StudyInfoSelectApi(studyId: string) {
 // 디데이 정보 조회
 // /studies/{study_id}/home/d-day
 export async function DdaySelectApi(studyId: string) {
+  console.log("디데이 studyID : ", studyId);
   try {
     const response = await fetch(`${BASE_URL}/${studyId}/home/d-day`, {
       headers: {
@@ -51,11 +52,11 @@ export async function DdaySelectApi(studyId: string) {
 // 규칙 등록하기 /studies/{study-id}/schedules
 export async function ruleCreateApi(data: any, studyId: string) {
   try {
-    await axios.patch(`${BASE_URL}/${studyId}`, JSON.stringify(data), {
+    await axios.patch(`${BASE_URL}/${studyId}`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
         // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
-        "Content-Type": `application/json`,
+        "Content-Type": "multipart/form-data",
       },
     });
   } catch (error: any) {
@@ -68,6 +69,24 @@ export async function ruleCreateApi(data: any, studyId: string) {
 export async function StudySelectApi(studyId: string) {
   try {
     const response = await fetch(`${BASE_URL}/${studyId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
+        Accept: "application/json",
+      },
+    });
+    const data = await response.json();
+
+    return data;
+  } catch (error: any) {
+    console.log(error);
+  }
+}
+
+// 스터디 유저 조회
+export async function StudyUserApi(studyId: string) {
+  try {
+    const response = await fetch(`${BASE_URL}/${studyId}/users`, {
       headers: {
         Authorization: `Bearer ${token}`,
         // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
