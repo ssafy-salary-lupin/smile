@@ -14,10 +14,12 @@ import {
 import ReactQuill from "react-quill";
 import { useParams } from "react-router-dom";
 import ModalCalendarCommonOnlyView from "./ModalCalendarCommonOnlyView";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { StudyCeoRecoil, studyIdRecoil } from "atoms/StudyManage";
 import { ReactComponent as Crown } from "../../assets/icon/Crown.svg";
 import { theme } from "theme";
+import { UserIdState } from "atoms/UserInfoAtom";
+import Swal from "sweetalert2";
 
 const Wrapper = styled.div`
   margin: 3.889vw 10.833vw;
@@ -341,10 +343,22 @@ function StudyManageMain() {
   const [studyIdAtom, setStudyIdAtom] = useRecoilState(studyIdRecoil);
   const [studyCeoAtom, setStudyCeoAtom] = useRecoilState(StudyCeoRecoil);
 
+  const userId = useRecoilValue(UserIdState);
   // 스터디 룰 모달창 노출 여부 state
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const showModal = () => {
-    setModalOpen(true);
+    console.log("userId : ", userId);
+    console.log("studyCeo : ", studyCeoAtom);
+
+    if (userId !== studyCeoAtom) {
+      Swal.fire({
+        icon: "error",
+        title: "이런...",
+        text: "스터디장만 입력가능합니다!!",
+      });
+    } else {
+      setModalOpen(true);
+    }
   };
 
   //채팅 모달창 띄우기
@@ -392,13 +406,12 @@ function StudyManageMain() {
 
   const [rule, setRule] = useState<string>();
   useEffect(() => {
-    console.log(params.studyId);
     setStudyIdAtom(studyId);
     setRule(studyInfo?.result.rule);
 
-    userInfo?.result.map((el: any) => {
+    userInfo?.result.map(async (el: any) => {
       if (el.leader) {
-        setStudyCeoAtom(el.id);
+        await setStudyCeoAtom(el.id);
       }
     });
   }, [studyInfo, userInfo]);
