@@ -9,7 +9,7 @@ const token = localStorage.getItem("kakao-token");
 // 스터디 정보 조회 /studies/1/home
 export async function StudyInfoSelectApi(studyId: string) {
   try {
-    const response = await fetch(`${BASE_URL}/${studyId}/home`, {
+    const response = await fetch(`${BASE_URL}/1/home`, {
       headers: {
         Authorization: `Bearer ${token}`,
         // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
