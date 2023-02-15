@@ -44,6 +44,8 @@ export async function noticeSelectAllApi(studyId: string) {
 
     const data = await response.json();
 
+    console.log("받아온 공지 data : ", data);
+
     return data;
   } catch (error: any) {
     console.log(error);
