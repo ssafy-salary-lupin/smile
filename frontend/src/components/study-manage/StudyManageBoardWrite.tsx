@@ -309,7 +309,7 @@ function StudyManageBoardWrite() {
 
     boardeInsertApi(formData, studyId);
 
-    history.push("/manage/board");
+    history.push("/manage/board/" + studyId);
   };
 
   // 게시글 유형
@@ -388,7 +388,7 @@ function StudyManageBoardWrite() {
       <Button>
         <WriteBtn onClick={submit}>등록</WriteBtn>
         <CancelBtn>
-          <Link to="/manage/board">취소</Link>
+          <Link to={`/manage/board/${studyId}`}>취소</Link>
         </CancelBtn>
       </Button>
     </Wrapper>
