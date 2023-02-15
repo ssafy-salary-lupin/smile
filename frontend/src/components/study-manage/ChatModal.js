@@ -303,7 +303,7 @@ function ChatModal(props) {
         type: typeValue, //먼저 방에 들어올때 - ENTER,  메시지를 보낼떄 - TALK
         roomId: studyId, //스터디 ID
         senderId: userId, //유저 id
-        senderName: "익명" + studyId, // nickName, //유저 이름
+        senderName: "익명" + userId, // nickName, //유저 이름
         message: chat, //메시지
       }), // 형식에 맞게 수정해서 보내야 함.
     });
