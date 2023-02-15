@@ -504,7 +504,9 @@ function StudyManageMain() {
       {modalOpen && (
         <StudyRuleModal setModalOpen={setModalOpen} createRule={createRule} />
       )}
-      {chatModalOpen && <ChatModal setModalOpen={setChatModalOpen} />}
+      {chatModalOpen && (
+        <ChatModal setModalOpen={setChatModalOpen} userInfo={userInfo} />
+      )}
       {ddayModalOpen && (
         <ModalCalendarCommonOnlyView
           setModalOpen={setDdayModalOpen}
