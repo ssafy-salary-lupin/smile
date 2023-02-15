@@ -40,6 +40,8 @@ export async function DdaySelectApi(studyId: string) {
     });
     const data = await response.json();
 
+    console.log("dday data : ", data);
+
     return data;
   } catch (error: any) {
     console.log(error);
