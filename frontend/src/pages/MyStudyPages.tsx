@@ -106,7 +106,10 @@ const CardWrapper = styled.div`
 const SearchContainer = styled.div`
   display: flex;
   justify-content: center;
-  flex-direction: column;
+  margin: 2.222vw 0;
+  @media screen and (min-width: 1280px) {
+    margin: 28.442px 0;
+  }
 `;
 
 interface StudiesInterface {
