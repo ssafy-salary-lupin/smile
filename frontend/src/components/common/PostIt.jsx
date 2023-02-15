@@ -166,7 +166,6 @@ class Note extends React.Component {
 class Board extends React.Component {
   constructor(props) {
     super(props);
-
     this.update = this.update.bind(this);
     this.eachNote = this.eachNote.bind(this);
     this.remove = this.remove.bind(this);
@@ -175,7 +174,9 @@ class Board extends React.Component {
     this.state = {
       // notesStringArray: [],
       notesStringArray: props.memos,
+      userId: this.props.userId,
     };
+    console.log("TEST", props.memos);
   }
 
   //Event methods
@@ -198,7 +199,7 @@ class Board extends React.Component {
         onChange={this.update}
         onRemove={this.remove}
       >
-        {element.note}
+        {element.content}
       </Note>
     );
   }
@@ -210,7 +211,20 @@ class Board extends React.Component {
     this.setState({ notesStringArray: arr });
     return elm;
   }
+
+  async getPostIt() {
+    const postArr = await PostItInfo.api.get(
+      `/users/${this.props.userId}/memos`,
+    );
+    console.log("POST IT2", postArr.data.result.memos);
+    console.log(this.state.notesStringArray);
+    this.state.notesStringArray.concat(postArr.data.result.memos);
+    console.log("HI", this.state.notesStringArray);
+    // console.log("HI2", this.state.notesStringArray1);
+  }
+
   componentWillMount() {
+    this.getPostIt();
     console.log("HERE", this.state.notesStringArray);
     var self = this;
     if (this.props.count) {
@@ -235,7 +249,7 @@ class Board extends React.Component {
     var arr = this.state.notesStringArray;
     arr.push({
       id: this.nextId(),
-      note: text,
+      content: text,
     });
     JSON.stringify(arr);
     this.setState({ notesStringArray: arr });
@@ -282,10 +296,10 @@ class Board extends React.Component {
 // };
 
 export default function PostIt() {
-  const userId = useRecoilValue(UserIdState);
+  // const userId = useRecoilValue(UserIdState);
   const [memos, setMemos] = useState();
   const getPostIt = async () => {
-    const postArr = await PostItInfo.api.get(`/users/${userId}/memos`);
+    const postArr = await PostItInfo.api.get(`/users/${6}/memos`);
     console.log("POST IT", postArr);
     setMemos(postArr.data.result.memos);
   };
@@ -293,5 +307,5 @@ export default function PostIt() {
   useEffect(() => {
     getPostIt();
   }, []);
-  return <Board count={50} memos={memos}></Board>;
+  return <Board count={50} memos={memos} userId={6}></Board>;
 }

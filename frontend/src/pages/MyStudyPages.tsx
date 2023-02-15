@@ -166,7 +166,8 @@ interface NumberOfCardsProps {
 
 export default function MyStudyPages() {
   useEffect(() => {
-    LoginAlert();
+    //TODO
+    // LoginAlert();
   }, []);
 
   // 유저 아이디
