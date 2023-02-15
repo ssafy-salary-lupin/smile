@@ -270,13 +270,18 @@ function ChatModal(props) {
       }
     }
     const userInfo = fetchData();
-    async function setName() {
-      await setNickName(userInfo.nickname);
-    }
-    setName();
+
+    userInfo.result.map(async (el) => {
+      if (el.id === userId) {
+        console.log("나다!");
+        await setNickName(el.nickName);
+      }
+    });
 
     console.log("닉네임 : ", nickName);
+  });
 
+  useEffect(() => {
     connect();
 
     return () => disconnect();
