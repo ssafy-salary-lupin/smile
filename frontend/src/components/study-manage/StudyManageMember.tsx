@@ -236,13 +236,10 @@ function StudyManageMember() {
               </BtnBox>
             )}
             {dropModalOpen && (
-              <ModalManageDrop id={user.id} setModalOpen={setDropModalOpen} />
+              <ModalManageDrop setModalOpen={setDropModalOpen} />
             )}
             {mandateModalOpen && (
-              <ModalManageMandate
-                id={user.id}
-                setModalOpen={setMandateModalOpen}
-              />
+              <ModalManageMandate setModalOpen={setMandateModalOpen} />
             )}
           </Card>;
         })}
