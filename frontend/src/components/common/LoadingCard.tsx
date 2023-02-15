@@ -163,8 +163,10 @@ const SkeletonText = styled.div`
 `;
 
 const SkeletonProfile = styled.div`
-  width: 3.5vw;
-  height: 3.5vw;
+  @media screen and (max-width: 1280px) {
+    width: 4vw;
+    height: 4vw;
+  }
   border-radius: 50px !important;
   /* @media screen and (min-width: 1680px) {
     width: 50px;
