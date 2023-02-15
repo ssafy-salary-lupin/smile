@@ -109,41 +109,45 @@ function VideoMeetingPages() {
   }
 
   interface studyDataType {
-    id: number;
-    name: string;
-    startDate: string;
-    endDatee: string;
-    time: string;
-    imagePath: string;
-    currrentPerson: number;
-    maxPerson: number;
-    viewCount: number;
-    description: string;
-    type: {
-      id: number;
-      name: string;
-    };
-    leader: {
-      id: number;
-      imagePath: string;
-      nickname: string;
-    };
-    comments: {
-      user: {
+    data: {
+      result: {
         id: number;
+        name: string;
+        startDate: string;
+        endDatee: string;
+        time: string;
         imagePath: string;
-        nickname: string;
-      };
-      content: string;
-      replies: {
-        user: {
+        currrentPerson: number;
+        maxPerson: number;
+        viewCount: number;
+        description: string;
+        type: {
+          id: number;
+          name: string;
+        };
+        leader: {
           id: number;
           imagePath: string;
           nickname: string;
         };
-        content: string;
-      }[];
-    }[];
+        comments: {
+          user: {
+            id: number;
+            imagePath: string;
+            nickname: string;
+          };
+          content: string;
+          replies: {
+            user: {
+              id: number;
+              imagePath: string;
+              nickname: string;
+            };
+            content: string;
+          }[];
+        }[];
+      };
+    };
   }
 
   const [userInfo, setUserInfo] = useState<userDataType>();
@@ -243,7 +247,7 @@ function VideoMeetingPages() {
           <Container>
             <StudyName>
               {/* TODO 스터디 이름 받아오기*/}
-              <span>{studyInfo?.name}</span>
+              <span>{studyInfo?.data.result.name}</span>
               {/* <span>SSAFY 스터디</span> */}
             </StudyName>
             <Back>
