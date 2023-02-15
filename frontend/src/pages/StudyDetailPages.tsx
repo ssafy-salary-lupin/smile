@@ -366,7 +366,7 @@ export interface Data {
         id: number;
         user: {
           id: number; //댓글 작성자 식별자
-          imgPath: string; //프로필
+          imagePath: string; //프로필
           nickname: string; //댓글 작성자 닉네임
         };
         content: string; //댓글 내용
