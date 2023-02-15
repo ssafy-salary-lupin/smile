@@ -7,9 +7,10 @@ import * as SockJS from "sockjs-client";
 import { useRecoilValue } from "recoil";
 import { studyIdRecoil } from "atoms/StudyManage";
 import jwt_decode from "jwt-decode";
-import { isError } from "react-query";
+import { isError, useQuery } from "react-query";
 import sendImg from "../../assets/img/SendImg.png";
 import { UserIdState } from "atoms/UserInfoAtom";
+import { StudyUserApi } from "apis/StudyManageMainApi";
 
 const ModalContainer = styled.div`
   display: flex;
@@ -239,10 +240,6 @@ function ChatModal(props) {
   const userId = useRecoilValue(UserIdState);
 
   // senderName : user nickname
-  // user nickname 정보 가져오기
-  const BASE_URL = `https://i8b205.p.ssafy.io/be-api`;
-  // const BASE_URL = `/be-api`;
-  // 사용자 token값
   const [nickName, setNickName] = useState("");
 
   // message : chat
@@ -252,32 +249,16 @@ function ChatModal(props) {
   // 최초 입장시 Enter type 보내기위해 임시 설정
   const [firstEnter, setFirstEnter] = useState(true);
 
-  useEffect(() => {
-    const token = localStorage.getItem("kakao-token");
-    async function fetchData() {
-      try {
-        const response = await fetch(`${BASE_URL}/users/${userId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
-            Accept: "application/json",
-          },
-        });
-        const data = await response.json();
-        return data;
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    const userInfo = fetchData();
+  const { data: userInfo } = useQuery("userInfo", StudyUserApi(studyId));
 
+  useEffect(() => {
     console.log("사용자 : ", userInfo);
-    // userInfo.map(async (el) => {
-    //   if (el.id === userId) {
-    //     console.log("나다!");
-    //     await setNickName(el.nickName);
-    //   }
-    // });
+    userInfo.result.map(async (el) => {
+      if (el.id === userId) {
+        console.log("나다!");
+        await setNickName(el.nickName);
+      }
+    });
 
     console.log("닉네임 : ", nickName);
   });
