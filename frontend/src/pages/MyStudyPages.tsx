@@ -18,9 +18,9 @@ const Container = styled.div`
   flex-direction: column;
   /* margin: 0 2.778vw; */
   margin: auto;
-  @media screen and (min-width: 1680px) {
+  @media screen and (min-width: 1280px) {
     justify-content: center;
-    width: 1680px;
+    width: 1280px;
     margin: auto;
     /* margin: 0 40.003px; */
   }
@@ -30,24 +30,24 @@ const Header = styled.div`
   display: flex;
   flex-direction: column;
   margin: 3.889vw 0 5.556vw 0;
-  @media screen and (min-width: 1680px) {
-    margin: 56.002px 0 80.006px 0;
+  @media screen and (min-width: 1280px) {
+    margin: 49.779px 0 5.556vw 0;
   }
 `;
 
 const Title = styled.h1`
   font-size: 3.333vw;
   font-weight: 600;
-  @media screen and (min-width: 1680px) {
-    font-size: 47.995px;
+  @media screen and (min-width: 1280px) {
+    font-size: 42.662px;
   }
 `;
 
 const SubTitle = styled.h2`
   font-size: 2.5vw;
   font-weight: 600;
-  @media screen and (min-width: 1680px) {
-    font-size: 36px;
+  @media screen and (min-width: 1280px) {
+    font-size: 32px;
   }
 `;
 
@@ -61,14 +61,20 @@ const GraphContainer = styled.div``;
 const StudyContainer = styled.div`
   display: flex;
   flex-direction: column;
+  :first-child {
+    margin-bottom: 3.333vw;
+    @media screen and (min-width: 1280px) {
+      margin-bottom: 42.662px;
+    }
+  }
 `;
 
 const StatusTitle = styled.summary`
   font-size: 2.5vw;
   font-weight: 600;
   cursor: pointer;
-  @media screen and (min-width: 1680px) {
-    font-size: 36px;
+  @media screen and (min-width: 1280px) {
+    font-size: 32px;
   }
 `;
 
@@ -78,14 +84,14 @@ const Cards = styled.div<NumberOfCardsProps>`
   /* grid-template-rows: repeat(2, 38.889vw); */
   grid-template-rows: repeat(${(props) => props.NumberOfCards / 3}, 38.889vw);
   margin-top: 2.8vw;
-  @media screen and (min-width: 1680px) {
-    grid-template-columns: repeat(3, 453.312px);
-    /* grid-template-rows: repeat(2, 560.002px); */
+  @media screen and (min-width: 1280px) {
+    grid-template-columns: repeat(3, 402.944px);
+    /* grid-template-rows: repeat(2, 497.779px); */
     grid-template-rows: repeat(
       ${(props) => props.NumberOfCards / 3},
-      560.002px
+      497.779px
     );
-    margin-top: 40.32px;
+    margin-top: 35.84px;
   }
 `;
 
