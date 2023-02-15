@@ -375,7 +375,7 @@ export interface Data {
           {
             user: {
               id: number; //대댓글 작성자 식별자
-              imgPath: string; //프로필
+              imagePath: string; //프로필
               nickname: string; //대댓글 작성자 닉네임
             };
             content: string; //대댓글 내용
@@ -625,7 +625,7 @@ function StudyDetailPages() {
           return (
             <CommentBox key={index}>
               <CommentTop>
-                <ProfileImg width="2.222vw" imgUrl={el.user.imgPath} />
+                <ProfileImg width="2.222vw" imgUrl={el.user.imagePath} />
                 <WriterName>{el.user.nickname}</WriterName>
               </CommentTop>
               <CommentContent>
@@ -647,10 +647,10 @@ function StudyDetailPages() {
                 <ComReplyBtn onClick={() => openReplyInput(el.id)}>
                   답변
                 </ComReplyBtn>
-                <p>·</p>
 
                 {userId === el.user.id ? (
                   <>
+                    <p>·</p>
                     {selectedUpdateId !== el.id ? (
                       <ComUpdateBtn
                         onClick={() => updateComment(el.id, el.content)}
@@ -679,7 +679,7 @@ function StudyDetailPages() {
                         <CommentTop>
                           <ProfileImg
                             width="2.222vw"
-                            imgUrl={rep.user.imgPath}
+                            imgUrl={rep.user.imagePath}
                           />
                           <WriterName>{rep.user.nickname}</WriterName>
                         </CommentTop>
