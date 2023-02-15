@@ -6,6 +6,11 @@ import VideoRoomComponent from "components/video-meeting/VideoRoomComponent";
 import ExitMeeting from "components/video-meeting/toolbar/ExitMeeting";
 import * as ToolbarItems from "components/video-meeting/toolbar/ToolbarItems";
 import UserModel from "models/user-model";
+import { useRecoilValue } from "recoil";
+import { UserIdState } from "atoms/UserInfoAtom";
+import { useQuery } from "react-query";
+import { UserInfoApi } from "apis/UserInfoApi";
+
 // TODO : 대기 화면
 
 let localUser = new UserModel();
@@ -78,7 +83,6 @@ const StartVideoMeeting = styled.button`
 // TODO : 대기 화면
 interface paramsType {
   studyId: string;
-  userid: string;
 }
 
 function VideoMeetingPages() {
@@ -87,6 +91,14 @@ function VideoMeetingPages() {
   const [isMike, setIsMike] = useState<boolean>(true);
   const videoElement = useRef<Webcam>(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const userId = useRecoilValue(UserIdState);
+
+  const [data: userData] = useQuery("userInfo", () =>
+    UserInfoApi.api.get(`/users/${userId}`),
+  );
+  const [data: studyInfo] = useQuery("userInfo", () =>
+    UserInfoApi.api.get(`/studies/${params.studyId}`),
+  );
 
   const params: paramsType = useParams();
 
@@ -151,15 +163,16 @@ function VideoMeetingPages() {
         <VideoRoomComponent
           sessionName={params.studyId}
           userInfo={localUser}
-          user={"김싸피"}
+          user={userData.nickname}
         />
       ) : (
+        // 화상 회의 대기 방
         <>
           <Container>
             <StudyName>
               {/* TODO 스터디 이름 받아오기*/}
-              {/* <span>{studyInfo}</span> */}
-              <span>SSAFY 스터디</span>
+              <span>{studyInfo.name}</span>
+              {/* <span>SSAFY 스터디</span> */}
             </StudyName>
             <Back>
               {isShowVideo ? (
@@ -173,7 +186,7 @@ function VideoMeetingPages() {
                 />
               ) : (
                 <UserContainer>
-                  <span>이름</span>
+                  <span>{userData.nickname}</span>
                 </UserContainer>
               )}
             </Back>
