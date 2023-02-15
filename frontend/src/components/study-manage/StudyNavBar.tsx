@@ -1,7 +1,9 @@
 // import { Link } from "react-router-dom";
+import { StudyUserApi } from "apis/StudyManageMemberApi";
 import { studyIdRecoil } from "atoms/StudyManage";
 import { UserIdState } from "atoms/UserInfoAtom";
 import { useEffect } from "react";
+import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
@@ -64,8 +66,24 @@ const Itemline = styled.ul`
   align-items: center;
 `;
 
+interface Data {
+  result: [
+    {
+      id: number; //사용자 식별자
+      nickname: string; //사용자 닉네임
+      email: string; //사용자 이메일
+      imgPath: string; //사용자 프로필 사진 url
+      isLeader: boolean; //스터디장 유무
+    },
+  ];
+}
+
 function StudyNavBar() {
   const studyId = useRecoilValue(studyIdRecoil);
+
+  const { data: userStudy } = useQuery<Data>("userStudy", () =>
+    StudyUserApi(studyId),
+  );
 
   return (
     <StudyNav>
@@ -88,7 +106,9 @@ function StudyNavBar() {
         </ItemText>
         <Itemline>|</Itemline>
         <ItemText>
-          <Link to={`/manage/manageMember/${studyId}`}>스터디 관리</Link>
+          {userStudy?.result.isLeader ? (
+            <Link to={`/manage/manageMember/${studyId}`}>스터디 관리</Link>
+          ) : null}
         </ItemText>
       </Items>
     </StudyNav>
