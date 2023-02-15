@@ -172,8 +172,8 @@ class Board extends React.Component {
     this.removeAll = this.removeAll.bind(this);
     this.add = this.add.bind(this);
     this.state = {
-      // notesStringArray: [],
-      notesStringArray: props.memos,
+      notesStringArray: [],
+      // notesStringArray1: props.memos,
       userId: this.props.userId,
     };
     console.log("TEST", props.memos);
@@ -199,7 +199,7 @@ class Board extends React.Component {
         onChange={this.update}
         onRemove={this.remove}
       >
-        {element.content}
+        {element.note}
       </Note>
     );
   }
@@ -249,7 +249,7 @@ class Board extends React.Component {
     var arr = this.state.notesStringArray;
     arr.push({
       id: this.nextId(),
-      content: text,
+      note: text,
     });
     JSON.stringify(arr);
     this.setState({ notesStringArray: arr });
