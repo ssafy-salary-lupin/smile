@@ -172,6 +172,7 @@ interface ListData {
 function StudyManageBoardList() {
   // studyId값 가져오기
   const studyId = useRecoilValue(studyIdRecoil);
+  console.log("studyId : ", studyId);
 
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(5);
@@ -226,7 +227,7 @@ function StudyManageBoardList() {
       <Head>
         <HeadSub1>총 {totalElements}건</HeadSub1>
         <HeadSub2>
-          <Link to="/manage/boardWrite">글 쓰기</Link>
+          <Link to={`/manage/boardWrite/${studyId}`}>글 쓰기</Link>
         </HeadSub2>
       </Head>
       <BoardListBox>

@@ -345,6 +345,7 @@ function StudyManageMain() {
   };
 
   const createRule = (data: any) => {
+    console.log("규칙 생성 studyId : ", studyId);
     ruleCreateApi(data, studyId);
     refetch();
   };

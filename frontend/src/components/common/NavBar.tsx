@@ -4,10 +4,10 @@ import logoImg from "../../assets/img/smile_black.png";
 import "../../assets/css/index.css";
 import { motion, useAnimation, useScroll } from "framer-motion";
 import { Link, useHistory } from "react-router-dom";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import { LoginState } from "atoms/LoginAtom";
 import { studyIdRecoil } from "atoms/StudyManage";
-import { SelectorUserId, UserIdState } from "atoms/UserInfoAtom";
+import { UserIdState } from "atoms/UserInfoAtom";
 
 const Nav = styled(motion.nav)`
   position: fixed;
@@ -161,11 +161,9 @@ function NavBar(props: UrlProps) {
   const navAnimation = useAnimation();
 
   const [tokenState, setTokenState] = useRecoilState(LoginState);
+  const [userId, setUserId] = useRecoilState(UserIdState);
   const kakaoToken = localStorage.getItem("kakao-token");
 
-  console.log("네비바 랜더링");
-  // const userId = useRecoilValue(UserIdState);
-  const userId = useRecoilValue(SelectorUserId);
   console.log("네비바 클릭 후userId : ", userId);
 
   useEffect(() => {
@@ -187,6 +185,7 @@ function NavBar(props: UrlProps) {
   const signOut = () => {
     localStorage.removeItem("kakao-token");
     setTokenState(false);
+    setUserId(0);
     history.push("/");
   };
 
@@ -210,22 +209,11 @@ function NavBar(props: UrlProps) {
           <Item1 curUrl={props.curUrl} onClick={forceUpdate}>
             <Link to="/search">스터디 조회</Link>
           </Item1>
-          {/* <Item2 curUrl={props.curUrl}>
-            <Link to="/myStudy/6" style={{ textDecoration: "none" }}>
-              내 스터디
-            </Link>
-          </Item2> */}
           {kakaoToken ? (
             <Item2 curUrl={props.curUrl} onClick={goMyStudy}>
-              {/* <Link
-                to={`/myStudy/${userId}`}
-                style={{ textDecoration: "none" }}
-              > */}
               내 스터디
-              {/* </Link> */}
             </Item2>
           ) : null}
-
           {kakaoToken ? (
             <NabBtn onClick={signOut}>로그아웃</NabBtn>
           ) : (

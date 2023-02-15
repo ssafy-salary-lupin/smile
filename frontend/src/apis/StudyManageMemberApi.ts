@@ -68,15 +68,19 @@ export async function UserDropApi() {
 }
 
 // // 스터디 종료
-export async function StudyEndApi() {
+export async function StudyEndApi(studyId: string) {
   try {
-    const response = await axios.patch(`${BASE_URL}/1/close`, formData, {
-      headers: {
-        // Authorization: `Bearer ${token}`,
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoidGhkcmxmazkzQG5hdmVyLmNvbSIsInVzZXJJZCI6NywiaXNzIjoiaXNzdWVyIiwiaWF0IjoxNjc2MzUyNDM3LCJleHAiOjE2NzY0Mzg4Mzd9.sqgqiWk9EIMREdpt4FgA5vjz_Qr8-Fgx1rhKuq-1MRyPbQ2SLUN3Ohyr755_cYa_eQ_dPnisLwsnXF0ig2AEVg`,
-        Accept: "application/json",
+    const response = await axios.patch(
+      `${BASE_URL}/${studyId}/close`,
+      formData,
+      {
+        headers: {
+          // Authorization: `Bearer ${token}`,
+          Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoidGhkcmxmazkzQG5hdmVyLmNvbSIsInVzZXJJZCI6NywiaXNzIjoiaXNzdWVyIiwiaWF0IjoxNjc2MzUyNDM3LCJleHAiOjE2NzY0Mzg4Mzd9.sqgqiWk9EIMREdpt4FgA5vjz_Qr8-Fgx1rhKuq-1MRyPbQ2SLUN3Ohyr755_cYa_eQ_dPnisLwsnXF0ig2AEVg`,
+          Accept: "application/json",
+        },
       },
-    });
+    );
     const data = await response;
     console.log("End");
     console.log(data);
@@ -87,17 +91,21 @@ export async function StudyEndApi() {
 }
 
 // // 스터디 모집
-export async function StudyRecruitmentApi() {
+export async function StudyRecruitmentApi(studyId: string) {
   try {
     console.log("token", token);
     console.log("???");
-    const response = await axios.patch(`${BASE_URL}/1/recruit`, formData, {
-      headers: {
-        // Authorization: `Bearer ${token}`,
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoidGhkcmxmazkzQG5hdmVyLmNvbSIsInVzZXJJZCI6NywiaXNzIjoiaXNzdWVyIiwiaWF0IjoxNjc2MzUyNDM3LCJleHAiOjE2NzY0Mzg4Mzd9.sqgqiWk9EIMREdpt4FgA5vjz_Qr8-Fgx1rhKuq-1MRyPbQ2SLUN3Ohyr755_cYa_eQ_dPnisLwsnXF0ig2AEVg`,
-        Accept: "application/json",
+    const response = await axios.patch(
+      `${BASE_URL}/${studyId}/recruit`,
+      formData,
+      {
+        headers: {
+          // Authorization: `Bearer ${token}`,
+          Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoidGhkcmxmazkzQG5hdmVyLmNvbSIsInVzZXJJZCI6NywiaXNzIjoiaXNzdWVyIiwiaWF0IjoxNjc2MzUyNDM3LCJleHAiOjE2NzY0Mzg4Mzd9.sqgqiWk9EIMREdpt4FgA5vjz_Qr8-Fgx1rhKuq-1MRyPbQ2SLUN3Ohyr755_cYa_eQ_dPnisLwsnXF0ig2AEVg`,
+          Accept: "application/json",
+        },
       },
-    });
+    );
     const data = await response;
     console.log("recruit");
     console.log(data);
@@ -108,15 +116,19 @@ export async function StudyRecruitmentApi() {
 }
 
 // // 스터디 마감
-export async function StudyReDeadlineApi() {
+export async function StudyReDeadlineApi(studyId: string) {
   try {
-    const response = await axios.patch(`${BASE_URL}/1/deadline`, formData, {
-      headers: {
-        // Authorization: `Bearer ${token}`,
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoidGhkcmxmazkzQG5hdmVyLmNvbSIsInVzZXJJZCI6NywiaXNzIjoiaXNzdWVyIiwiaWF0IjoxNjc2MzUyNDM3LCJleHAiOjE2NzY0Mzg4Mzd9.sqgqiWk9EIMREdpt4FgA5vjz_Qr8-Fgx1rhKuq-1MRyPbQ2SLUN3Ohyr755_cYa_eQ_dPnisLwsnXF0ig2AEVg`,
-        Accept: "application/json",
+    const response = await axios.patch(
+      `${BASE_URL}/${studyId}/deadline`,
+      formData,
+      {
+        headers: {
+          // Authorization: `Bearer ${token}`,
+          Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoidGhkcmxmazkzQG5hdmVyLmNvbSIsInVzZXJJZCI6NywiaXNzIjoiaXNzdWVyIiwiaWF0IjoxNjc2MzUyNDM3LCJleHAiOjE2NzY0Mzg4Mzd9.sqgqiWk9EIMREdpt4FgA5vjz_Qr8-Fgx1rhKuq-1MRyPbQ2SLUN3Ohyr755_cYa_eQ_dPnisLwsnXF0ig2AEVg`,
+          Accept: "application/json",
+        },
       },
-    });
+    );
     const data = await response;
     console.log("deadline");
     console.log(data);

@@ -3,6 +3,9 @@ import ModalNone from "components/common/ModalNone";
 import { Link } from "react-router-dom";
 import { StudyEndApi } from "../../apis/StudyManageMemberApi";
 import { Warning } from "components/common/DuotonIcons";
+import { useRecoilValue } from "recoil";
+import { studyIdRecoil } from "atoms/StudyManage";
+import jwt_decode from "jwt-decode";
 
 const Wrapper = styled.div``;
 
@@ -57,24 +60,35 @@ function ModalManageEnd(props: any) {
     props.setModalOpen(false);
   };
 
+  const studyId = useRecoilValue(studyIdRecoil);
+
+  const token = localStorage.getItem("kakao-token");
+  if (token !== null) {
+    var decoded: any = jwt_decode(token);
+    console.log("decode", decoded);
+  } else {
+    console.log("none");
+  }
+
   return (
     <Wrapper>
       <ModalNone setModalOpen={props.setModalOpen}>
         <Container>
           <Warning width="5.556vw" height="5.556vw" />
           <Title>
-            <span>스터디원를 종료하시겠습니까?</span>
+            <span>스터디를 삭제하시겠습니까?</span>
           </Title>
           <Footer>
             <Link
               to={{
-                pathname: `/manage/manageMember`,
+                pathname: `/myStudy/${decoded?.userId}`,
               }}
             >
               <Btn
                 color="#F5C82E"
                 onClick={() => {
-                  StudyEndApi();
+                  StudyEndApi(studyId);
+                  closeModal();
                 }}
               >
                 <span>확인</span>

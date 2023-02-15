@@ -3,6 +3,8 @@ import ModalNone from "components/common/ModalNone";
 import { Link } from "react-router-dom";
 import { StudyRecruitmentApi } from "../../apis/StudyManageMemberApi";
 import { useState } from "react";
+import { useRecoilValue } from "recoil";
+import { studyIdRecoil } from "atoms/StudyManage";
 
 const Wrapper = styled.div``;
 
@@ -63,6 +65,8 @@ function ModalManageRecruit(props: any) {
     props.setChange(true);
   };
 
+  const studyId = useRecoilValue(studyIdRecoil);
+
   // 모집
   return (
     <Wrapper>
@@ -76,14 +80,15 @@ function ModalManageRecruit(props: any) {
           <Footer>
             <Link
               to={{
-                pathname: `/manage/manageMember`,
+                pathname: `/manage/manageMember/${studyId}`,
               }}
             >
               <Btn
                 color="#F5C82E"
                 onClick={() => {
-                  StudyRecruitmentApi();
+                  StudyRecruitmentApi(studyId);
                   changeBtn();
+                  closeModal();
                 }}
               >
                 <span>확인</span>

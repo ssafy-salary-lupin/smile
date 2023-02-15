@@ -25,16 +25,16 @@ function StudyManagePages() {
         <StudyNavBar />
       </SubMenu>
       <Switch>
-        <Route exact path="/manage">
+        <Route exact path="/manage/:studyId">
           <StudyManageMain />
         </Route>
-        <Route path="/manage/board">
+        <Route path="/manage/board/:studyId">
           <StudyManageBoardList />
         </Route>
-        <Route path="/manage/calendar">
+        <Route path="/manage/calendar/:studyId">
           <StudyManageCalendar />
         </Route>
-        <Route path="/manage/boardWrite">
+        <Route path="/manage/boardWrite/:studyId">
           <StudyManageBoardWrite />
         </Route>
         <Route path="/manage/boardDetail/:boardId">
@@ -43,10 +43,10 @@ function StudyManagePages() {
         <Route path="/manage/boardUpdate/:boardId">
           <StudyManageBoardUpdate />
         </Route>
-        <Route path="/manage/meetingRecord">
+        <Route path="/manage/meetingRecord/:studyId">
           <StudyMeetingRecord />
         </Route>
-        <Route path="/manage/manageMember">
+        <Route path="/manage/manageMember/:studyId">
           <StudyManageMember />
         </Route>
       </Switch>

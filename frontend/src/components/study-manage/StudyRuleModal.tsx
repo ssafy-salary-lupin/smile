@@ -164,6 +164,7 @@ interface IDataInfo {
 
 function StudyRuleModal(props: IPropsType) {
   const studyId = useRecoilValue(studyIdRecoil);
+  console.log("규칙 모달창에서 studyId : ", studyId);
 
   const closeModal = () => {
     props.setModalOpen(false);

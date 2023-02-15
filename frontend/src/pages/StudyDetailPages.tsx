@@ -9,7 +9,7 @@ import defaultprofileImg from "assets/img/userDefaultImg.png";
 import * as Icons from "../components/common/Icons";
 import axios, { AxiosError } from "axios";
 import { useQuery } from "react-query";
-import { Link, useParams } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import { ReactComponent as Reply } from "../assets/icon/Reply.svg";
 import { ReactComponent as Crown } from "../assets/icon/Crown.svg";
@@ -402,6 +402,7 @@ function StudyDetailPages() {
   );
 
   // 스터디 참여 하기=========================================================
+  const history = useHistory();
   const onJoin = async () => {
     if (token !== null) {
       var decoded: any = jwt_decode(token);
@@ -412,6 +413,8 @@ function StudyDetailPages() {
     const data = {};
 
     await studyJoinApi(decoded?.userId, detailInfo?.result.id, data);
+
+    history.push("");
   };
 
   // 댓글 관련==========================================================================
@@ -533,7 +536,9 @@ function StudyDetailPages() {
       <BlankSpace />
       <Text>
         <Icons.CaretLeft width="1.667vw" />
-        <p>목록으로</p>
+        <Link to={{ pathname: `/studies/search` }}>
+          <p>목록으로</p>
+        </Link>
       </Text>
       <Top>
         <TextBig>{detailInfo?.result.name}</TextBig>

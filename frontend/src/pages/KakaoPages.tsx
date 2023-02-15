@@ -23,32 +23,28 @@ function KakaoPages() {
   const history = useHistory();
 
   const [tokenState, setTokenState] = useRecoilState(LoginState);
-  // const [userIdState, setUserIdState] = useRecoilState(UserIdState);
+  const [userIdState, setUserIdState] = useRecoilState(UserIdState);
 
-  // const goMyStudy = async () => {
-  //   if (params.accessToken !== null) {
-  //     const decodeData: decodeType = await jwt_decode(params.accessToken);
-  //     console.log("decodeData.userId : ", decodeData.userId);
+  const goMyStudy = async () => {
+    if (params.accessToken !== null) {
+      const decodeData: decodeType = await jwt_decode(params.accessToken);
 
-  //     await setUserIdState(decodeData.userId);
+      await setUserIdState(decodeData.userId);
 
-  //     console.log("userIdRecoil : ", userIdState);
-  //     console.log("tokenState : ", tokenState);
-
-  //     window.location.replace("/");
-
-  //   } else {
-  //     console.log("none");
-  //   }
-  // };
+      window.location.replace("/");
+      // window.location.replace(`/myStudy/${decodeData.userId}`); // 새로고침해야 token null 값 해결 돼서 임시방편으로 바꿈 ㅠ interceptor하는 법 찾아보기
+    } else {
+      console.log("none");
+    }
+  };
 
   useEffect(() => {
     if (params) {
       localStorage.setItem("kakao-token", params.accessToken);
     }
     if (localStorage.getItem("kakao-token")) setTokenState(true);
-    history.push("/");
-    // goMyStudy();
+    // history.push("/");
+    goMyStudy();
   }, [params]);
 
   return null;

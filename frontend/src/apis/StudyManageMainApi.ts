@@ -3,11 +3,12 @@ import axios from "axios";
 const BASE_URL = `https://i8b205.p.ssafy.io/be-api/studies`;
 // const BASE_URL = `/be-api/studies`;
 
-// 사용자 token값
+// 사용자 token값..
 const token = localStorage.getItem("kakao-token");
 
 // 스터디 정보 조회 /studies/1/home
 export async function StudyInfoSelectApi(studyId: string) {
+  console.log("StudyInfoSelectApi 실행");
   try {
     const response = await fetch(`${BASE_URL}/${studyId}/home`, {
       headers: {
@@ -17,6 +18,8 @@ export async function StudyInfoSelectApi(studyId: string) {
       },
     });
     const data = await response.json();
+
+    console.log("data : ", data);
 
     return data;
   } catch (error: any) {
@@ -36,6 +39,8 @@ export async function DdaySelectApi(studyId: string) {
       },
     });
     const data = await response.json();
+
+    console.log("dday data : ", data);
 
     return data;
   } catch (error: any) {
