@@ -1,4 +1,5 @@
 import { SetStateAction, useEffect, useRef } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { ReactComponent as Close } from "../../assets/icon/Close.svg";
 import { ReactComponent as Meeting } from "../../assets/icon/Meeting.svg";
@@ -147,8 +148,15 @@ const ModalBtn = styled.button`
   background-color: transparent;
   cursor: pointer;
   font-size: 0.972vw;
+  text-decoration: none;
+  color: white;
 `;
 function ModalCalendarMeetingView(props: PropsType) {
+  const history = useHistory();
+  interface paramsType {
+    studyId: string;
+  }
+  const params: paramsType = useParams();
   // const [modalOpen, setModalOpen] = useState<boolean>(true);
   // 모달 끄기
   const closeModal = () => {
@@ -174,6 +182,10 @@ function ModalCalendarMeetingView(props: PropsType) {
       // document.removeEventListener('touchstart', handler); // 모바일 대응
     };
   });
+
+  const goMeeting = () => {
+    history.replace(`/meeting/${params.studyId}`);
+  };
   return (
     <Backdrop>
       <ModalContainer ref={modalRef}>
@@ -205,7 +217,7 @@ function ModalCalendarMeetingView(props: PropsType) {
             </ContentWrap>
           </ModalContent>
         </ModalConWrapper>
-        <ModalBtnBox>
+        <ModalBtnBox onClick={goMeeting}>
           <ModalBtn>회의 참여하기 →</ModalBtn>
         </ModalBtnBox>
       </ModalContainer>
