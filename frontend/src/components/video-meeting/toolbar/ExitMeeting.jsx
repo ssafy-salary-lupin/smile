@@ -66,6 +66,9 @@ function ExitMeeting(props) {
   const closeModal = () => {
     props.setModalOpen(false);
   };
+
+  const studyId = useRecoilValue(studyIdRecoil);
+
   return (
     <Wrapper>
       <ModalNone setModalOpen={props.setModalOpen}>
@@ -79,7 +82,7 @@ function ExitMeeting(props) {
           <Footer>
             <Link
               to={{
-                pathname: `/manage`,
+                pathname: `/manage/${studyId}`,
               }}
             >
               <Btn backgroundColor="#F5C82E" onClick={props.leaveSession}>
