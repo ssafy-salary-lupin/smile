@@ -164,36 +164,19 @@ function NavBar(props: UrlProps) {
   const [userId, setUserId] = useRecoilState(UserIdState);
   const kakaoToken = localStorage.getItem("kakao-token");
 
-  console.log("네비바 클릭 후userId : ", userId);
-
-  if (props.curUrl === "/" || props.curUrl.includes("/myStudy")) {
-    scrollY.onChange(() => {
-      if (scrollY.get() > 80) {
-        navAnimation.start("scroll");
-      } else {
-        navAnimation.start("top");
-      }
-    });
-  } else {
-    console.log("fix 입니다 : ", props.curUrl);
-    navAnimation.start("fix");
-  }
-
-  // useEffect(() => {
-  //   console.log("네비바 useeffect 실행");
-  //   if (props.curUrl === "/" || props.curUrl.includes("/myStudy")) {
-  //     scrollY.onChange(() => {
-  //       if (scrollY.get() > 80) {
-  //         navAnimation.start("scroll");
-  //       } else {
-  //         navAnimation.start("top");
-  //       }
-  //     });
-  //   } else {
-  //     console.log("fix 입니다 : ", props.curUrl);
-  //     navAnimation.start("fix");
-  //   }
-  // }, [scrollY, navAnimation, props.curUrl]);
+  useEffect(() => {
+    if (props.curUrl === "/" || props.curUrl.includes("/myStudy")) {
+      scrollY.onChange(() => {
+        if (scrollY.get() > 80) {
+          navAnimation.start("scroll");
+        } else {
+          navAnimation.start("top");
+        }
+      });
+    } else {
+      navAnimation.start("fix");
+    }
+  }, [scrollY, navAnimation, props.curUrl]);
 
   const history = useHistory();
 
@@ -204,8 +187,8 @@ function NavBar(props: UrlProps) {
     history.push("/");
   };
 
-  const [, updateState] = useState({});
-  const forceUpdate = useCallback(() => updateState({}), []);
+  // const [, updateState] = useState({});
+  // const forceUpdate = useCallback(() => updateState({}), []);
 
   // const goMyStudy = () => {
   //   forceUpdate();
@@ -222,12 +205,12 @@ function NavBar(props: UrlProps) {
       <LinksContainer>
         <Items>
           {/*  onClick={forceUpdate} */}
-          <Item1 curUrl={props.curUrl} onClick={forceUpdate}>
+          <Item1 curUrl={props.curUrl}>
             <Link to="/search">스터디 조회</Link>
           </Item1>
           {kakaoToken ? (
             // onClick={goMyStudy}
-            <Item2 curUrl={props.curUrl} onClick={forceUpdate}>
+            <Item2 curUrl={props.curUrl}>
               <Link to={`/myStudy/${userId}`}>내 스터디</Link>
             </Item2>
           ) : null}
@@ -236,10 +219,7 @@ function NavBar(props: UrlProps) {
           ) : (
             <NabBtn>
               {/* 이 경로로 보내면 server에서 특정 페이지로 redirect */}
-              <NabBtnLink
-                href="https://i8b205.p.ssafy.io/be-api/oauth2/authorization/kakao"
-                onClick={forceUpdate}
-              >
+              <NabBtnLink href="https://i8b205.p.ssafy.io/be-api/oauth2/authorization/kakao">
                 {/* <NabBtnLink href="Login"> */}
                 로그인
               </NabBtnLink>
