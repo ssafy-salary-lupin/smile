@@ -17,7 +17,8 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   /* margin: 0 2.778vw; */
-  margin: auto;
+  /* margin: auto; */
+  margin: 0 32px;
   @media screen and (min-width: 1280px) {
     justify-content: center;
     width: 1280px;
@@ -235,9 +236,9 @@ export default function MyStudyPages() {
               <StudyContainer>
                 {!studiesLoading && studiesData ? (
                   <>
-                    <SearchContainer>
+                    {/* <SearchContainer>
                       <SearchComponent />
-                    </SearchContainer>
+                    </SearchContainer> */}
                     <Cards
                       NumberOfCards={studiesData ? studiesData.end.length : 0}
                     >
