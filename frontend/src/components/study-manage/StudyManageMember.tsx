@@ -211,37 +211,38 @@ function StudyManageMember() {
     <Wrapper>
       <UpContainer>
         {userStudy?.result.map((user: any, index: any) => {
-          // return (
-          <Card key={index}>
-            {/* <Card> */}
-            <ProfileImg
-              imgUrl={
-                user?.imgPath !== "/root" ? user?.imgPath : defaultprofileImg
-                // defaultprofileImg
-              }
-              width="50px"
-              height="50px"
-            />
-            <NickBox>
-              <Nick>{user.nickname}</Nick>
-              {user.leader === true ? (
-                <Crown fill={theme.mainColor} width="1.389vw" />
-              ) : null}
-            </NickBox>
-            <hr />
-            {user.leader === true ? null : (
-              <BtnBox>
-                <YellowBtn onClick={MandateopenModal}>위임</YellowBtn>
-                <BlueBtn onClick={DropopenModal}>강퇴</BlueBtn>
-              </BtnBox>
-            )}
-            {dropModalOpen && (
-              <ModalManageDrop setModalOpen={setDropModalOpen} />
-            )}
-            {mandateModalOpen && (
-              <ModalManageMandate setModalOpen={setMandateModalOpen} />
-            )}
-          </Card>;
+          return (
+            <Card key={index}>
+              {/* <Card> */}
+              <ProfileImg
+                imgUrl={
+                  user?.imgPath !== "/root" ? user?.imgPath : defaultprofileImg
+                  // defaultprofileImg
+                }
+                width="50px"
+                height="50px"
+              />
+              <NickBox>
+                <Nick>{user.nickname}</Nick>
+                {user.leader === true ? (
+                  <Crown fill={theme.mainColor} width="1.389vw" />
+                ) : null}
+              </NickBox>
+              <hr />
+              {user.leader === true ? null : (
+                <BtnBox>
+                  <YellowBtn onClick={MandateopenModal}>위임</YellowBtn>
+                  <BlueBtn onClick={DropopenModal}>강퇴</BlueBtn>
+                </BtnBox>
+              )}
+              {dropModalOpen && (
+                <ModalManageDrop setModalOpen={setDropModalOpen} />
+              )}
+              {mandateModalOpen && (
+                <ModalManageMandate setModalOpen={setMandateModalOpen} />
+              )}
+            </Card>
+          );
         })}
       </UpContainer>
       <DownContainer>
