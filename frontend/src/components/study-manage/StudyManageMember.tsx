@@ -232,13 +232,19 @@ function StudyManageMember() {
                 <BtnBox>
                   <YellowBtn onClick={MandateopenModal}>위임</YellowBtn>
                   {dropModalOpen && (
-                    <ModalManageDrop setModalOpen={setDropModalOpen} />
+                    <ModalManageDrop
+                      id={user.id}
+                      setModalOpen={setDropModalOpen}
+                    />
                   )}
                   <BlueBtn onClick={DropopenModal}>강퇴</BlueBtn>
                 </BtnBox>
               )}
               {mandateModalOpen && (
-                <ModalManageMandate setModalOpen={setMandateModalOpen} />
+                <ModalManageMandate
+                  id={user.id}
+                  setModalOpen={setMandateModalOpen}
+                />
               )}
             </Card>
           );
