@@ -25,7 +25,7 @@ function StudyManagePages() {
         <StudyNavBar />
       </SubMenu>
       <Switch>
-        <Route exact path="/manage/:studyId">
+        <Route exact path="/manage/:userId">
           <StudyManageMain />
         </Route>
         <Route path="/manage/board">
