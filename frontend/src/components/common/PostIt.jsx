@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { PostItInfo } from "apis/PostItApi";
 
 import "./postIt.css";
+import { useRecoilValue } from "recoil";
+import { UserIdState } from "atoms/UserInfoAtom";
 
 const BtnContainer = styled.div`
   display: flex;
@@ -160,8 +162,6 @@ class Note extends React.Component {
   }
 }
 
-var postArr = PostItInfo.api.get();
-
 //parent component for notes
 class Board extends React.Component {
   constructor() {
@@ -280,5 +280,8 @@ class Board extends React.Component {
 // };
 
 export default function PostIt() {
+  const userId = useRecoilValue(UserIdState);
+  const postArr = PostItInfo.api.get(`/users/${userId}/memos`);
+  console.log("POST IT", postArr);
   return <Board count={50}></Board>;
 }
