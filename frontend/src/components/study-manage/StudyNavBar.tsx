@@ -76,19 +76,19 @@ function StudyNavBar() {
         </ItemText>
         <Itemline>|</Itemline>
         <ItemText>
-          <Link to={`/manage/board`}>게시판</Link>
+          <Link to={`/manage/board/${studyId}`}>게시판</Link>
         </ItemText>
         <Itemline>|</Itemline>
         <ItemText>
-          <Link to={`/manage/calendar`}>일정관리</Link>
+          <Link to={`/manage/calendar/${studyId}`}>일정관리</Link>
         </ItemText>
         <Itemline>|</Itemline>
         <ItemText>
-          <Link to={`/manage/meetingRecord`}>화상 회의</Link>
+          <Link to={`/manage/meetingRecord/${studyId}`}>화상 회의</Link>
         </ItemText>
         <Itemline>|</Itemline>
         <ItemText>
-          <Link to={`/manage/manageMember`}>스터디 관리</Link>
+          <Link to={`/manage/manageMember/${studyId}`}>스터디 관리</Link>
         </ItemText>
       </Items>
     </StudyNav>
