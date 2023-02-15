@@ -13,7 +13,7 @@ import StudyManageBoardUpdate from "components/study-manage/StudyManageBoardUpda
 import StudyMeetingRecord from "components/study-manage/StudyMeetingRecord";
 import StudyManageMember from "components/study-manage/StudyManageMember";
 
-// submenu 들어갈 자리//
+// submenu 들어갈 자리
 const SubMenu = styled.div`
   height: 11.667vw;
 `;
@@ -28,25 +28,25 @@ function StudyManagePages() {
         <Route exact path="/manage/:studyId">
           <StudyManageMain />
         </Route>
-        <Route path="/manage/board/:studyId">
+        <Route path="/manage/board">
           <StudyManageBoardList />
         </Route>
-        <Route path="/manage/calendar/:studyId">
+        <Route path="/manage/calendar">
           <StudyManageCalendar />
         </Route>
-        <Route path="/manage/boardWrite/:studyId">
+        <Route path="/manage/boardWrite">
           <StudyManageBoardWrite />
         </Route>
-        <Route path="/manage/boardDetail/:studyId/:boardId">
+        <Route path="/manage/boardDetail/:boardId">
           <StudyManageBoardDetail />
         </Route>
-        <Route path="/manage/boardUpdate/:studyId/:boardId">
+        <Route path="/manage/boardUpdate/:boardId">
           <StudyManageBoardUpdate />
         </Route>
-        <Route path="/manage/meetingRecord/:studyId">
+        <Route path="/manage/meetingRecord">
           <StudyMeetingRecord />
         </Route>
-        <Route path="/manage/manageMember/:studyId">
+        <Route path="/manage/manageMember">
           <StudyManageMember />
         </Route>
       </Switch>
