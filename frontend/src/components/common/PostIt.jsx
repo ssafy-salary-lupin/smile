@@ -76,6 +76,8 @@ class Note extends React.Component {
     this.state = {
       checked: false,
       editing: false,
+      x: props.x,
+      y: props.y,
     };
     console.log("view all props for Note class: " + this.props.children);
   }
@@ -85,14 +87,20 @@ class Note extends React.Component {
     this.style = {
       // left: "0px",
       // top: "0px",
-      left: this.randomBetween(5, 85) + "%",
-      top: this.randomBetween(0, 55) + "%",
+      // left: this.randomBetween(5, 85) + "%",
+      // top: this.randomBetween(0, 55) + "%",
+      left: String(this.state.x) + "%",
+      top: String(this.state.y) + "%",
       transform: "rotate( " + this.randomBetween(-15, 15) + "deg)",
     };
   }
 
   componentDidMount() {
     var mine = this._input;
+    // this.style = {
+    //   left: String(this.state.x) + "%",
+    //   top: String(this.state.y) + "%",
+    // };
     $(mine).draggable();
   }
   randomBetween(min, max) {
@@ -173,22 +181,27 @@ class Board extends React.Component {
     this.add = this.add.bind(this);
     this.state = {
       notesStringArray: [],
-      // notesStringArray1: props.memos,
       userId: this.props.userId,
     };
-    console.log("TEST", props.memos);
   }
 
   //Event methods
 
   nextId() {
-    this.uniqueId = this.uniqueId || 0;
-    return this.uniqueId++;
+    // this.uniqueId = this.uniqueId || 0;
+    // return this.uniqueId++;
+    return this.state.notesStringArray.length + 1;
   }
-  update(newText, i) {
+  async update(newText, i) {
+    console.log("!", this._input);
     var arr = this.state.notesStringArray;
-    arr[i].note = newText;
+    arr[i].content = newText;
+    arr[i].updateTime = this.nowdate();
     this.setState({ notesStringArray: arr });
+    PostItInfo.api.patch(
+      `/users/${this.props.userId}/memos/${arr[i].id}`,
+      arr[i],
+    );
   }
 
   eachNote(element, i) {
@@ -196,19 +209,22 @@ class Board extends React.Component {
       <Note
         key={element.id}
         index={i}
+        x={element.pos.x}
+        y={element.pos.y}
         onChange={this.update}
         onRemove={this.remove}
       >
-        {element.note}
+        {element.content}
       </Note>
     );
   }
 
-  remove(index) {
+  async remove(index) {
     var arr = this.state.notesStringArray;
     var elm = arr[index];
     arr.splice(index, 1);
     this.setState({ notesStringArray: arr });
+    await PostItInfo.api.delete(`/users/${this.props.userId}/memos/${elm.id}`);
     return elm;
   }
 
@@ -216,11 +232,9 @@ class Board extends React.Component {
     const postArr = await PostItInfo.api.get(
       `/users/${this.props.userId}/memos`,
     );
-    console.log("POST IT2", postArr.data.result.memos);
-    console.log(this.state.notesStringArray);
-    this.state.notesStringArray.concat(postArr.data.result.memos);
-    console.log("HI", this.state.notesStringArray);
-    // console.log("HI2", this.state.notesStringArray1);
+    var arr = this.state.notesStringArray;
+    arr.push(...postArr.data.result.memos);
+    this.setState({ notesStringArray: arr });
   }
 
   componentWillMount() {
@@ -241,22 +255,44 @@ class Board extends React.Component {
     }
   }
 
-  async componentWillUnmount() {
-    PostItInfo.api.post();
+  randomBetween(min, max) {
+    return min + Math.ceil(Math.random() * max);
+  }
+
+  nowdate() {
+    const TIME_ZONE = 3240 * 10000;
+    const date = new Date();
+    const now = new Date(+date + TIME_ZONE).toISOString().slice(0, -5);
+    return now;
   }
 
   add(text) {
     var arr = this.state.notesStringArray;
-    arr.push({
+    const postIt = {
       id: this.nextId(),
-      note: text,
-    });
+      content: text,
+      creatTime: this.nowdate(),
+      updateTime: this.nowdate(),
+      pos: {
+        x: this.randomBetween(5, 85),
+        y: this.randomBetween(0, 55),
+      },
+    };
+    arr.push(postIt);
     JSON.stringify(arr);
     this.setState({ notesStringArray: arr });
+    PostItInfo.api.post(`/users/${this.props.userId}/memos`, postIt);
+    console.log("ADD!", this.state.notesStringArray);
   }
 
   removeAll() {
     var arr = this.state.notesStringArray;
+    arr.forEach(async (memo) => {
+      await PostItInfo.api.delete(
+        `/users/${this.props.userId}/memos/${memo.id}`,
+      );
+    });
+
     arr.length = 0;
     this.setState({ notesStringArray: arr });
   }
@@ -296,16 +332,7 @@ class Board extends React.Component {
 // };
 
 export default function PostIt() {
-  // const userId = useRecoilValue(UserIdState);
-  const [memos, setMemos] = useState();
-  const getPostIt = async () => {
-    const postArr = await PostItInfo.api.get(`/users/${6}/memos`);
-    console.log("POST IT", postArr);
-    setMemos(postArr.data.result.memos);
-  };
+  const userId = useRecoilValue(UserIdState);
 
-  useEffect(() => {
-    getPostIt();
-  }, []);
-  return <Board count={50} memos={memos} userId={6}></Board>;
+  return <Board count={50} userId={userId}></Board>;
 }
