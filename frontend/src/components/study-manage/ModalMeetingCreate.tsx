@@ -11,6 +11,7 @@ import { studyIdRecoil } from "atoms/StudyManage";
 
 interface PropsType {
   setModalOpen: React.Dispatch<SetStateAction<boolean>>;
+  createMeeting: Function;
 }
 
 const ModalContainer = styled.div`
@@ -203,7 +204,7 @@ function ModalMeetingCreate(props: PropsType) {
     meetingTypeId: type, // 생성할 회의 식별자 번호
   };
 
-  const createMeeting = async () => {
+  const onCreateMeeting = async () => {
     // 모달 창 닫기
     if (type === undefined || type < 1) {
       // alert(" 유형을 선택 하세요. ");
@@ -223,15 +224,7 @@ function ModalMeetingCreate(props: PropsType) {
       });
       return;
     }
-
-    const response = await MeetingCreateApi(registData, studyId);
-    console.log(response);
-
-    if (response.data.code === 200) {
-    } else {
-      alert(response.data.message);
-    }
-    window.location.replace("/manage/meetingRecord/" + studyId);
+    props.createMeeting(registData);
     closeModal();
   };
 
@@ -263,7 +256,7 @@ function ModalMeetingCreate(props: PropsType) {
           />
         </ModalConWrapper>
         <ModalBtnBox>
-          <ModalBtn onClick={createMeeting}>회의 생성하기 →</ModalBtn>
+          <ModalBtn onClick={onCreateMeeting}>회의 생성하기 →</ModalBtn>
         </ModalBtnBox>
       </ModalContainer>
     </Backdrop>
