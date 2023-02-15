@@ -25,9 +25,13 @@ function StudyManagePages() {
         <StudyNavBar />
       </SubMenu>
       <Switch>
-        <Route exact path="/manage/:studyId">
+        {/* TODO채팅 테스트용 임시 루트 => 나중에 원상복귀 예정 */}
+        <Route exact path="/manage/1">
           <StudyManageMain />
         </Route>
+        {/* <Route exact path="/manage/:studyId">
+          <StudyManageMain />
+        </Route> */}
         <Route path="/manage/board/:studyId">
           <StudyManageBoardList />
         </Route>

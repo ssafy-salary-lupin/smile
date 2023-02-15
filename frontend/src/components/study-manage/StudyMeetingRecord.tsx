@@ -154,6 +154,11 @@ const AttendBtn = styled.button`
   font-size: 0.972vw;
   cursor: pointer;
 
+  a {
+    color: ${(props) => props.theme.mainColor};
+    text-decoration: none;
+  }
+
   &::before {
     content: "";
     position: absolute;
