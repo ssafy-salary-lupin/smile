@@ -489,15 +489,6 @@ const LinkBtn = styled(Link)`
   }
 `;
 
-interface decodeType {
-  exp: number;
-  iat: number;
-  iss: string;
-  role: string;
-  userEmail: string;
-  userId: number;
-}
-
 function LandingPages() {
   const bannerText = "어떤 스터디를 원하세요?";
   const bannerSubText = "당신의 스터디를 찾아보세요!";
@@ -510,27 +501,6 @@ function LandingPages() {
   function onWidth() {
     setWindowWidth(window.innerWidth);
   }
-
-  // user Id 저장.... ㅠㅠㅠ 카카오페이지 왜 안되지
-  // const [userIdState, setUserIdState] = useRecoilState(UserIdState);
-  // const token = localStorage.getItem("kakao-token");
-  // useEffect(() => {
-  //   async function decodeFunction() {
-  //     if (token !== null) {
-  //       const decodeData: decodeType = await jwt_decode(token);
-  //       console.log("decodeData.userId : ", decodeData.userId);
-
-  //       await setUserIdState(decodeData.userId);
-
-  //       console.log("userIdRecoil : ", userIdState);
-  //     } else {
-  //       console.log("none");
-  //     }
-  //   }
-  //   decodeFunction();
-  // });
-
-  console.log("landing userId : ", UserIdState);
 
   useEffect(() => {
     window.addEventListener("scroll", onScroll);

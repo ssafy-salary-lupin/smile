@@ -1,6 +1,9 @@
 // import { Link } from "react-router-dom";
+import { studyIdRecoil } from "atoms/StudyManage";
+import { UserIdState } from "atoms/UserInfoAtom";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import "../../assets/css/index.css";
 
@@ -62,28 +65,30 @@ const Itemline = styled.ul`
 `;
 
 function StudyNavBar() {
+  const studyId = useRecoilValue(studyIdRecoil);
+
   return (
     <StudyNav>
       <BlankSpace />
       <Items>
         <ItemText>
-          <Link to="/manage">홈</Link>
+          <Link to={`/manage/${studyId}`}>홈</Link>
         </ItemText>
         <Itemline>|</Itemline>
         <ItemText>
-          <Link to="/manage/board">게시판</Link>
+          <Link to={`/manage/board`}>게시판</Link>
         </ItemText>
         <Itemline>|</Itemline>
         <ItemText>
-          <Link to="/manage/calendar">일정관리</Link>
+          <Link to={`/manage/calendar`}>일정관리</Link>
         </ItemText>
         <Itemline>|</Itemline>
         <ItemText>
-          <Link to="/manage/meetingRecord">화상 회의</Link>
+          <Link to={`/manage/meetingRecord`}>화상 회의</Link>
         </ItemText>
         <Itemline>|</Itemline>
         <ItemText>
-          <Link to="/manage/manageMember">스터디 관리</Link>
+          <Link to={`/manage/manageMember`}>스터디 관리</Link>
         </ItemText>
       </Items>
     </StudyNav>
