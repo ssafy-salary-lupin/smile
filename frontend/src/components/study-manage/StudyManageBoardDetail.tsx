@@ -556,7 +556,7 @@ function StudyManageBoardDetail() {
                 )}
               </CommentContent>
               <CommentFooter>
-                {userId === el.commentId ? (
+                {userId === el.writer.writerId ? (
                   <>
                     {selectedId !== el.commentId ? (
                       <ComUpdateBtn
