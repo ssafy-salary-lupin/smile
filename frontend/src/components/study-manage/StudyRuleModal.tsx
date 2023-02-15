@@ -182,11 +182,10 @@ function StudyRuleModal(props: IPropsType) {
       name: studyInfo?.result.name, //스터디 이름
       endDate:
         studyInfo?.result.endDate.split("-")[0] +
-        "년 " +
+        "-" +
         studyInfo?.result.endDate.split("-")[1] +
-        "월 " +
-        studyInfo?.result.endDate.split("-")[2] +
-        "일", // 스터디 종료날짜
+        "-" +
+        studyInfo?.result.endDate.split("-")[2], // 스터디 종료날짜
       time: studyInfo?.result.time, // 스터디 하는 시간.
       maxPerson: studyInfo?.result.maxPerson, // 스터디 최대인원
       typeId: studyInfo?.result.type.id, // 면접 스터디
