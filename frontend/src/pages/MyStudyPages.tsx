@@ -73,8 +73,10 @@ const StatusTitle = styled.summary`
   font-size: 2.5vw;
   font-weight: 600;
   cursor: pointer;
+  margin: 3.333vw 0;
   @media screen and (min-width: 1280px) {
     font-size: 32px;
+    margin: 42.662px 0;
   }
 `;
 
