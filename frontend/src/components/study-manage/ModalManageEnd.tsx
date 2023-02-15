@@ -61,6 +61,13 @@ function ModalManageEnd(props: any) {
 
   const studyId = useRecoilValue(studyIdRecoil);
 
+  const token = localStorage.getItem("kakao-token");
+  if (token !== null) {
+    var decoded: any = jwt_decode(token);
+  } else {
+    console.log("none");
+  }
+
   return (
     <Wrapper>
       <ModalNone setModalOpen={props.setModalOpen}>
@@ -72,7 +79,7 @@ function ModalManageEnd(props: any) {
           <Footer>
             <Link
               to={{
-                pathname: `/manage/manageMember/${studyId}`,
+                pathname: `/myStudy/${decoded?.userId}`,
               }}
             >
               <Btn
@@ -96,3 +103,6 @@ function ModalManageEnd(props: any) {
 }
 
 export default ModalManageEnd;
+function jwt_decode(token: string): any {
+  throw new Error("Function not implemented.");
+}
