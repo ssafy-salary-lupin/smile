@@ -23,9 +23,15 @@ export const dateState = atom({
   default: false,
 });
 
-// recoil 추가..
+// 일정
 export const Schedules = atom({
   key: "isSchedules",
+  default: [{}],
+});
+
+// 채팅
+export const Chat = atom({
+  key: "chat",
   default: [{}],
 });
 
