@@ -158,7 +158,7 @@ interface Data {
       id: number; //사용자 식별자
       nickname: string; //사용자 닉네임
       email: string; //사용자 이메일
-      imagePath: string; //사용자 프로필 사진 url
+      imgPath: string; //사용자 프로필 사진 url
       isLeader: boolean; //스터디장 유무
     },
   ];
@@ -215,10 +215,8 @@ function StudyManageMember() {
               {/* <Card> */}
               <ProfileImg
                 imgUrl={
-                  // detailStudy?.result.imgPath !== "/root"
-                  //   ? detailStudy?.result.imgPath
-                  // : defaultprofileImg
-                  defaultprofileImg
+                  user?.imgPath !== "/root" ? user?.imgPath : defaultprofileImg
+                  // defaultprofileImg
                 }
                 width="50px"
                 height="50px"
