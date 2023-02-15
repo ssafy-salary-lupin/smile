@@ -249,7 +249,10 @@ function ChatModal(props) {
   // 최초 입장시 Enter type 보내기위해 임시 설정
   const [firstEnter, setFirstEnter] = useState(true);
 
-  const { data: userInfo } = useQuery("userInfo", StudyUserApi(studyId));
+  const { data: userInfo } = useQuery(
+    "userInfo",
+    async () => await StudyUserApi(studyId),
+  );
 
   useEffect(() => {
     console.log("사용자 : ", userInfo);
@@ -261,7 +264,7 @@ function ChatModal(props) {
     });
 
     console.log("닉네임 : ", nickName);
-  });
+  }, [userInfo]);
 
   useEffect(() => {
     connect();
