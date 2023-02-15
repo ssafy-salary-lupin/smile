@@ -35,7 +35,8 @@ const ModalContainer = styled.div`
 const ModalHeader = styled.div`
   width: 100%;
   height: 8%;
-  background-color: #b0bad2;
+  background-color: rgb(245, 245, 245);
+  border-bottom: 1px solid rgb(160, 164, 167);
   border-radius: 0.694vw 0.694vw 0 0;
   display: flex;
   flex-direction: row;
@@ -46,7 +47,8 @@ const ModalHeader = styled.div`
 
 const HeaderText = styled.div`
   width: 100%;
-  font-weight: 600;
+  /* font-weight: 600; */
+  color: ${(props) => props.theme.blackColorOpacity2};
   font-size: 1.111vw;
   justify-content: center;
   align-items: center;
@@ -61,7 +63,7 @@ const HeaderText = styled.div`
 const ModalContent = styled.div`
   width: 100%;
   height: 84%;
-  background-color: #f1f5ff;
+  background-color: rgb(245, 245, 245);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -129,7 +131,7 @@ const ChatBubbleMe = styled.div`
   max-width: 12.778vw;
   min-width: 6.944vw;
   position: relative;
-  background: ${(props) => props.theme.pointColor};
+  background: rgb(52, 135, 235);
   color: white;
   line-height: 1.111vw;
   padding: 0.556vw;
@@ -148,13 +150,13 @@ const ChatBubbleMe = styled.div`
 `;
 
 const ChatBubbleYou = styled(ChatBubbleMe)`
-  background: #f7faff;
-  color: black;
+  background: rgb(232, 233, 234);
+  color: ${(props) => props.theme.blackColorOpacity2};
 `;
 
 const ModalFooter = styled.form`
-  /* border-top: 1px solid ${(props) => props.theme.shadowColor}; */
-  background-color: #b0bad2;
+  background-color: rgb(245, 245, 245);
+  border-top: 1px solid rgb(160, 164, 167);
   border-radius: 0 0 0.694vw 0.694vw;
   width: 100%;
   height: 8%;
@@ -173,6 +175,7 @@ const TextBox = styled.input`
   border-radius: 1.111vw;
   border: none;
   /* border: 0.139vw solid #c1cdea; */
+  background-color: transparent;
   height: 100%;
   outline: none;
   font-size: 0.556vw;
@@ -186,7 +189,7 @@ const SendMsgBox = styled.div`
   align-items: center;
 `;
 
-const SendBtn = styled.input`
+const SendBtn = styled.button`
   width: 100%;
   height: 100%;
   border: none;
@@ -422,7 +425,7 @@ function ChatModal(props) {
         ></TextBox>
         <SendMsgBox>
           <SendBtn type={"submit"} value={"Send"}>
-            {/* <Send width="100%" height="100%" /> */}
+            <Send width="100%" height="100%" stroke="#000000ae" />
           </SendBtn>
         </SendMsgBox>
       </ModalFooter>

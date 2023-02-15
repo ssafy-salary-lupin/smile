@@ -16,6 +16,7 @@ import StudyManageMember from "components/study-manage/StudyManageMember";
 // submenu 들어갈 자리
 const SubMenu = styled.div`
   height: 11.667vw;
+  /* background-color: #e7ecff; */
 `;
 
 function StudyManagePages() {
