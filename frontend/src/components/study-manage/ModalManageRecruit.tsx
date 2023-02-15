@@ -88,6 +88,7 @@ function ModalManageRecruit(props: any) {
                 onClick={() => {
                   StudyRecruitmentApi(studyId);
                   changeBtn();
+                  closeModal();
                 }}
               >
                 <span>확인</span>
