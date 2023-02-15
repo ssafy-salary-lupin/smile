@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { PostItInfo } from "apis/PostItApi";
 
@@ -161,11 +161,11 @@ class Note extends React.Component {
     }
   }
 }
-
+console.log("OUTSIDE", this.state.notesStringArray);
 //parent component for notes
 class Board extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.update = this.update.bind(this);
     this.eachNote = this.eachNote.bind(this);
@@ -173,7 +173,8 @@ class Board extends React.Component {
     this.removeAll = this.removeAll.bind(this);
     this.add = this.add.bind(this);
     this.state = {
-      notesStringArray: [],
+      // notesStringArray: [],
+      notesStringArray: props.memos,
     };
   }
 
@@ -281,13 +282,15 @@ class Board extends React.Component {
 
 export default function PostIt() {
   const userId = useRecoilValue(UserIdState);
+  const [memos, setMemos] = useState();
   const getPostIt = async () => {
     const postArr = await PostItInfo.api.get(`/users/${userId}/memos`);
     console.log("POST IT", postArr);
+    setMemos(postArr.data.result.memos);
   };
 
   useEffect(() => {
     getPostIt();
   }, []);
-  return <Board count={50}></Board>;
+  return <Board count={50} memos={memos}></Board>;
 }
