@@ -94,15 +94,17 @@ function VideoMeetingPages() {
   const userId = useRecoilValue(UserIdState);
 
   interface userDataType {
-    isSuccess: boolean;
-    code: number;
-    message: string;
-    result: {
-      id: number;
-      nickname: string;
-      email: string;
-      imagePath: string;
-      deleted: boolean;
+    data: {
+      isSuccess: boolean;
+      code: number;
+      message: string;
+      result: {
+        id: number;
+        nickname: string;
+        email: string;
+        imagePath: string;
+        deleted: boolean;
+      };
     };
   }
 
@@ -225,6 +227,7 @@ function VideoMeetingPages() {
 
   console.log(params);
   console.log(userInfo);
+  console.log(studyInfo);
   return (
     <>
       {isMeetingStart ? (
@@ -232,7 +235,7 @@ function VideoMeetingPages() {
           sessionName={params.studyId}
           userInfo={localUser}
           //TODO
-          user={userInfo?.result.nickname}
+          user={userInfo?.data.result.nickname}
         />
       ) : (
         // 화상 회의 대기 방
