@@ -7,28 +7,28 @@ import "./postIt.css";
 const BtnContainer = styled.div`
   display: flex;
   justify-content: flex-end;
-  width: 1240px;
+  width: 86.111vw;
 `;
 
 const Btn = styled.button`
-  width: 80px;
-  height: 32px;
+  width: 5.556vw;
+  height: 2.222vw;
   border: none;
-  border-radius: 15px 15px 0 0;
-  font-size: 16px;
+  border-radius: 1.042vw 1.042vw 0 0;
+  font-size: 1.111vw;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s linear;
   :hover {
-    box-shadow: 4px 2px 13px 2px grey;
+    box-shadow: 0.278vw 0.139vw 0.903vw 0.139vw grey;
     transform: scale(1.2);
   }
   :active {
-    box-shadow: 3px 3px 7px 1px grey inset;
+    box-shadow: 0.208vw 0.208vw 0.486vw 0.069vw grey inset;
   }
   :nth-child(1) {
     background-color: ${(props) => props.theme.mainColor};
-    margin-right: 16px;
+    margin-right: 1.111vw;
   }
   :nth-child(2) {
     background-color: #7d9ada;
@@ -56,8 +56,8 @@ class Note extends React.Component {
     this.style = {
       // left: "0px",
       // top: "0px",
-      left: this.randomBetween(0, 1100) + "px",
-      top: this.randomBetween(0, 200) + "px",
+      left: this.randomBetween(0, 76.389) + "vw",
+      top: this.randomBetween(0, 13.889) + "vw",
       transform: "rotate( " + this.randomBetween(-15, 15) + "deg)",
     };
   }
