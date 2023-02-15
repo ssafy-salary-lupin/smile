@@ -69,7 +69,7 @@ public class StudyCommonServiceImpl implements StudyCommonService{
 
         /*스터디 정보를 전체 조회해옴*/
 
-        Set<StudyInformation> studyInformations = null;
+        List<StudyInformation> studyInformations = null;
         /**검색 조건이 없을때*/
         if(findFilter.getName() == null && findFilter.getType() == 0){
 
