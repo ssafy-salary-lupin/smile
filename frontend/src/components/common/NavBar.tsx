@@ -161,7 +161,7 @@ function NavBar(props: UrlProps) {
   const navAnimation = useAnimation();
 
   const [tokenState, setTokenState] = useRecoilState(LoginState);
-  const [userId, setUserId] = useResetRecoilState(UserIdState);
+  const [userId, setUserId] = useRecoilState(UserIdState);
   const kakaoToken = localStorage.getItem("kakao-token");
 
   console.log("네비바 클릭 후userId : ", userId);
