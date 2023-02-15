@@ -4,10 +4,10 @@ import logoImg from "../../assets/img/smile_black.png";
 import "../../assets/css/index.css";
 import { motion, useAnimation, useScroll } from "framer-motion";
 import { Link, useHistory } from "react-router-dom";
-import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { LoginState } from "atoms/LoginAtom";
 import { studyIdRecoil } from "atoms/StudyManage";
-import { SelectorUserId, UserIdState } from "atoms/UserInfoAtom";
+import { UserIdState } from "atoms/UserInfoAtom";
 
 const Nav = styled(motion.nav)`
   position: fixed;
@@ -214,7 +214,6 @@ function NavBar(props: UrlProps) {
               내 스터디
             </Item2>
           ) : null}
-
           {kakaoToken ? (
             <NabBtn onClick={signOut}>로그아웃</NabBtn>
           ) : (
