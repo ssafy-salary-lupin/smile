@@ -106,7 +106,7 @@ function StudyNavBar() {
         </ItemText>
         <Itemline>|</Itemline>
         <ItemText>
-          {userStudy?.result.isLeader === true ? (
+          {userStudy.result.isLeader === true ? (
             <Link to={`/manage/manageMember/${studyId}`}>스터디 관리</Link>
           ) : null}
         </ItemText>
