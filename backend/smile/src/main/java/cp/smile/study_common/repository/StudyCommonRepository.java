@@ -61,4 +61,6 @@ public interface StudyCommonRepository extends JpaRepository<StudyInformation, I
     /*로그인 한 사용자 기준 - */
 
 
+
+
 }
