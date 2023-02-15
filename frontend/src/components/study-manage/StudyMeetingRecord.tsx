@@ -2,10 +2,14 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import ModalMeetingCreate from "./ModalMeetingCreate";
 import { useQuery } from "react-query";
-import { MeetingSelectAllApi } from "apis/StudyManageMeetingApi";
+import {
+  MeetingCreateApi,
+  MeetingSelectAllApi,
+} from "apis/StudyManageMeetingApi";
 import { useRecoilValue } from "recoil";
 import { studyIdRecoil } from "atoms/StudyManage";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
@@ -255,7 +259,7 @@ function StudyMeetingRecord() {
   };
 
   // 2. 회의 전체 조회(진행중 + 지난 ) GET
-  const { data: meetingList } = useQuery<IData>("allMeetings", () =>
+  const { data: meetingList, refetch } = useQuery<IData>("allMeetings", () =>
     MeetingSelectAllApi(studyId),
   );
 
@@ -268,6 +272,22 @@ function StudyMeetingRecord() {
       }
     });
   });
+
+  const createMeeting = async (data: any) => {
+    const response = await MeetingCreateApi(data, studyId);
+    console.log(response);
+
+    if (response.data.code === 200) {
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "이런...",
+        text: response.data.message,
+      });
+    }
+
+    refetch();
+  };
 
   return (
     <Wrapper>
@@ -331,7 +351,12 @@ function StudyMeetingRecord() {
           })}
         </BoxMain2>
       </CreatedBox>
-      {modalOpen && <ModalMeetingCreate setModalOpen={setModalOpen} />}
+      {modalOpen && (
+        <ModalMeetingCreate
+          setModalOpen={setModalOpen}
+          createMeeting={createMeeting}
+        />
+      )}
     </Wrapper>
   );
 }
