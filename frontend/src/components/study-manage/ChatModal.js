@@ -257,16 +257,17 @@ function ChatModal(props) {
   //   console.log("채팅 내역 : ", chatInfo);
   // });
 
+  // 기존 저장된 채팅내역 저장하는 함수
+  const setChatFunc = async () => {
+    await setChatList((_chat_list) => [..._chat_list, chatInfo]);
+  };
+
   useEffect(() => {
     console.log("채팅 내역 : ", chatInfo);
 
-    async function setChatFunc() {
-      await setChatList((_chat_list) => [..._chat_list, chatInfo]);
-    }
-
-    setChatFunc();
-
-    console.log("set chat : ", chat);
+    // async function setChatFunc() {
+    //   await setChatList((_chat_list) => [..._chat_list, chatInfo]);
+    // }
 
     connect();
 
@@ -285,6 +286,7 @@ function ChatModal(props) {
 
         // 최초 입장시 ENTER Type 보내기 위해 설정
         if (firstEnter) {
+          setChatFunc();
           publish();
           setFirstEnter(false);
           setTypeValue("TALK");
