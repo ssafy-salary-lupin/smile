@@ -176,7 +176,7 @@ interface StudyUserType {
 function StudyManageMember() {
   const pushFalse = (n: number) => {
     const tempArr: boolean[] = [];
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < n; i++) {
       tempArr.push(false);
     }
     return tempArr;
@@ -219,9 +219,11 @@ function StudyManageMember() {
   // sort by value
 
   const [userInfo, setUserN] = useState<number>(0);
-  if (userStudy) {
-    setUserN(userStudy.result.length);
-  }
+  useEffect(() => {
+    if (userStudy) {
+      setUserN(userStudy.result.length);
+    }
+  }, [userStudy]);
 
   // 위임
   const [mandateModalOpen, setMandateModalOpen] = useState(pushFalse(userInfo));
