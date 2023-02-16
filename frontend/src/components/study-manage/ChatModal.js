@@ -258,6 +258,8 @@ function ChatModal(props) {
 
     setChatFunc();
 
+    console.log("set chat : ", chat);
+
     connect();
 
     return () => disconnect();
