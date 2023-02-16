@@ -103,7 +103,7 @@ function ModalManageMandate(props: any) {
             <Btn
               color="#F5C82E"
               onClick={() => {
-                // MandateApi(studyId, userStudy?.result.id);
+                MandateApi(studyId, userStudy?.result.id);
                 console.log("안녕");
                 closeModal();
               }}
@@ -122,3 +122,4 @@ function ModalManageMandate(props: any) {
 }
 
 export default ModalManageMandate;
+

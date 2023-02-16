@@ -269,6 +269,7 @@ body {
 
 function App() {
   const [curPath, setCurPath] = useState(window.location.pathname);
+
   useEffect(() => {
     setCurPath(window.location.pathname);
   }, [curPath]);
