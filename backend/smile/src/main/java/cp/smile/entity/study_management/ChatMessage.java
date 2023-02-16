@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @NoArgsConstructor
@@ -47,10 +48,13 @@ public class ChatMessage extends BaseEntity {
 
     public ChatMessageInfoDTO createChatMessageInfoDTO(){
 
+        String sendTimeToString = this.sendTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+
         return ChatMessageInfoDTO.builder()
                 .id(this.id)
                 .message(this.content)
-                .sendTime(this.sendTime)
+                .sendTime(sendTimeToString)
                 .userProfile(this.user.createUserProfileDTO()).build();
     }
 }

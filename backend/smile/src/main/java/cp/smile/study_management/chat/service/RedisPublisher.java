@@ -47,13 +47,11 @@ public class RedisPublisher {
                 .findById(chatMessageDTO.getRoomId())
                 .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY));
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:SS");
-
 
         //메시지 저장.
         ChatMessage chatMessage = ChatMessage.builder()
                 .content(chatMessageDTO.getMessage())
-                .sendTime(LocalDateTime.parse(String.valueOf(LocalDateTime.now()), formatter))
+                .sendTime(LocalDateTime.now())
                 .session(String.valueOf(chatMessageDTO.getRoomId()))
                 .user(user)
                 .studyInformation(studyInformation).build();

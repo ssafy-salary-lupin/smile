@@ -22,11 +22,11 @@ public class ChatMessageInfoDTO {
 
 
     @Builder
-    public ChatMessageInfoDTO(Long id, String message, LocalDateTime sendTime, UserProfileDTO userProfile) {
+    public ChatMessageInfoDTO(Long id, String message, String sendTime, UserProfileDTO userProfile) {
 
         this.id = id;
         this.message = message;
-        this.sendTime = String.valueOf(sendTime);
+        this.sendTime = sendTime;
         this.userProfile = userProfile;
     }
 }
