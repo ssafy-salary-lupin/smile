@@ -14,6 +14,8 @@ import { SearchNameState, SearchTypeState } from "atoms/SearchAtom";
 import LoadingCard from "components/common/LoadingCard";
 import { useInView } from "react-intersection-observer";
 import { LoginAlert } from "components/common/LoginAlert";
+import Footer from "components/common/Footer";
+import NavBarSub from "components/common/NavBarSub";
 // 스터디 조회 페이지 전체를 감사는 div
 const Wrapper = styled.div`
   display: flex;
@@ -272,8 +274,11 @@ export default function StudySearchPages() {
   // console.log("INVIEW", inView);
   console.log("NOW", StudyList);
   console.log("MORE", moreStudyList);
+
+  const curPath = window.location.pathname;
   return (
     <>
+      <NavBarSub curUrl={curPath} />
       <BlankSpace />
       <Wrapper id={"search-wrapper"}>
         <Header>
@@ -334,6 +339,7 @@ export default function StudySearchPages() {
         )}
       </Wrapper>
       <div id="test" ref={ref}></div>
+      <Footer />
     </>
   );
 }

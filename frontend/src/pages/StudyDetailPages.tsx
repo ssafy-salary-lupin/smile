@@ -30,6 +30,8 @@ import Swal from "sweetalert2";
 import { useRecoilValue } from "recoil";
 import { UserIdState } from "atoms/UserInfoAtom";
 import { LoginAlert } from "components/common/LoginAlert";
+import NavBarSub from "components/common/NavBarSub";
+import Footer from "components/common/Footer";
 
 const BlankSpace = styled.div`
   height: 7.383vw;
@@ -565,221 +567,226 @@ function StudyDetailPages() {
     }
   }, [isFull, detailInfo]);
 
+  const curPath = window.location.pathname;
   return (
-    <Wrapper>
-      <BlankSpace />
-      <Text>
-        <Icons.CaretLeft width="1.667vw" />
-        <Link to={{ pathname: `/search` }}>
-          <p>목록으로</p>
-        </Link>
-      </Text>
-      <Top>
-        <TextBig>{detailInfo?.result.name}</TextBig>
-        <Link to={{ pathname: `/studies/${detailInfo?.result.id}/home` }}>
-          <Btn flag={isFull} className="joinBtn" onClick={onJoin}>
-            {isFull ? "모집 완료" : "참여하기"}
-          </Btn>
-        </Link>
-      </Top>
-      <StudyDetail>
-        <Card
-          src={
-            detailInfo?.result.imagePath.includes("/root")
-              ? defaultStudyImg
-              : detailInfo?.result.imagePath
-          }
-        />
-        {/* <Card
+    <>
+      <NavBarSub curUrl={curPath} />
+      <Wrapper>
+        <BlankSpace />
+        <Text>
+          <Icons.CaretLeft width="1.667vw" />
+          <Link to={{ pathname: `/search` }}>
+            <p>목록으로</p>
+          </Link>
+        </Text>
+        <Top>
+          <TextBig>{detailInfo?.result.name}</TextBig>
+          <Link to={{ pathname: `/studies/${detailInfo?.result.id}/home` }}>
+            <Btn flag={isFull} className="joinBtn" onClick={onJoin}>
+              {isFull ? "모집 완료" : "참여하기"}
+            </Btn>
+          </Link>
+        </Top>
+        <StudyDetail>
+          <Card
+            src={
+              detailInfo?.result.imagePath.includes("/root")
+                ? defaultStudyImg
+                : detailInfo?.result.imagePath
+            }
+          />
+          {/* <Card
           src={
             detailInfo?.result.imgPath.includes("/root")
               ? defaultStudyImg
               : detailInfo?.result.imgPath
           }
         /> */}
-        {/* <Card src={detailInfo?.result.imgPath} id="item1" /> */}
-        <TextBigBox>
-          <TextSmallBox>
-            <ProfileImg
-              imgUrl={
-                detailInfo?.result.leader.imagePath !== null &&
-                detailInfo?.result.leader.imagePath !== "/root"
-                  ? detailInfo?.result.leader.imagePath
-                  : defaultprofileImg
-              }
-              width="5vw"
-              height="5vw"
-            />
-            <p>{detailInfo?.result.leader.nickname}</p>
-            <Crown fill={theme.mainColor} width="1.389vw" />
-          </TextSmallBox>
-          <TextSmallBox>
-            <TextName>모집 유형 </TextName>
-            <TextSmall>{detailInfo?.result.type.name}</TextSmall>
-          </TextSmallBox>
-          <TextSmallBox>
-            <TextName>모집 인원 </TextName>
-            <TextSmall>{detailInfo?.result.maxPerson}명</TextSmall>
-          </TextSmallBox>
-          <TextSmallBox>
-            <TextName>예상 기간 </TextName>
-            <TextSmall>
-              {detailInfo?.result.startDate} ~ {detailInfo?.result.endDate}
-            </TextSmall>
-          </TextSmallBox>
-          <TextSmallBox>
-            <TextName>스터디 시간</TextName>
-            <TextSmall>{detailInfo?.result.time}</TextSmall>
-          </TextSmallBox>
-        </TextBigBox>
-      </StudyDetail>
-      <Introduce>
-        <p>스터디 소개</p>
-        <Area>{detailInfo?.result.description}</Area>
-      </Introduce>
-      <CommentHeader>댓글</CommentHeader>
-      <CommentInput>
-        <TextInput
-          value={comment}
-          type="text"
-          placeholder="댓글을 입력하세요."
-          onChange={(el) => setComment(el.target.value)}
-        />
-        <WriteBtn onClick={writeComment}>작성</WriteBtn>
-      </CommentInput>
-      <CommentList>
-        {detailInfo?.result.comments.map((el, index) => {
-          return (
-            <CommentBox key={index}>
-              <CommentTop>
-                <ProfileImg width="2.222vw" imgUrl={el.user.imagePath} />
-                <WriterName>{el.user.nickname}</WriterName>
-              </CommentTop>
-              <CommentContent>
-                {selectedUpdateId === el.id ? (
-                  <CommentTxt
-                    editState={true}
-                    value={commentForUpdate}
-                    onChange={(el) => setCommentForUpdate(el.target.value)}
-                  ></CommentTxt>
-                ) : (
-                  <CommentTxt
-                    value={el.content}
-                    readOnly
-                    editState={false}
-                  ></CommentTxt>
-                )}
-              </CommentContent>
-              <CommentFooter>
-                <ComReplyBtn onClick={() => openReplyInput(el.id)}>
-                  답변
-                </ComReplyBtn>
+          {/* <Card src={detailInfo?.result.imgPath} id="item1" /> */}
+          <TextBigBox>
+            <TextSmallBox>
+              <ProfileImg
+                imgUrl={
+                  detailInfo?.result.leader.imagePath !== null &&
+                  detailInfo?.result.leader.imagePath !== "/root"
+                    ? detailInfo?.result.leader.imagePath
+                    : defaultprofileImg
+                }
+                width="5vw"
+                height="5vw"
+              />
+              <p>{detailInfo?.result.leader.nickname}</p>
+              <Crown fill={theme.mainColor} width="1.389vw" />
+            </TextSmallBox>
+            <TextSmallBox>
+              <TextName>모집 유형 </TextName>
+              <TextSmall>{detailInfo?.result.type.name}</TextSmall>
+            </TextSmallBox>
+            <TextSmallBox>
+              <TextName>모집 인원 </TextName>
+              <TextSmall>{detailInfo?.result.maxPerson}명</TextSmall>
+            </TextSmallBox>
+            <TextSmallBox>
+              <TextName>예상 기간 </TextName>
+              <TextSmall>
+                {detailInfo?.result.startDate} ~ {detailInfo?.result.endDate}
+              </TextSmall>
+            </TextSmallBox>
+            <TextSmallBox>
+              <TextName>스터디 시간</TextName>
+              <TextSmall>{detailInfo?.result.time}</TextSmall>
+            </TextSmallBox>
+          </TextBigBox>
+        </StudyDetail>
+        <Introduce>
+          <p>스터디 소개</p>
+          <Area>{detailInfo?.result.description}</Area>
+        </Introduce>
+        <CommentHeader>댓글</CommentHeader>
+        <CommentInput>
+          <TextInput
+            value={comment}
+            type="text"
+            placeholder="댓글을 입력하세요."
+            onChange={(el) => setComment(el.target.value)}
+          />
+          <WriteBtn onClick={writeComment}>작성</WriteBtn>
+        </CommentInput>
+        <CommentList>
+          {detailInfo?.result.comments.map((el, index) => {
+            return (
+              <CommentBox key={index}>
+                <CommentTop>
+                  <ProfileImg width="2.222vw" imgUrl={el.user.imagePath} />
+                  <WriterName>{el.user.nickname}</WriterName>
+                </CommentTop>
+                <CommentContent>
+                  {selectedUpdateId === el.id ? (
+                    <CommentTxt
+                      editState={true}
+                      value={commentForUpdate}
+                      onChange={(el) => setCommentForUpdate(el.target.value)}
+                    ></CommentTxt>
+                  ) : (
+                    <CommentTxt
+                      value={el.content}
+                      readOnly
+                      editState={false}
+                    ></CommentTxt>
+                  )}
+                </CommentContent>
+                <CommentFooter>
+                  <ComReplyBtn onClick={() => openReplyInput(el.id)}>
+                    답변
+                  </ComReplyBtn>
 
-                {userId === el.user.id ? (
-                  <>
-                    <p>·</p>
-                    {selectedUpdateId !== el.id ? (
-                      <ComUpdateBtn
-                        onClick={() => updateComment(el.id, el.content)}
-                      >
-                        수정
-                      </ComUpdateBtn>
-                    ) : (
-                      <ComUpdateBtn onClick={() => onUpdateComment(el.id)}>
-                        수정
-                      </ComUpdateBtn>
-                    )}
-                    <p>·</p>
-                    <ComDeleteBtn onClick={() => deleteComment(el.id)}>
-                      삭제
-                    </ComDeleteBtn>
-                  </>
+                  {userId === el.user.id ? (
+                    <>
+                      <p>·</p>
+                      {selectedUpdateId !== el.id ? (
+                        <ComUpdateBtn
+                          onClick={() => updateComment(el.id, el.content)}
+                        >
+                          수정
+                        </ComUpdateBtn>
+                      ) : (
+                        <ComUpdateBtn onClick={() => onUpdateComment(el.id)}>
+                          수정
+                        </ComUpdateBtn>
+                      )}
+                      <p>·</p>
+                      <ComDeleteBtn onClick={() => deleteComment(el.id)}>
+                        삭제
+                      </ComDeleteBtn>
+                    </>
+                  ) : null}
+                </CommentFooter>
+                {/* 답변 */}
+                {el.replies.length > 0 &&
+                  el.replies.map((rep, index) => {
+                    return (
+                      <ReplyWrapper key={index}>
+                        {/* <StyledReplyIcon fill={theme.mainColor} width="1.389vw" /> */}
+                        <ReplySubWrapper>
+                          <CommentTop>
+                            <ProfileImg
+                              width="2.222vw"
+                              imgUrl={rep.user.imagePath}
+                            />
+                            <WriterName>{rep.user.nickname}</WriterName>
+                          </CommentTop>
+                          <CommentContent>
+                            {selectedUpdateReplyId === rep.id ? (
+                              <CommentTxt
+                                editState={true}
+                                value={replyForUpdate}
+                                onChange={(el) =>
+                                  setReplyForUpdate(el.target.value)
+                                }
+                              ></CommentTxt>
+                            ) : (
+                              <CommentTxt
+                                value={rep.content}
+                                readOnly
+                                editState={false}
+                              ></CommentTxt>
+                            )}
+                          </CommentContent>
+                          <CommentFooter>
+                            {userId === rep.user.id ? (
+                              <>
+                                {selectedUpdateReplyId === rep.id ? (
+                                  <ComUpdateBtn
+                                    onClick={() => onUpdateReply(el.id, rep.id)}
+                                  >
+                                    수정
+                                  </ComUpdateBtn>
+                                ) : (
+                                  <ComUpdateBtn
+                                    onClick={() =>
+                                      updateReply(rep.id, rep.content)
+                                    }
+                                  >
+                                    수정
+                                  </ComUpdateBtn>
+                                )}
+                                <p>·</p>
+                                <ComDeleteBtn
+                                  onClick={() => deleteReply(el.id, rep.id)}
+                                >
+                                  삭제
+                                </ComDeleteBtn>
+                              </>
+                            ) : null}
+                          </CommentFooter>
+                        </ReplySubWrapper>
+                      </ReplyWrapper>
+                    );
+                  })}
+                {selectedId === el.id ? (
+                  <ReplyWrapper>
+                    <StyledReplyIcon fill={theme.mainColor} width="1.389vw" />
+                    <ReplyBox>
+                      <p>답글</p>
+                      <ReplyInputBox>
+                        <ReplyInput
+                          placeholder="답변을 입력하세요."
+                          onChange={(el) => setReply(el.target.value)}
+                        />
+                        <ReplyBtn onClick={() => writeReply(el.id)}>
+                          작성
+                        </ReplyBtn>
+                      </ReplyInputBox>
+                    </ReplyBox>
+                  </ReplyWrapper>
                 ) : null}
-              </CommentFooter>
-              {/* 답변 */}
-              {el.replies.length > 0 &&
-                el.replies.map((rep, index) => {
-                  return (
-                    <ReplyWrapper key={index}>
-                      {/* <StyledReplyIcon fill={theme.mainColor} width="1.389vw" /> */}
-                      <ReplySubWrapper>
-                        <CommentTop>
-                          <ProfileImg
-                            width="2.222vw"
-                            imgUrl={rep.user.imagePath}
-                          />
-                          <WriterName>{rep.user.nickname}</WriterName>
-                        </CommentTop>
-                        <CommentContent>
-                          {selectedUpdateReplyId === rep.id ? (
-                            <CommentTxt
-                              editState={true}
-                              value={replyForUpdate}
-                              onChange={(el) =>
-                                setReplyForUpdate(el.target.value)
-                              }
-                            ></CommentTxt>
-                          ) : (
-                            <CommentTxt
-                              value={rep.content}
-                              readOnly
-                              editState={false}
-                            ></CommentTxt>
-                          )}
-                        </CommentContent>
-                        <CommentFooter>
-                          {userId === rep.user.id ? (
-                            <>
-                              {selectedUpdateReplyId === rep.id ? (
-                                <ComUpdateBtn
-                                  onClick={() => onUpdateReply(el.id, rep.id)}
-                                >
-                                  수정
-                                </ComUpdateBtn>
-                              ) : (
-                                <ComUpdateBtn
-                                  onClick={() =>
-                                    updateReply(rep.id, rep.content)
-                                  }
-                                >
-                                  수정
-                                </ComUpdateBtn>
-                              )}
-                              <p>·</p>
-                              <ComDeleteBtn
-                                onClick={() => deleteReply(el.id, rep.id)}
-                              >
-                                삭제
-                              </ComDeleteBtn>
-                            </>
-                          ) : null}
-                        </CommentFooter>
-                      </ReplySubWrapper>
-                    </ReplyWrapper>
-                  );
-                })}
-              {selectedId === el.id ? (
-                <ReplyWrapper>
-                  <StyledReplyIcon fill={theme.mainColor} width="1.389vw" />
-                  <ReplyBox>
-                    <p>답글</p>
-                    <ReplyInputBox>
-                      <ReplyInput
-                        placeholder="답변을 입력하세요."
-                        onChange={(el) => setReply(el.target.value)}
-                      />
-                      <ReplyBtn onClick={() => writeReply(el.id)}>
-                        작성
-                      </ReplyBtn>
-                    </ReplyInputBox>
-                  </ReplyBox>
-                </ReplyWrapper>
-              ) : null}
-            </CommentBox>
-          );
-        })}
-      </CommentList>
-    </Wrapper>
+              </CommentBox>
+            );
+          })}
+        </CommentList>
+      </Wrapper>
+      <Footer />
+    </>
   );
 }
 

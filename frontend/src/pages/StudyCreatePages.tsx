@@ -15,6 +15,8 @@ import moment from "moment";
 import * as Icons from "../components/common/Icons";
 import { CreateStudyApi, studyTypeApi } from "apis/StudyCreateApi";
 import Swal from "sweetalert2";
+import NavBarSub from "components/common/NavBarSub";
+import Footer from "components/common/Footer";
 
 const BlankSpace = styled.div`
   height: 7.383vw;
@@ -455,148 +457,153 @@ function StudyCreatePages() {
     setStudy_description(e.target.value);
   };
 
+  const curPath = window.location.pathname;
   return (
-    <div>
-      {/* <CreateContainer> */}
-      <BlankSpace />
-      <TotalBox>
-        <BetweenBox>
-          <TextBox>
-            <TextBig>원하는 스터디를 생성해보세요!</TextBig>
-            <TextSmall>
-              규정에 위반 되는 스터디는 생성 시 즉시 법적 대응을 하겠습니다.
-            </TextSmall>
-          </TextBox>
-          <IconBox />
-        </BetweenBox>
-        <SelectBigTotal>
-          <SelectSmallTotal>
-            <SelectName>
-              스터디 이름<RedStar>*</RedStar>
-            </SelectName>
-            <InputBox value={study_name} onChange={Change_name}></InputBox>
-          </SelectSmallTotal>
-          <SelectWrapper>
+    <>
+      <NavBarSub curUrl={curPath} />
+      <div>
+        {/* <CreateContainer> */}
+        <BlankSpace />
+        <TotalBox>
+          <BetweenBox>
+            <TextBox>
+              <TextBig>원하는 스터디를 생성해보세요!</TextBig>
+              <TextSmall>
+                규정에 위반 되는 스터디는 생성 시 즉시 법적 대응을 하겠습니다.
+              </TextSmall>
+            </TextBox>
+            <IconBox />
+          </BetweenBox>
+          <SelectBigTotal>
             <SelectSmallTotal>
               <SelectName>
-                스터디 유형<RedStar>*</RedStar>
+                스터디 이름<RedStar>*</RedStar>
               </SelectName>
-              <SelectBox onChange={Change_typeId}>
-                <option value="0">-- 유형 --</option>
-                {studyType?.result.types?.map((item, index) => (
-                  <option value={item.id} key={index}>
-                    {item.name}
-                  </option>
-                ))}
-              </SelectBox>
+              <InputBox value={study_name} onChange={Change_name}></InputBox>
             </SelectSmallTotal>
-            <SelectSmallTotal>
-              <SelectName>
-                모집 인원<RedStar>*</RedStar>
-              </SelectName>
-              <SelectBox onChange={Change_maxPerson}>
-                <option value="0">-- 인원 --</option>
-                {selectPeople.map((item) => (
-                  <option value={item} key={item}>
-                    {item}
-                  </option>
-                ))}
-              </SelectBox>
-            </SelectSmallTotal>
-          </SelectWrapper>
-          <SelectSmallTotal>
-            <SelectName>
-              기간<RedStar>*</RedStar>
-            </SelectName>
-            {/* <SelectBox></SelectBox> */}
-            <DateTime>
-              <CalendarBox>
-                <Calendar
-                  dateFormat="yyyy년 MM월 dd일"
-                  selected={startDate}
-                  onChange={(date: Date) => setStartDate(date)}
-                  selectsStart
-                  minDate={new Date()}
-                  startDate={startDate}
-                  endDate={endDate}
-                />
-              </CalendarBox>
-              <p>~</p>
-              <CalendarBox>
-                <Calendar
-                  dateFormat="yyyy년 MM월 dd일"
-                  selected={endDate}
-                  onChange={(date: Date) => setEndDate(date)}
-                  selectsStart
-                  startDate={startDate}
-                  endDate={endDate}
-                  minDate={startDate}
-                />
-              </CalendarBox>
-            </DateTime>
-          </SelectSmallTotal>
-          <SelectSmallTotal>
-            <SelectName>스터디 시간</SelectName>
-            <DateTime>
-              <TimeSelectWrapper>
-                <SelectBox onChange={Change_startTime}>
-                  {selectTime.map((item) => (
+            <SelectWrapper>
+              <SelectSmallTotal>
+                <SelectName>
+                  스터디 유형<RedStar>*</RedStar>
+                </SelectName>
+                <SelectBox onChange={Change_typeId}>
+                  <option value="0">-- 유형 --</option>
+                  {studyType?.result.types?.map((item, index) => (
+                    <option value={item.id} key={index}>
+                      {item.name}
+                    </option>
+                  ))}
+                </SelectBox>
+              </SelectSmallTotal>
+              <SelectSmallTotal>
+                <SelectName>
+                  모집 인원<RedStar>*</RedStar>
+                </SelectName>
+                <SelectBox onChange={Change_maxPerson}>
+                  <option value="0">-- 인원 --</option>
+                  {selectPeople.map((item) => (
                     <option value={item} key={item}>
                       {item}
                     </option>
                   ))}
                 </SelectBox>
-              </TimeSelectWrapper>
-              <p>~</p>
-              <TimeSelectWrapper>
-                <SelectBox onChange={Change_endTime}>
-                  {selectTime.map((item, index) => (
-                    <option value={item} key={index}>
-                      {item}
-                    </option>
-                  ))}
-                </SelectBox>
-              </TimeSelectWrapper>
-            </DateTime>
-          </SelectSmallTotal>
-          <SelectSmallTotal>
-            <SelectName>대표 이미지</SelectName>
-            <Forms>
-              <label className="signup-profileImg-label" htmlFor="profileImg">
-                <ImgBox>
-                  {isActive && typeof imgFile == "string" ? (
-                    <Img src={imgFile} alt="" />
-                  ) : (
-                    <Icons.Camera width="100%" height="100%" />
-                  )}
-                </ImgBox>
-              </label>
-              <input
-                className="signup-profileImg-input"
-                type="file"
-                accept="image/*"
-                id="profileImg"
-                onChange={saveImgFile}
-                ref={imgRef}
+              </SelectSmallTotal>
+            </SelectWrapper>
+            <SelectSmallTotal>
+              <SelectName>
+                기간<RedStar>*</RedStar>
+              </SelectName>
+              {/* <SelectBox></SelectBox> */}
+              <DateTime>
+                <CalendarBox>
+                  <Calendar
+                    dateFormat="yyyy년 MM월 dd일"
+                    selected={startDate}
+                    onChange={(date: Date) => setStartDate(date)}
+                    selectsStart
+                    minDate={new Date()}
+                    startDate={startDate}
+                    endDate={endDate}
+                  />
+                </CalendarBox>
+                <p>~</p>
+                <CalendarBox>
+                  <Calendar
+                    dateFormat="yyyy년 MM월 dd일"
+                    selected={endDate}
+                    onChange={(date: Date) => setEndDate(date)}
+                    selectsStart
+                    startDate={startDate}
+                    endDate={endDate}
+                    minDate={startDate}
+                  />
+                </CalendarBox>
+              </DateTime>
+            </SelectSmallTotal>
+            <SelectSmallTotal>
+              <SelectName>스터디 시간</SelectName>
+              <DateTime>
+                <TimeSelectWrapper>
+                  <SelectBox onChange={Change_startTime}>
+                    {selectTime.map((item) => (
+                      <option value={item} key={item}>
+                        {item}
+                      </option>
+                    ))}
+                  </SelectBox>
+                </TimeSelectWrapper>
+                <p>~</p>
+                <TimeSelectWrapper>
+                  <SelectBox onChange={Change_endTime}>
+                    {selectTime.map((item, index) => (
+                      <option value={item} key={index}>
+                        {item}
+                      </option>
+                    ))}
+                  </SelectBox>
+                </TimeSelectWrapper>
+              </DateTime>
+            </SelectSmallTotal>
+            <SelectSmallTotal>
+              <SelectName>대표 이미지</SelectName>
+              <Forms>
+                <label className="signup-profileImg-label" htmlFor="profileImg">
+                  <ImgBox>
+                    {isActive && typeof imgFile == "string" ? (
+                      <Img src={imgFile} alt="" />
+                    ) : (
+                      <Icons.Camera width="100%" height="100%" />
+                    )}
+                  </ImgBox>
+                </label>
+                <input
+                  className="signup-profileImg-input"
+                  type="file"
+                  accept="image/*"
+                  id="profileImg"
+                  onChange={saveImgFile}
+                  ref={imgRef}
+                />
+              </Forms>
+            </SelectSmallTotal>
+            <SelectSmallTotal>
+              <SelectName>스터디 설명</SelectName>
+              <Introudce
+                value={study_description}
+                onChange={Change_description}
               />
-            </Forms>
-          </SelectSmallTotal>
-          <SelectSmallTotal>
-            <SelectName>스터디 설명</SelectName>
-            <Introudce
-              value={study_description}
-              onChange={Change_description}
-            />
-          </SelectSmallTotal>
-          <BtnBox>
-            <CreateBtn onClick={onCreateStudy}>스터디 생성</CreateBtn>
-            <Link to="/search">
-              <CancelBtn>취소</CancelBtn>
-            </Link>
-          </BtnBox>
-        </SelectBigTotal>
-      </TotalBox>
-    </div>
+            </SelectSmallTotal>
+            <BtnBox>
+              <CreateBtn onClick={onCreateStudy}>스터디 생성</CreateBtn>
+              <CancelBtn>
+                <Link to="/search">취소</Link>
+              </CancelBtn>
+            </BtnBox>
+          </SelectBigTotal>
+        </TotalBox>
+      </div>
+      <Footer />
+    </>
   );
 }
 

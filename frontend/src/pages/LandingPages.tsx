@@ -17,6 +17,8 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { UserIdState } from "atoms/UserInfoAtom";
 import jwt_decode from "jwt-decode";
 import { LoginAlert } from "components/common/LoginAlert";
+import Footer from "components/common/Footer";
+import NavBarMain from "components/common/NavBarMain";
 import { PageState } from "atoms/PageAtom";
 
 const Wrapper = styled.div``;
@@ -489,56 +491,61 @@ function LandingPages() {
     },
   ];
 
+  const curPath = window.location.pathname;
   return (
-    <Wrapper>
-      <BackgroundYellow bgHeight={65} />
-      <SLandingBody>
-        <SContainer>
-          <SBanner>
-            <SBannerItem>
-              <span>{bannerText}</span>
-              <span>{bannerSubText}</span>
-            </SBannerItem>
-            <LinkBtn to={{ pathname: `/search` }}>
-              <SBannerButton>
-                <span>{bannerButtonText}</span>
-              </SBannerButton>
-            </LinkBtn>
-          </SBanner>
-          <SStudyList>
-            <SItemTitle>현재 인기있는 스터디</SItemTitle>
-            <SCards>
-              {/* <SArrow>
+    <>
+      <NavBarMain curUrl={curPath} />
+      <Wrapper>
+        <BackgroundYellow bgHeight={65} />
+        <SLandingBody>
+          <SContainer>
+            <SBanner>
+              <SBannerItem>
+                <span>{bannerText}</span>
+                <span>{bannerSubText}</span>
+              </SBannerItem>
+              <LinkBtn to={{ pathname: `/search` }}>
+                <SBannerButton>
+                  <span>{bannerButtonText}</span>
+                </SBannerButton>
+              </LinkBtn>
+            </SBanner>
+            <SStudyList>
+              <SItemTitle>현재 인기있는 스터디</SItemTitle>
+              <SCards>
+                {/* <SArrow>
                 <img src={arrowL} alt="" />
               </SArrow> */}
-              {studyList.map((study) => (
-                <div onClick={goLogin} key={study.id}>
-                  <Card studyInfo={study} />
-                </div>
-              ))}
+                {studyList.map((study) => (
+                  <div onClick={goLogin} key={study.id}>
+                    <Card studyInfo={study} />
+                  </div>
+                ))}
 
-              {/* <SArrow>
+                {/* <SArrow>
                 <img src={arrowR} alt="" />
               </SArrow> */}
-            </SCards>
-          </SStudyList>
-          <SIntroductionItem direction="L" top={relativeTop1}>
-            <SIntroductionItemImg src={introductionImg1} id="item1" />
-            <SIntroductionItemText>
-              <STextBold>당신의 스터디를 찾아보세요!</STextBold>
-              <SText>어떤 스터디를 원하세요?</SText>
-            </SIntroductionItemText>
-          </SIntroductionItem>
-          <SIntroductionItem direction="R" top={relativeTop2}>
-            <SIntroductionItemText>
-              <STextBold>당신만의 스터디를 만들 수 있어요!</STextBold>
-              <SText>어떤 스터디를 만들고 싶나요?</SText>
-            </SIntroductionItemText>
-            <SIntroductionItemImg src={introductionImg2} id="item2" />
-          </SIntroductionItem>
-        </SContainer>
-      </SLandingBody>
-    </Wrapper>
+              </SCards>
+            </SStudyList>
+            <SIntroductionItem direction="L" top={relativeTop1}>
+              <SIntroductionItemImg src={introductionImg1} id="item1" />
+              <SIntroductionItemText>
+                <STextBold>당신의 스터디를 찾아보세요!</STextBold>
+                <SText>어떤 스터디를 원하세요?</SText>
+              </SIntroductionItemText>
+            </SIntroductionItem>
+            <SIntroductionItem direction="R" top={relativeTop2}>
+              <SIntroductionItemText>
+                <STextBold>당신만의 스터디를 만들 수 있어요!</STextBold>
+                <SText>어떤 스터디를 만들고 싶나요?</SText>
+              </SIntroductionItemText>
+              <SIntroductionItemImg src={introductionImg2} id="item2" />
+            </SIntroductionItem>
+          </SContainer>
+        </SLandingBody>
+      </Wrapper>
+      <Footer />
+    </>
   );
 }
 
