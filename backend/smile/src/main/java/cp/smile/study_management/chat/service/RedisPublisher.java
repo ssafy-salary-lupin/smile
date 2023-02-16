@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static cp.smile.config.response.exception.CustomExceptionStatus.*;
 
@@ -46,10 +47,13 @@ public class RedisPublisher {
                 .findById(chatMessageDTO.getRoomId())
                 .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY));
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:SS");
+
+
         //메시지 저장.
         ChatMessage chatMessage = ChatMessage.builder()
                 .content(chatMessageDTO.getMessage())
-                .sendTime(LocalDateTime.now())
+                .sendTime(LocalDateTime.parse(String.valueOf(LocalDateTime.now()), formatter))
                 .session(String.valueOf(chatMessageDTO.getRoomId()))
                 .user(user)
                 .studyInformation(studyInformation).build();
