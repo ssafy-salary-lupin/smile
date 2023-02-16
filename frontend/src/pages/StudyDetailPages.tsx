@@ -66,7 +66,9 @@ const Btn = styled.button<BtnType>`
   border: none;
   background-color: ${(props) =>
     props.flag ? "#666b70" : props.theme.mainColor};
-  cursor: pointer;
+
+  cursor: ${(props) => (props.flag ? "" : "pointer")};
+  color: ${(props) => (props.flag ? "white" : "black")};
   padding: 0.556vw 1.111vw;
   width: 8.667vw;
   height: 3.473vw;
@@ -547,8 +549,12 @@ function StudyDetailPages() {
     stateSet();
   }, [detailStudy]);
 
+  const isFull = () => {
+    return detailInfo?.result.maxPerson === detailInfo?.result.currentPerson;
+  };
+
   // 참여하기 비활성화
-  if (detailInfo?.result.maxPerson === detailInfo?.result.currentPerson) {
+  if (isFull()) {
     const joinBtn = document.querySelector(".joinBtn");
     console.log(joinBtn);
     joinBtn && joinBtn.setAttribute("disabled", "true");
@@ -566,14 +572,8 @@ function StudyDetailPages() {
       <Top>
         <TextBig>{detailInfo?.result.name}</TextBig>
         <Link to={{ pathname: `/studies/${detailInfo?.result.id}/home` }}>
-          <Btn
-            flag={
-              detailInfo?.result.maxPerson === detailInfo?.result.currentPerson
-            }
-            className="joinBtn"
-            onClick={onJoin}
-          >
-            참여하기
+          <Btn flag={isFull()} className="joinBtn" onClick={onJoin}>
+            {isFull() ? "모집 완료" : "참여하기"}
           </Btn>
         </Link>
       </Top>
