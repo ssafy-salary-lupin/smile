@@ -270,18 +270,12 @@ body {
 function App() {
   const curPath = window.location.pathname;
 
-  const onRender = () => {
-    window.location.replace("/");
-  };
-
   return (
     <>
       <BrowserRouter>
         <ScrollTop />
         <GlobalStyle />
-        {!curPath.includes("meeting") && (
-          <NavBar curUrl={curPath} onRender={onRender} />
-        )}
+        {!curPath.includes("meeting") && <NavBar curUrl={curPath} />}
         <Router />
         {!curPath.includes("meeting") && <Footer />}
       </BrowserRouter>
