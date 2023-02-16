@@ -260,7 +260,7 @@ function ChatModal(props) {
   };
 
   useEffect(() => {
-    console.log("이전 채팅 기록 : ", chatInfo);
+    // console.log("이전 채팅 기록 : ", chatInfo);
 
     connect();
 
@@ -280,6 +280,7 @@ function ChatModal(props) {
         // 최초 입장시 ENTER Type 보내기 위해 설정
         if (firstEnter) {
           setChatFunc();
+          console.log("이전 채팅 기록 : ", chatInfo);
           publish();
           setFirstEnter(false);
           setTypeValue("TALK");
