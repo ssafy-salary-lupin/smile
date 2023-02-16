@@ -8,6 +8,7 @@ import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import { LoginState } from "atoms/LoginAtom";
 import { studyIdRecoil } from "atoms/StudyManage";
 import { UserIdState } from "atoms/UserInfoAtom";
+import { PageState } from "atoms/PageAtom";
 
 const Nav = styled(motion.nav)`
   position: fixed;
@@ -194,6 +195,8 @@ function NavBar(props: UrlProps) {
   //   forceUpdate();
   //   history.push(`/myStudy/${userId}`);
   // };
+
+  const pageUrl = useRecoilValue(PageState);
   const [curPath, setCurPath] = useState(window.location.pathname);
   const [displayNone, setDisplayNone] = useState<boolean>(false);
   useEffect(() => {
