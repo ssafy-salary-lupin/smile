@@ -243,7 +243,7 @@ function ChatModal(props) {
   const userId = useRecoilValue(UserIdState);
 
   // senderName : user nickname
-  const [nickName, setNickName] = useState("");
+  // const [nickName, setNickName] = useState("");
 
   // message : chat
   const [chatList, setChatList] = useState([]); // 화면에 표시괼 채팅 기록
@@ -254,6 +254,7 @@ function ChatModal(props) {
 
   useEffect(() => {
     console.log("채팅 내역 : ", props.chatInfo);
+    console.log("닉네임 : ", props.nickName);
 
     // props.userInfo.result.forEach(async (element) => {
     //   console.log("요소 출력 : ", element);
@@ -265,13 +266,6 @@ function ChatModal(props) {
   });
 
   useEffect(() => {
-    props.userInfo.result.forEach(async (element) => {
-      console.log("요소 출력 : ", element);
-      if (element.id === userId) {
-        console.log("일치!!");
-        await setNickName(element.nickname);
-      }
-    });
     connect();
 
     return () => disconnect();
