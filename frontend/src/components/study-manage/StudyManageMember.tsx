@@ -170,7 +170,7 @@ interface StudyUserType {
   nickname: string; //사용자 닉네임
   email: string; //사용자 이메일
   imgPath: string; //사용자 프로필 사진 url
-  isLeader: boolean; //스터디장 유무
+  leader: boolean; //스터디장 유무
 }
 
 //
@@ -264,7 +264,7 @@ function StudyManageMember() {
     <Wrapper>
       <UpContainer>
         {userStudy?.result.map((user: StudyUserType, index: number) => {
-          if (user.isLeader) {
+          if (user.leader) {
             return (
               // <Card key={index}>
               //   {/* <Card> */}
@@ -295,7 +295,7 @@ function StudyManageMember() {
           }
         })}
         {userStudy?.result.map((user: StudyUserType, index: number) => {
-          if (!user.isLeader) {
+          if (!user.leader) {
             return (
               // <Card key={index}>
               //   {/* <Card> */}

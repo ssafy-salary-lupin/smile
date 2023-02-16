@@ -59,7 +59,7 @@ interface UserInfoType {
     nickname: string; //사용자 닉네임
     email: string; //사용자 이메일
     imgPath: string; //사용자 프로필 사진 url
-    isLeader: boolean; //스터디장 유무
+    leader: boolean; //스터디장 유무
   };
 }
 
@@ -83,12 +83,12 @@ function UserCard(props: UserInfoType) {
         />
         <UserNameSpace>
           <UserName>{props.user.nickname}</UserName>
-          {props.user.isLeader === true ? (
+          {props.user.leader === true ? (
             <Crown fill="#F5C82E" width="1.389vw" />
           ) : null}
         </UserNameSpace>
         <hr />
-        {!props.user.isLeader && (
+        {!props.user.leader && (
           <BtnBox>
             <YellowBtn onClick={openMandateModal}>위임</YellowBtn>
             <BlueBtn onClick={openDropModal}>강퇴</BlueBtn>
