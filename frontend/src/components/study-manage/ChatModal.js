@@ -274,8 +274,8 @@ function ChatModal(props) {
       });
       const data = await response.json();
       console.log("api에서 받아온 data : ", data);
-      // await setChatList((_chat_list) => [..._chat_list, data.result]);
-      console.log("data.result : ", data.result);
+      await setChatList((_chat_list) => [..._chat_list, ...data.result]);
+      console.log("chatList : ", chatList);
     }
 
     fetchData();
@@ -377,7 +377,7 @@ function ChatModal(props) {
                 </EnterMsgBox>
               );
             } else {
-              if (el.userProfile.id === userId || el.senderId === userId) {
+              if (el.senderId === userId) {
                 return (
                   <ChatBubbleWrapperMe>
                     {/* 내 채팅이 보여질 구간 */}
