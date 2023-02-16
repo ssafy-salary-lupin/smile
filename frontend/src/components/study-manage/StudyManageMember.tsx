@@ -184,9 +184,6 @@ function StudyManageMember() {
 
   // 모집 / 마감 버튼 바꾸기
   const [change, setChange] = useState(false);
-  const changeColor = () => {
-    setChange(change);
-  };
 
   // 모집 모달 열기
   const [recruitModalOpen, setRecruitModalOpen] = useState(false);
@@ -228,6 +225,7 @@ function StudyManageMember() {
 
   // 위임
   const [mandateModalOpen, setMandateModalOpen] = useState(pushFalse(UserN));
+  console.log(mandateModalOpen);
   const MandateopenModal = (idx: number) => {
     // 위임 모달
     setMandateModalOpen(
@@ -238,6 +236,7 @@ function StudyManageMember() {
 
   // 강퇴
   const [dropModalOpen, setDropModalOpen] = useState(pushFalse(UserN));
+  console.log(dropModalOpen);
   const DropopenModal = (idx: number) => {
     setDropModalOpen(dropModalOpen.splice(idx, 1, !dropModalOpen[idx]));
     console.log(dropModalOpen);
