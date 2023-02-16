@@ -112,7 +112,7 @@ export async function ChatSelectAllApi(studyId: string) {
       },
     });
     const data = await response.json();
-
+    console.log("data : ", data);
     return data;
   } catch (error: any) {
     console.log(error);
