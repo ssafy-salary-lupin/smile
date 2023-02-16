@@ -8,7 +8,8 @@ import { useQuery } from "react-query";
 import { scheduleSelectApi } from "apis/StudyManageCalendarAPi";
 import Swal from "sweetalert2";
 import { useRecoilValue } from "recoil";
-import { studyIdRecoil } from "atoms/StudyManage";
+import { StudyCeoRecoil, studyIdRecoil } from "atoms/StudyManage";
+import { UserIdState } from "atoms/UserInfoAtom";
 
 interface PropsType {
   setModalOpen: React.Dispatch<SetStateAction<boolean>>;
@@ -383,6 +384,9 @@ function ModalCalendarCommonView(props: PropsType) {
     }
   }, [scheduleInfo]);
 
+  const studyCeoId = useRecoilValue(StudyCeoRecoil);
+  const userId = useRecoilValue(UserIdState);
+
   return (
     <Backdrop>
       <ModalContainer ref={modalRef}>
@@ -421,12 +425,16 @@ function ModalCalendarCommonView(props: PropsType) {
           </ModalContent>
         </ModalConWrapper>
         <ModalBtnBox>
-          <UpdateDiv>
-            <ModalBtn onClick={updateSchedule}>수정</ModalBtn>
-          </UpdateDiv>
-          <DeleteDiv>
-            <ModalBtn onClick={deleteSchedule}>삭제</ModalBtn>
-          </DeleteDiv>
+          {userId === studyCeoId ? (
+            <>
+              <UpdateDiv>
+                <ModalBtn onClick={updateSchedule}>수정</ModalBtn>
+              </UpdateDiv>
+              <DeleteDiv>
+                <ModalBtn onClick={deleteSchedule}>삭제</ModalBtn>
+              </DeleteDiv>{" "}
+            </>
+          ) : null}
         </ModalBtnBox>
       </ModalContainer>{" "}
     </Backdrop>
