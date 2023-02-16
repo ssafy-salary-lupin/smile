@@ -24,7 +24,7 @@ public class ChatMessageInfoDTO {
     @Builder
     public ChatMessageInfoDTO(Long id, String message, LocalDateTime sendTime, UserProfileDTO userProfile) {
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:SS");
 
         this.id = id;
         this.message = message;
