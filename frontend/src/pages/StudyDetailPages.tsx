@@ -563,7 +563,7 @@ function StudyDetailPages() {
     } else {
       joinBtn && joinBtn.setAttribute("disabled", "false");
     }
-  }, []);
+  }, [isFull, detailInfo]);
 
   return (
     <Wrapper>
