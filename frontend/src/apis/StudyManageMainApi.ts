@@ -96,18 +96,17 @@ export async function StudyUserApi(studyId: string) {
 }
 
 // 채팅 정보 조회
-export async function ChatSelectAllApi(studyId: string) {
+export function ChatSelectAllApi(studyId: string) {
   try {
-    const response = await fetch(`${BASE_URL}/${studyId}/chats`, {
+    const result = fetch(`${BASE_URL}/${studyId}/chats`, {
       headers: {
         Authorization: `Bearer ${token}`,
         // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
         Accept: "application/json",
       },
-    });
-    const data = await response.json();
-    console.log("채팅 api data : ", data);
-    return data;
+    }).then((response) => response.json());
+
+    console.log("result : ", result);
   } catch (error: any) {
     console.log(error);
   }
