@@ -83,9 +83,7 @@ function UserCard(props: UserInfoType) {
         />
         <UserNameSpace>
           <UserName>{props.user.nickname}</UserName>
-          {props.user.leader === true ? (
-            <Crown fill="#F5C82E" width="1.389vw" />
-          ) : null}
+          {props.user.leader && <Crown fill="#F5C82E" width="1.389vw" />}
         </UserNameSpace>
         <hr />
         {!props.user.leader && (
