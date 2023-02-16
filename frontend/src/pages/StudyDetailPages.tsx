@@ -561,7 +561,7 @@ function StudyDetailPages() {
     if (isFull) {
       joinBtn && joinBtn.setAttribute("disabled", "true");
     } else {
-      joinBtn && joinBtn.setAttribute("disabled", "false");
+      joinBtn && joinBtn.removeAttribute("disabled");
     }
   }, [isFull, detailInfo]);
 
