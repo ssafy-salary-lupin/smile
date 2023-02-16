@@ -249,13 +249,9 @@ function ChatModal(props) {
   // 최초 입장시 Enter type 보내기위해 임시 설정
   const [firstEnter, setFirstEnter] = useState(true);
 
-  const { data: chatInfo } = useQuery("chatSelectAllApi", () =>
-    ChatSelectAllApi(studyId),
-  );
-
-  // useEffect(() => {
-  //   console.log("채팅 내역 : ", chatInfo);
-  // });
+  // const { data: chatInfo } = useQuery("chatSelectAllApi", () =>
+  //   ChatSelectAllApi(studyId),
+  // );
 
   // 기존 저장된 채팅내역 저장하는 함수
   const setChatFunc = async () => {
@@ -263,11 +259,9 @@ function ChatModal(props) {
   };
 
   useEffect(() => {
-    console.log("채팅 내역 : ", chatInfo);
+    const beforeChatList = ChatSelectAllApi(studyId);
 
-    // async function setChatFunc() {
-    //   await setChatList((_chat_list) => [..._chat_list, chatInfo]);
-    // }
+    console.log("이전 채팅 기록 : ", beforeChatList);
 
     connect();
 
