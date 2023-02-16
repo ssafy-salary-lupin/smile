@@ -308,7 +308,7 @@ function ChatModal(props) {
         type: typeValue, //먼저 방에 들어올때 - ENTER,  메시지를 보낼떄 - TALK
         roomId: studyId, //스터디 ID
         senderId: userId, //유저 id
-        senderName: nickName, // nickName, //유저 이름
+        senderName: props.nickName, // nickName, //유저 이름
         message: chat, //메시지
       }), // 형식에 맞게 수정해서 보내야 함.
     });
@@ -360,9 +360,6 @@ function ChatModal(props) {
               return (
                 <EnterMsgBox key={index}>
                   <div>{el.message}</div>
-                  <div>{el.senderId}</div>
-                  <div>{el.type}</div>
-                  <div>{el.roomId}</div>
                   {/* <div>{el.senderName}</div> */}
                 </EnterMsgBox>
               );
