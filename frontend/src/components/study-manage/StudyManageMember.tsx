@@ -218,15 +218,16 @@ function StudyManageMember() {
   // 스터디장 유무 정렬
   // sort by value
 
-  const [userInfo, setUserN] = useState<number>(0);
+  const [UserN, setUserN] = useState<number>(0);
   useEffect(() => {
     if (userStudy) {
       setUserN(userStudy.result.length);
     }
+    console.log(UserN);
   }, [userStudy]);
 
   // 위임
-  const [mandateModalOpen, setMandateModalOpen] = useState(pushFalse(userInfo));
+  const [mandateModalOpen, setMandateModalOpen] = useState(pushFalse(UserN));
   const MandateopenModal = (idx: number) => {
     // 위임 모달
     setMandateModalOpen(
@@ -236,7 +237,7 @@ function StudyManageMember() {
   };
 
   // 강퇴
-  const [dropModalOpen, setDropModalOpen] = useState(pushFalse(userInfo));
+  const [dropModalOpen, setDropModalOpen] = useState(pushFalse(UserN));
   const DropopenModal = (idx: number) => {
     setDropModalOpen(dropModalOpen.splice(idx, 1, !dropModalOpen[idx]));
     console.log(dropModalOpen);
