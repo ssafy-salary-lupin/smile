@@ -7,6 +7,7 @@ import StudyRuleModal from "./StudyRuleModal";
 import ChatModal from "./ChatModal";
 import { useQuery } from "react-query";
 import {
+  ChatSelectAllApi,
   DdaySelectApi,
   ruleCreateApi,
   StudyInfoSelectApi,
@@ -385,6 +386,10 @@ function StudyManageMain() {
     StudyUserApi(studyId),
   );
 
+  const { data: chatInfo } = useQuery("chatSelectAllApi", () =>
+    ChatSelectAllApi(studyId),
+  );
+
   // 디데이 모달창 띄우기 + 클릭한 아이디 모달창에 넘겨주기
   const [ddayModalOpen, setDdayModalOpen] = useState<boolean>(false);
   const [selectedId, setSelectedId] = useState<number>(0);
@@ -505,7 +510,11 @@ function StudyManageMain() {
         <StudyRuleModal setModalOpen={setModalOpen} createRule={createRule} />
       )}
       {chatModalOpen && (
-        <ChatModal setModalOpen={setChatModalOpen} userInfo={userInfo} />
+        <ChatModal
+          setModalOpen={setChatModalOpen}
+          userInfo={userInfo}
+          chatInfo={chatInfo}
+        />
       )}
       {ddayModalOpen && (
         <ModalCalendarCommonOnlyView

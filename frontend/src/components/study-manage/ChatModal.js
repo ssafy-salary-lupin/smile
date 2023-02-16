@@ -253,6 +253,8 @@ function ChatModal(props) {
   const [firstEnter, setFirstEnter] = useState(true);
 
   useEffect(() => {
+    console.log("채팅 내역 : ", props.chatInfo);
+
     props.userInfo.result.forEach(async (element) => {
       console.log("요소 출력 : ", element);
       if (element.id === userId) {
@@ -312,7 +314,7 @@ function ChatModal(props) {
 
     setChat("");
   };
-  //
+
   // 메시지 받기 {우리 주소}/studies/{studyId}/chats
   const subscribe = () => {
     console.log("subscribe");
