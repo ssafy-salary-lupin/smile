@@ -590,9 +590,9 @@ function StudyCreatePages() {
           </SelectSmallTotal>
           <BtnBox>
             <CreateBtn onClick={onCreateStudy}>스터디 생성</CreateBtn>
-            <CancelBtn>
-              <Link to="/search">취소</Link>
-            </CancelBtn>
+            <Link to="/search">
+              <CancelBtn>취소</CancelBtn>
+            </Link>
           </BtnBox>
         </SelectBigTotal>
       </TotalBox>
