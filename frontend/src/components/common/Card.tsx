@@ -108,6 +108,7 @@ const Description = styled.div`
   height: 21.84vw;
   opacity: 0;
   z-index: -1;
+  overflow: hidden;
 
   @media screen and (min-width: 1280px) {
     border-radius: 10.752px 10.752px 0vw 0vw;
