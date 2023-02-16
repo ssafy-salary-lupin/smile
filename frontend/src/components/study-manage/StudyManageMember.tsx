@@ -236,9 +236,7 @@ function StudyManageMember() {
   // 강퇴
   const [dropModalOpen, setDropModalOpen] = useState(pushFalse(userInfo));
   const DropopenModal = (idx: number) => {
-    setDropModalOpen(
-      dropModalOpen.splice(idx, 1, !mandateModadropModalOpenlOpen[idx]),
-    );
+    setDropModalOpen(dropModalOpen.splice(idx, 1, !dropModalOpen[idx]));
     console.log(dropModalOpen);
   };
 
