@@ -164,6 +164,14 @@ interface Data {
   ];
 }
 
+interface StudyUserType {
+  id: number; //사용자 식별자
+  nickname: string; //사용자 닉네임
+  email: string; //사용자 이메일
+  imgPath: string; //사용자 프로필 사진 url
+  isLeader: boolean; //스터디장 유무
+}
+
 //
 function StudyManageMember() {
   // 모집 / 마감 버튼 바꾸기
@@ -187,6 +195,20 @@ function StudyManageMember() {
   const { data: userStudy } = useQuery<Data>("userStudy", () =>
     StudyUserApi(studyId),
   );
+  // const [studyUser, setStudyUser] = useState<StudyUserType[]>(studyId);
+
+  // useEffect(() => {
+  //   if (userStudy && userStudy.result) {
+  //     userStudy.result.sort(function (a, b) {
+  //       if (a.hasOwnProperty("isLeader")) {
+  //         return a.isLeader - b.isLeader;
+  //       }
+  //     });
+  //   }
+  // }, [userStudy]);
+
+  // 스터디장 유무 정렬
+  // sort by value
 
   // 위임
   const [mandateModalOpen, setMandateModalOpen] = useState(false);
@@ -211,38 +233,44 @@ function StudyManageMember() {
     <Wrapper>
       <UpContainer>
         {userStudy?.result.map((user: any, index: any) => {
-          return (
-            <Card key={index}>
-              {/* <Card> */}
-              <ProfileImg
-                imgUrl={
-                  user?.imgPath !== "/root" ? user?.imgPath : defaultprofileImg
-                  // defaultprofileImg
-                }
-                width="50px"
-                height="50px"
-              />
-              <NickBox>
-                <Nick>{user.nickname}</Nick>
-                {user.leader === true ? (
-                  <Crown fill={theme.mainColor} width="1.389vw" />
-                ) : null}
-              </NickBox>
-              <hr />
-              {user.leader === true ? null : (
-                <BtnBox>
-                  <YellowBtn onClick={MandateopenModal}>위임</YellowBtn>
-                  <BlueBtn onClick={DropopenModal}>강퇴</BlueBtn>
-                </BtnBox>
-              )}
-              {dropModalOpen && (
-                <ModalManageDrop setModalOpen={setDropModalOpen} />
-              )}
-              {mandateModalOpen && (
-                <ModalManageMandate setModalOpen={setMandateModalOpen} />
-              )}
-            </Card>
-          );
+          if (!user.leader) {
+            return (
+              <Card key={index}>
+                {/* <Card> */}
+                <ProfileImg
+                  imgUrl={
+                    user?.imgPath !== "/root"
+                      ? user?.imgPath
+                      : defaultprofileImg
+                    // defaultprofileImg
+                  }
+                  width="50px"
+                  height="50px"
+                />
+                <NickBox>
+                  <Nick>{user.nickname}</Nick>
+                  {user.leader === true ? (
+                    <Crown fill={theme.mainColor} width="1.389vw" />
+                  ) : null}
+                </NickBox>
+                <hr />
+                {user.leader === true ? null : (
+                  <BtnBox>
+                    <YellowBtn onClick={MandateopenModal}>위임</YellowBtn>
+                    <BlueBtn onClick={DropopenModal}>강퇴</BlueBtn>
+                  </BtnBox>
+                )}
+                {dropModalOpen && (
+                  <ModalManageDrop setModalOpen={setDropModalOpen} />
+                )}
+                {mandateModalOpen && (
+                  <ModalManageMandate setModalOpen={setMandateModalOpen} />
+                )}
+              </Card>
+            );
+          } else {
+            return <></>;
+          }
         })}
       </UpContainer>
       <DownContainer>
