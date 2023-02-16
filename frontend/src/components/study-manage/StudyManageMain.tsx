@@ -524,7 +524,7 @@ function StudyManageMain() {
         <ChatModal
           setModalOpen={setChatModalOpen}
           nickName={nickName}
-          chatInfo={chatInfo}
+          chatInfo={chatInfo.result}
         />
       )}
       {ddayModalOpen && (
