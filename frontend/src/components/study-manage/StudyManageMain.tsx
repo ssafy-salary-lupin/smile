@@ -386,9 +386,9 @@ function StudyManageMain() {
     StudyUserApi(studyId),
   );
 
-  const { data: chatInfo } = useQuery("chatSelectAllApi", () =>
-    ChatSelectAllApi(studyId),
-  );
+  // const { data: chatInfo } = useQuery("chatSelectAllApi", () =>
+  //   ChatSelectAllApi(studyId),
+  // );
 
   const [nickName, setNickName] = useState("");
 
@@ -524,7 +524,7 @@ function StudyManageMain() {
         <ChatModal
           setModalOpen={setChatModalOpen}
           nickName={nickName}
-          chatInfo={chatInfo.result}
+          // chatInfo={chatInfo.result}
         />
       )}
       {ddayModalOpen && (
