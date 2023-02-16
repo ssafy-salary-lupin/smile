@@ -58,15 +58,13 @@ const Footer = styled.div`
 `;
 
 interface Data {
-  result: [
-    {
-      id: number; //사용자 식별자
-      nickname: string; //사용자 닉네임
-      email: string; //사용자 이메일
-      imagePath: string; //사용자 프로필 사진 url
-      isLeader: boolean; //스터디장 유무
-    },
-  ];
+  result: {
+    id: number; //사용자 식별자
+    nickname: string; //사용자 닉네임
+    email: string; //사용자 이메일
+    imagePath: string; //사용자 프로필 사진 url
+    isLeader: boolean; //스터디장 유무
+  }[];
 }
 
 type Params = {
@@ -103,7 +101,7 @@ function ModalManageMandate(props: any) {
             <Btn
               color="#F5C82E"
               onClick={() => {
-                MandateApi(studyId, userStudy?.result.id);
+                MandateApi(studyId, props.id);
                 console.log("안녕");
                 closeModal();
               }}
@@ -122,4 +120,3 @@ function ModalManageMandate(props: any) {
 }
 
 export default ModalManageMandate;
-
