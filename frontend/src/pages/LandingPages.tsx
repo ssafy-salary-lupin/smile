@@ -523,8 +523,8 @@ function LandingPages() {
           </SIntroductionItem>
           <SIntroductionItem direction="R" top={relativeTop2}>
             <SIntroductionItemText>
-              <STextBold>당신의 스터디를 찾아보세요!</STextBold>
-              <SText>어떤 스터디를 원하세요?</SText>
+              <STextBold>당신만의 스터디를 만들 수 있어요!</STextBold>
+              <SText>어떤 스터디를 만들고 싶나요?</SText>
             </SIntroductionItemText>
             <SIntroductionItemImg src={introductionImg2} id="item2" />
           </SIntroductionItem>

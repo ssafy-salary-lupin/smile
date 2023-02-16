@@ -279,7 +279,7 @@ export default function StudySearchPages() {
         <Header>
           <div>
             <h1>딱! 맞는 스터디를 찾아보세요!</h1>
-            <span>아무말을 뭘로 적어야 하나 ㅎㅎㅎ</span>
+            <span>원하는 스터디가 없으면 직접 만들어서 해봐요.</span>
           </div>
           <HeaderImg />
         </Header>
