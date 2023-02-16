@@ -196,6 +196,10 @@ function NavBar(props: UrlProps) {
   //   history.push(`/myStudy/${userId}`);
   // };
 
+  const onClick = () => {
+    props.onRender();
+  };
+
   return (
     <Nav variants={navVariants} animate={navAnimation} initial={"top"}>
       <NavHeader>
@@ -208,7 +212,7 @@ function NavBar(props: UrlProps) {
           <Item1
             curUrl={props.curUrl}
             onRender={props.onRender}
-            onClick={props.onRender()}
+            onClick={onClick}
           >
             <Link to="/search">스터디 조회</Link>
           </Item1>
@@ -216,7 +220,7 @@ function NavBar(props: UrlProps) {
             <Item2
               curUrl={props.curUrl}
               onRender={props.onRender}
-              onClick={props.onRender()}
+              onClick={onClick}
             >
               <Link to={`/myStudy/${userId}`}>내 스터디</Link>
             </Item2>
@@ -228,7 +232,7 @@ function NavBar(props: UrlProps) {
               {/* 이 경로로 보내면 server에서 특정 페이지로 redirect */}
               <NabBtnLink
                 href="https://i8b205.p.ssafy.io/be-api/oauth2/authorization/kakao"
-                onClick={props.onRender()}
+                onClick={onClick}
               >
                 {/* <NabBtnLink href="Login"> */}
                 로그인
