@@ -250,7 +250,13 @@ function ChatModal(props) {
   const [firstEnter, setFirstEnter] = useState(true);
 
   useEffect(() => {
-    console.log("chat : ", props.chatInfo);
+    console.log("채팅 chat : ", props.chatInfo);
+
+    async function setChatFunc() {
+      await setChatList((_chat_list) => [..._chat_list, props.chatInfo]);
+    }
+
+    setChatFunc();
 
     connect();
 
