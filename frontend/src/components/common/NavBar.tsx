@@ -154,6 +154,7 @@ const navVariants = {
 
 interface UrlProps {
   curUrl: string;
+  onRender: Function;
 }
 
 function NavBar(props: UrlProps) {
@@ -204,13 +205,19 @@ function NavBar(props: UrlProps) {
       </NavHeader>
       <LinksContainer>
         <Items>
-          {/*  onClick={forceUpdate} */}
-          <Item1 curUrl={props.curUrl}>
+          <Item1
+            curUrl={props.curUrl}
+            onRender={props.onRender}
+            onClick={props.onRender()}
+          >
             <Link to="/search">스터디 조회</Link>
           </Item1>
           {kakaoToken ? (
-            // onClick={goMyStudy}
-            <Item2 curUrl={props.curUrl}>
+            <Item2
+              curUrl={props.curUrl}
+              onRender={props.onRender}
+              onClick={props.onRender()}
+            >
               <Link to={`/myStudy/${userId}`}>내 스터디</Link>
             </Item2>
           ) : null}
@@ -219,7 +226,10 @@ function NavBar(props: UrlProps) {
           ) : (
             <NabBtn>
               {/* 이 경로로 보내면 server에서 특정 페이지로 redirect */}
-              <NabBtnLink href="https://i8b205.p.ssafy.io/be-api/oauth2/authorization/kakao">
+              <NabBtnLink
+                href="https://i8b205.p.ssafy.io/be-api/oauth2/authorization/kakao"
+                onClick={props.onRender()}
+              >
                 {/* <NabBtnLink href="Login"> */}
                 로그인
               </NabBtnLink>
