@@ -260,7 +260,7 @@ function ChatModal(props) {
   };
 
   useEffect(() => {
-    // console.log("이전 채팅 기록 : ", chatInfo);
+    console.log("이전 채팅 기록 : ", chatInfo);
 
     connect();
 
