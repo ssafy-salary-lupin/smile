@@ -18,6 +18,7 @@ import axios from "axios";
 import { theme } from "theme";
 import { useRecoilValue } from "recoil";
 import { studyIdRecoil } from "atoms/StudyManage";
+import UserCard from "./UserCard";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
@@ -262,89 +263,95 @@ function StudyManageMember() {
   return (
     <Wrapper>
       <UpContainer>
-        {userStudy?.result.map((user: any, index: number) => {
-          if (user.leader) {
+        {userStudy?.result.map((user: StudyUserType, index: number) => {
+          if (user.isLeader) {
             return (
-              <Card key={index}>
-                {/* <Card> */}
-                <ProfileImg
-                  imgUrl={
-                    user?.imgPath !== "/root"
-                      ? user?.imgPath
-                      : defaultprofileImg
-                    // defaultprofileImg
-                  }
-                  width="50px"
-                  height="50px"
-                />
-                <NickBox>
-                  <Nick>{user.nickname}</Nick>
-                  {user.leader === true ? (
-                    <Crown fill={theme.mainColor} width="1.389vw" />
-                  ) : null}
-                </NickBox>
-                <hr />
-              </Card>
+              // <Card key={index}>
+              //   {/* <Card> */}
+              //   <ProfileImg
+              //     imgUrl={
+              //       user?.imgPath !== "/root"
+              //         ? user?.imgPath
+              //         : defaultprofileImg
+              //       // defaultprofileImg
+              //     }
+              //     width="50px"
+              //     height="50px"
+              //   />
+              //   <NickBox>
+              //     <Nick>{user.nickname}</Nick>
+              //     {user.leader === true ? (
+              //       <Crown fill={theme.mainColor} width="1.389vw" />
+              //     ) : null}
+              //   </NickBox>
+              //   <hr />
+              // </Card>
+              <div key={user.id}>
+                <UserCard user={user} />
+              </div>
             );
           } else {
             return <></>;
           }
         })}
-        {userStudy?.result.map((user: any, index: number) => {
-          if (!user.leader) {
+        {userStudy?.result.map((user: StudyUserType, index: number) => {
+          if (!user.isLeader) {
             return (
-              <Card key={index}>
-                {/* <Card> */}
-                <ProfileImg
-                  imgUrl={
-                    user?.imgPath !== "/root"
-                      ? user?.imgPath
-                      : defaultprofileImg
-                    // defaultprofileImg
-                  }
-                  width="50px"
-                  height="50px"
-                />
-                <NickBox>
-                  <Nick>{user.nickname}</Nick>
-                  {user.leader === true ? (
-                    <Crown fill={theme.mainColor} width="1.389vw" />
-                  ) : null}
-                </NickBox>
-                <hr />
-                {user.leader === true ? null : (
-                  <BtnBox>
-                    <YellowBtn
-                      onClick={() => {
-                        MandateopenModal(index);
-                      }}
-                    >
-                      위임
-                    </YellowBtn>
-                    <BlueBtn
-                      onClick={() => {
-                        DropopenModal(index);
-                      }}
-                    >
-                      강퇴
-                    </BlueBtn>
-                  </BtnBox>
-                )}
-                {dropModalOpen[index] && (
-                  <ModalManageDrop
-                    setModalOpen={setDropModalOpen}
-                    userId={user.id}
-                    idx={index}
-                  />
-                )}
-                {mandateModalOpen[index] && (
-                  <ModalManageMandate
-                    setModalOpen={setMandateModalOpen}
-                    userId={user.id}
-                    idx={index}
-                  />
-                )}
-              </Card>
+              // <Card key={index}>
+              //   {/* <Card> */}
+              //   <ProfileImg
+              //     imgUrl={
+              //       user?.imgPath !== "/root"
+              //         ? user?.imgPath
+              //         : defaultprofileImg
+              //       // defaultprofileImg
+              //     }
+              //     width="50px"
+              //     height="50px"
+              //   />
+              //   <NickBox>
+              //     <Nick>{user.nickname}</Nick>
+              //     {user.leader === true ? (
+              //       <Crown fill={theme.mainColor} width="1.389vw" />
+              //     ) : null}
+              //   </NickBox>
+              //   <hr />
+              //   {user.leader === true ? null : (
+              //     <BtnBox>
+              //       <YellowBtn
+              //         onClick={() => {
+              //           MandateopenModal(index);
+              //         }}
+              //       >
+              //         위임
+              //       </YellowBtn>
+              //       <BlueBtn
+              //         onClick={() => {
+              //           DropopenModal(index);
+              //         }}
+              //       >
+              //         강퇴
+              //       </BlueBtn>
+              //     </BtnBox>
+              //   )}
+              //   {dropModalOpen[index] && (
+              //     <ModalManageDrop
+              //       setModalOpen={setDropModalOpen}
+              //       userId={user.id}
+              //       idx={index}
+              //     />
+              //   )}
+              //   {mandateModalOpen[index] && (
+              //     <ModalManageMandate
+              //       setModalOpen={setMandateModalOpen}
+              //       userId={user.id}
+              //       idx={index}
+              //     />
+              //   )}
+              // </Card>
+              <div key={user.id}>
+                <UserCard user={user} />
+              </div>
             );
           } else {
             return <></>;
