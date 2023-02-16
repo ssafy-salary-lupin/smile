@@ -200,7 +200,7 @@ export default function MyStudyPages() {
           <Title>내 스터디</Title>
           <Additionalection>
             <GraphContainer>
-              <SubTitle>메모</SubTitle>
+              {/* <SubTitle>메모</SubTitle> */}
               <div id="react-container">
                 <PostIt></PostIt>
               </div>

@@ -265,94 +265,18 @@ function StudyManageMember() {
       <UpContainer>
         {userStudy?.result.map((user: StudyUserType, index: number) => {
           if (user.leader) {
-            return (
-              // <Card key={index}>
-              //   {/* <Card> */}
-              //   <ProfileImg
-              //     imgUrl={
-              //       user?.imgPath !== "/root"
-              //         ? user?.imgPath
-              //         : defaultprofileImg
-              //       // defaultprofileImg
-              //     }
-              //     width="50px"
-              //     height="50px"
-              //   />
-              //   <NickBox>
-              //     <Nick>{user.nickname}</Nick>
-              //     {user.leader === true ? (
-              //       <Crown fill={theme.mainColor} width="1.389vw" />
-              //     ) : null}
-              //   </NickBox>
-              //   <hr />
-              // </Card>
-              <div key={index}>
-                <UserCard user={user} />
-              </div>
-            );
+            <div key={index}>
+              <UserCard user={user} />
+            </div>;
           } else {
             return <></>;
           }
         })}
         {userStudy?.result.map((user: StudyUserType, index: number) => {
           if (!user.leader) {
-            return (
-              // <Card key={index}>
-              //   {/* <Card> */}
-              //   <ProfileImg
-              //     imgUrl={
-              //       user?.imgPath !== "/root"
-              //         ? user?.imgPath
-              //         : defaultprofileImg
-              //       // defaultprofileImg
-              //     }
-              //     width="50px"
-              //     height="50px"
-              //   />
-              //   <NickBox>
-              //     <Nick>{user.nickname}</Nick>
-              //     {user.leader === true ? (
-              //       <Crown fill={theme.mainColor} width="1.389vw" />
-              //     ) : null}
-              //   </NickBox>
-              //   <hr />
-              //   {user.leader === true ? null : (
-              //     <BtnBox>
-              //       <YellowBtn
-              //         onClick={() => {
-              //           MandateopenModal(index);
-              //         }}
-              //       >
-              //         위임
-              //       </YellowBtn>
-              //       <BlueBtn
-              //         onClick={() => {
-              //           DropopenModal(index);
-              //         }}
-              //       >
-              //         강퇴
-              //       </BlueBtn>
-              //     </BtnBox>
-              //   )}
-              //   {dropModalOpen[index] && (
-              //     <ModalManageDrop
-              //       setModalOpen={setDropModalOpen}
-              //       userId={user.id}
-              //       idx={index}
-              //     />
-              //   )}
-              //   {mandateModalOpen[index] && (
-              //     <ModalManageMandate
-              //       setModalOpen={setMandateModalOpen}
-              //       userId={user.id}
-              //       idx={index}
-              //     />
-              //   )}
-              // </Card>
-              <div key={index}>
-                <UserCard user={user} />
-              </div>
-            );
+            <div key={index}>
+              <UserCard user={user} />
+            </div>;
           } else {
             return <></>;
           }
