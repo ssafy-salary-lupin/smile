@@ -174,6 +174,14 @@ interface StudyUserType {
 
 //
 function StudyManageMember() {
+  const pushFalse = (n) => {
+    const tempArr = [];
+    for (let i = 0; i < 5; i++) {
+      tempArr.push(false);
+    }
+    return tempArr;
+  };
+  console.log(pushFalse(5));
   // 모집 / 마감 버튼 바꾸기
   const [change, setChange] = useState(false);
   const changeColor = () => {

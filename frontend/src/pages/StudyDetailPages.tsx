@@ -64,7 +64,8 @@ interface BtnType {
 const Btn = styled.button<BtnType>`
   border-radius: 0.417vw;
   border: none;
-  background-color: ${(props) => (props.flag ? "grey" : props.theme.mainColor)};
+  background-color: ${(props) =>
+    props.flag ? "#666b70" : props.theme.mainColor};
   cursor: pointer;
   padding: 0.556vw 1.111vw;
   width: 8.667vw;
