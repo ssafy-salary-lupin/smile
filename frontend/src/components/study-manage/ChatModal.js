@@ -274,8 +274,8 @@ function ChatModal(props) {
       });
       const data = await response.json();
       console.log("api에서 받아온 data : ", data);
-      await setChatList((_chat_list) => [..._chat_list, data.result]);
-      console.log("chatList : ", chatList);
+      // await setChatList((_chat_list) => [..._chat_list, data.result]);
+      console.log("data.result : ", data.result);
     }
 
     fetchData();
@@ -404,31 +404,6 @@ function ChatModal(props) {
               }
             }
           })}
-          {/* <EnterMsgBox>
-            <div>정혜주님이 입장하셨습니다. </div>
-          </EnterMsgBox>
-          <ChatBubbleWrapperMe>
-            <div>
-              <NameMe>정혜주</NameMe>
-              <ChatBubbleMe>
-                <p>
-                  안녕하세요? 반갑습니다. 저는 정혜주입니다. 앞으로 잘
-                  부탁드립니다.
-                </p>
-              </ChatBubbleMe>
-            </div>
-          </ChatBubbleWrapperMe>
-          <ChatBubbleWrapperYou>
-            <div>
-              <NameYou>정혜주</NameYou>
-              <ChatBubbleYou>
-                <p>
-                  안녕하세요? 반갑습니다. 저는 정혜주입니다. 앞으로 잘
-                  부탁드립니다.
-                </p>
-              </ChatBubbleYou>
-            </div>
-          </ChatBubbleWrapperYou> */}
         </ChatList>
       </ModalContent>
       <ModalFooter onSubmit={(event) => handleSubmit(event, chat)}>
