@@ -98,13 +98,13 @@ const Hover = keyframes`
     
   }
   to {
-    box-shadow: 0px 0px 2vw #666b70;
+    box-shadow: 0px 0px 1vw #666b70;
   }
 `;
 
 const NotHover = keyframes`
   from {
-    box-shadow: 0px 0px 2vw #666b70;
+    box-shadow: 0px 0px 1vw #666b70;
   }
   to {
     
@@ -115,7 +115,8 @@ const SBannerButton = styled.button`
   width: 16.7vw;
   height: 5.04vw;
   border-radius: 1.12vw;
-  background-color: black;
+  background-color: rgb(125, 118, 103);
+  border: none;
   color: white;
   font-size: 1.68vw;
   cursor: pointer;
