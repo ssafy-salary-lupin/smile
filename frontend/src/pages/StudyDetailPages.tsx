@@ -546,7 +546,7 @@ function StudyDetailPages() {
   if (detailInfo?.result.maxPerson === detailInfo?.result.currentPerson) {
     const joinBtn = document.querySelector(".joinBtn");
     console.log(joinBtn);
-    joinBtn && joinBtn.setAttribute("disabled", true);
+    joinBtn && joinBtn.setAttribute("disabled", "true");
   }
 
   return (
