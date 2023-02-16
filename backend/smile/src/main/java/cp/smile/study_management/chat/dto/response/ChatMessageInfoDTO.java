@@ -20,13 +20,15 @@ public class ChatMessageInfoDTO {
 
     private UserProfileDTO userProfile; //유저 정보
 
+    private String type; //입장인지 메시지 요청인지
 
     @Builder
-    public ChatMessageInfoDTO(Long id, String message, String sendTime, UserProfileDTO userProfile) {
+    public ChatMessageInfoDTO(Long id, String message, String sendTime, UserProfileDTO userProfile, String type) {
 
         this.id = id;
         this.message = message;
         this.sendTime = sendTime;
         this.userProfile = userProfile;
+        this.type = type;
     }
 }

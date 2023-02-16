@@ -25,6 +25,8 @@ public class ChatMessage extends BaseEntity {
     private String content;
     @Column(name = "cm_send_time")
     private LocalDateTime sendTime; //보낸시간
+
+    //TODO : 스터디 id 로 세션구분을 하기 때문에 현재는 이값을 메시지의 상태값으로 사용 - 추후에 변경.
     @Column(name = "cm_session")
     private String session;
 
@@ -55,6 +57,7 @@ public class ChatMessage extends BaseEntity {
                 .id(this.id)
                 .message(this.content)
                 .sendTime(sendTimeToString)
-                .userProfile(this.user.createUserProfileDTO()).build();
+                .userProfile(this.user.createUserProfileDTO())
+                .type(this.session).build();
     }
 }

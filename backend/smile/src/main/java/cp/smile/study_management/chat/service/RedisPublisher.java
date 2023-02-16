@@ -48,11 +48,12 @@ public class RedisPublisher {
                 .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY));
 
 
+        // TODO : cm_session값은 현재 쓰고 있지 않아서, 입장인지, 메시지인지 처리하는 용도로 사용 (ENTER, TALK)
         //메시지 저장.
         ChatMessage chatMessage = ChatMessage.builder()
                 .content(chatMessageDTO.getMessage())
                 .sendTime(LocalDateTime.now())
-                .session(String.valueOf(chatMessageDTO.getRoomId()))
+                .session(chatMessageDTO.getType().toString())
                 .user(user)
                 .studyInformation(studyInformation).build();
 
