@@ -549,16 +549,21 @@ function StudyDetailPages() {
     stateSet();
   }, [detailStudy]);
 
-  const isFull = () => {
-    return detailInfo?.result.maxPerson === detailInfo?.result.currentPerson;
-  };
+  const [isFull, setIsFull] = useState<boolean>(false);
 
-  // 참여하기 비활성화
-  if (isFull()) {
+  useEffect(() => {
+    setIsFull(
+      detailInfo?.result.maxPerson === detailInfo?.result.currentPerson,
+    );
+    // 참여하기 비활성화
     const joinBtn = document.querySelector(".joinBtn");
     console.log(joinBtn);
-    joinBtn && joinBtn.setAttribute("disabled", "true");
-  }
+    if (isFull) {
+      joinBtn && joinBtn.setAttribute("disabled", "true");
+    } else {
+      joinBtn && joinBtn.setAttribute("disabled", "false");
+    }
+  }, []);
 
   return (
     <Wrapper>
@@ -572,8 +577,8 @@ function StudyDetailPages() {
       <Top>
         <TextBig>{detailInfo?.result.name}</TextBig>
         <Link to={{ pathname: `/studies/${detailInfo?.result.id}/home` }}>
-          <Btn flag={isFull()} className="joinBtn" onClick={onJoin}>
-            {isFull() ? "모집 완료" : "참여하기"}
+          <Btn flag={isFull} className="joinBtn" onClick={onJoin}>
+            {isFull ? "모집 완료" : "참여하기"}
           </Btn>
         </Link>
       </Top>
