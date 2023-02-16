@@ -56,6 +56,7 @@ const Top = styled.div`
   align-items: center;
   margin-bottom: 2.222vw;
 `;
+
 const Btn = styled.button`
   border-radius: 0.417vw;
   border: none;
@@ -541,6 +542,10 @@ function StudyDetailPages() {
     stateSet();
   }, [detailStudy]);
 
+  // 참여하기 비활성화
+  const joinBtn = document.querySelector(".joinBtn");
+  console.log(joinBtn);
+
   return (
     <Wrapper>
       <BlankSpace />
@@ -553,7 +558,9 @@ function StudyDetailPages() {
       <Top>
         <TextBig>{detailInfo?.result.name}</TextBig>
         <Link to={{ pathname: `/studies/${detailInfo?.result.id}/home` }}>
-          <Btn onClick={onJoin}>참여하기</Btn>
+          <Btn className="joinBtn" onClick={onJoin}>
+            참여하기
+          </Btn>
         </Link>
       </Top>
       <StudyDetail>
