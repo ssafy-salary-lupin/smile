@@ -93,7 +93,11 @@ const CreateBtnWrapper = styled.div`
   }
 `;
 
-const Section = styled.div``;
+const Section = styled.div`
+  @media screen and (max-width: 1280px) {
+    min-height: 100vw;
+  }
+`;
 
 interface CardsProps {
   NumberOfCards: number;
