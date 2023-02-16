@@ -13,22 +13,20 @@ import java.time.format.DateTimeFormatter;
 public class ChatMessageInfoDTO {
 
 
-    private Long id;
-    private String message;
+    private String  type; //메시지 타입
+    private int roomId; //방 번호 - 스터디 식별자
+    private int senderId; //메시지를 보낸 사람 - 유저 식별자.
 
-    private String sendTime;
+    private String senderName; //식별자 이름.
 
-    private UserProfileDTO userProfile; //유저 정보
-
-    private String type; //입장인지 메시지 요청인지
+    private String message; //메시지
 
     @Builder
-    public ChatMessageInfoDTO(Long id, String message, String sendTime, UserProfileDTO userProfile, String type) {
-
-        this.id = id;
-        this.message = message;
-        this.sendTime = sendTime;
-        this.userProfile = userProfile;
+    public ChatMessageInfoDTO(String type, int roomId, int senderId, String senderName, String message) {
         this.type = type;
+        this.roomId = roomId;
+        this.senderId = senderId;
+        this.senderName = senderName;
+        this.message = message;
     }
 }

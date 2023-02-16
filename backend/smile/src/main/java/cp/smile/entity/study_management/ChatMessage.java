@@ -50,14 +50,19 @@ public class ChatMessage extends BaseEntity {
 
     public ChatMessageInfoDTO createChatMessageInfoDTO(){
 
-        String sendTimeToString = this.sendTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-
+        /**
+         * this.type = type;
+         *         this.roomId = roomId;
+         *         this.senderId = senderId;
+         *         this.senderName = senderName;
+         *         this.message = message;
+         */
 
         return ChatMessageInfoDTO.builder()
-                .id(this.id)
+                .roomId(this.studyInformation.getId())
+                .senderId(this.user.getId())
+                .senderName(this.user.getNickname())
                 .message(this.content)
-                .sendTime(sendTimeToString)
-                .userProfile(this.user.createUserProfileDTO())
                 .type(this.session).build();
     }
 }
