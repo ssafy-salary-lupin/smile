@@ -274,7 +274,7 @@ function ChatModal(props) {
       });
       const data = await response.json();
       console.log("api에서 받아온 data : ", data);
-      await setChatList((_chat_list) => [..._chat_list, data]);
+      await setChatList((_chat_list) => [..._chat_list, data.result]);
       console.log("chatList : ", chatList);
     }
 
