@@ -223,40 +223,33 @@ function StudyManageMember() {
     console.log(UserN);
   }, [userStudy, UserN]);
 
+  const openModal = () => {};
+
   const tempArr = [false, false, false, false, false, false, false, false];
 
   // 위임
   // const [mandateModalOpen, setMandateModalOpen] = useState(pushFalse(UserN));
-  const [mandateModalOpen, setMandateModalOpen] = useState<boolean>(false);
-  const [mandateState, setMandateState] = useState(tempArr);
+  const [mandateModalOpen, setMandateModalOpen] = useState(tempArr);
   console.log(mandateModalOpen);
   const MandateopenModal = (idx: number) => {
     console.log(idx);
     // 위임 모달
-    mandateState.splice(idx, 1, !mandateState[idx]);
-    setMandateState(mandateState);
-    console.log("위임", mandateState);
-    if (mandateState[idx]) {
-      setMandateModalOpen(true);
-    } else {
-      setMandateModalOpen(false);
-    }
+    mandateModalOpen.splice(idx, 1, !mandateModalOpen[idx]);
+    setMandateModalOpen(mandateModalOpen);
+    console.log("위임", mandateModalOpen);
   };
 
   // 강퇴
   // const [dropModalOpen, setDropModalOpen] = useState(pushFalse(UserN));
-  const [dropModalOpen, setDropModalOpen] = useState<boolean>(false);
-  const [dropState, setDropState] = useState(tempArr);
+  const [dropModalOpen, setDropModalOpen] = useState(tempArr);
   console.log(dropModalOpen);
   const DropopenModal = (idx: number) => {
     console.log(idx);
-    dropState.splice(idx, 1, !dropState[idx]);
-    setDropState(dropState);
+    dropModalOpen.splice(idx, 1, !dropModalOpen[idx]);
+    setDropModalOpen(dropModalOpen);
     console.log("강퇴", dropModalOpen);
-    if (dropState[idx]) {
-      setDropModalOpen(true);
-    } else {
-      setDropModalOpen(false);
+    if (dropModalOpen[idx]) {
+      openModal();
     }
   };
 
@@ -337,16 +330,18 @@ function StudyManageMember() {
                     </BlueBtn>
                   </BtnBox>
                 )}
-                {dropModalOpen && (
+                {dropModalOpen[index] && (
                   <ModalManageDrop
                     setModalOpen={setDropModalOpen}
                     userId={user.id}
+                    idx={index}
                   />
                 )}
-                {mandateModalOpen && (
+                {mandateModalOpen[index] && (
                   <ModalManageMandate
                     setModalOpen={setMandateModalOpen}
                     userId={user.id}
+                    idx={index}
                   />
                 )}
               </Card>
