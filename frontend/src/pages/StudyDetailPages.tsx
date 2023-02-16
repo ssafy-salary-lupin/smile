@@ -350,7 +350,7 @@ export interface Data {
     endDate: string; //스터디 종료 일자
     time: string; //스터디 시간
     imagePath: string; //스터디 대표 이미지
-    currrentPerson: number; //스터디 현재 가입 인원
+    currentPerson: number; //스터디 현재 가입 인원
     maxPerson: number; //스터디 최대 가입 인원
     viewCount: number; //스터디 조회수
     description: string;
@@ -543,8 +543,11 @@ function StudyDetailPages() {
   }, [detailStudy]);
 
   // 참여하기 비활성화
-  const joinBtn = document.querySelector(".joinBtn");
-  console.log(joinBtn);
+  if (detailInfo?.result.maxPerson === detailInfo?.result.currentPerson) {
+    const joinBtn = document.querySelector(".joinBtn");
+    console.log(joinBtn);
+    joinBtn && joinBtn.setAttribute("disabled", true);
+  }
 
   return (
     <Wrapper>
