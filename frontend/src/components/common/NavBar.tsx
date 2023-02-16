@@ -154,7 +154,6 @@ const navVariants = {
 
 interface UrlProps {
   curUrl: string;
-  onRender: Function;
 }
 
 function NavBar(props: UrlProps) {
@@ -196,10 +195,6 @@ function NavBar(props: UrlProps) {
   //   history.push(`/myStudy/${userId}`);
   // };
 
-  const onClick = () => {
-    props.onRender();
-  };
-
   return (
     <Nav variants={navVariants} animate={navAnimation} initial={"top"}>
       <NavHeader>
@@ -209,19 +204,11 @@ function NavBar(props: UrlProps) {
       </NavHeader>
       <LinksContainer>
         <Items>
-          <Item1
-            curUrl={props.curUrl}
-            onRender={props.onRender}
-            onClick={onClick}
-          >
+          <Item1 curUrl={props.curUrl}>
             <Link to="/search">스터디 조회</Link>
           </Item1>
           {kakaoToken ? (
-            <Item2
-              curUrl={props.curUrl}
-              onRender={props.onRender}
-              onClick={onClick}
-            >
+            <Item2 curUrl={props.curUrl}>
               <Link to={`/myStudy/${userId}`}>내 스터디</Link>
             </Item2>
           ) : null}
@@ -230,10 +217,7 @@ function NavBar(props: UrlProps) {
           ) : (
             <NabBtn>
               {/* 이 경로로 보내면 server에서 특정 페이지로 redirect */}
-              <NabBtnLink
-                href="https://i8b205.p.ssafy.io/be-api/oauth2/authorization/kakao"
-                onClick={onClick}
-              >
+              <NabBtnLink href="https://i8b205.p.ssafy.io/be-api/oauth2/authorization/kakao">
                 {/* <NabBtnLink href="Login"> */}
                 로그인
               </NabBtnLink>
