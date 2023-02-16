@@ -374,12 +374,10 @@ function ChatModal(props) {
               return (
                 <EnterMsgBox key={index}>
                   <div>{el.message}</div>
-                  {/* <div>{el.senderName}</div> */}
                 </EnterMsgBox>
               );
             } else {
-              // el.userProfile.id === userId ||
-              if (el.senderId === userId) {
+              if (el.userProfile.id === userId || el.senderId === userId) {
                 return (
                   <ChatBubbleWrapperMe>
                     {/* 내 채팅이 보여질 구간 */}
