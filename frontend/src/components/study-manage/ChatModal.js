@@ -255,6 +255,16 @@ function ChatModal(props) {
   useEffect(() => {
     console.log("채팅 내역 : ", props.chatInfo);
 
+    // props.userInfo.result.forEach(async (element) => {
+    //   console.log("요소 출력 : ", element);
+    //   if (element.id === userId) {
+    //     console.log("일치!!");
+    //     await setNickName(element.nickname);
+    //   }
+    // });
+  });
+
+  useEffect(() => {
     props.userInfo.result.forEach(async (element) => {
       console.log("요소 출력 : ", element);
       if (element.id === userId) {
@@ -262,9 +272,6 @@ function ChatModal(props) {
         await setNickName(element.nickname);
       }
     });
-  });
-
-  useEffect(() => {
     connect();
 
     return () => disconnect();
@@ -358,8 +365,11 @@ function ChatModal(props) {
             if (el.type === "ENTER") {
               return (
                 <EnterMsgBox key={index}>
-                  {/* <div>{el.message}</div> */}
-                  <div>{el.senderName}</div>
+                  <div>{el.message}</div>
+                  <div>{el.senderId}</div>
+                  <div>{el.type}</div>
+                  <div>{el.roomId}</div>
+                  {/* <div>{el.senderName}</div> */}
                 </EnterMsgBox>
               );
             } else {
