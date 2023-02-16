@@ -259,7 +259,7 @@ function ChatModal(props) {
 
   useEffect(() => {
     async function setChatFunc() {
-      await setChatList((_chat_list) => [..._chat_list, props.chatInfo]);
+      await setChatList((_chat_list) => [..._chat_list, chatInfo]);
     }
 
     setChatFunc();
