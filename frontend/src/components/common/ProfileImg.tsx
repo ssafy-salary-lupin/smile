@@ -5,7 +5,7 @@ const Img = styled.img.attrs((props) => ({ src: props.src }))<ImgProps>`
   width: ${(props) => props.w};
   height: ${(props) => props.h};
   border-radius: 50px;
-  @media screen and (min-width: 1680px) {
+  @media screen and (min-width: 1280px) {
     width: ${(props) => String(props.W)}px;
     height: ${(props) => String(props.H)}px;
   }
