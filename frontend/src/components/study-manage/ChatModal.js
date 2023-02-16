@@ -253,11 +253,13 @@ function ChatModal(props) {
     ChatSelectAllApi(studyId),
   );
 
-  useEffect(() => {
-    console.log("채팅 내역 : ", chatInfo);
-  });
+  // useEffect(() => {
+  //   console.log("채팅 내역 : ", chatInfo);
+  // });
 
   useEffect(() => {
+    console.log("채팅 내역 : ", chatInfo);
+
     async function setChatFunc() {
       await setChatList((_chat_list) => [..._chat_list, chatInfo]);
     }
