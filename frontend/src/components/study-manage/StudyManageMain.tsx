@@ -390,6 +390,17 @@ function StudyManageMain() {
     ChatSelectAllApi(studyId),
   );
 
+  const [nickName, setNickName] = useState("");
+
+  // 채팅 닉네임
+  useEffect(() => {
+    userInfo?.result.forEach(async (element) => {
+      if (element.id === userId) {
+        await setNickName(element.nickname);
+      }
+    });
+  }, [userInfo]);
+
   // 디데이 모달창 띄우기 + 클릭한 아이디 모달창에 넘겨주기
   const [ddayModalOpen, setDdayModalOpen] = useState<boolean>(false);
   const [selectedId, setSelectedId] = useState<number>(0);
@@ -512,7 +523,7 @@ function StudyManageMain() {
       {chatModalOpen && (
         <ChatModal
           setModalOpen={setChatModalOpen}
-          userInfo={userInfo}
+          nickName={nickName}
           chatInfo={chatInfo}
         />
       )}
