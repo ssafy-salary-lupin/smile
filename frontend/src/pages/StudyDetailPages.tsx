@@ -57,18 +57,22 @@ const Top = styled.div`
   margin-bottom: 2.222vw;
 `;
 
-const Btn = styled.button`
+interface BtnType {
+  flag: boolean;
+}
+
+const Btn = styled.button<BtnType>`
   border-radius: 0.417vw;
   border: none;
-  background-color: ${(props) => props.theme.mainColor};
+  background-color: ${(props) => (props.flag ? "grey" : props.theme.mainColor)};
   cursor: pointer;
   padding: 0.556vw 1.111vw;
   width: 8.667vw;
   height: 3.473vw;
   font-size: 1.111vw;
   font-weight: bold;
-  box-shadow: 2.002px 2.002px 2.002px
-    ${(props) => props.theme.blackColorOpacity4};
+  box-shadow: 2.002px 2.002px 2.002px;
+  ${(props) => props.theme.blackColorOpacity4};
 `;
 
 const Card = styled.img`
@@ -561,7 +565,13 @@ function StudyDetailPages() {
       <Top>
         <TextBig>{detailInfo?.result.name}</TextBig>
         <Link to={{ pathname: `/studies/${detailInfo?.result.id}/home` }}>
-          <Btn className="joinBtn" onClick={onJoin}>
+          <Btn
+            flag={
+              detailInfo?.result.maxPerson === detailInfo?.result.currentPerson
+            }
+            className="joinBtn"
+            onClick={onJoin}
+          >
             참여하기
           </Btn>
         </Link>
