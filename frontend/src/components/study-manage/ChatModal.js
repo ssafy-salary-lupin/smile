@@ -10,7 +10,7 @@ import jwt_decode from "jwt-decode";
 import { isError, useQuery } from "react-query";
 import sendImg from "../../assets/img/SendImg.png";
 import { UserIdState } from "atoms/UserInfoAtom";
-import { StudyUserApi } from "apis/StudyManageMainApi";
+import { ChatSelectAllApi } from "apis/StudyManageMainApi";
 
 const ModalContainer = styled.div`
   display: flex;
@@ -249,9 +249,15 @@ function ChatModal(props) {
   // 최초 입장시 Enter type 보내기위해 임시 설정
   const [firstEnter, setFirstEnter] = useState(true);
 
-  useEffect(() => {
-    console.log("채팅 chat : ", props.chatInfo);
+  const { data: chatInfo } = useQuery("chatSelectAllApi", () =>
+    ChatSelectAllApi(studyId),
+  );
 
+  useEffect(() => {
+    console.log("채팅 내역 : ", chatInfo);
+  });
+
+  useEffect(() => {
     async function setChatFunc() {
       await setChatList((_chat_list) => [..._chat_list, props.chatInfo]);
     }
@@ -358,7 +364,7 @@ function ChatModal(props) {
                 </EnterMsgBox>
               );
             } else {
-              if (el.senderId === userId) {
+              if (el.userProfile.id === userId || el.senderId === userId) {
                 return (
                   <ChatBubbleWrapperMe>
                     {/* 내 채팅이 보여질 구간 */}
