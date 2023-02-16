@@ -223,25 +223,7 @@ function StudyManageMember() {
     console.log(UserN);
   }, [userStudy, UserN]);
 
-  const tempArr = [
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ];
+  const tempArr = [false, false, false, false, false, false, false, false];
 
   // 위임
   // const [mandateModalOpen, setMandateModalOpen] = useState(pushFalse(UserN));
@@ -252,7 +234,7 @@ function StudyManageMember() {
     setMandateModalOpen(
       mandateModalOpen.splice(idx, 1, !mandateModalOpen[idx]),
     );
-    console.log(mandateModalOpen);
+    console.log("위임", mandateModalOpen);
   };
 
   // 강퇴
@@ -261,7 +243,7 @@ function StudyManageMember() {
   console.log(dropModalOpen);
   const DropopenModal = (idx: number) => {
     setDropModalOpen(dropModalOpen.splice(idx, 1, !dropModalOpen[idx]));
-    console.log(dropModalOpen);
+    console.log("강퇴", dropModalOpen);
   };
 
   // 종료
