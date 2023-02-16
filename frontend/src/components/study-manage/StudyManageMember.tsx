@@ -181,7 +181,7 @@ function StudyManageMember() {
     }
     return tempArr;
   };
-  console.log();
+
   // 모집 / 마감 버튼 바꾸기
   const [change, setChange] = useState(false);
   const changeColor = () => {
@@ -225,19 +225,21 @@ function StudyManageMember() {
 
   // 위임
   const [mandateModalOpen, setMandateModalOpen] = useState(pushFalse(userInfo));
-  const MandateopenModal = (idx) => {
+  const MandateopenModal = (idx: number) => {
     // 위임 모달
     setMandateModalOpen(
       mandateModalOpen.splice(idx, 1, !mandateModalOpen[idx]),
     );
+    console.log(mandateModalOpen);
   };
 
   // 강퇴
   const [dropModalOpen, setDropModalOpen] = useState(pushFalse(userInfo));
-  const DropopenModal = (idx) => {
+  const DropopenModal = (idx: number) => {
     setDropModalOpen(
       dropModalOpen.splice(idx, 1, !mandateModadropModalOpenlOpen[idx]),
     );
+    console.log(dropModalOpen);
   };
 
   // 종료
