@@ -224,7 +224,7 @@ function StudyManageMember() {
       setUserN(userStudy.result.length);
     }
     console.log(UserN);
-  }, [userStudy]);
+  }, [userStudy, UserN]);
 
   // 위임
   const [mandateModalOpen, setMandateModalOpen] = useState(pushFalse(UserN));
