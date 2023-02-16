@@ -194,43 +194,57 @@ function NavBar(props: UrlProps) {
   //   forceUpdate();
   //   history.push(`/myStudy/${userId}`);
   // };
+  const [curPath, setCurPath] = useState(window.location.pathname);
+  const [displayNone, setDisplayNone] = useState<boolean>(false);
+  useEffect(() => {
+    setCurPath(window.location.pathname);
+    if (curPath.includes("meeting")) {
+      setDisplayNone(true);
+    } else {
+      setDisplayNone(false);
+    }
+  }, [curPath]);
 
   return (
-    <Nav
-      className="Nav"
-      variants={navVariants}
-      animate={navAnimation}
-      initial={"top"}
-    >
-      <NavHeader>
-        <Link to="/">
-          <Img src={logoImg} />
-        </Link>
-      </NavHeader>
-      <LinksContainer>
-        <Items>
-          <Item1 curUrl={props.curUrl}>
-            <Link to="/search">스터디 조회</Link>
-          </Item1>
-          {kakaoToken ? (
-            <Item2 curUrl={props.curUrl}>
-              <Link to={`/myStudy/${userId}`}>내 스터디</Link>
-            </Item2>
-          ) : null}
-          {kakaoToken ? (
-            <NabBtn onClick={signOut}>로그아웃</NabBtn>
-          ) : (
-            <NabBtn>
-              {/* 이 경로로 보내면 server에서 특정 페이지로 redirect */}
-              <NabBtnLink href="https://i8b205.p.ssafy.io/be-api/oauth2/authorization/kakao">
-                {/* <NabBtnLink href="Login"> */}
-                로그인
-              </NabBtnLink>
-            </NabBtn>
-          )}
-        </Items>
-      </LinksContainer>
-    </Nav>
+    <>
+      {!displayNone && (
+        <Nav
+          className="Nav"
+          variants={navVariants}
+          animate={navAnimation}
+          initial={"top"}
+        >
+          <NavHeader>
+            <Link to="/">
+              <Img src={logoImg} />
+            </Link>
+          </NavHeader>
+          <LinksContainer>
+            <Items>
+              <Item1 curUrl={props.curUrl}>
+                <Link to="/search">스터디 조회</Link>
+              </Item1>
+              {kakaoToken ? (
+                <Item2 curUrl={props.curUrl}>
+                  <Link to={`/myStudy/${userId}`}>내 스터디</Link>
+                </Item2>
+              ) : null}
+              {kakaoToken ? (
+                <NabBtn onClick={signOut}>로그아웃</NabBtn>
+              ) : (
+                <NabBtn>
+                  {/* 이 경로로 보내면 server에서 특정 페이지로 redirect */}
+                  <NabBtnLink href="https://i8b205.p.ssafy.io/be-api/oauth2/authorization/kakao">
+                    {/* <NabBtnLink href="Login"> */}
+                    로그인
+                  </NabBtnLink>
+                </NabBtn>
+              )}
+            </Items>
+          </LinksContainer>
+        </Nav>
+      )}
+    </>
   );
 }
 export default NavBar;

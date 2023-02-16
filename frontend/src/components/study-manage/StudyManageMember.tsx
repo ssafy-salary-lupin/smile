@@ -223,6 +223,8 @@ function StudyManageMember() {
     console.log(UserN);
   }, [userStudy, UserN]);
 
+  const openModal = () => {};
+
   const tempArr = [false, false, false, false, false, false, false, false];
 
   // 위임
@@ -246,6 +248,9 @@ function StudyManageMember() {
     dropModalOpen.splice(idx, 1, !dropModalOpen[idx]);
     setDropModalOpen(dropModalOpen);
     console.log("강퇴", dropModalOpen);
+    if (dropModalOpen[idx]) {
+      openModal();
+    }
   };
 
   // 종료
@@ -329,12 +334,14 @@ function StudyManageMember() {
                   <ModalManageDrop
                     setModalOpen={setDropModalOpen}
                     userId={user.id}
+                    idx={index}
                   />
                 )}
                 {mandateModalOpen[index] && (
                   <ModalManageMandate
                     setModalOpen={setMandateModalOpen}
                     userId={user.id}
+                    idx={index}
                   />
                 )}
               </Card>
