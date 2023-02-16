@@ -174,8 +174,8 @@ interface StudyUserType {
 
 //
 function StudyManageMember() {
-  const pushFalse = (n) => {
-    const tempArr = [];
+  const pushFalse = (n: number) => {
+    const tempArr: boolean[] = [];
     for (let i = 0; i < 5; i++) {
       tempArr.push(false);
     }
