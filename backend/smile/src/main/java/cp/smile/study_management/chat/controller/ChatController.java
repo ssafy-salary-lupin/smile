@@ -75,7 +75,7 @@ public class ChatController {
             chatService.enterChatRoom(chatMessageDTO.getRoomId());
 
             // TODO : SenderId는 식별자이므로 이름을 조회해와서 던져주는 로직이 필요하다.
-            chatMessageDTO.setMessage(chatMessageDTO.getSenderId() + "님이 입장하셨습니다.");
+            chatMessageDTO.setMessage(chatMessageDTO.getSenderName() + "님이 입장하셨습니다.");
         }
 
         //레디스로 데이터 발행.
