@@ -7,7 +7,6 @@ import StudyRuleModal from "./StudyRuleModal";
 import ChatModal from "./ChatModal";
 import { useQuery } from "react-query";
 import {
-  ChatSelectAllApi,
   DdaySelectApi,
   ruleCreateApi,
   StudyInfoSelectApi,
