@@ -358,7 +358,8 @@ function ChatModal(props) {
             if (el.type === "ENTER") {
               return (
                 <EnterMsgBox key={index}>
-                  <div>{el.message}</div>
+                  {/* <div>{el.message}</div> */}
+                  <div>{el.senderName}</div>
                 </EnterMsgBox>
               );
             } else {
