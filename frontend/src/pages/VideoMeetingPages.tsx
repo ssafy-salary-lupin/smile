@@ -168,9 +168,16 @@ function VideoMeetingPages() {
     }
   };
 
+  const HideNav = () => {
+    const navTag = document.querySelector("Nav");
+    const fopterTag = document.querySelector("Footer");
+    console.log(navTag);
+  };
+
   useEffect(() => {
     getUserInfo();
     getStudyInfo();
+    HideNav();
   }, []);
 
   const params: paramsType = useParams();
