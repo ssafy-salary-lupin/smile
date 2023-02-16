@@ -269,7 +269,6 @@ function ChatModal(props) {
       const response = await fetch(`${BASE_URL}/${studyId}/chats`, {
         headers: {
           Authorization: `Bearer ${token}`,
-          // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
           Accept: "application/json",
         },
       });
@@ -280,7 +279,7 @@ function ChatModal(props) {
     }
 
     fetchData();
-  });
+  }, []);
 
   useEffect(() => {
     connect();
@@ -360,8 +359,6 @@ function ChatModal(props) {
     event.preventDefault(); // form 제출 막기
     publish(chat);
   };
-
-  console.log("chatList : ", chatList);
 
   return (
     <ModalContainer ref={modalRef}>
