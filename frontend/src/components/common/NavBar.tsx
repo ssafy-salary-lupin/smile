@@ -206,7 +206,7 @@ function NavBar(props: UrlProps) {
     } else {
       setDisplayNone(false);
     }
-  }, [curPath]);
+  }, [curPath, pageUrl]);
 
   return (
     <>
