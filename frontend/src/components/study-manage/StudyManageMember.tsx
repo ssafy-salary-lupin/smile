@@ -177,7 +177,7 @@ function StudyManageMember() {
   const pushFalse = (n) => {
     const tempArr = [];
     for (let i = 0; i < 5; i++) {
-      tempArr.push(false);
+      this.tempArr.push(false);
     }
     return tempArr;
   };
