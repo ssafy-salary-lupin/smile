@@ -249,19 +249,40 @@ function ChatModal(props) {
   // 최초 입장시 Enter type 보내기위해 임시 설정
   const [firstEnter, setFirstEnter] = useState(true);
 
-  const { data: chatInfo } = useQuery(
-    "chatSelectAllApi",
-    async () => await ChatSelectAllApi(studyId),
-  );
+  // const { data: chatInfo } = useQuery(
+  //   "chatSelectAllApi",
+  //   async () => await ChatSelectAllApi(studyId),
+  // );
 
   // 기존 저장된 채팅내역 저장하는 함수
-  const setChatFunc = async () => {
-    await setChatList((_chat_list) => [..._chat_list, chatInfo]);
-  };
+  // const setChatFunc = async () => {
+  //   await setChatList((_chat_list) => [..._chat_list, chatInfo]);
+  // };
 
   useEffect(() => {
-    console.log("이전 채팅 기록 : ", chatInfo);
+    // 이전 채팅 기록 불러오기
+    console.log("이전 채팅 useeffect 실행");
+    const BASE_URL = `https://i8b205.p.ssafy.io/be-api/studies`;
+    const token = localStorage.getItem("kakao-token");
 
+    async function fetchData() {
+      const response = await fetch(`${BASE_URL}/${studyId}/chats`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
+          Accept: "application/json",
+        },
+      });
+      const data = await response.json();
+      console.log("api에서 받아온 data : ", data);
+      await setChatList((_chat_list) => [..._chat_list, data]);
+      console.log("chatList : ", chatList);
+    }
+
+    fetchData();
+  });
+
+  useEffect(() => {
     connect();
 
     return () => disconnect();
@@ -279,8 +300,6 @@ function ChatModal(props) {
 
         // 최초 입장시 ENTER Type 보내기 위해 설정
         if (firstEnter) {
-          setChatFunc();
-          console.log("이전 채팅 기록 : ", chatInfo);
           publish();
           setFirstEnter(false);
           setTypeValue("TALK");
