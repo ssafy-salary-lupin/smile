@@ -270,9 +270,11 @@ body {
 function App() {
   const curPath = window.location.pathname;
 
-  const onRender = () => {
-    window.location.replace("/");
-  };
+  useEffect(() => {
+    const onRender = () => {
+      window.location.replace("/");
+    };
+  }, []);
 
   return (
     <>
