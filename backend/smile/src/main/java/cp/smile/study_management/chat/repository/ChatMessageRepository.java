@@ -12,7 +12,7 @@ public interface ChatMessageRepository extends JpaRepository<ChatMessage,Long> {
 
     @Query(value = "select cm from ChatMessage cm " +
             "left join fetch cm.user " +
-            "where cm.studyInformation.id = :studyId ")
+            "where cm.studyInformation.id = :studyId order by cm.createTime ASC")
     Optional<List<ChatMessage>> findAllByChatMessages(@Param("studyId") int studyId);
 
 
