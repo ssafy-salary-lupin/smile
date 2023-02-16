@@ -180,7 +180,7 @@ function VideoMeetingPages() {
     getStudyInfo();
     HideNav();
     setPageState(window.location.pathname);
-  }, []);
+  }, [pageState]);
 
   const params: paramsType = useParams();
 
