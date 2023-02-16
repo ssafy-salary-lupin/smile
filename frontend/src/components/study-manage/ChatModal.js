@@ -250,7 +250,7 @@ function ChatModal(props) {
   const [firstEnter, setFirstEnter] = useState(true);
 
   const { data: chatInfo } = useQuery("chatSelectAllApi", () =>
-    ChatSelectAllApi(studyId),
+    Promise.all(ChatSelectAllApi(studyId)),
   );
 
   // useEffect(() => {
