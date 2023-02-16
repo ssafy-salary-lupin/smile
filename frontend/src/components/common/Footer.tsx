@@ -79,7 +79,7 @@ function Footer() {
   };
 
   return (
-    <FooterContainer>
+    <FooterContainer className="Footer">
       <FooterWrap>
         <FooterCon1>
           <ul>
@@ -109,3 +109,4 @@ function Footer() {
   );
 }
 export default Footer;
+

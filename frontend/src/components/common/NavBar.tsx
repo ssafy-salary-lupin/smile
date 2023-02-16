@@ -196,7 +196,12 @@ function NavBar(props: UrlProps) {
   // };
 
   return (
-    <Nav variants={navVariants} animate={navAnimation} initial={"top"}>
+    <Nav
+      className="Nav"
+      variants={navVariants}
+      animate={navAnimation}
+      initial={"top"}
+    >
       <NavHeader>
         <Link to="/">
           <Img src={logoImg} />
