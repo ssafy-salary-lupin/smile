@@ -227,16 +227,16 @@ function StudyManageMember() {
   const [mandateModalOpen, setMandateModalOpen] = useState(pushFalse(userInfo));
   const MandateopenModal = (idx: number) => {
     // 위임 모달
-    setMandateModalOpen(
-      mandateModalOpen.splice(idx, 1, !mandateModalOpen[idx]),
-    );
+    // setMandateModalOpen(
+    //   mandateModalOpen.splice(idx, 1, !mandateModalOpen[idx]),
+    // );
     console.log(mandateModalOpen);
   };
 
   // 강퇴
   const [dropModalOpen, setDropModalOpen] = useState(pushFalse(userInfo));
   const DropopenModal = (idx: number) => {
-    setDropModalOpen(dropModalOpen.splice(idx, 1, !dropModalOpen[idx]));
+    // setDropModalOpen(dropModalOpen.splice(idx, 1, !dropModalOpen[idx]));
     console.log(dropModalOpen);
   };
 
