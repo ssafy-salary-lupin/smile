@@ -38,7 +38,7 @@ public class RedisPublisher {
 
         //유저 조회
         User user = userRepository
-                .findById(chatMessageDTO.getRoomId())
+                .findById(chatMessageDTO.getSenderId())
                 .orElseThrow(() -> new CustomException(ACCOUNT_NOT_FOUND));
 
         //해당 스터디 조회.
