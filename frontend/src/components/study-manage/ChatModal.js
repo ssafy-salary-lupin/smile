@@ -65,11 +65,11 @@ const ModalContent = styled.div`
   height: 84%;
   background-color: rgb(245, 245, 245);
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   justify-content: flex-start;
   /* align-items: center; */
   padding: 0.278vw 1.111vw;
-  overflow-y: scroll;
+  overflow-y: auto;
 `;
 
 const ChatList = styled.div`
@@ -273,9 +273,15 @@ function ChatModal(props) {
         },
       });
       const data = await response.json();
-      console.log("api에서 받아온 data : ", data);
-      await setChatList((_chat_list) => [..._chat_list, ...data.result]);
-      console.log("chatList : ", chatList);
+
+      data.result.forEach(async (el) => {
+        if (el.type !== "ENTER") {
+          // 입장 메시지는 기록하지 않는다.
+          await setChatList((_chat_list) => [..._chat_list, el]);
+        }
+      });
+
+      // await setChatList((_chat_list) => [..._chat_list, ...data.result]);
     }
 
     fetchData();
