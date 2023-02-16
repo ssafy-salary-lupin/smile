@@ -107,6 +107,8 @@ export function ChatSelectAllApi(studyId: string) {
     }).then((response) => response.json());
 
     console.log("result : ", result);
+
+    return result;
   } catch (error: any) {
     console.log(error);
   }
