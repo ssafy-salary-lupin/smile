@@ -273,10 +273,10 @@ function StudyManageMember() {
                 <hr />
                 {user.leader === true ? null : (
                   <BtnBox>
-                    <YellowBtn onClick={() => MandateopenModal(idx)}>
+                    <YellowBtn onClick={() => MandateopenModal(index)}>
                       위임
                     </YellowBtn>
-                    <BlueBtn onClick={() => DropopenModal(idx)}>강퇴</BlueBtn>
+                    <BlueBtn onClick={() => DropopenModal(index)}>강퇴</BlueBtn>
                   </BtnBox>
                 )}
                 {dropModalOpen && (
