@@ -9,7 +9,7 @@ import UserModel from "models/user-model";
 import { useRecoilValue } from "recoil";
 import { UserIdState } from "atoms/UserInfoAtom";
 import { useQuery } from "react-query";
-import { UserInfoApi } from "apis/UserInfoApi";
+import { InfoApi } from "apis/UserInfoApi";
 
 // TODO : 대기 화면
 
@@ -94,77 +94,83 @@ function VideoMeetingPages() {
   const userId = useRecoilValue(UserIdState);
 
   interface userDataType {
-    isSuccess: boolean;
-    code: number;
-    message: string;
-    result: {
-      id: number;
-      nickname: string;
-      email: string;
-      imagePath: string;
-      deleted: boolean;
+    data: {
+      isSuccess: boolean;
+      code: number;
+      message: string;
+      result: {
+        id: number;
+        nickname: string;
+        email: string;
+        imagePath: string;
+        deleted: boolean;
+      };
     };
   }
 
   interface studyDataType {
-    id: number;
-    name: string;
-    startDate: string;
-    endDatee: string;
-    time: string;
-    imagePath: string;
-    currrentPerson: number;
-    maxPerson: number;
-    viewCount: number;
-    description: string;
-    type: {
-      id: number;
-      name: string;
-    };
-    leader: {
-      id: number;
-      imagePath: string;
-      nickname: string;
-    };
-    comments: {
-      user: {
+    data: {
+      result: {
         id: number;
+        name: string;
+        startDate: string;
+        endDatee: string;
+        time: string;
         imagePath: string;
-        nickname: string;
-      };
-      content: string;
-      replies: {
-        user: {
+        currrentPerson: number;
+        maxPerson: number;
+        viewCount: number;
+        description: string;
+        type: {
+          id: number;
+          name: string;
+        };
+        leader: {
           id: number;
           imagePath: string;
           nickname: string;
         };
-        content: string;
-      }[];
-    }[];
+        comments: {
+          user: {
+            id: number;
+            imagePath: string;
+            nickname: string;
+          };
+          content: string;
+          replies: {
+            user: {
+              id: number;
+              imagePath: string;
+              nickname: string;
+            };
+            content: string;
+          }[];
+        }[];
+      };
+    };
   }
-
-  const { data: userData } = useQuery("userInfo", () =>
-    UserInfoApi.api.get(`/users/${userId}`),
-  );
-  const { data: studyData } = useQuery("userInfo", () =>
-    UserInfoApi.api.get(`/studies/${params.studyId}`),
-  );
 
   const [userInfo, setUserInfo] = useState<userDataType>();
   const [studyInfo, setStudyInfo] = useState<studyDataType>();
 
   const getUserInfo = async () => {
-    const data: userDataType = await UserInfoApi.api.get(
+    const data: userDataType = await InfoApi.api.get(`/users/${userId}`);
+    if (data) {
+      setUserInfo(data);
+    }
+  };
+  const getStudyInfo = async () => {
+    const data: studyDataType = await InfoApi.api.get(
       `/studies/${params.studyId}`,
     );
     if (data) {
-      setUserInfo(data);
+      setStudyInfo(data);
     }
   };
 
   useEffect(() => {
     getUserInfo();
+    getStudyInfo();
   }, []);
 
   const params: paramsType = useParams();
@@ -224,9 +230,8 @@ function VideoMeetingPages() {
   };
 
   console.log(params);
-  console.log("1", userData);
-  console.log("2", studyData);
-  console.log("3", userInfo);
+  console.log(userInfo);
+  console.log(studyInfo);
   return (
     <>
       {isMeetingStart ? (
@@ -234,7 +239,7 @@ function VideoMeetingPages() {
           sessionName={params.studyId}
           userInfo={localUser}
           //TODO
-          user={userData}
+          user={userInfo?.data.result.nickname}
         />
       ) : (
         // 화상 회의 대기 방
@@ -242,8 +247,8 @@ function VideoMeetingPages() {
           <Container>
             <StudyName>
               {/* TODO 스터디 이름 받아오기*/}
-              {/* <span>{studystudyDataInfo}</span> */}
-              <span>SSAFY 스터디</span>
+              <span>{studyInfo?.data.result.name}</span>
+              {/* <span>SSAFY 스터디</span> */}
             </StudyName>
             <Back>
               {isShowVideo ? (
@@ -258,7 +263,7 @@ function VideoMeetingPages() {
               ) : (
                 <UserContainer>
                   {/* TODO */}
-                  <span>{userData}</span>
+                  <span>{userInfo?.data.result.nickname}</span>
                 </UserContainer>
               )}
             </Back>

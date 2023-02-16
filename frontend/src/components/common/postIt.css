@@ -1,11 +1,10 @@
-@import url("http://fonts.googleapis.com/css?family=Shadows+Into+Light");
-@import url("https://fonts.googleapis.com/css?family=Tangerine");
+@import url("https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap");
 
 /* 한글 */
 @font-face {
   font-family: "noteFont";
-  src: url("http://fonts.googleapis.com/css?family=Shadows+Into+Light");
+  src: url("https://fonts.googleapis.com/css?family=Shadows+Into+Light");
 }
 /* 영어 */
 @font-face {
@@ -81,8 +80,8 @@ div.note:active {
 div.note p {
   font-size: 1.528vw;
   padding: 0.347vw;
-  font-family: "Shadows Into Light", "Tangerine", Arial, "Nanum Pen Script",
-    cursive;
+  font-family: "Shadows Into Light", "Nanum Pen Script", cursive;
+  /* font-family: "Shadows Into Light", Arial, "Nanum Pen Script", cursive; */
 }
 
 div.note:hover > span {
@@ -185,8 +184,8 @@ p {
   div.note p {
     font-size: 14.669px;
     padding: 3.331px;
-    font-family: "Shadows Into Light", "Tangerine", Arial, "Nanum Pen Script",
-      cursive;
+    font-family: "Shadows Into Light", "Nanum Pen Script", cursive;
+    /* font-family: "Shadows Into Light", Arial, "Nanum Pen Script", cursive; */
   }
 
   div.note:hover > span {

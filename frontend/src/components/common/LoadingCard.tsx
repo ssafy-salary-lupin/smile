@@ -56,7 +56,7 @@ const SkeletonHeader = styled.section`
   div {
     :nth-child(1) {
       width: 7vw;
-      height: 1.68vw;
+      height: 2vw;
       @media screen and (min-width: 1280px) {
         width: 67.498px;
         height: 16.128px;
@@ -64,7 +64,10 @@ const SkeletonHeader = styled.section`
     }
     :nth-child(2) {
       width: 5vw;
-      height: 1.68vw;
+      height: 2vw;
+      @media screen and (max-width: 1280px) {
+        margin-right: -0.1vw;
+      }
       @media screen and (min-width: 1280px) {
         width: 48px;
         height: 16.128px;
@@ -77,9 +80,12 @@ const SkeletonSection = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  @media screen and (max-width: 1280px) {
+    margin-left: -0.4vw;
+  }
   div {
     :nth-child(1) {
-      width: 7vw;
+      width: 16vw;
       height: 1.68vw;
       @media screen and (min-width: 1280px) {
         width: 128px;
@@ -87,7 +93,7 @@ const SkeletonSection = styled.section`
       }
     }
     :nth-child(2) {
-      width: 5vw;
+      width: 10vw;
       height: 1.68vw;
       margin-bottom: 0.5vw;
       @media screen and (min-width: 1280px) {
@@ -102,12 +108,19 @@ const SkeletonSection = styled.section`
 const SkeletonFooter = styled.section`
   display: flex;
   align-items: center;
+  @media screen and (max-width: 1280px) {
+    margin-bottom: 0.4vw;
+    margin-right: -0.8vw;
+    margin-left: -0.2vw;
+    /* margin: 0 -0.8vw -0.2vw 0.4vw; */
+  }
   section {
     display: flex;
     flex-direction: column;
-    margin-left: 1vw;
+    /* margin-left: 1vw; */
     height: 4vw;
     justify-content: space-around;
+
     @media screen and (min-width: 1280px) {
       margin-left: 9.6px;
       height: 38.4px;
@@ -141,7 +154,7 @@ const SkeletonImg = styled.div`
     border-radius: 10.752px 10.752px 0vw 0vw !important;
     width: 285.677px;
 
-    height: 209.664px;
+    height: 210.664px;
   }
   /* position: relative;
   top: -0.24vw;
@@ -154,8 +167,10 @@ const SkeletonText = styled.div`
 `;
 
 const SkeletonProfile = styled.div`
-  width: 3.36vw;
-  height: 3.36vw;
+  @media screen and (max-width: 1280px) {
+    width: 4vw;
+    height: 4vw;
+  }
   border-radius: 50px !important;
   /* @media screen and (min-width: 1680px) {
     width: 50px;
@@ -165,8 +180,8 @@ const SkeletonProfile = styled.div`
     margin-bottom: 3px;
   } */
   @media screen and (min-width: 1280px) {
-    width: 33.331px;
-    height: 33.331px;
+    width: 35px;
+    height: 35px;
     border-radius: 37.498px !important;
     margin-left: 2.997px;
     margin-bottom: 0.576px;

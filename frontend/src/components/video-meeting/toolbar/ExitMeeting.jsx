@@ -4,6 +4,8 @@ import ModalNone from "components/common/ModalNone";
 import { Close as CloseIcon } from "components/common/Icons";
 import { Warning } from "components/common/DuotonIcons";
 import { Link } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { studyIdRecoil } from "atoms/StudyManage";
 // 모달의 크기 설정
 const Wrapper = styled.div`
   .modalBox {
@@ -66,6 +68,9 @@ function ExitMeeting(props) {
   const closeModal = () => {
     props.setModalOpen(false);
   };
+
+  const studyId = useRecoilValue(studyIdRecoil);
+
   return (
     <Wrapper>
       <ModalNone setModalOpen={props.setModalOpen}>
@@ -79,7 +84,7 @@ function ExitMeeting(props) {
           <Footer>
             <Link
               to={{
-                pathname: `/manage`,
+                pathname: `/manage/${studyId}`,
               }}
             >
               <Btn backgroundColor="#F5C82E" onClick={props.leaveSession}>

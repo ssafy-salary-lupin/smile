@@ -108,6 +108,7 @@ const Description = styled.div`
   height: 21.84vw;
   opacity: 0;
   z-index: -1;
+  overflow: hidden;
 
   @media screen and (min-width: 1280px) {
     border-radius: 10.752px 10.752px 0vw 0vw;
@@ -298,8 +299,8 @@ export default function Card(props: PropsType) {
         <SCardUser>
           <ProfileImg
             imgUrl={profileImgUrl ? profileImgUrl : defaultprofileImg}
-            width="32.256px"
-            height="32.256px"
+            width="3.36vw"
+            height="3.36vw"
           />
           <SCardUserItem>
             <span>{props.studyInfo.leader.nickname}</span>

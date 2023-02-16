@@ -279,11 +279,11 @@ function App() {
       <BrowserRouter>
         <ScrollTop />
         <GlobalStyle />
-        {!curPath.includes("videoMeeting") && (
+        {!curPath.includes("meeting") && (
           <NavBar curUrl={curPath} onRender={onRender} />
         )}
         <Router />
-        {!curPath.includes("videoMeeting") && <Footer />}
+        {!curPath.includes("meeting") && <Footer />}
       </BrowserRouter>
     </>
   );

@@ -83,12 +83,21 @@ const CreateBtnWrapper = styled.div`
       font-size: 18px;
     }
     :hover {
-      animation: ${BtnHover} 1s forwards;
+      /* animation: ${BtnHover} 1s forwards; */
+      box-shadow: 0px 0px 1vw #666b70;
+    }
+    :active {
+      /* box-shadow: 0px 0px 1vw #666b70; */
+      box-shadow: 1.997px 1.997px 14px 0px #666b70 inset;
     }
   }
 `;
 
-const Section = styled.div``;
+const Section = styled.div`
+  @media screen and (max-width: 1280px) {
+    min-height: 100vw;
+  }
+`;
 
 interface CardsProps {
   NumberOfCards: number;
@@ -270,7 +279,7 @@ export default function StudySearchPages() {
         <Header>
           <div>
             <h1>딱! 맞는 스터디를 찾아보세요!</h1>
-            <span>아무말을 뭘로 적어야 하나 ㅎㅎㅎ</span>
+            <span>원하는 스터디가 없으면 직접 만들어서 해봐요.</span>
           </div>
           <HeaderImg />
         </Header>

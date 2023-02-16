@@ -5,7 +5,7 @@ const Img = styled.img.attrs((props) => ({ src: props.src }))<ImgProps>`
   width: ${(props) => props.w};
   height: ${(props) => props.h};
   border-radius: 50px;
-  @media screen and (min-width: 1680px) {
+  @media screen and (min-width: 1280px) {
     width: ${(props) => String(props.W)}px;
     height: ${(props) => String(props.H)}px;
   }
@@ -31,8 +31,8 @@ function ProfileImg(props: IProfileImgProps) {
   const [H, setH] = useState<number>(0);
   useEffect(() => {
     if (props.width?.slice(-2) === "vw") {
-      setW(Number(props.width?.slice(0, -2)) / 0.07);
-      setH(Number(props.height?.slice(0, -2)) / 0.07);
+      setW(Number(props.width?.slice(0, -2)) / 0.104);
+      setH(Number(props.height?.slice(0, -2)) / 0.104);
     } else {
       setW(Number(props.width?.slice(0, -2)));
       setH(Number(props.height?.slice(0, -2)));

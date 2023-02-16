@@ -56,18 +56,26 @@ const Top = styled.div`
   align-items: center;
   margin-bottom: 2.222vw;
 `;
-const Btn = styled.button`
+
+interface BtnType {
+  flag: boolean;
+}
+
+const Btn = styled.button<BtnType>`
   border-radius: 0.417vw;
   border: none;
-  background-color: ${(props) => props.theme.mainColor};
-  cursor: pointer;
+  background-color: ${(props) =>
+    props.flag ? "#666b70" : props.theme.mainColor};
+
+  cursor: ${(props) => (props.flag ? "" : "pointer")};
+  color: ${(props) => (props.flag ? "white" : "black")};
   padding: 0.556vw 1.111vw;
   width: 8.667vw;
   height: 3.473vw;
   font-size: 1.111vw;
   font-weight: bold;
-  box-shadow: 2.002px 2.002px 2.002px
-    ${(props) => props.theme.blackColorOpacity4};
+  box-shadow: 2.002px 2.002px 2.002px;
+  ${(props) => props.theme.blackColorOpacity4};
 `;
 
 const Card = styled.img`
@@ -349,7 +357,7 @@ export interface Data {
     endDate: string; //스터디 종료 일자
     time: string; //스터디 시간
     imagePath: string; //스터디 대표 이미지
-    currrentPerson: number; //스터디 현재 가입 인원
+    currentPerson: number; //스터디 현재 가입 인원
     maxPerson: number; //스터디 최대 가입 인원
     viewCount: number; //스터디 조회수
     description: string;
@@ -419,7 +427,7 @@ function StudyDetailPages() {
 
     await studyJoinApi(decoded?.userId, detailInfo?.result.id, data);
 
-    history.push("");
+    history.push(`/manage/${detailInfo?.result.id}`);
   };
 
   // 댓글 관련==========================================================================
@@ -541,19 +549,37 @@ function StudyDetailPages() {
     stateSet();
   }, [detailStudy]);
 
+  const [isFull, setIsFull] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsFull(
+      detailInfo?.result.maxPerson === detailInfo?.result.currentPerson,
+    );
+    // 참여하기 비활성화
+    const joinBtn = document.querySelector(".joinBtn");
+    console.log(joinBtn);
+    if (isFull) {
+      joinBtn && joinBtn.setAttribute("disabled", "true");
+    } else {
+      joinBtn && joinBtn.removeAttribute("disabled");
+    }
+  }, [isFull, detailInfo]);
+
   return (
     <Wrapper>
       <BlankSpace />
       <Text>
         <Icons.CaretLeft width="1.667vw" />
-        <Link to={{ pathname: `/studies/search` }}>
+        <Link to={{ pathname: `/search` }}>
           <p>목록으로</p>
         </Link>
       </Text>
       <Top>
         <TextBig>{detailInfo?.result.name}</TextBig>
         <Link to={{ pathname: `/studies/${detailInfo?.result.id}/home` }}>
-          <Btn onClick={onJoin}>참여하기</Btn>
+          <Btn flag={isFull} className="joinBtn" onClick={onJoin}>
+            {isFull ? "모집 완료" : "참여하기"}
+          </Btn>
         </Link>
       </Top>
       <StudyDetail>

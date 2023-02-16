@@ -164,13 +164,26 @@ interface Data {
   ];
 }
 
+interface StudyUserType {
+  id: number; //사용자 식별자
+  nickname: string; //사용자 닉네임
+  email: string; //사용자 이메일
+  imgPath: string; //사용자 프로필 사진 url
+  isLeader: boolean; //스터디장 유무
+}
+
 //
 function StudyManageMember() {
+  const pushFalse = (n: number) => {
+    const tempArr: boolean[] = [];
+    for (let i = 0; i < n; i++) {
+      tempArr.push(false);
+    }
+    return tempArr;
+  };
+
   // 모집 / 마감 버튼 바꾸기
   const [change, setChange] = useState(false);
-  const changeColor = () => {
-    setChange(change);
-  };
 
   // 모집 모달 열기
   const [recruitModalOpen, setRecruitModalOpen] = useState(false);
@@ -187,17 +200,68 @@ function StudyManageMember() {
   const { data: userStudy } = useQuery<Data>("userStudy", () =>
     StudyUserApi(studyId),
   );
+  // const [studyUser, setStudyUser] = useState<StudyUserType[]>(studyId);
+
+  // useEffect(() => {
+  //   if (userStudy && userStudy.result) {
+  //     userStudy.result.sort(function (a, b) {
+  //       if (a.hasOwnProperty("isLeader")) {
+  //         return a.isLeader - b.isLeader;
+  //       }
+  //     });
+  //   }
+  // }, [userStudy]);
+
+  // 스터디장 유무 정렬
+  // sort by value
+
+  const [UserN, setUserN] = useState<number>(0);
+  useEffect(() => {
+    if (userStudy) {
+      setUserN(userStudy.result.length);
+    }
+    console.log(UserN);
+  }, [userStudy, UserN]);
+
+  const tempArr = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ];
 
   // 위임
-  const [mandateModalOpen, setMandateModalOpen] = useState(false);
-  const MandateopenModal = () => {
-    setMandateModalOpen(!mandateModalOpen);
+  // const [mandateModalOpen, setMandateModalOpen] = useState(pushFalse(UserN));
+  const [mandateModalOpen, setMandateModalOpen] = useState(tempArr);
+  console.log(mandateModalOpen);
+  const MandateopenModal = (idx: number) => {
+    // 위임 모달
+    setMandateModalOpen(
+      mandateModalOpen.splice(idx, 1, !mandateModalOpen[idx]),
+    );
+    console.log(mandateModalOpen);
   };
 
   // 강퇴
-  const [dropModalOpen, setDropModalOpen] = useState(false);
-  const DropopenModal = () => {
-    setDropModalOpen(!dropModalOpen);
+  // const [dropModalOpen, setDropModalOpen] = useState(pushFalse(UserN));
+  const [dropModalOpen, setDropModalOpen] = useState(tempArr);
+  console.log(dropModalOpen);
+  const DropopenModal = (idx: number) => {
+    setDropModalOpen(dropModalOpen.splice(idx, 1, !dropModalOpen[idx]));
+    console.log(dropModalOpen);
   };
 
   // 종료
@@ -209,45 +273,85 @@ function StudyManageMember() {
   return (
     <Wrapper>
       <UpContainer>
-        {userStudy?.result.map((user: any, index: any) => {
-          return (
-            <Card key={index}>
-              {/* <Card> */}
-              <ProfileImg
-                imgUrl={
-                  user?.imgPath !== "/root" ? user?.imgPath : defaultprofileImg
-                  // defaultprofileImg
-                }
-                width="50px"
-                height="50px"
-              />
-              <NickBox>
-                <Nick>{user.nickname}</Nick>
-                {user.leader === true ? (
-                  <Crown fill={theme.mainColor} width="1.389vw" />
-                ) : null}
-              </NickBox>
-              <hr />
-              {user.leader === true ? null : (
-                <BtnBox>
-                  <YellowBtn onClick={MandateopenModal}>위임</YellowBtn>
-                  {dropModalOpen && (
-                    <ModalManageDrop
-                      id={user.id}
-                      setModalOpen={setDropModalOpen}
-                    />
-                  )}
-                  <BlueBtn onClick={DropopenModal}>강퇴</BlueBtn>
-                </BtnBox>
-              )}
-              {mandateModalOpen && (
-                <ModalManageMandate
-                  id={user.id}
-                  setModalOpen={setMandateModalOpen}
+        {userStudy?.result.map((user: any, index: number) => {
+          if (user.leader) {
+            return (
+              <Card key={index}>
+                {/* <Card> */}
+                <ProfileImg
+                  imgUrl={
+                    user?.imgPath !== "/root"
+                      ? user?.imgPath
+                      : defaultprofileImg
+                    // defaultprofileImg
+                  }
+                  width="50px"
+                  height="50px"
                 />
-              )}
-            </Card>
-          );
+                <NickBox>
+                  <Nick>{user.nickname}</Nick>
+                  {user.leader === true ? (
+                    <Crown fill={theme.mainColor} width="1.389vw" />
+                  ) : null}
+                </NickBox>
+                <hr />
+              </Card>
+            );
+          } else {
+            return <></>;
+          }
+        })}
+        {userStudy?.result.map((user: any, index: number) => {
+          if (!user.leader) {
+            return (
+              <Card key={index}>
+                {/* <Card> */}
+                <ProfileImg
+                  imgUrl={
+                    user?.imgPath !== "/root"
+                      ? user?.imgPath
+                      : defaultprofileImg
+                    // defaultprofileImg
+                  }
+                  width="50px"
+                  height="50px"
+                />
+                <NickBox>
+                  <Nick>{user.nickname}</Nick>
+                  {user.leader === true ? (
+                    <Crown fill={theme.mainColor} width="1.389vw" />
+                  ) : null}
+                </NickBox>
+                <hr />
+                {user.leader === true ? null : (
+                  <BtnBox>
+                    <YellowBtn
+                      onClick={() => {
+                        MandateopenModal(index);
+                      }}
+                    >
+                      위임
+                    </YellowBtn>
+                    <BlueBtn
+                      onClick={() => {
+                        DropopenModal(index);
+                      }}
+                    >
+                      강퇴
+                    </BlueBtn>
+                  </BtnBox>
+                )}
+                {dropModalOpen[index] && (
+                  <ModalManageDrop setModalOpen={setDropModalOpen} />
+                )}
+                {mandateModalOpen[index] && (
+                  <ModalManageMandate setModalOpen={setMandateModalOpen} />
+                )}
+              </Card>
+            );
+          } else {
+            return <></>;
+          }
         })}
       </UpContainer>
       <DownContainer>
