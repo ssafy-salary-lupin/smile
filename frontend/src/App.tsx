@@ -1,4 +1,4 @@
-import NavBar from "./components/common/NavBar";
+import NavBar from "./components/common/NavBarMain";
 import Footer from "./components/common/Footer";
 import Router from "./Router";
 import { createGlobalStyle } from "styled-components";
@@ -268,16 +268,16 @@ body {
 `;
 
 function App() {
-  const curPath = window.location.pathname;
+  // const curPath = window.location.pathname;
 
   return (
     <>
       <BrowserRouter>
         <ScrollTop />
         <GlobalStyle />
-        {!curPath.includes("meeting") && <NavBar curUrl={curPath} />}
+        {/* {!curPath.includes("meeting") && <NavBar curUrl={curPath} />} */}
         <Router />
-        {!curPath.includes("meeting") && <Footer />}
+        {/* {!curPath.includes("meeting") && <Footer />} */}
       </BrowserRouter>
     </>
   );

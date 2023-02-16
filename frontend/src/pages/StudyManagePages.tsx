@@ -12,6 +12,8 @@ import { Route, Switch } from "react-router-dom";
 import StudyManageBoardUpdate from "components/study-manage/StudyManageBoardUpdate";
 import StudyMeetingRecord from "components/study-manage/StudyMeetingRecord";
 import StudyManageMember from "components/study-manage/StudyManageMember";
+import NavBarSub from "components/common/NavBarSub";
+import Footer from "components/common/Footer";
 
 // submenu 들어갈 자리
 const SubMenu = styled.div`
@@ -20,8 +22,10 @@ const SubMenu = styled.div`
 `;
 
 function StudyManagePages() {
+  const curPath = window.location.pathname;
   return (
     <>
+      <NavBarSub curUrl={curPath} />
       <SubMenu>
         <StudyNavBar />
       </SubMenu>
@@ -58,6 +62,7 @@ function StudyManagePages() {
           <StudyManageMember />
         </Route>
       </Switch>
+      <Footer />
     </>
   );
 }

@@ -13,6 +13,8 @@ import PostIt from "components/common/PostIt";
 // import Swal from "sweetalert2";
 
 import { LoginAlert } from "components/common/LoginAlert";
+import Footer from "components/common/Footer";
+import NavBarMain from "components/common/NavBarMain";
 
 const Wrapper = styled.div``;
 
@@ -191,87 +193,94 @@ export default function MyStudyPages() {
     setIsOpenEnd(!isOpenEnd);
   };
 
+  const curPath = window.location.pathname;
   return (
-    <Wrapper>
-      <BackgroundYellow bgHeight={65} />
-      <BlankSpace />
-      <Container>
-        <Header>
-          <Title>내 스터디</Title>
-          <Additionalection>
-            <GraphContainer>
-              <SubTitle>메모</SubTitle>
-              <div id="react-container">
-                <PostIt></PostIt>
-              </div>
-            </GraphContainer>
-          </Additionalection>
-        </Header>
-        {!studiesLoading ? (
-          <>
-            <details open>
-              <StatusTitle onClick={foldNOpenCurrent}>
-                진행중 스터디
-              </StatusTitle>
-              <StudyContainer>
-                {!studiesLoading && studiesData ? (
-                  <Cards
-                    NumberOfCards={studiesData ? studiesData.current.length : 0}
-                  >
-                    {studiesData.current.map((study) => (
-                      <CardWrapper key={study.id}>
-                        <Link
-                          style={{ textDecoration: "none", color: "black" }}
-                          to={{
-                            pathname: `/manage/${study.id}`, // 스터디 상세 조회 페이지 주소 입력하기
-                          }}
-                        >
-                          <Card studyInfo={study} />
-                        </Link>
-                      </CardWrapper>
-                    ))}
-                  </Cards>
-                ) : (
-                  <MyStudyNotFound>
-                    <h3>스터디를 찾을 수 없습니다.</h3>
-                    <span>(나중에 이미지 혹은 무언가 추가)</span>
-                  </MyStudyNotFound>
-                )}
-              </StudyContainer>
-            </details>
-            <details open>
-              <StatusTitle onClick={foldNOpenEnd}>지난 스터디</StatusTitle>
-              <StudyContainer>
-                {!studiesLoading && studiesData ? (
-                  <>
-                    <SearchContainer>
-                      <SearchComponent />
-                    </SearchContainer>
+    <>
+      <NavBarMain curUrl={curPath} />
+      <Wrapper>
+        <BackgroundYellow bgHeight={65} />
+        <BlankSpace />
+        <Container>
+          <Header>
+            <Title>내 스터디</Title>
+            <Additionalection>
+              <GraphContainer>
+                <SubTitle>메모</SubTitle>
+                <div id="react-container">
+                  <PostIt></PostIt>
+                </div>
+              </GraphContainer>
+            </Additionalection>
+          </Header>
+          {!studiesLoading ? (
+            <>
+              <details open>
+                <StatusTitle onClick={foldNOpenCurrent}>
+                  진행중 스터디
+                </StatusTitle>
+                <StudyContainer>
+                  {!studiesLoading && studiesData ? (
                     <Cards
-                      NumberOfCards={studiesData ? studiesData.end.length : 0}
+                      NumberOfCards={
+                        studiesData ? studiesData.current.length : 0
+                      }
                     >
-                      {studiesData.end.map((study) => (
-                        <Link
-                          style={{ textDecoration: "none", color: "black" }}
-                          to={{
-                            pathname: `/manage/${study.id}`, // 스터디 상세 조회 페이지 주소 입력하기
-                          }}
-                        >
-                          <Card key={study.id} studyInfo={study} />
-                        </Link>
+                      {studiesData.current.map((study) => (
+                        <CardWrapper key={study.id}>
+                          <Link
+                            style={{ textDecoration: "none", color: "black" }}
+                            to={{
+                              pathname: `/manage/${study.id}`, // 스터디 상세 조회 페이지 주소 입력하기
+                            }}
+                          >
+                            <Card studyInfo={study} />
+                          </Link>
+                        </CardWrapper>
                       ))}
                     </Cards>
-                  </>
-                ) : (
-                  <MyStudyNotFound />
-                )}
-              </StudyContainer>
-            </details>
-          </>
-        ) : (
-          <span>로딩중 이미지 추가</span>
-        )}
-      </Container>
-    </Wrapper>
+                  ) : (
+                    <MyStudyNotFound>
+                      <h3>스터디를 찾을 수 없습니다.</h3>
+                      <span>(나중에 이미지 혹은 무언가 추가)</span>
+                    </MyStudyNotFound>
+                  )}
+                </StudyContainer>
+              </details>
+              <details open>
+                <StatusTitle onClick={foldNOpenEnd}>지난 스터디</StatusTitle>
+                <StudyContainer>
+                  {!studiesLoading && studiesData ? (
+                    <>
+                      <SearchContainer>
+                        <SearchComponent />
+                      </SearchContainer>
+                      <Cards
+                        NumberOfCards={studiesData ? studiesData.end.length : 0}
+                      >
+                        {studiesData.end.map((study) => (
+                          <Link
+                            style={{ textDecoration: "none", color: "black" }}
+                            to={{
+                              pathname: `/manage/${study.id}`, // 스터디 상세 조회 페이지 주소 입력하기
+                            }}
+                          >
+                            <Card key={study.id} studyInfo={study} />
+                          </Link>
+                        ))}
+                      </Cards>
+                    </>
+                  ) : (
+                    <MyStudyNotFound />
+                  )}
+                </StudyContainer>
+              </details>
+            </>
+          ) : (
+            <span>로딩중 이미지 추가</span>
+          )}
+        </Container>
+      </Wrapper>
+      <Footer />
+    </>
   );
 }
