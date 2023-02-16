@@ -244,9 +244,9 @@ export default function MyStudyPages() {
               <StudyContainer>
                 {!studiesLoading && studiesData ? (
                   <>
-                    <SearchContainer>
+                    {/* <SearchContainer>
                       <SearchComponent />
-                    </SearchContainer>
+                    </SearchContainer> */}
                     <Cards
                       NumberOfCards={studiesData ? studiesData.end.length : 0}
                     >
