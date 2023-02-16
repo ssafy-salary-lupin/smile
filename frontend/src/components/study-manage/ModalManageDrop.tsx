@@ -96,7 +96,7 @@ function ModalManageDrop(props: any) {
               <Btn
                 color="#F5C82E"
                 onClick={() => {
-                  // UserDropApi(studyId, userStudy?.result.id);
+                  UserDropApi(studyId, userStudy?.result.id);
                   closeModal();
                 }}
               >
@@ -114,3 +114,4 @@ function ModalManageDrop(props: any) {
 }
 
 export default ModalManageDrop;
+
