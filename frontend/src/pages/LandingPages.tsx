@@ -17,6 +17,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { UserIdState } from "atoms/UserInfoAtom";
 import jwt_decode from "jwt-decode";
 import { LoginAlert } from "components/common/LoginAlert";
+import { PageState } from "atoms/PageAtom";
 
 const Wrapper = styled.div``;
 
@@ -409,6 +410,12 @@ function LandingPages() {
   function onWidth() {
     setWindowWidth(window.innerWidth);
   }
+
+  const [pageState, setPageState] = useRecoilState(PageState);
+
+  useEffect(() => {
+    setPageState(window.location.pathname);
+  }, [pageState]);
 
   useEffect(() => {
     window.addEventListener("scroll", onScroll);

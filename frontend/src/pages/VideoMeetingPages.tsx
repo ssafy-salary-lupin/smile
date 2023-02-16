@@ -171,16 +171,19 @@ function VideoMeetingPages() {
 
   const HideNav = () => {
     const navTag = document.querySelector("Nav");
-    const fopterTag = document.querySelector("Footer");
+    const footerTag = document.querySelector("Footer");
     console.log(navTag);
   };
   const [pageState, setPageState] = useRecoilState(PageState);
   useEffect(() => {
+    setPageState(window.location.pathname);
+  }, [pageState]);
+
+  useEffect(() => {
     getUserInfo();
     getStudyInfo();
     HideNav();
-    setPageState(window.location.pathname);
-  }, [pageState]);
+  }, []);
 
   const params: paramsType = useParams();
 
