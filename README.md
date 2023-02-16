@@ -16,7 +16,7 @@
 
 
 ### 프로젝트 기간  
-    - 2023.01.09 ~ 2023.02.17 (약 7 주)
+    - 2023.01.09 ~ 2023.02.17 (6주)
     - 세부기간
         - 기획 및 설계 : 2023.01.09 ~ 2023.01.22
         - 프로젝트 구현 : 2023.01.23 ~ 2023.02.14
@@ -52,16 +52,10 @@
 ## 🛠 **개발 환경**
 
 ### 협업
-<img src="https://img.shields.io/badge/gitlab-FC6D26?style=for-the-badge&logo=gitlab&logoColor=white">
-<img src="https://img.shields.io/badge/notion-000000?style=for-the-badge&logo=notion&logoColor=white">
-<img src="https://img.shields.io/badge/jira-0052CC?style=for-the-badge&logo=jira&logoColor=white">
+<img src="https://img.shields.io/badge/gitlab-FC6D26?style=for-the-badge&logo=gitlab&logoColor=white"> <img src="https://img.shields.io/badge/notion-000000?style=for-the-badge&logo=notion&logoColor=white"> <img src="https://img.shields.io/badge/jira-0052CC?style=for-the-badge&logo=jira&logoColor=white">
 
 ### 공통
-<img src="https://img.shields.io/badge/web rtc-333333?style=for-the-badge&logo=webrtc&logoColor=white">
-<img src="https://img.shields.io/badge/ec2-FF9900?style=for-the-badge&logo=amazon ec2&logoColor=white">
-<img src="https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white">
-<img src="https://img.shields.io/badge/nginx-009639?style=for-the-badge&logo=nginx&logoColor=white">
-<img src="https://img.shields.io/badge/jenkins-D24939?style=for-the-badge&logo=jenkins&logoColor=white">
+<img src="https://img.shields.io/badge/web rtc-333333?style=for-the-badge&logo=webrtc&logoColor=white"> <img src="https://img.shields.io/badge/ec2-FF9900?style=for-the-badge&logo=amazon ec2&logoColor=white"> <img src="https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white"> <img src="https://img.shields.io/badge/nginx-009639?style=for-the-badge&logo=nginx&logoColor=white"> <img src="https://img.shields.io/badge/jenkins-D24939?style=for-the-badge&logo=jenkins&logoColor=white">
 <details>
 <summary>상세 기술스택 및 버전</summary>
 <div markdown="1">  
@@ -82,40 +76,31 @@
 </details>
 
 ### 🖥 프론트 
-<img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black">
-<img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=Html5&logoColor=white"> 
-<img src="https://img.shields.io/badge/Css3-1572B6?style=for-the-badge&logo=css3&logoColor=white"> 
-<img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white">
-<img src="https://img.shields.io/badge/recoil-3178C6?style=for-the-badge&logo=recoil&logoColor=white">
+<img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black"> <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=Html5&logoColor=white"> <img src="https://img.shields.io/badge/Css3-1572B6?style=for-the-badge&logo=css3&logoColor=white"> <img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white"> <img src="https://img.shields.io/badge/styled components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white"> <img src="https://img.shields.io/badge/React Query-FF4154?style=for-the-badge&logo=React Query&logoColor=white"> <img src="https://img.shields.io/badge/recoil-3178C6?style=for-the-badge&logo=recoil&logoColor=white">
 <details>
 <summary>상세 기술스택 및 버전</summary>
 <div markdown="1">       
 
-|구분    |기술스택         |상세내용           |버전  |
-|--------|-----------------|------------------|------|
-|FrontEnd|HTML5            |                  |-     |
-|        |CSS3             |                  |-     |
-|        |React            |React             |8.19.3|
-|        |                 |React-Router-Dom  |8.19.3|
-|        |                 |Recoil            |8.19.3|
-|        |                 |Styled-Component  |5.3.6 |
-|        |WebRTC           |                  |-     |
-|        |TypeScript       |                  |4.9.4 |
-|        |WebSocket        |                  |-     |
-|        |IDE              |Visual Studio Code|-     |
+|구분    |기술스택         |상세내용            |버전   |
+|--------|-----------------|------------------|-------|
+|FrontEnd|HTML5            |                  |-      |
+|        |CSS3             |                  |-      |
+|        |React            |React             |8.19.3 |
+|        |                 |React-Router-Dom  |8.19.3 |
+|        |                 |React-Query       |3.39.3 |
+|        |                 |Recoil            |8.19.3 |
+|        |                 |Styled-Component  |5.3.6  |
+|        |TypeScript       |                  |4.9.4  |
+|        |Node.js          |                  |16.19.0|
+|        |WebRTC           |                  |-      |
+|        |WebSocket        |                  |-      |
+|        |IDE              |Visual Studio Code|-      |
 
 </div>
 </details>
   
 ### 💻 백엔드  
-<img src="https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=Spring&logoColor=white">
-<img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=for-the-badge&logo=SpringBoot&logoColor=white">
-<img src="https://img.shields.io/badge/Spring Security-6DB33F?style=for-the-badge&logo=SpringSecurity&logoColor=white"> 
-<img src="https://img.shields.io/badge/jpa-6DB33F?style=for-the-badge&logo=jpa&logoColor=white"> 
-<img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=black"> 
-<img src="https://img.shields.io/badge/redis-DC382D?style=for-the-badge&logo=redis&logoColor=white"> 
-<img src="https://img.shields.io/badge/s3-569A31?style=for-the-badge&logo=amazon s3&logoColor=white">
-<img src="https://img.shields.io/badge/rds-527FFF?style=for-the-badge&logo=amazon rds&logoColor=white">
+<img src="https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=Spring&logoColor=white"> <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=for-the-badge&logo=SpringBoot&logoColor=white"> <img src="https://img.shields.io/badge/Spring Security-6DB33F?style=for-the-badge&logo=SpringSecurity&logoColor=white"> <img src="https://img.shields.io/badge/jpa-6DB33F?style=for-the-badge&logo=jpa&logoColor=white"> <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=black"> <img src="https://img.shields.io/badge/redis-DC382D?style=for-the-badge&logo=redis&logoColor=white"> <img src="https://img.shields.io/badge/s3-569A31?style=for-the-badge&logo=amazon s3&logoColor=white"> <img src="https://img.shields.io/badge/rds-527FFF?style=for-the-badge&logo=amazon rds&logoColor=white">
 
 <details>
 <summary>상세 기술스택 및 버전</summary>
