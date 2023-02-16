@@ -419,7 +419,7 @@ function StudyDetailPages() {
 
     await studyJoinApi(decoded?.userId, detailInfo?.result.id, data);
 
-    history.push("");
+    history.push(`/manage/${detailInfo?.result.id}`);
   };
 
   // 댓글 관련==========================================================================
