@@ -2,7 +2,9 @@ package cp.smile.study_management.chat.service;
 
 import cp.smile.config.response.exception.CustomException;
 import cp.smile.config.response.exception.CustomExceptionStatus;
+import cp.smile.entity.study_common.StudyInformation;
 import cp.smile.entity.study_management.ChatMessage;
+import cp.smile.entity.user.User;
 import cp.smile.study_common.repository.StudyCommonRepository;
 import cp.smile.study_management.chat.dto.ChatMessageDTO;
 import cp.smile.study_management.chat.repository.ChatMessageRepository;
@@ -12,6 +14,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 
 import static cp.smile.config.response.exception.CustomExceptionStatus.*;
 
@@ -32,18 +36,24 @@ public class RedisPublisher {
     public void publish(ChannelTopic topic, ChatMessageDTO chatMessageDTO){
         redisTemplate.convertAndSend(topic.getTopic(), chatMessageDTO);
 
-//        //유저 조회
-//        userRepository
-//                .findById(chatMessageDTO.getRoomId())
-//                        .orElseThrow(() -> new CustomException(ACCOUNT_NOT_FOUND));
-////
+        //유저 조회
+        User user = userRepository
+                .findById(chatMessageDTO.getRoomId())
+                .orElseThrow(() -> new CustomException(ACCOUNT_NOT_FOUND));
+
         //해당 스터디 조회.
-//
-//        //메시지 저장.
-//        ChatMessage.builder()
-//                .content()
-//                .sendTime()
-//                .session()
-//                .
+        StudyInformation studyInformation = studyCommonRepository
+                .findById(chatMessageDTO.getRoomId())
+                .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY));
+
+        //메시지 저장.
+        ChatMessage chatMessage = ChatMessage.builder()
+                .content(chatMessageDTO.getMessage())
+                .sendTime(LocalDateTime.now())
+                .session(String.valueOf(chatMessageDTO.getRoomId()))
+                .user(user)
+                .studyInformation(studyInformation).build();
+
+        chatMessageRepository.save(chatMessage);
     }
 }
