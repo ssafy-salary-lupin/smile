@@ -235,18 +235,22 @@ function StudyManageMember() {
       <UpContainer>
         {userStudy?.result.map((user: StudyUserType, index: number) => {
           if (user.leader) {
-            <div key={index}>
-              <UserCard user={user} />
-            </div>;
+            return (
+              <div key={index}>
+                <UserCard user={user} />
+              </div>
+            );
           } else {
             return <></>;
           }
         })}
         {userStudy?.result.map((user: StudyUserType, index: number) => {
           if (!user.leader) {
-            <div key={index}>
-              <UserCard user={user} />
-            </div>;
+            return (
+              <div key={index}>
+                <UserCard user={user} />
+              </div>
+            );
           } else {
             return <></>;
           }
