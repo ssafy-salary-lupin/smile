@@ -3,7 +3,7 @@ import Footer from "./components/common/Footer";
 import Router from "./Router";
 import { createGlobalStyle } from "styled-components";
 import { BrowserRouter } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ScrollTop from "components/common/ScrollTop";
 
 const GlobalStyle = createGlobalStyle`

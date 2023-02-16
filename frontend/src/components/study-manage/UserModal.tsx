@@ -1,14 +1,14 @@
 import styled from "styled-components";
 import ModalNone from "components/common/ModalNone";
 import { Link } from "react-router-dom";
-import { UserDropApi } from "../../apis/StudyManageMemberApi";
+import { MandateApi, UserDropApi } from "../../apis/StudyManageMemberApi";
 import { useRecoilValue } from "recoil";
 import { studyIdRecoil } from "atoms/StudyManage";
 import jwt_decode from "jwt-decode";
 import { StudyUserApi } from "../../apis/StudyManageMemberApi";
 import { useQuery } from "react-query";
-
-const Wrapper = styled.div``;
+import { Warning } from "components/common/Icons";
+import { SetStateAction } from "react";
 
 // 모달 안의 내용을 감싸는 요소
 const Container = styled.div`
@@ -56,61 +56,51 @@ const Footer = styled.div`
   align-items: center;
   height: 8.333vw;
 `;
-interface Data {
-  result: [
-    {
-      id: number; //사용자 식별자
-      nickname: string; //사용자 닉네임
-      email: string; //사용자 이메일
-      imagePath: string; //사용자 프로필 사진 url
-      isLeader: boolean; //스터디장 유무
-    },
-  ];
+
+interface propsType {
+  setModalOpen: React.Dispatch<SetStateAction<boolean>>;
+  flag: boolean;
+  userId: number; //사용자 식별자
 }
 
-function ModalManageDrop(props: any) {
+function UserModal(props: propsType) {
   const closeModal = () => {
     props.setModalOpen(false);
   };
 
-  // 스터디의 회원정보 가져오기
-  const { data: userStudy } = useQuery<Data>("userStudy", () =>
-    StudyUserApi(studyId),
-  );
-
   const studyId = useRecoilValue(studyIdRecoil);
   return (
-    <Wrapper>
-      <ModalNone setModalOpen={props.setModalOpen}>
-        <Container>
-          {/* <Warning width="5.556vw" height="5.556vw" /> */}
-          <Title>
+    <ModalNone setModalOpen={props.setModalOpen}>
+      <Container>
+        <Warning width="5.556vw" height="5.556vw" />
+        <Title>
+          {props.flag ? (
+            <span>스터디장을 위임하시겠습니까?</span>
+          ) : (
             <span>스터디원을 강퇴하시겠습니까?</span>
-          </Title>
-          <Footer>
-            <Link
-              to={{
-                pathname: `/manage/manageMember/${studyId}`,
-              }}
-            >
-              <Btn
-                color="#F5C82E"
-                onClick={() => {
-                  UserDropApi(studyId, props.userId);
-                  closeModal();
-                }}
-              >
-                <span>확인</span>
-              </Btn>
-            </Link>
-            <Btn color="#314E8D" onClick={closeModal}>
-              <span>취소</span>
-            </Btn>
-          </Footer>
-        </Container>
-      </ModalNone>
-    </Wrapper>
+          )}
+        </Title>
+        <Footer>
+          <Btn
+            color="#F5C82E"
+            onClick={() => {
+              if (props.flag) {
+                MandateApi(studyId, String(props.userId));
+              } else {
+                UserDropApi(studyId, String(props.userId));
+              }
+              closeModal();
+            }}
+          >
+            <span>확인</span>
+          </Btn>
+          <Btn color="#314E8D" onClick={closeModal}>
+            <span>취소</span>
+          </Btn>
+        </Footer>
+      </Container>
+    </ModalNone>
   );
 }
 
-export default ModalManageDrop;
+export default UserModal;

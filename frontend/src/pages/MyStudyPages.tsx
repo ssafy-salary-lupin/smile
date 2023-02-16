@@ -205,7 +205,7 @@ export default function MyStudyPages() {
             <Title>내 스터디</Title>
             <Additionalection>
               <GraphContainer>
-                <SubTitle>메모</SubTitle>
+                {/* <SubTitle>메모</SubTitle> */}
                 <div id="react-container">
                   <PostIt></PostIt>
                 </div>
@@ -251,9 +251,9 @@ export default function MyStudyPages() {
                 <StudyContainer>
                   {!studiesLoading && studiesData ? (
                     <>
-                      <SearchContainer>
-                        <SearchComponent />
-                      </SearchContainer>
+                      {/* <SearchContainer>
+                      <SearchComponent />
+                    </SearchContainer> */}
                       <Cards
                         NumberOfCards={studiesData ? studiesData.end.length : 0}
                       >

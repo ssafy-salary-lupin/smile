@@ -18,6 +18,7 @@ import axios from "axios";
 import { theme } from "theme";
 import { useRecoilValue } from "recoil";
 import { studyIdRecoil } from "atoms/StudyManage";
+import UserCard from "./UserCard";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
@@ -159,7 +160,7 @@ interface Data {
       nickname: string; //사용자 닉네임
       email: string; //사용자 이메일
       imgPath: string; //사용자 프로필 사진 url
-      isLeader: boolean; //스터디장 유무
+      leader: boolean; //스터디장 유무
     },
   ];
 }
@@ -169,7 +170,7 @@ interface StudyUserType {
   nickname: string; //사용자 닉네임
   email: string; //사용자 이메일
   imgPath: string; //사용자 프로필 사진 url
-  isLeader: boolean; //스터디장 유무
+  leader: boolean; //스터디장 유무
 }
 
 //
@@ -223,36 +224,20 @@ function StudyManageMember() {
     console.log(UserN);
   }, [userStudy, UserN]);
 
-  const tempArr = [
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ];
+  const openModal = () => {};
+
+  const tempArr = [false, false, false, false, false, false, false, false];
 
   // 위임
   // const [mandateModalOpen, setMandateModalOpen] = useState(pushFalse(UserN));
   const [mandateModalOpen, setMandateModalOpen] = useState(tempArr);
   console.log(mandateModalOpen);
   const MandateopenModal = (idx: number) => {
+    console.log(idx);
     // 위임 모달
-    setMandateModalOpen(
-      mandateModalOpen.splice(idx, 1, !mandateModalOpen[idx]),
-    );
-    console.log(mandateModalOpen);
+    mandateModalOpen.splice(idx, 1, !mandateModalOpen[idx]);
+    setMandateModalOpen(mandateModalOpen);
+    console.log("위임", mandateModalOpen);
   };
 
   // 강퇴
@@ -260,8 +245,13 @@ function StudyManageMember() {
   const [dropModalOpen, setDropModalOpen] = useState(tempArr);
   console.log(dropModalOpen);
   const DropopenModal = (idx: number) => {
-    setDropModalOpen(dropModalOpen.splice(idx, 1, !dropModalOpen[idx]));
-    console.log(dropModalOpen);
+    console.log(idx);
+    dropModalOpen.splice(idx, 1, !dropModalOpen[idx]);
+    setDropModalOpen(dropModalOpen);
+    console.log("강퇴", dropModalOpen);
+    if (dropModalOpen[idx]) {
+      openModal();
+    }
   };
 
   // 종료
@@ -273,82 +263,20 @@ function StudyManageMember() {
   return (
     <Wrapper>
       <UpContainer>
-        {userStudy?.result.map((user: any, index: number) => {
+        {userStudy?.result.map((user: StudyUserType, index: number) => {
           if (user.leader) {
-            return (
-              <Card key={index}>
-                {/* <Card> */}
-                <ProfileImg
-                  imgUrl={
-                    user?.imgPath !== "/root"
-                      ? user?.imgPath
-                      : defaultprofileImg
-                    // defaultprofileImg
-                  }
-                  width="50px"
-                  height="50px"
-                />
-                <NickBox>
-                  <Nick>{user.nickname}</Nick>
-                  {user.leader === true ? (
-                    <Crown fill={theme.mainColor} width="1.389vw" />
-                  ) : null}
-                </NickBox>
-                <hr />
-              </Card>
-            );
+            <div key={index}>
+              <UserCard user={user} />
+            </div>;
           } else {
             return <></>;
           }
         })}
-        {userStudy?.result.map((user: any, index: number) => {
+        {userStudy?.result.map((user: StudyUserType, index: number) => {
           if (!user.leader) {
-            return (
-              <Card key={index}>
-                {/* <Card> */}
-                <ProfileImg
-                  imgUrl={
-                    user?.imgPath !== "/root"
-                      ? user?.imgPath
-                      : defaultprofileImg
-                    // defaultprofileImg
-                  }
-                  width="50px"
-                  height="50px"
-                />
-                <NickBox>
-                  <Nick>{user.nickname}</Nick>
-                  {user.leader === true ? (
-                    <Crown fill={theme.mainColor} width="1.389vw" />
-                  ) : null}
-                </NickBox>
-                <hr />
-                {user.leader === true ? null : (
-                  <BtnBox>
-                    <YellowBtn
-                      onClick={() => {
-                        MandateopenModal(index);
-                      }}
-                    >
-                      위임
-                    </YellowBtn>
-                    <BlueBtn
-                      onClick={() => {
-                        DropopenModal(index);
-                      }}
-                    >
-                      강퇴
-                    </BlueBtn>
-                  </BtnBox>
-                )}
-                {dropModalOpen[index] && (
-                  <ModalManageDrop setModalOpen={setDropModalOpen} />
-                )}
-                {mandateModalOpen[index] && (
-                  <ModalManageMandate setModalOpen={setMandateModalOpen} />
-                )}
-              </Card>
-            );
+            <div key={index}>
+              <UserCard user={user} />
+            </div>;
           } else {
             return <></>;
           }

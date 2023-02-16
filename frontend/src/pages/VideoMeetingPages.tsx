@@ -6,10 +6,11 @@ import VideoRoomComponent from "components/video-meeting/VideoRoomComponent";
 import ExitMeeting from "components/video-meeting/toolbar/ExitMeeting";
 import * as ToolbarItems from "components/video-meeting/toolbar/ToolbarItems";
 import UserModel from "models/user-model";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { UserIdState } from "atoms/UserInfoAtom";
 import { useQuery } from "react-query";
 import { InfoApi } from "apis/UserInfoApi";
+import { PageState } from "atoms/PageAtom";
 
 // TODO : 대기 화면
 
@@ -168,9 +169,20 @@ function VideoMeetingPages() {
     }
   };
 
+  const HideNav = () => {
+    const navTag = document.querySelector("Nav");
+    const footerTag = document.querySelector("Footer");
+    console.log(navTag);
+  };
+  const [pageState, setPageState] = useRecoilState(PageState);
+  useEffect(() => {
+    setPageState(window.location.pathname);
+  }, [pageState]);
+
   useEffect(() => {
     getUserInfo();
     getStudyInfo();
+    HideNav();
   }, []);
 
   const params: paramsType = useParams();
