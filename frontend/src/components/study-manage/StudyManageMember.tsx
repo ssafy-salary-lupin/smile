@@ -220,6 +220,9 @@ function StudyManageMember() {
 
   const [userInfo, setUserN] = useState<number>(0);
   if (userStudy) {
+    console.log(userStudy.result);
+    console.log(userStudy.result.length);
+
     setUserN(userStudy.result.length);
   }
 
