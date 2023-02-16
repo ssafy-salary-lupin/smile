@@ -249,7 +249,7 @@ function StudyManageMember() {
   return (
     <Wrapper>
       <UpContainer>
-        {userStudy?.result.map((user: any, index: any) => {
+        {userStudy?.result.map((user: any, index: number) => {
           if (user.leader) {
             return (
               <Card key={index}>
@@ -291,7 +291,7 @@ function StudyManageMember() {
             return <></>;
           }
         })}
-        {userStudy?.result.map((user: any, index: any) => {
+        {userStudy?.result.map((user: any, index: number) => {
           if (!user.leader) {
             return (
               <Card key={index}>
