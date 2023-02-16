@@ -268,21 +268,20 @@ body {
 `;
 
 function App() {
-  useEffect(() => {
-    console.log("APP 렌더링");
-  });
-
   const curPath = window.location.pathname;
-  // if (curPath === "/test2") {
-  //   const bodyTag = document.querySelector("body");
-  //   bodyTag?.classList.add("videoPage");
-  // }
+
+  const onRender = () => {
+    window.location.replace("/");
+  };
+
   return (
     <>
       <BrowserRouter>
         <ScrollTop />
         <GlobalStyle />
-        {!curPath.includes("videoMeeting") && <NavBar curUrl={curPath} />}
+        {!curPath.includes("videoMeeting") && (
+          <NavBar curUrl={curPath} onRender={onRender} />
+        )}
         <Router />
         {!curPath.includes("videoMeeting") && <Footer />}
       </BrowserRouter>

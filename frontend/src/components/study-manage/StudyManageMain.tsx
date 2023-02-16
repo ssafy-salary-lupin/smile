@@ -274,6 +274,7 @@ const Text = styled.div`
 const Chat = styled.div`
   width: 3.472vw;
   height: 3.472vw;
+  position: relative;
 `;
 
 const ChatIcon = styled.img`
