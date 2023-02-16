@@ -181,7 +181,7 @@ function StudyManageMember() {
     }
     return tempArr;
   };
-  console.log(pushFalse(5));
+  console.log();
   // 모집 / 마감 버튼 바꾸기
   const [change, setChange] = useState(false);
   const changeColor = () => {
@@ -218,17 +218,26 @@ function StudyManageMember() {
   // 스터디장 유무 정렬
   // sort by value
 
+  const [userInfo, setUserN] = useState<number>(0);
+  if (userStudy) {
+    setUserN(userStudy.result.length);
+  }
+
   // 위임
-  const [mandateModalOpen, setMandateModalOpen] = useState(false);
-  const MandateopenModal = () => {
+  const [mandateModalOpen, setMandateModalOpen] = useState(pushFalse(userInfo));
+  const MandateopenModal = (idx) => {
     // 위임 모달
-    setMandateModalOpen(!mandateModalOpen);
+    setMandateModalOpen(
+      mandateModalOpen.splice(idx, 1, !mandateModalOpen[idx]),
+    );
   };
 
   // 강퇴
-  const [dropModalOpen, setDropModalOpen] = useState(false);
-  const DropopenModal = () => {
-    setDropModalOpen(!dropModalOpen);
+  const [dropModalOpen, setDropModalOpen] = useState(pushFalse(userInfo));
+  const DropopenModal = (idx) => {
+    setDropModalOpen(
+      dropModalOpen.splice(idx, 1, !mandateModadropModalOpenlOpen[idx]),
+    );
   };
 
   // 종료
@@ -304,8 +313,10 @@ function StudyManageMember() {
                 <hr />
                 {user.leader === true ? null : (
                   <BtnBox>
-                    <YellowBtn onClick={MandateopenModal}>위임</YellowBtn>
-                    <BlueBtn onClick={DropopenModal}>강퇴</BlueBtn>
+                    <YellowBtn onClick={() => MandateopenModal(index)}>
+                      위임
+                    </YellowBtn>
+                    <BlueBtn onClick={() => DropopenModal(index)}>강퇴</BlueBtn>
                   </BtnBox>
                 )}
                 {dropModalOpen && (
