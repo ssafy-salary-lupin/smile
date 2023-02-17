@@ -137,16 +137,8 @@ public class StudyCommonServiceImpl implements StudyCommonService{
                 .userId(user.getId())
                 .studyInformationId(studyInformation.getId()).build();
 
-        //TODO : userjoinstudy테이블에 create 메서드 만들어서 리팩토링 필요.
         //유저 스터디 가입 정보 테이블에 넣기.
-        UserJoinStudy userJoinStudy = UserJoinStudy.builder()
-                .id(userJoinStudyId)
-                .user(user)
-                .studyInformation(studyInformation)
-                .isLeader(true)
-                .isBan(false)
-                .isDeleted(false)
-                .build();
+        UserJoinStudy userJoinStudy = UserJoinStudy.createStudyJoinLeader(userJoinStudyId, user,studyInformation);
 
         userJoinStudyRepository.save(userJoinStudy); //유저 스터디 가입 정보 저장.
 
@@ -154,11 +146,7 @@ public class StudyCommonServiceImpl implements StudyCommonService{
         //디비에 정보저장이 다 되었으면 스터디 채팅방을 생성함.
         chatService.createRoom(saveStudyInformation.getId());
 
-        // TODO : 방이 생성되면 studyId를 생성해서 반환해주어야 한다.
-
-        return CreateStudyResponseDTO.builder()
-                .id(saveStudyInformation.getId())
-                .build();
+        return saveStudyInformation.createStudyResponseDTO();
     }
 
     //파일 업로드 하는 로직 - s3에 데이터 넣음.

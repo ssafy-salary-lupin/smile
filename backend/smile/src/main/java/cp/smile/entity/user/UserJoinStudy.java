@@ -32,21 +32,32 @@ public class UserJoinStudy extends BaseEntity {
     private StudyInformation studyInformation;
 
     @Column(name = "ujs_is_leader")
-    private Boolean isLeader;
+    private boolean isLeader;
     @Column(name = "ujs_is_ban")
-    private Boolean isBan;
+    private boolean isBan;
 
     @Column(name = "ujs_is_deleted")
-    private Boolean isDeleted;
+    private boolean isDeleted;
 
     @Builder
-    public UserJoinStudy(UserJoinStudyId id, User user, StudyInformation studyInformation, Boolean isLeader, Boolean isBan, Boolean isDeleted) {
+    public UserJoinStudy(UserJoinStudyId id, User user, StudyInformation studyInformation, boolean isLeader, boolean isBan, boolean isDeleted) {
         this.id = id;
         this.user = user;
         this.studyInformation = studyInformation;
         this.isLeader = isLeader;
         this.isBan = isBan;
         this.isDeleted = isDeleted;
+    }
+
+    //유저가입정보 - 스터디 생성시 리더
+    public static UserJoinStudy createStudyJoinLeader(UserJoinStudyId userJoinStudyId, User user, StudyInformation studyInformation){
+
+        return UserJoinStudy.builder()
+                .id(userJoinStudyId)
+                .user(user)
+                .studyInformation(studyInformation)
+                .isLeader(true).build();
+
     }
 
     public void connectUserAndStudy(User user, StudyInformation study) {

@@ -62,11 +62,11 @@ public class StudyAdminServiceImpl implements StudyAdminService {
         UserJoinStudy currentLeader = userJoinStudyRepository.findByUserIdAndStudyId(currentLeaderId, studyId)
         .orElseThrow(() -> new CustomException(USER_NOT_ACCESS_STUDY));
 
-        if (currentLeader.getIsLeader() == true) { //현재 스터디장
+        if (currentLeader.isLeader() == true) { //현재 스터디장
             UserJoinStudy nextLeader = userJoinStudyRepository.findByUserIdAndStudyId(nextLeaderId, studyId)
                     .orElseThrow(() -> new CustomException(USER_NOT_STUDY_LEADER));
 
-            if (nextLeader.getIsLeader() == false) { //스터디장 위임대상
+            if (nextLeader.isLeader() == false) { //스터디장 위임대상
                 currentLeader.dismissal();
                 nextLeader.delegate();
             }
@@ -79,7 +79,7 @@ public class StudyAdminServiceImpl implements StudyAdminService {
         UserJoinStudy studyLeader = userJoinStudyRepository.findByUserIdAndStudyId(studyLeaderId, studyId)
                 .orElseThrow(() -> new CustomException(USER_NOT_ACCESS_STUDY));
 
-        if (studyLeader.getIsLeader() == true) { //스터디장이 맞으면
+        if (studyLeader.isLeader() == true) { //스터디장이 맞으면
             StudyInformation currentStudy = studyCommonRepository.findById(studyId)
                     .orElseThrow(() -> new CustomException(USER_NOT_STUDY_LEADER));
 
@@ -94,7 +94,7 @@ public class StudyAdminServiceImpl implements StudyAdminService {
         UserJoinStudy studyLeader = userJoinStudyRepository.findByUserIdAndStudyId(studyLeaderId, studyId)
                 .orElseThrow(() -> new CustomException(USER_NOT_ACCESS_STUDY));
 
-        if (studyLeader.getIsLeader() == true) { //스터디장이 맞으면
+        if (studyLeader.isLeader() == true) { //스터디장이 맞으면
             StudyInformation currentStudy = studyCommonRepository.findById(studyId)
                     .orElseThrow(() -> new CustomException(USER_NOT_STUDY_LEADER));
 
@@ -112,7 +112,7 @@ public class StudyAdminServiceImpl implements StudyAdminService {
         UserJoinStudy studyLeader = userJoinStudyRepository.findByUserIdAndStudyId(studyLeaderId, studyId)
                 .orElseThrow(() -> new CustomException(USER_NOT_ACCESS_STUDY));
 
-        if (studyLeader.getIsLeader()) { //스터디장이 맞으면
+        if (studyLeader.isLeader()) { //스터디장이 맞으면
             StudyInformation currentStudy = studyCommonRepository.findById(studyId)
                     .orElseThrow(() -> new CustomException(USER_NOT_STUDY_LEADER));
 
@@ -127,11 +127,11 @@ public class StudyAdminServiceImpl implements StudyAdminService {
         UserJoinStudy studyLeader = userJoinStudyRepository.findByUserIdAndStudyId(studyLeaderId, studyId)
                 .orElseThrow(() -> new CustomException(USER_NOT_ACCESS_STUDY));
 
-        if (studyLeader.getIsLeader()) {//스터디장이 맞으면
+        if (studyLeader.isLeader()) {//스터디장이 맞으면
             UserJoinStudy user = userJoinStudyRepository.findByUserIdAndStudyId(userId, studyId)
                     .orElseThrow(() -> new CustomException(USER_NOT_STUDY_LEADER));
 
-            if (!user.getIsBan()) { //해당유저가 강퇴당한 상태가 아니면
+            if (!user.isBan()) { //해당유저가 강퇴당한 상태가 아니면
                 user.ban();
             }
         }

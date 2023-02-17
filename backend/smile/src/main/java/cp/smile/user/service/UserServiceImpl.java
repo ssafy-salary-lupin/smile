@@ -259,7 +259,7 @@ public class UserServiceImpl implements UserService{
         UserJoinStudy userJoinStudy = userJoinStudyRepository.findByUserIdAndStudyId(userId, studyId)
                 .orElseThrow(() -> new CustomException(NOT_JOINED_STUDY));
 
-        if (userJoinStudy.getIsLeader()) {
+        if (userJoinStudy.isLeader()) {
             throw new CustomException(LEADER_CAN_NOT_LEAVE);
         }
 
