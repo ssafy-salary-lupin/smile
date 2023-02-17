@@ -5,6 +5,7 @@ import cp.smile.config.response.exception.CustomException;
 import cp.smile.entity.study_management.ChatMessage;
 import cp.smile.entity.study_management.StudyBoard;
 import cp.smile.entity.user.UserJoinStudy;
+import cp.smile.study_common.dto.response.CreateStudyResponseDTO;
 import cp.smile.study_common.dto.response.FindAllStudyDTO;
 import cp.smile.study_management.chat.dto.ChatRoomDTO;
 import lombok.Builder;
@@ -101,6 +102,13 @@ public class StudyInformation extends BaseEntity {
         this.lastVisitedTime = lastVisitedTime;
     }
 
+    //스터디 생성 응답 DTO
+    public CreateStudyResponseDTO createStudyResponseDTO(){
+        return CreateStudyResponseDTO.builder()
+                .id(this.id)
+                .build();
+    }
+
     //채팅방 정보 객체 생성.
     public ChatRoomDTO createChatRoomDTO(){
 
@@ -118,7 +126,7 @@ public class StudyInformation extends BaseEntity {
 
         //스터디 유저 정보 리턴.
         UserJoinStudy userJoinStudy = userJoinStudies.stream()
-                .filter((ujs) -> ujs.getIsLeader() == true)
+                .filter((ujs) -> ujs.isLeader() == true)
                 .findAny()
                 .orElseThrow(() -> new CustomException(REQUEST_ERROR));
 

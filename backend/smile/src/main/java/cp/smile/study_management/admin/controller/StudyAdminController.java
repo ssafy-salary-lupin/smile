@@ -59,7 +59,7 @@ public class StudyAdminController {
                     .email(user.getEmail())
                     .nickname(user.getNickname())
                     .imgPath((user.getImagePath()))
-                    .isLeader(userJoinStudy.getIsLeader()).build());
+                    .isLeader(userJoinStudy.isLeader()).build());
         }
 
         if(FindStudyJoinedUserDTOS.isEmpty()) return responseService.getDataResponse(FindStudyJoinedUserDTOS, RESPONSE_NO_CONTENT);

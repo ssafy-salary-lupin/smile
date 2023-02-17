@@ -64,7 +64,7 @@ public class StudyBoardServiceImpl implements StudyBoardService {
                 .orElseThrow(() -> new CustomException(NOT_FOUND_STUDY_TYPE));
 
         // 게시글 유형이 공지인 경우 스터디장만 쓸 수있도록 검사
-        if (boardType.getName() == StudyBoardTypeName.공지 && !userJoinStudy.getIsLeader()) {
+        if (boardType.getName() == StudyBoardTypeName.공지 && !userJoinStudy.isLeader()) {
             throw new CustomException(USER_NOT_STUDY_LEADER);
         }
 
