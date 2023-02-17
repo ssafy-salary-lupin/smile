@@ -22,6 +22,8 @@ import java.util.Map;
 
 import static cp.smile.config.response.CustomSuccessStatus.*;
 
+
+
 @RestController
 @RequestMapping("/auth")
 @Tag(name = "OAuth2 API", description = "Oauth2 관련 API")
