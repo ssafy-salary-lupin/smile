@@ -1,5 +1,6 @@
 package cp.smile.user.controller;
 
+
 import cp.smile.auth.oauth2.CustomOAuth2User;
 import cp.smile.config.response.CommonResponse;
 import cp.smile.config.response.DataResponse;
