@@ -4,6 +4,10 @@ import "styled-components";
 declare module "styled-components" {
   export interface DefaultTheme {
     backgroundSize: string;
+<<<<<<< HEAD
+=======
+    bgColor: string;
+>>>>>>> c0dc003313907ffeb78ac00e745a4ddc5dd570c3
     mainColor: string;
     pointColor: string;
     subColor: string;

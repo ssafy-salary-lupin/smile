@@ -1,14 +1,38 @@
 import ReactQuill from "react-quill";
 import styled from "styled-components";
 import "react-quill/dist/quill.snow.css";
+<<<<<<< HEAD
 import { useRef, useState } from "react";
 import axios from "axios";
 import Editor, { EditorContentChanged } from "./Editor";
+=======
+import { useState } from "react";
+import axios from "axios";
+import { Link, useHistory } from "react-router-dom";
+import { ReactComponent as DeleteIcon } from "../../assets/icon/Delete.svg";
+import { useQuery } from "react-query";
+import { boardeInsertApi, boardTypeSelectApi } from "apis/StudyManageBoardApi";
+import Swal from "sweetalert2";
+import { useRecoilValue } from "recoil";
+import { StudyCeoRecoil, studyIdRecoil } from "atoms/StudyManage";
+import { UserIdState } from "atoms/UserInfoAtom";
+>>>>>>> c0dc003313907ffeb78ac00e745a4ddc5dd570c3
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
   display: flex;
   flex-direction: column;
+<<<<<<< HEAD
+=======
+  a,
+  a:link,
+  a:visited,
+  a:hover,
+  a:active {
+    text-decoration: none;
+    color: inherit;
+  }
+>>>>>>> c0dc003313907ffeb78ac00e745a4ddc5dd570c3
 `;
 
 const Bracket = styled.div`
@@ -43,10 +67,40 @@ const Sub1 = styled.div`
 const Sub2 = styled.div`
   width: 85%;
   display: flex;
+<<<<<<< HEAD
   flex-direction: row;
   align-items: center;
   padding: 0.556vw 1.667vw;
   height: auto;
+=======
+  flex-direction: column;
+  padding: 0.556vw 1.667vw;
+  height: auto;
+
+  .quill {
+    height: 27.778vw;
+    width: 100%;
+    text-align: center;
+  }
+
+  .ql-toolbar.ql-snow {
+    border: 1px solid #000000ae;
+    height: 2.778vw;
+    background-color: #f6f6f6;
+  }
+
+  .ql-container.ql-snow {
+    border: 1px solid #000000ae;
+    height: 25vw;
+    background-color: white;
+  }
+
+  blockquote {
+    border-left: 0.556vw solid #ccc;
+    margin: 0.694vw;
+    padding-left: 0.694vw;
+  }
+>>>>>>> c0dc003313907ffeb78ac00e745a4ddc5dd570c3
 `;
 
 const Select = styled.select`
@@ -108,6 +162,7 @@ const CancelBtn = styled(WriteBtn)`
   color: white;
 `;
 
+<<<<<<< HEAD
 function StudyManageBoardWrite() {
   // const modules = {
   //   toolbar: {
@@ -139,6 +194,75 @@ function StudyManageBoardWrite() {
   const [content, setContent] = useState(""); // 글 내용
   const [typeId, setTypeId] = useState(""); // 글 유형
   const [selectedFile, setSelectedFile] = useState(null); // 파일
+=======
+const InputFile = styled.input`
+  width: 100%;
+  display: none;
+`;
+
+const InputFileBtn = styled.button`
+  background-color: ${(props) => props.theme.subColor};
+  border: none;
+  margin: 0 0.278vw;
+  padding: 0.347vw 0.972vw;
+  cursor: pointer;
+  border-radius: 0.278vw;
+  font-size: 1.111vw;
+`;
+
+const FileListUl = styled.ul`
+  width: 100%;
+  padding-left: 1.667vw;
+`;
+
+const FileListLi = styled.li`
+  display: flex;
+  flex-direction: row;
+  font-size: 1.111vw;
+  padding: 0.278vw 0;
+  list-style: none;
+`;
+
+interface IBoardType {
+  isSuccess: boolean;
+  code: number;
+  message: string;
+  result: {
+    types: [
+      {
+        id: number;
+        name: string;
+      },
+    ];
+  };
+}
+
+function StudyManageBoardWrite() {
+  const studyId = useRecoilValue(studyIdRecoil);
+
+  const modules = {
+    toolbar: {
+      container: [
+        ["bold", "italic", "underline", "strike", "blockquote"],
+        [{ size: ["small", false, "large", "huge"] }, { color: [] }],
+        [
+          { list: "ordered" },
+          { list: "bullet" },
+          { indent: "-1" },
+          { indent: "+1" },
+          { align: [] },
+        ],
+      ],
+    },
+    clipboard: { matchVisual: false },
+  };
+
+  const [title, setTitle] = useState<string>(""); // 글 제목
+  const [content, setContent] = useState<string>(""); // 글 내용
+  const [typeId, setTypeId] = useState<number>(0); // 글 유형
+  const [selectedFile, setSelectedFile] = useState<any>(null); // 파일
+  const [fileNameList, setFileNameList] = useState<string[]>([]); // 파일 이름
+>>>>>>> c0dc003313907ffeb78ac00e745a4ddc5dd570c3
 
   const handleTitle = (event: any) => {
     setTitle(event.target.value);
@@ -149,6 +273,7 @@ function StudyManageBoardWrite() {
   };
 
   const handleTypeId = (event: any) => {
+<<<<<<< HEAD
     setTypeId(event.target.value);
   };
 
@@ -167,12 +292,81 @@ function StudyManageBoardWrite() {
     }
     if (content === "") {
       alert("내용을 입력해주세요.");
+=======
+    setTypeId(Number(event.target.value));
+  };
+
+  const handleFileSelect = (event: any) => {
+    setSelectedFile(event.target.files);
+
+    const files = event.target.files;
+    for (let i = 0; i < files.length; i++) {
+      setFileNameList((oldDatas) => [...oldDatas, files[i].name]);
+    }
+  };
+
+  const onFileInput = () => {
+    document.getElementById("inputFile")?.click();
+  };
+
+  const deleteFile = (index: any) => {
+    // 이름 리스트에서 해당 파일 이름 삭제
+    setFileNameList([]);
+    fileNameList.map((el, i) => {
+      if (i !== index) {
+        setFileNameList((old) => [...old, el]);
+      }
+    });
+
+    // 파일 리스트에서 해당 파일 삭제
+    if (selectedFile !== null) {
+      const tempFileList: any = [];
+      for (let i = 0; i < selectedFile.length; i++) {
+        if (i !== index) {
+          tempFileList.push(selectedFile[i]);
+        }
+      }
+      setSelectedFile(null);
+      setSelectedFile(tempFileList);
+    }
+  };
+
+  const history = useHistory();
+
+  const submit = async () => {
+    if (typeId === 0) {
+      // alert("유형을 선택해 주세요. ");
+      Swal.fire({
+        icon: "error",
+        title: "이런...",
+        text: "유형을 선택해주세요!!",
+      });
+      return;
+    }
+    if (title === "") {
+      // alert("제목을 입력해주세요.");
+      Swal.fire({
+        icon: "error",
+        title: "이런...",
+        text: "제목을 입력해주세요!!",
+      });
+      return;
+    }
+    if (content === "") {
+      // alert("내용을 입력해주세요.");
+      Swal.fire({
+        icon: "error",
+        title: "이런...",
+        text: "내용을 입력해주세요!!",
+      });
+>>>>>>> c0dc003313907ffeb78ac00e745a4ddc5dd570c3
       return;
     }
 
     const formData = new FormData();
 
     const data = {
+<<<<<<< HEAD
       title: { title },
       content: { content },
       typeId: { typeId },
@@ -202,6 +396,41 @@ function StudyManageBoardWrite() {
     }
   };
 
+=======
+      title: title,
+      content: content,
+      typeId: typeId,
+    };
+
+    formData.append("data", JSON.stringify(data));
+
+    if (selectedFile !== null) {
+      for (let i = 0; i < selectedFile.length; i++) {
+        formData.append("files", selectedFile[i]);
+      }
+    }
+
+    boardeInsertApi(formData, studyId);
+
+    // history.push("/manage/board/" + studyId);
+    window.location.replace("/manage/board/" + studyId);
+  };
+
+  // 게시글 유형
+  const { data: typeData } = useQuery<IBoardType>(
+    ["boardTypeSelectApi"],
+    boardTypeSelectApi,
+  );
+
+  const Options = typeData?.result.types;
+
+  const userId = useRecoilValue(UserIdState);
+  const studyCeo = useRecoilValue(StudyCeoRecoil);
+
+  console.log("userId : ", userId);
+  console.log("studyCeo : ", studyCeo);
+
+>>>>>>> c0dc003313907ffeb78ac00e745a4ddc5dd570c3
   return (
     <Wrapper>
       <Bracket>
@@ -209,8 +438,28 @@ function StudyManageBoardWrite() {
         <Sub2>
           <Select name="bracket" onChange={handleTypeId}>
             <Option value="0">-- 말머리 --</Option>
+<<<<<<< HEAD
             <Option value="1">공지</Option>
             <Option value="2">서류</Option>
+=======
+            {Options?.map((el, index) => {
+              if (el.id === 1) {
+                if (userId === studyCeo) {
+                  return (
+                    <Option value={el.id} key={index}>
+                      {el.name}
+                    </Option>
+                  );
+                }
+              } else {
+                return (
+                  <Option value={el.id} key={index}>
+                    {el.name}
+                  </Option>
+                );
+              }
+            })}
+>>>>>>> c0dc003313907ffeb78ac00e745a4ddc5dd570c3
           </Select>
         </Sub2>
       </Bracket>
@@ -226,24 +475,66 @@ function StudyManageBoardWrite() {
       <Content>
         <Sub1>내용</Sub1>
         <Sub2>
+<<<<<<< HEAD
           {/* <ReactQuill
+=======
+          <ReactQuill
+>>>>>>> c0dc003313907ffeb78ac00e745a4ddc5dd570c3
             theme="snow"
             value={content}
             onChange={handleContent}
             modules={modules}
+<<<<<<< HEAD
           /> */}
           <Editor onChange={onEditorContentChanged} />
+=======
+          />
+>>>>>>> c0dc003313907ffeb78ac00e745a4ddc5dd570c3
         </Sub2>
       </Content>
       <File>
         <Sub1>첨부파일</Sub1>
         <Sub2>
+<<<<<<< HEAD
           <input type="file" onChange={handleFileSelect} />
+=======
+          <InputFile
+            type="file"
+            id="inputFile"
+            onChange={handleFileSelect}
+            multiple
+          />
+          <InputFileBtn onClick={onFileInput}>파일 첨부</InputFileBtn>
+          {fileNameList.length > 0 ? (
+            <FileListUl>
+              {fileNameList.map((el, index) => {
+                return (
+                  <FileListLi key={index}>
+                    {el}
+                    <DeleteIcon
+                      width="1.111vw"
+                      height="1.111vw"
+                      fill="#ff0000"
+                      cursor="pointer"
+                      onClick={() => deleteFile(index)}
+                    />
+                  </FileListLi>
+                );
+              })}
+            </FileListUl>
+          ) : null}
+>>>>>>> c0dc003313907ffeb78ac00e745a4ddc5dd570c3
         </Sub2>
       </File>
       <Button>
         <WriteBtn onClick={submit}>등록</WriteBtn>
+<<<<<<< HEAD
         <CancelBtn>취소</CancelBtn>
+=======
+        <CancelBtn>
+          <Link to={`/manage/board/${studyId}`}>취소</Link>
+        </CancelBtn>
+>>>>>>> c0dc003313907ffeb78ac00e745a4ddc5dd570c3
       </Button>
     </Wrapper>
   );

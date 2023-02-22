@@ -5,6 +5,7 @@ import * as DuotonIcons from "components/common/DuotonIcons";
 import styled from "styled-components";
 import ExitMeeting from "components/video-meeting/toolbar/ExitMeeting";
 
+<<<<<<< HEAD
 // 툴바를 감싸주는 컨테이너
 const ToolbarContainer = styled.div`
   display: flex;
@@ -41,6 +42,8 @@ const ChatIcon = styled.div`
   cursor: pointer;
 `;
 
+=======
+>>>>>>> c0dc003313907ffeb78ac00e745a4ddc5dd570c3
 export default function ToolbarComponent(props) {
   const [fullscreen, setFullscreen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -160,8 +163,13 @@ export default function ToolbarComponent(props) {
       {/* 채팅 */}
       <ToolbarItems.Chat
         onClick={toggleChat}
+<<<<<<< HEAD
         width="56px"
         height="56px"
+=======
+        width="3.889vw"
+        height="3.889vw"
+>>>>>>> c0dc003313907ffeb78ac00e745a4ddc5dd570c3
         fill={iconColor}
         stroke="none"
         strokeWidth="2"

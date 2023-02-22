@@ -6,6 +6,7 @@ import Send from "@mui/icons-material/Send";
 
 import "./ChatComponent.css";
 import { Tooltip } from "@mui/material";
+<<<<<<< HEAD
 import styled from "styled-components";
 
 import * as DuotonIcons from "components/common/DuotonIcons";
@@ -51,6 +52,8 @@ const IconContainer = styled.div`
   right: 0;
   top: -8px;
 `;
+=======
+>>>>>>> c0dc003313907ffeb78ac00e745a4ddc5dd570c3
 
 export default function ChatComponent(props) {
   const [messageList, setMessageList] = useState([]);
@@ -137,6 +140,7 @@ export default function ChatComponent(props) {
 
   const styleChat = { display: props.chatDisplay };
   return (
+<<<<<<< HEAD
     <ChatContainer>
       <ChatSubContainer styleChat={styleChat}>
         <ChatToolbar>
@@ -150,6 +154,18 @@ export default function ChatComponent(props) {
             <HighlightOff color="secondary" />
           </IconButton>
         </ChatToolbar>
+=======
+    <div id="chatContainer">
+      <div id="chatComponent" style={styleChat}>
+        <div id="chatToolbar">
+          <span>
+            {props.user.getStreamManager().stream.session.sessionId} - CHAT
+          </span>
+          <IconButton id="closeButton" onClick={close}>
+            <HighlightOff color="secondary" />
+          </IconButton>
+        </div>
+>>>>>>> c0dc003313907ffeb78ac00e745a4ddc5dd570c3
         <div className="message-wrap" ref={chatScroll}>
           {messageList.map((data, i) => (
             <div
@@ -195,7 +211,12 @@ export default function ChatComponent(props) {
             </Fab>
           </Tooltip>
         </div>
+<<<<<<< HEAD
       </ChatSubContainer>
     </ChatContainer>
+=======
+      </div>
+    </div>
+>>>>>>> c0dc003313907ffeb78ac00e745a4ddc5dd570c3
   );
 }

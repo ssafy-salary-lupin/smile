@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #dialogExtension {
   position: absolute;
   z-index: 99999999999999;
@@ -16,3 +17,23 @@
   max-height: fit-content;
   margin: auto;
 }
+=======
+#dialogExtension {
+  position: absolute;
+  z-index: 99999999999999;
+  width: 99%;
+  height: 99%;
+}
+
+#dialogExtension #card {
+  position: absolute;
+  z-index: 99999999999999;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-width: fit-content;
+  max-height: fit-content;
+  margin: auto;
+}
+>>>>>>> c0dc003313907ffeb78ac00e745a4ddc5dd570c3

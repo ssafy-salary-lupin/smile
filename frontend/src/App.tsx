@@ -1,8 +1,13 @@
+<<<<<<< HEAD
 import NavBar from "./components/common/NavBar";
+=======
+import NavBar from "./components/common/NavBarMain";
+>>>>>>> c0dc003313907ffeb78ac00e745a4ddc5dd570c3
 import Footer from "./components/common/Footer";
 import Router from "./Router";
 import { createGlobalStyle } from "styled-components";
 import { BrowserRouter } from "react-router-dom";
+<<<<<<< HEAD
 
 const GlobalStyle = createGlobalStyle`
 /* @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap"); */
@@ -20,6 +25,33 @@ body {
   ::-webkit-scrollbar {
     display: none; 
   } */
+=======
+import { useEffect, useState } from "react";
+import ScrollTop from "components/common/ScrollTop";
+
+const GlobalStyle = createGlobalStyle`
+/* @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap"); */
+/* @import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap"); */
+
+.swal2-container {
+  z-index: 100000;
+}
+
+html,
+body {
+  /* font-family: "Noto Sans", sans-serif; */
+  margin: 0;
+  @import url("https://fonts.googleapis.com/css2?family=Noto+Sans&family=Noto+Sans+KR&display=swap");
+  font-family: "Noto Sans KR", sans-serif;
+  width: 100vw;
+  height: 100vh;
+  padding: 0;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+>>>>>>> c0dc003313907ffeb78ac00e745a4ddc5dd570c3
 }
 /* div,
 span,
@@ -256,6 +288,7 @@ body {
   /* pagination  end ====================================== */
 
 
+<<<<<<< HEAD
   /* editor =============================================== */
   .quill{
     height: 27.778vw;
@@ -295,6 +328,22 @@ function App() {
         {curPath !== "/test2" && <NavBar curUrl={curPath} />}
         <Router />
         {curPath !== "/test2" && <Footer />}
+=======
+ 
+`;
+
+function App() {
+  // const curPath = window.location.pathname;
+
+  return (
+    <>
+      <BrowserRouter>
+        <ScrollTop />
+        <GlobalStyle />
+        {/* {!curPath.includes("meeting") && <NavBar curUrl={curPath} />} */}
+        <Router />
+        {/* {!curPath.includes("meeting") && <Footer />} */}
+>>>>>>> c0dc003313907ffeb78ac00e745a4ddc5dd570c3
       </BrowserRouter>
     </>
   );

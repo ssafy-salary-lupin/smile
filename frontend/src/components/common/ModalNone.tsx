@@ -4,6 +4,10 @@ import styled from "styled-components";
 interface PropsType {
   children?: React.ReactNode;
   setModalOpen: React.Dispatch<SetStateAction<boolean>>;
+<<<<<<< HEAD
+=======
+  setChange?: React.Dispatch<SetStateAction<boolean>>;
+>>>>>>> c0dc003313907ffeb78ac00e745a4ddc5dd570c3
 }
 
 const ModalContainer = styled.div`
@@ -12,11 +16,19 @@ const ModalContainer = styled.div`
   justify-content: center;
   flex-direction: column;
   position: fixed;
+<<<<<<< HEAD
   width: 20.833vw;
   height: 13.889vw;
   z-index: 999;
   background-color: white;
   border-radius: 8px;
+=======
+  width: 27.778vw;
+  height: 20.833vw;
+  z-index: 999;
+  background-color: white;
+  border-radius: 0.556vw;
+>>>>>>> c0dc003313907ffeb78ac00e745a4ddc5dd570c3
   position: absolute;
   top: 50%;
   left: 50%;

@@ -1,0 +1,222 @@
+@import url("https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap");
+
+/* 한글 */
+@font-face {
+  font-family: "noteFont";
+  src: url("https://fonts.googleapis.com/css?family=Shadows+Into+Light");
+}
+/* 영어 */
+@font-face {
+  font-family: "noteFont";
+  src: url("https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap");
+  unicode-range: U+0020-007E;
+}
+
+div.board {
+  position: relative;
+  overflow: hidden;
+  background-color: darkseagreen;
+  width: 88.889vw;
+  height: 27.778vw;
+  border-radius: 1.042vw;
+  background: #eab92d;
+  box-shadow: 0.417vw 0.486vw 0.556vw 0.069vw grey;
+  background: -moz-radial-gradient(
+    center,
+    ellipse cover,
+    #eab92d 57%,
+    #c79810 99%
+  );
+  background: -webkit-gradient(
+    radial,
+    center center,
+    0px,
+    center center,
+    100%,
+    color-stop(57%, #eab92d),
+    color-stop(99%, #c79810)
+  );
+  background: -webkit-radial-gradient(
+    center,
+    ellipse cover,
+    #eab92d 57%,
+    #c79810 99%
+  );
+  background: -o-radial-gradient(
+    center,
+    ellipse cover,
+    #eab92d 57%,
+    #c79810 99%
+  );
+  background: -ms-radial-gradient(
+    center,
+    ellipse cover,
+    #eab92d 57%,
+    #c79810 99%
+  );
+  background: radial-gradient(ellipse at center, #eab92d 57%, #c79810 99%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eab92d', endColorstr='#c79810', GradientType=1);
+}
+
+div.note {
+  height: 10.417vw;
+  width: 10.417vw;
+  background-color: yellow;
+  margin: 0.139vw 0;
+  position: absolute;
+  cursor: -webkit-grab;
+  -webkit-box-shadow: 0.347vw 0.347vw 1.042vw 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0.347vw 0.347vw 1.042vw 0 rgba(0, 0, 0, 0.2);
+  /* TODO */
+  /* overflow: scroll; */
+  /* position: relative; */
+}
+
+div.note:active {
+  cursor: -webkit-grabbing;
+}
+
+div.note p {
+  font-size: 1.528vw;
+  padding: 0.347vw;
+  font-family: "Shadows Into Light", "Nanum Pen Script", cursive;
+  /* font-family: "Shadows Into Light", Arial, "Nanum Pen Script", cursive; */
+}
+
+div.note:hover > span {
+  opacity: 1;
+}
+
+div.note > span {
+  position: absolute;
+  bottom: 0.139vw;
+  right: 0.139vw;
+  opacity: 0;
+  transition: opacity 0.25s linear;
+}
+
+div.note button {
+  margin: 0.139vw;
+}
+
+div.note > textarea {
+  height: 75%;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.glyphicon-plus {
+  position: fixed;
+  top: 0.694vw;
+  right: 0.694vw;
+}
+
+p {
+  word-wrap: break-word;
+}
+
+@media screen and (min-width: 1280px) {
+  div.board {
+    position: relative;
+    overflow: hidden;
+    background-color: darkseagreen;
+    width: 853.334px;
+    height: 266.669px;
+    border-radius: 10.003px;
+    background: #eab92d;
+    box-shadow: 4.003px 4.666px 5.338px 0.662px grey;
+    background: -moz-radial-gradient(
+      center,
+      ellipse cover,
+      #eab92d 57%,
+      #c79810 99%
+    );
+    background: -webkit-gradient(
+      radial,
+      center center,
+      0vw,
+      center center,
+      100%,
+      color-stop(57%, #eab92d),
+      color-stop(99%, #c79810)
+    );
+    background: -webkit-radial-gradient(
+      center,
+      ellipse cover,
+      #eab92d 57%,
+      #c79810 99%
+    );
+    background: -o-radial-gradient(
+      center,
+      ellipse cover,
+      #eab92d 57%,
+      #c79810 99%
+    );
+    background: -ms-radial-gradient(
+      center,
+      ellipse cover,
+      #eab92d 57%,
+      #c79810 99%
+    );
+    background: radial-gradient(ellipse at center, #eab92d 57%, #c79810 99%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eab92d', endColorstr='#c79810', GradientType=1);
+  }
+
+  div.note {
+    height: 100.003px;
+    width: 100.003px;
+    background-color: yellow;
+    margin: 1.334px 0;
+    position: absolute;
+    cursor: -webkit-grab;
+    -webkit-box-shadow: 3.331px 3.331px 10.003px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 3.331px 3.331px 10.003px 0 rgba(0, 0, 0, 0.2);
+    /* TODO */
+    /* overflow: scroll; */
+    /* position: relative; */
+  }
+
+  div.note:active {
+    cursor: -webkit-grabbing;
+  }
+
+  div.note p {
+    font-size: 14.669px;
+    padding: 3.331px;
+    font-family: "Shadows Into Light", "Nanum Pen Script", cursive;
+    /* font-family: "Shadows Into Light", Arial, "Nanum Pen Script", cursive; */
+  }
+
+  div.note:hover > span {
+    opacity: 1;
+  }
+
+  div.note > span {
+    position: absolute;
+    bottom: 1.334px;
+    right: 1.334px;
+    opacity: 0;
+    transition: opacity 0.25s linear;
+  }
+
+  div.note button {
+    margin: 1.334px;
+  }
+
+  div.note > textarea {
+    height: 75%;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  .glyphicon-plus {
+    position: fixed;
+    top: 6.662px;
+    right: 6.662px;
+  }
+
+  p {
+    word-wrap: break-word;
+  }
+}

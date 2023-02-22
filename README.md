@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # SMILE
 
 ### ***스***터디 ***마***스터의 ***일***정관리
@@ -185,3 +186,11 @@ main
 
 ### ERD
 ![ERD](https://user-images.githubusercontent.com/109949649/219233985-d465a910-efb4-4df8-b657-9f9ef129392c.png)
+=======
+대전 2반 5팀 공통 프로젝트
+smile
+smile2
+smile3
+smile4
+smile5
+>>>>>>> c0dc003313907ffeb78ac00e745a4ddc5dd570c3

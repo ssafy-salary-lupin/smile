@@ -1,4 +1,11 @@
+<<<<<<< HEAD
 import { SetStateAction, useEffect, useRef } from "react";
+=======
+import { studyIdRecoil } from "atoms/StudyManage";
+import { SetStateAction, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+>>>>>>> c0dc003313907ffeb78ac00e745a4ddc5dd570c3
 import styled from "styled-components";
 import { ReactComponent as Close } from "../../assets/icon/Close.svg";
 import { ReactComponent as Meeting } from "../../assets/icon/Meeting.svg";
@@ -42,7 +49,11 @@ const Backdrop = styled.div`
 const ModalHead = styled.div`
   height: 15%;
   width: 100%;
+<<<<<<< HEAD
   background-color: ${(props) => props.theme.pointColorOpacity};
+=======
+  /* background-color: ${(props) => props.theme.pointColorOpacity}; */
+>>>>>>> c0dc003313907ffeb78ac00e745a4ddc5dd570c3
   border-radius: 0.556vw 0.556vw 0 0;
   display: flex;
   flex-direction: row;
@@ -52,7 +63,11 @@ const ModalHead = styled.div`
 const Space = styled.div`
   width: 90%;
   height: 100%;
+<<<<<<< HEAD
   color: ${(props) => props.theme.pointColor};
+=======
+  color: ${(props) => props.theme.blackColor};
+>>>>>>> c0dc003313907ffeb78ac00e745a4ddc5dd570c3
   font-size: 1.25vw;
   vertical-align: middle;
   display: flex;
@@ -129,11 +144,16 @@ const Date = styled(Type)``;
 
 const Host = styled(Type)``;
 
+<<<<<<< HEAD
 const ModalBtn = styled.div`
+=======
+const ModalBtnBox = styled.div`
+>>>>>>> c0dc003313907ffeb78ac00e745a4ddc5dd570c3
   width: 100%;
   height: 20%;
   display: flex;
   flex-direction: row;
+<<<<<<< HEAD
   justify-content: flex-end;
   padding: 0.75vw 0;
 `;
@@ -155,6 +175,27 @@ const CancelBtn = styled(BlueBtn)`
   color: ${(props) => props.theme.blackColorOpacity2};
 `;
 
+=======
+  justify-content: center;
+  align-items: center;
+  padding: 0.5vw 0;
+  background-color: ${(props) => props.theme.pointColor};
+  border-radius: 0 0 0.556vw 0.556vw;
+`;
+
+const ModalBtn = styled.button`
+  border: none;
+  color: white;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 0.972vw;
+
+  a {
+    color: white;
+    text-decoration: none;
+  }
+`;
+>>>>>>> c0dc003313907ffeb78ac00e745a4ddc5dd570c3
 function ModalCalendarMeetingView(props: PropsType) {
   // const [modalOpen, setModalOpen] = useState<boolean>(true);
   // 모달 끄기
@@ -181,6 +222,12 @@ function ModalCalendarMeetingView(props: PropsType) {
       // document.removeEventListener('touchstart', handler); // 모바일 대응
     };
   });
+<<<<<<< HEAD
+=======
+
+  const studyId = useRecoilValue(studyIdRecoil);
+
+>>>>>>> c0dc003313907ffeb78ac00e745a4ddc5dd570c3
   return (
     <Backdrop>
       <ModalContainer ref={modalRef}>
@@ -212,10 +259,18 @@ function ModalCalendarMeetingView(props: PropsType) {
             </ContentWrap>
           </ModalContent>
         </ModalConWrapper>
+<<<<<<< HEAD
         <ModalBtn>
           <BlueBtn>회의 참여</BlueBtn>
           <CancelBtn onClick={closeModal}>취소</CancelBtn>
         </ModalBtn>
+=======
+        <ModalBtnBox>
+          <ModalBtn>
+            <Link to={`/meeting/${studyId}`}>회의 참여하기 →</Link>
+          </ModalBtn>
+        </ModalBtnBox>
+>>>>>>> c0dc003313907ffeb78ac00e745a4ddc5dd570c3
       </ModalContainer>
     </Backdrop>
   );

@@ -24,7 +24,10 @@
         <td align="center">UI/UX<br/>React<br/>WebRTC<br/>WebSocket</td>
     </tr>
 </table>
+<<<<<<< HEAD
 # 메롱 메롱 😛
+=======
+>>>>>>> c0dc003313907ffeb78ac00e745a4ddc5dd570c3
 
 # Getting Started with Create React App
 

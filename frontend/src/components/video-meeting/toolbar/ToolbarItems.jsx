@@ -5,12 +5,20 @@ import styled from "styled-components";
 export const ToolbarContainer = styled.div`
   display: flex;
   justify-content: space-around;
+<<<<<<< HEAD
   height: 120px;
+=======
+  height: 15vh;
+>>>>>>> c0dc003313907ffeb78ac00e745a4ddc5dd570c3
   width: 100vw;
   background-color: ${(props) => props.theme.videoRoomColor};
   position: absolute;
   bottom: 0;
+<<<<<<< HEAD
   padding: 16px 35vw;
+=======
+  padding: 1.111vw 35vw;
+>>>>>>> c0dc003313907ffeb78ac00e745a4ddc5dd570c3
   z-index: 999999;
   /* min-width: 400px !important; */
 `;
@@ -22,7 +30,11 @@ export const IconContainer = styled.div`
   align-items: center;
   width: 3.889vw;
   height: 3.889vw;
+<<<<<<< HEAD
   border-radius: 50px;
+=======
+  border-radius: 3.472vw;
+>>>>>>> c0dc003313907ffeb78ac00e745a4ddc5dd570c3
   cursor: pointer;
   /* background-color: #393e46; */
   background-color: ${(props) =>
@@ -32,8 +44,13 @@ export const IconContainer = styled.div`
 // 채팅 아이콘
 export const ChatIcon = styled.div`
   position: absolute;
+<<<<<<< HEAD
   right: 32px;
   bottom: 32px;
+=======
+  right: 2.222vw;
+  bottom: 2.222vw;
+>>>>>>> c0dc003313907ffeb78ac00e745a4ddc5dd570c3
   cursor: pointer;
 `;
 
