@@ -9,7 +9,7 @@ pipeline {
                     IMAGE_NAME = "sh80165/smile-springboot"
                     IMAGE_STORAGE = "https://registry.hub.docker.com"
                     IMAGE_STORAGE_CREDENTIAL = "docker-hub"
-                    SSH_CONNECTION = "ubuntu@i8b205.p.ssafy.io"
+                    SSH_CONNECTION = "<주소>"
                     SSH_CONNECTION_CREDENTIAL = "Deploy-Server-SSH-Credential"
                     SPRING_BUILD_PATH = "./backend/smile"
                     APPLICATION_YML_PATH = "/var/jenkins_home/workspace"
