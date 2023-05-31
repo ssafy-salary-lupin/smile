@@ -11,7 +11,6 @@ export async function studyTypeApi() {
     const response = await fetch(`${BASE_URL}/types`, {
       headers: {
         Authorization: `Bearer ${token}`,
-        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzMDEyNDYsImV4cCI6MTY3NjM4NzY0Nn0.ZysqSzrc7kyFB37Lh7Xy5wBFcngkv68arQlFHULGCAoPoN3mmrasVwkh7voaWZqor_e5lLLFIhqPWu7p-pIO0A`,
         Accept: "application/json",
       },
     });
@@ -32,7 +31,6 @@ export async function CreateStudyApi(formData: any) {
     await axios.post(`${BASE_URL}`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
-        // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlckVtYWlsIjoiZG9pdGZvcmp1bmdAa2FrYW8uY29tIiwidXNlcklkIjozLCJpc3MiOiJpc3N1ZXIiLCJpYXQiOjE2NzYzNzYwMzMsImV4cCI6MTY3NjQ2MjQzM30.a4g2trHjGIuz4AJcZui4RWfOOfXnhQ3VtxULyo85cIAQ1gAY3YeMcjJ1ks6yZhtOU2yfbScRR1bK6qugkYZdFw`,
         "Content-Type": "multipart/form-data",
       },
     });
