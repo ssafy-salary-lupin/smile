@@ -1,12 +1,13 @@
 import { SetStateAction, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { ReactComponent as Close } from "../../assets/icon/Close.svg";
+import { ReactComponent as Check } from "../../assets/icon/Check.svg";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/esm/locale"; //한국어 설정
-
-import { ScheduleRegist, Selector } from "atoms/StudyManageCalendarAtom";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { dateState } from "atoms/StudyManage";
+import { useRecoilState } from "recoil";
+import Swal from "sweetalert2";
 
 interface PropsType {
   setModalOpen: React.Dispatch<SetStateAction<boolean>>;
@@ -15,13 +16,23 @@ interface PropsType {
   onRegist: Function;
 }
 
+export interface IRegistData {
+  scheduleTypeId: number;
+  title: string;
+  description: string;
+  startTime: string;
+  endTime: string;
+  url: string;
+  color: string;
+}
+
 const ModalContainer = styled.div`
   display: flex;
   align-items: center;
   /* justify-content: center; */
   flex-direction: column;
   position: fixed;
-  width: 28.889vw;
+  width: 22.222vw;
   height: 36.111vw;
   z-index: 999;
   background-color: white;
@@ -45,7 +56,7 @@ const Backdrop = styled.div`
 const ModalHead = styled.div`
   height: 10%;
   width: 100%;
-  background-color: ${(props) => props.theme.blackColorOpacity3};
+  /* background-color: ${(props) => props.theme.blackColorOpacity3}; */
   border-radius: 0.556vw 0.556vw 0 0;
   display: flex;
   flex-direction: row;
@@ -75,7 +86,7 @@ const CloseBtn = styled.div`
 const ModalConWrapper = styled.div`
   height: 83%;
   width: 100%;
-  padding: 2vw 5vw;
+  padding: 2vw 3.889vw;
   border-bottom: 1px solid ${(props) => props.theme.blackColorOpacity};
   /* align-items: center; */
   display: flex;
@@ -86,8 +97,9 @@ const ModalConWrapper = styled.div`
 const Select = styled.select`
   width: 100%;
   padding: 0.5vw 0.5vw;
-  border-radius: 0.25vw;
-  border: 0.05vw solid ${(props) => props.theme.blackColorOpacity};
+  border: none;
+  outline: none;
+  border-bottom: 1px solid ${(props) => props.theme.blackColorOpacity};
   color: ${(props) => props.theme.blackColorOpacity2};
   font-size: 0.833vw;
   margin-bottom: 0.5vw;
@@ -106,9 +118,10 @@ const Option = styled.option`
 
 const Title = styled.input`
   width: 100%;
-  border: 1px solid ${(props) => props.theme.blackColorOpacity};
+  border: none;
+  border-bottom: 1px solid ${(props) => props.theme.blackColorOpacity};
+  outline: none;
   padding: 0.5vw 0.5vw;
-  border-radius: 0.25vw;
   margin-bottom: 0.5vw;
   font-size: 0.833vw;
 `;
@@ -117,8 +130,9 @@ const Link = styled(Title)``;
 
 const StyledDatePicker = styled(DatePicker)`
   width: 100%;
-  border: 1px solid ${(props) => props.theme.blackColorOpacity};
-  border-radius: 0.25vw;
+  border: none;
+  border-bottom: 1px solid ${(props) => props.theme.blackColorOpacity};
+  outline: none;
   font-size: 0.833vw;
   line-height: 100%;
   padding: 0.5vw 0.5vw;
@@ -130,9 +144,12 @@ const StyledDatePicker = styled(DatePicker)`
 const Desc = styled.textarea`
   width: 100%;
   border: 1px solid ${(props) => props.theme.blackColorOpacity};
+  outline: none;
   resize: none;
   height: 9.444vw;
-  margin-bottom: 0.5vw;
+  margin: 0.694vw 0;
+  border-radius: 0.278vw;
+  padding: 0.556vw;
 `;
 
 const ColorBox = styled.div`
@@ -143,6 +160,9 @@ const ColorBox = styled.div`
 `;
 
 const Red = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   width: 2vw;
   height: 2vw;
@@ -182,36 +202,60 @@ const Gray = styled(Red)`
   }
 `;
 
-const ModalBtn = styled.div`
+const ModalBtnBox = styled.div`
   width: 100%;
   height: 12%;
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
-  padding: 0.833vw 0;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5vw 0;
+  background-color: ${(props) => props.theme.pointColor};
+  border-radius: 0 0 0.556vw 0.556vw;
 `;
 
-const YellowBtn = styled.button`
+const ModalBtn = styled.button`
+  border: none;
+  color: white;
+  background-color: transparent;
   cursor: pointer;
-  border-radius: 0.25vw;
-  padding: 0.5vw 1vw;
-  background-color: ${(props) => props.theme.blackColorOpacity2};
-  color: ${(props) => props.theme.whiteColor};
-  border: 0;
-  margin-right: 1vw;
-  font-size: 1vw;
+  font-size: 0.972vw;
 `;
 
-const CancelBtn = styled(YellowBtn)`
-  background-color: ${(props) => props.theme.whiteColor};
-  border: 1px solid ${(props) => props.theme.blackColorOpacity2};
-  color: ${(props) => props.theme.blackColorOpacity2};
-`;
+// const ModalBtn = styled.div`
+//   width: 100%;
+//   height: 12%;
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: flex-end;
+//   padding: 0.833vw 0;
+// `;
 
-function ModalBasic(props: PropsType) {
+// const YellowBtn = styled.button`
+//   cursor: pointer;
+//   border-radius: 0.25vw;
+//   padding: 0.5vw 1vw;
+//   background-color: ${(props) => props.theme.blackColorOpacity2};
+//   color: ${(props) => props.theme.whiteColor};
+//   border: 0;
+//   margin-right: 1vw;
+//   font-size: 1vw;
+// `;
+
+// const CancelBtn = styled(YellowBtn)`
+//   background-color: ${(props) => props.theme.whiteColor};
+//   border: 1px solid ${(props) => props.theme.blackColorOpacity2};
+//   color: ${(props) => props.theme.blackColorOpacity2};
+// `;
+
+function ModalCalendarRegist(props: PropsType) {
+  // 이벤트 클릭 상태값
+  const [dateClickState, setDateClickState] = useRecoilState(dateState);
+
   // 모달 관련 코드 ======================================
   const closeModal = () => {
     props.setModalOpen(false);
+    setDateClickState(false);
   };
   const modalRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -236,11 +280,17 @@ function ModalBasic(props: PropsType) {
   const [title, setTitle] = useState<string>();
   const [link, setLink] = useState<string>();
   const [desc, setDesc] = useState<string>();
-  const [color, setColor] = useState<string>("#ffff8c");
+  const [color, setColor] = useState<string>("YELLOW");
+  // 색깔 선택 상태값
+  const [checkYellowState, setCheckYellowState] = useState<boolean>(true);
+  const [checkRedState, setCheckRedState] = useState<boolean>(false);
+  const [checkBlueState, setCheckBlueState] = useState<boolean>(false);
+  const [checkGrayState, setCheckGrayState] = useState<boolean>(false);
+  const [checkGreenState, setCheckGreenState] = useState<boolean>(false);
 
   // data set ===============================
   const handleType = (e: any) => {
-    setType(e.target.value);
+    setType(Number(e.target.value));
   };
 
   const handleTitle = (e: any) => {
@@ -260,8 +310,6 @@ function ModalBasic(props: PropsType) {
   };
   // =========================================
 
-  // 사용자가 등록할 데이터(db에 맞는 형태로 보내기)
-  // date 부분 code 간소화 방법 찾아보기...
   const registData = {
     scheduleTypeId: type, // 스케쥴 식별자 == 유형
     title: title,
@@ -269,52 +317,113 @@ function ModalBasic(props: PropsType) {
     startTime:
       startDate.getFullYear().toString() +
       "-" +
-      startDate.getMonth().toString() +
+      ("0" + (startDate.getMonth() + 1)).slice(-2).toString() +
       "-" +
-      startDate.getDate().toString(),
+      ("0" + startDate.getDate()).slice(-2).toString() +
+      " " +
+      ("0" + startDate.getHours()).slice(-2).toString() +
+      ":" +
+      ("0" + startDate.getMinutes()).slice(-2).toString(),
     endTime:
-      new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate() + 1)
+      new Date(
+        endDate.getFullYear(),
+        endDate.getMonth(),
+        endDate.getDate() + 1,
+        endDate.getHours(),
+        endDate.getMinutes(),
+      )
         .getFullYear()
         .toString() +
       "-" +
-      new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate() + 1)
-        .getMonth()
+      (
+        "0" +
+        (new Date(
+          endDate.getFullYear(),
+          endDate.getMonth(),
+          endDate.getDate() + 1,
+          endDate.getHours(),
+          endDate.getMinutes(),
+        ).getMonth() +
+          1)
+      )
+        .slice(-2)
         .toString() +
       "-" +
-      new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate() + 1)
-        .getDate()
+      (
+        "0" +
+        new Date(
+          endDate.getFullYear(),
+          endDate.getMonth(),
+          endDate.getDate() + 1,
+          endDate.getHours(),
+          endDate.getMinutes(),
+        ).getDate()
+      )
+        .slice(-2)
+        .toString() +
+      " " +
+      (
+        "0" +
+        new Date(
+          endDate.getFullYear(),
+          endDate.getMonth(),
+          endDate.getDate(),
+          endDate.getHours(),
+          endDate.getMinutes(),
+        ).getHours()
+      )
+        .slice(-2)
+        .toString() +
+      ":" +
+      (
+        "0" +
+        new Date(
+          endDate.getFullYear(),
+          endDate.getMonth(),
+          endDate.getDate(),
+          endDate.getHours(),
+          endDate.getMinutes(),
+        ).getMinutes()
+      )
+        .slice(-2)
         .toString(),
     url: link,
-    // color : color,
-    // textColor : "#000000"
+    color: color,
   };
-
-  // 단건 일정 recoil
-  const [schedule, setSchedule] = useRecoilState(ScheduleRegist);
 
   const RegistSchedule = () => {
     // form 빈칸 체크
     if (type === undefined || type < 1) {
-      alert(" 유형을 선택 하세요. ");
+      // alert(" 유형을 선택 하세요. ");
+      Swal.fire({
+        icon: "error",
+        title: "이런...",
+        text: "유형을 선택해주세요!!",
+      });
       return;
     }
     if (title === undefined || title === "") {
-      alert(" 제목을 입력 하세요. ");
+      // alert(" 제목을 입력 하세요. ");
+      Swal.fire({
+        icon: "error",
+        title: "이런...",
+        text: "제목을 선택해주세요!!",
+      });
       return;
     }
     if (desc === undefined || desc === "") {
-      alert(" 내용을 입력 하세요. ");
+      // alert(" 내용을 입력 하세요. ");
+      Swal.fire({
+        icon: "error",
+        title: "이런...",
+        text: "내용을 선택해주세요!!",
+      });
       return;
     }
 
-    console.log("시간 : ", startDate.getHours());
-
-    // Recoil data 갱신
-    setSchedule(registData);
-
     // 일정 등록 메소드 실행
-    // props.onRegist();
-    // closeModal();
+    props.onRegist(registData);
+    closeModal();
   };
 
   return (
@@ -322,17 +431,19 @@ function ModalBasic(props: PropsType) {
       <ModalContainer ref={modalRef}>
         <ModalHead>
           <Space>
-            <p>일정 등록</p>
+            <p>Regist Schedule</p>
           </Space>
           <CloseBtn onClick={closeModal}>
-            <Close width="100%" height="100%" fill="black" />
+            <Close width="1.667vw" fill="black" />
           </CloseBtn>
         </ModalHead>
         <ModalConWrapper>
           <Select name="schedule" onChange={handleType}>
             <Option value="0">-- 유형 --</Option>
-            <Option value="1">서류 지원</Option>
-            <Option value="2">채용 공고</Option>
+            <Option value="1">면접</Option>
+            <Option value="2">서류</Option>
+            <Option value="3">스터디</Option>
+            <Option value="4">시험</Option>
           </Select>
           <Title placeholder="회의 제목" onChange={handleTitle} />
           <Link placeholder="URL" onChange={handleLink} />
@@ -363,21 +474,85 @@ function ModalBasic(props: PropsType) {
           <ColorBox>
             <Yellow
               onClick={() => {
-                handleColor("#ffff8c");
+                handleColor("YELLOW");
+                setCheckYellowState(true);
+                setCheckRedState(false);
+                setCheckBlueState(false);
+                setCheckGrayState(false);
+                setCheckGreenState(false);
               }}
-            ></Yellow>
-            <Red onClick={() => handleColor("#ffa8a8")}></Red>
-            <Gray onClick={() => handleColor("#c9c9c9")}></Gray>
-            <Blue onClick={() => handleColor("#a5e2ff")}></Blue>
-            <Green onClick={() => handleColor("#99ff99")}></Green>
+            >
+              {checkYellowState ? (
+                <Check width="50%" height="50%" fill="#626262" />
+              ) : null}
+            </Yellow>
+            <Red
+              onClick={() => {
+                handleColor("RED");
+                setCheckYellowState(false);
+                setCheckRedState(true);
+                setCheckBlueState(false);
+                setCheckGrayState(false);
+                setCheckGreenState(false);
+              }}
+            >
+              {checkRedState ? (
+                <Check width="50%" height="50%" fill="#626262" />
+              ) : null}
+            </Red>
+            <Gray
+              onClick={() => {
+                handleColor("GRAY");
+                setCheckYellowState(false);
+                setCheckRedState(false);
+                setCheckBlueState(false);
+                setCheckGrayState(true);
+                setCheckGreenState(false);
+              }}
+            >
+              {checkGrayState ? (
+                <Check width="50%" height="50%" fill="#626262" />
+              ) : null}
+            </Gray>
+            <Blue
+              onClick={() => {
+                handleColor("BLUE");
+                setCheckYellowState(false);
+                setCheckRedState(false);
+                setCheckBlueState(true);
+                setCheckGrayState(false);
+                setCheckGreenState(false);
+              }}
+            >
+              {checkBlueState ? (
+                <Check width="50%" height="50%" fill="#626262" />
+              ) : null}
+            </Blue>
+            <Green
+              onClick={() => {
+                handleColor("GREEN");
+                setCheckYellowState(false);
+                setCheckRedState(false);
+                setCheckBlueState(false);
+                setCheckGrayState(false);
+                setCheckGreenState(true);
+              }}
+            >
+              {checkGreenState ? (
+                <Check width="50%" height="50%" fill="#626262" />
+              ) : null}
+            </Green>
           </ColorBox>
         </ModalConWrapper>
-        <ModalBtn>
+        <ModalBtnBox>
+          <ModalBtn onClick={RegistSchedule}>일정 등록 →</ModalBtn>
+        </ModalBtnBox>
+        {/* <ModalBtn>
           <YellowBtn onClick={RegistSchedule}>등록</YellowBtn>
           <CancelBtn onClick={closeModal}>취소</CancelBtn>
-        </ModalBtn>
+        </ModalBtn> */}
       </ModalContainer>
     </Backdrop>
   );
 }
-export default ModalBasic;
+export default ModalCalendarRegist;

@@ -6,51 +6,6 @@ import Send from "@mui/icons-material/Send";
 
 import "./ChatComponent.css";
 import { Tooltip } from "@mui/material";
-import styled from "styled-components";
-
-import * as DuotonIcons from "components/common/DuotonIcons";
-import * as Icons from "components/common/Icons";
-
-const ChatContainer = styled.div`
-  position: absolute;
-  z-index: 0;
-  width: 100%;
-  height: 100%;
-`;
-
-const ChatSubContainer = styled.div`
-  background-color: #b8b8b8;
-  position: absolute;
-  z-index: 99999;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
-  height: calc(100% - 30px);
-  width: calc(100% - 30px);
-  border-radius: 20px;
-  ${(props) => props.styleChat}
-`;
-
-const ChatToolbar = styled.div`
-  height: 30px;
-  background-color: #3d3d3d;
-  box-sizing: border-box;
-  font-weight: bold;
-  font-size: 14px;
-  text-align: center;
-  padding-top: 4px;
-  border-top-left-radius: 6px;
-  border-top-right-radius: 6px;
-  color: #ffffff;
-`;
-
-const IconContainer = styled.div`
-  position: absolute;
-  right: 0;
-  top: -8px;
-`;
 
 export default function ChatComponent(props) {
   const [messageList, setMessageList] = useState([]);
@@ -137,19 +92,16 @@ export default function ChatComponent(props) {
 
   const styleChat = { display: props.chatDisplay };
   return (
-    <ChatContainer>
-      <ChatSubContainer styleChat={styleChat}>
-        <ChatToolbar>
+    <div id="chatContainer">
+      <div id="chatComponent" style={styleChat}>
+        <div id="chatToolbar">
           <span>
             {props.user.getStreamManager().stream.session.sessionId} - CHAT
           </span>
-          <IconContainer>
-            <Icons.Close onClick={close} />
-          </IconContainer>
           <IconButton id="closeButton" onClick={close}>
             <HighlightOff color="secondary" />
           </IconButton>
-        </ChatToolbar>
+        </div>
         <div className="message-wrap" ref={chatScroll}>
           {messageList.map((data, i) => (
             <div
@@ -195,7 +147,7 @@ export default function ChatComponent(props) {
             </Fab>
           </Tooltip>
         </div>
-      </ChatSubContainer>
-    </ChatContainer>
+      </div>
+    </div>
   );
 }

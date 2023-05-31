@@ -24,7 +24,6 @@
         <td align="center">UI/UX<br/>React<br/>WebRTC<br/>WebSocket</td>
     </tr>
 </table>
-# 메롱 메롱 😛
 
 # Getting Started with Create React App
 

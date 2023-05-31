@@ -1,13 +1,24 @@
-import { boardListSelectAllApi } from "apis/StudyManageBoardApi";
+import {
+  boardListSelectAllApi,
+  noticeSelectAllApi,
+} from "apis/StudyManageBoardApi";
+import { studyIdRecoil } from "atoms/StudyManage";
 import PagiNation from "components/common/Pagination";
 import { useEffect, useState } from "react";
-import { useQuery } from "react-query";
+import { useQueries, useQuery } from "react-query";
+import { Link } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
   margin: 3.889vw 21.111vw;
   display: flex;
   flex-direction: column;
+
+  a {
+    text-decoration: none;
+    color: ${(props) => props.theme.blackColor};
+  }
 `;
 
 const Head = styled.div`
@@ -54,11 +65,13 @@ const BoardNum = styled.td`
 `;
 
 const BoardType = styled(BoardNum)`
-  width: 15%;
+  width: 20%;
+  padding-left: 1.111vw;
 `;
 
-const TypeLabel1 = styled.div`
-  background-color: red;
+const TypeLabel = styled.div<TypeProps>`
+  background-color: ${(props) =>
+    props.typeId === 1 ? "red" : props.typeId === 2 ? "#314e8d" : "#007c1f"};
   border-radius: 2.083vw;
   color: white;
   padding: 0.139vw 0;
@@ -70,13 +83,9 @@ const TypeLabel1 = styled.div`
   height: 1.944vw;
 `;
 
-const TypeLabel2 = styled(TypeLabel1)`
-  background-color: #314e8d;
-`;
-
 const BoardTitle = styled(BoardNum)`
   font-weight: bold;
-  width: 45%;
+  width: 50%;
   text-align: left;
 `;
 
@@ -98,9 +107,14 @@ const NoArticle = styled.div`
   justify-content: center;
   border-top: 3px solid ${(props) => props.theme.blackColor};
   border-bottom: 3px solid ${(props) => props.theme.blackColor};
+  font-size: 1.111vw;
 `;
 
-interface Data {
+export interface TypeProps {
+  typeId: number;
+}
+
+interface IData {
   isSuccess: boolean;
   code: number;
   message: string;
@@ -126,8 +140,8 @@ interface Data {
         };
         boardType: {
           // 게시글 유형 정보
-          typeId: number; // 게시글 유형 식별자
-          type: string; // 게시글 유형
+          id: number; // 게시글 유형 식별자
+          name: string; // 게시글 유형
         };
         writeAt: string; // 게시글 작성일
       },
@@ -149,78 +163,133 @@ interface ListData {
   };
   boardType: {
     // 게시글 유형 정보
-    typeId: number; // 게시글 유형 식별자
-    type: string; // 게시글 유형
+    id: number; // 게시글 유형 식별자
+    name: string; // 게시글 유형
   };
   writeAt: string; // 게시글 작성일
 }
 
-//
 function StudyManageBoardList() {
+  // studyId값 가져오기
+  const studyId = useRecoilValue(studyIdRecoil);
+  console.log("studyId : ", studyId);
+
   const [page, setPage] = useState(1);
-  const [size, setSize] = useState(10);
+  const [size, setSize] = useState(5);
   const [totalElements, setTotalElements] = useState(0);
-  const [list, setList] = useState<ListData[] | null>(null);
+  const [totalGeneralElements, setTotalGeneralElements] = useState(0);
+  const [list, setList] = useState<ListData[]>(); // 일반 글
+  const [notice, setNotice] = useState<ListData[]>(); // 공지 글
 
-  const { data: listData } = useQuery<Data>(["listData"], () =>
-    boardListSelectAllApi(page, size),
-  );
-
-  console.log("가져온 데이타 : ", listData);
+  const res = useQueries([
+    {
+      queryKey: ["listData"],
+      queryFn: () => boardListSelectAllApi(page, size, studyId),
+    },
+    {
+      queryKey: ["noticeData"],
+      queryFn: () => noticeSelectAllApi(studyId),
+    },
+  ]);
 
   useEffect(() => {
-    // 1. 가져온 data 값에서 총 게시글 개수 가져와서 set
-    if (listData !== undefined) {
-      setTotalElements(listData?.result.totalElements);
+    async function stateSet() {
+      // 1. 가져온 data 값에서 총 게시글 개수 가져와서 set
+      if (res[0].data !== undefined && res[1].data !== undefined) {
+        await setTotalElements(
+          res[0].data.result.totalElements + res[1].data.result.totalElements,
+        );
+        await setTotalGeneralElements(res[0].data.result.totalElements);
+      }
+
+      // 2. 해당 페이지의 데이터들을 배열에 담아줌 => 아래에서 배열의 각 요소별로 뽑아서 보여주기
+      if (res[0].data !== undefined) {
+        await setList(res[0]?.data.result.content);
+      }
+
+      if (res[1].data !== undefined) {
+        await setNotice(res[1]?.data.result.content);
+      }
     }
-    // 2. 해당 페이지의 데이터들을 배열에 담아줌 => 아래에서 배열의 각 요소별로 뽑아서 보여주기
-    if (listData !== undefined) {
-      setList(listData?.result.content);
-    }
-    console.log("listData.result.content : ", listData?.result.content);
-    console.log("게시글 : ", list);
-  }, [listData, page]);
+
+    stateSet();
+  }, [res]);
 
   // 페이지 변환시 호출할 메소드 => page값 셋팅
-  const handlePageChange = (page: any) => {
-    setPage(page);
+  const handlePageChange = async (page: any) => {
+    await setPage((old) => (old = page));
+    res[0].refetch();
+    res[1].refetch();
   };
 
   return (
     <Wrapper>
       <Head>
         <HeadSub1>총 {totalElements}건</HeadSub1>
-        <HeadSub2>글 쓰기</HeadSub2>
+        <HeadSub2>
+          <Link to={`/manage/boardWrite/${studyId}`}>글 쓰기</Link>
+        </HeadSub2>
       </Head>
-
-      {list !== null ? (
-        list.map((el) => {
-          return (
-            <BoardListBox>
-              <Tbody>
-                <Row>
-                  <BoardNum>{el.boardId}</BoardNum>
-                  <BoardType>
-                    <TypeLabel1>{el.boardType.type}</TypeLabel1>
-                  </BoardType>
-                  <BoardTitle>{el.title}</BoardTitle>
-                  <BoardWriter>{el.writer.nickname}</BoardWriter>
-                  <BoardDate>
-                    {el.writeAt.split("T")[0] + " " + el.writeAt.split("T")[1]}
-                  </BoardDate>
-                </Row>
-              </Tbody>
-            </BoardListBox>
-          );
-        })
-      ) : (
+      <BoardListBox>
+        <Tbody>
+          {notice !== null
+            ? notice?.map((el, index) => {
+                return (
+                  <Row key={index}>
+                    <BoardType>
+                      <TypeLabel typeId={el.boardType.id}>
+                        {el.boardType.name}
+                      </TypeLabel>
+                    </BoardType>
+                    <BoardTitle>
+                      <Link to={`/manage/boardDetail/${el.boardId}`}>
+                        {el.title}
+                      </Link>
+                    </BoardTitle>
+                    <BoardWriter>{el.writer.nickname}</BoardWriter>
+                    <BoardDate>
+                      {el.writeAt.split("T")[0] +
+                        " " +
+                        el.writeAt.split("T")[1]}
+                    </BoardDate>
+                  </Row>
+                );
+              })
+            : null}
+          {list !== null
+            ? list?.map((el, index) => {
+                return (
+                  <Row key={index}>
+                    <BoardType>
+                      <TypeLabel typeId={el.boardType.id}>
+                        {el.boardType.name}
+                      </TypeLabel>
+                    </BoardType>
+                    <BoardTitle>
+                      <Link to={`/manage/boardDetail/${el.boardId}`}>
+                        {el.title}
+                      </Link>
+                    </BoardTitle>
+                    <BoardWriter>{el.writer.nickname}</BoardWriter>
+                    <BoardDate>
+                      {el.writeAt.split("T")[0] +
+                        " " +
+                        el.writeAt.split("T")[1]}
+                    </BoardDate>
+                  </Row>
+                );
+              })
+            : null}
+        </Tbody>
+      </BoardListBox>
+      {list !== null && totalElements === 0 ? (
         <NoArticle>글내용이 없습니다.</NoArticle>
-      )}
+      ) : null}
 
       <PagiNation
         page={page}
         size={size}
-        totalElements={totalElements}
+        totalElements={totalGeneralElements}
         handlePageChange={handlePageChange}
       />
     </Wrapper>

@@ -1,25 +1,33 @@
-import NavBar from "./components/common/NavBar";
+import NavBar from "./components/common/NavBarMain";
 import Footer from "./components/common/Footer";
 import Router from "./Router";
 import { createGlobalStyle } from "styled-components";
 import { BrowserRouter } from "react-router-dom";
+import { useEffect, useState } from "react";
+import ScrollTop from "components/common/ScrollTop";
 
 const GlobalStyle = createGlobalStyle`
 /* @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap"); */
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap"); */
+
+.swal2-container {
+  z-index: 100000;
+}
 
 html,
 body {
-  font-family: "Noto Sans", sans-serif;
-  width: 100%;
-  height: 100%;
+  /* font-family: "Noto Sans", sans-serif; */
   margin: 0;
+  @import url("https://fonts.googleapis.com/css2?family=Noto+Sans&family=Noto+Sans+KR&display=swap");
+  font-family: "Noto Sans KR", sans-serif;
+  width: 100vw;
+  height: 100vh;
   padding: 0;
-  /* -ms-overflow-style: none;  
-  scrollbar-width: none; 
+  -ms-overflow-style: none;
+  scrollbar-width: none;
   ::-webkit-scrollbar {
-    display: none; 
-  } */
+    display: none;
+  }
 }
 /* div,
 span,
@@ -256,45 +264,20 @@ body {
   /* pagination  end ====================================== */
 
 
-  /* editor =============================================== */
-  .quill{
-    height: 27.778vw;
-    width: 100%;
-    text-align: center;
-  }
-
-  .ql-toolbar.ql-snow{
-    border: 1px solid #000000ae;
-    height:2.778vw;
-    background-color: #f6f6f6;;
-  }
-
-  .ql-container.ql-snow {
-    border: 1px solid #000000ae;  
-    height: 25vw;
-    background-color: white;
-  }
-
-  blockquote{
-    border-left: 0.556vw solid #ccc;
-    margin: 0.694vw;
-    padding-left:0.694vw; 
-  }
+ 
 `;
 
 function App() {
-  const curPath = window.location.pathname;
-  // if (curPath === "/test2") {
-  //   const bodyTag = document.querySelector("body");
-  //   bodyTag?.classList.add("videoPage");
-  // }
+  // const curPath = window.location.pathname;
+
   return (
     <>
       <BrowserRouter>
+        <ScrollTop />
         <GlobalStyle />
-        {curPath !== "/test2" && <NavBar curUrl={curPath} />}
+        {/* {!curPath.includes("meeting") && <NavBar curUrl={curPath} />} */}
         <Router />
-        {curPath !== "/test2" && <Footer />}
+        {/* {!curPath.includes("meeting") && <Footer />} */}
       </BrowserRouter>
     </>
   );

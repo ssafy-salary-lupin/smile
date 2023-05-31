@@ -5,42 +5,6 @@ import * as DuotonIcons from "components/common/DuotonIcons";
 import styled from "styled-components";
 import ExitMeeting from "components/video-meeting/toolbar/ExitMeeting";
 
-// 툴바를 감싸주는 컨테이너
-const ToolbarContainer = styled.div`
-  display: flex;
-  justify-content: space-around;
-  height: 120px;
-  width: 100vw;
-  background-color: ${(props) => props.theme.videoRoomColor};
-  position: absolute;
-  bottom: 0;
-  padding: 16px 35vw;
-  z-index: 999999;
-  /* min-width: 400px !important; */
-`;
-
-// 아이콘 외부의 동그라미
-const IconContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 3.889vw;
-  height: 3.889vw;
-  border-radius: 50px;
-  cursor: pointer;
-  /* background-color: #393e46; */
-  background-color: ${(props) =>
-    props.bgColor === undefined ? "#393e46" : props.bgColor};
-`;
-
-// 채팅 아이콘
-const ChatIcon = styled.div`
-  position: absolute;
-  right: 32px;
-  bottom: 32px;
-  cursor: pointer;
-`;
-
 export default function ToolbarComponent(props) {
   const [fullscreen, setFullscreen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -160,8 +124,8 @@ export default function ToolbarComponent(props) {
       {/* 채팅 */}
       <ToolbarItems.Chat
         onClick={toggleChat}
-        width="56px"
-        height="56px"
+        width="3.889vw"
+        height="3.889vw"
         fill={iconColor}
         stroke="none"
         strokeWidth="2"

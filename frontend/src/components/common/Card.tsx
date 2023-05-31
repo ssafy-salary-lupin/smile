@@ -1,5 +1,7 @@
 import styled, { keyframes } from "styled-components";
 import ProfileImg from "./ProfileImg";
+import defaultStudyImg from "assets/img/card_photo_1.png";
+import defaultprofileImg from "assets/img/userDefaultImg.png";
 
 const CardHover = keyframes`
   from {
@@ -18,29 +20,58 @@ const CardNotHover = keyframes`
   }
 `;
 
+const enterDescription = keyframes`
+  from {
+    opacity: 0;
+    z-index: -1;
+  }
+  to {
+    opacity: 0.8;
+    z-index: 100;
+  }
+`;
+
+const leaveDescription = keyframes`
+  from {
+    opacity: 0.8;
+    z-index: 100;
+  }
+  to {
+    opacity: 0;
+    z-index: -1;
+  }
+`;
+
 const SContainer = styled.div`
-  @import url("https://fonts.googleapis.com/css2?family=Noto+Sans&family=Noto+Sans+KR&display=swap");
-  font-family: "Noto Sans", sans-serif;
-  font-family: "Noto Sans KR", sans-serif;
   display: grid;
   grid-template-rows: 21.84vw 12.91vw;
   border-radius: 1.12vw;
   width: 29.68vw;
   height: 36.75vw;
-  /* grid-template-rows: 312px 213px;
-  border-radius: 16px;
-  width: 424px;
-  height: 525px; */
+  margin-bottom: 2.222vw;
   border: solid 1px #e6e8ec;
   box-shadow: 0px 0px 1.12vw ${(props) => props.theme.subColor};
-  /* box-shadow: 0px 0px 16px ${(props) => props.theme.subColor}; */
+
+  @media screen and (min-width: 1280px) {
+    grid-template-rows: 209.664px 123.936px;
+    border-radius: 10.752px;
+    width: 284.928px;
+    height: 352.8px;
+    margin-bottom: 21.331px;
+    border: solid 0.104vw #e6e8ec;
+    box-shadow: 0vw 0vw 10.752px ${(props) => props.theme.subColor};
+  }
   :hover {
-    /* box-shadow: 0px 0px 24px #b4bbc5; */
-    /* box-shadow: 0px 0px 1.68vw #b4bbc5; */
     animation: ${CardHover} 1.5s forwards;
+    #overD {
+      animation: ${enterDescription} 1s forwards;
+    }
   }
   :not(:hover) {
     animation: ${CardNotHover} 1.5s forwards;
+    #overD {
+      animation: ${leaveDescription} 1s forwards;
+    }
   }
 `;
 
@@ -48,17 +79,54 @@ const SCardItem = styled.span`
   display: grid;
   grid-template-rows: 3.92vw 4.2vw 4.62vw;
   padding: 0.7vw 1.68vw;
-  /* grid-template-rows: 54px 60px 66px;
-  padding: 10px 24px; */
+
+  @media screen and (min-width: 1280px) {
+    grid-template-rows: 37.632px 40.32px 44.352px;
+    padding: 6.72px 16.128px;
+  }
 `;
 const SCardImg = styled.img`
   border-radius: 1.12vw 1.12vw 0px 0px;
   width: 29.68vw;
   height: 21.84vw;
-  /* border-radius: 16px 16px 0px 0px;
-  width: 424px;
-  height: 312px; */
+
+  @media screen and (min-width: 1280px) {
+    border-radius: 10.752px 10.752px 0vw 0vw;
+    width: 284.928px;
+    height: 209.664px;
+  }
 `;
+
+const Description = styled.div`
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #434649;
+  border-radius: 1.12vw 1.12vw 0px 0px;
+  width: 29.68vw;
+  height: 21.84vw;
+  opacity: 0;
+  z-index: -1;
+  overflow: hidden;
+
+  @media screen and (min-width: 1280px) {
+    border-radius: 10.752px 10.752px 0vw 0vw;
+    width: 284.928px;
+    height: 209.664px;
+  }
+  span {
+    padding: 2.778vw;
+    font-size: 1.26vw;
+    font-weight: 600;
+    color: white;
+    @media screen and (min-width: 1280px) {
+      padding: 26.669px;
+      font-size: 12.096px;
+    }
+  }
+`;
+
 const SCardInfo = styled.div`
   display: flex;
   justify-content: space-between;
@@ -70,16 +138,23 @@ const SCardInfoItem = styled.span`
   img {
     width: 1.68vw;
     height: 1.68vw;
-    /* width:24px;
-    height:24px; */
+
+    @media screen and (min-width: 1280px) {
+      width: 16.128px;
+      height: 16.128px;
+    }
   }
   span {
-    /* padding-top: 0.175vw; */
     margin-left: 0.28vw;
     font-size: 1.12vw;
-    /* padding-top: 2.5px;
-    margin-left: 4px;
-    font-size: 16px; */
+    margin-bottom: 0.2vw;
+
+    @media screen and (min-width: 1280px) {
+      margin-left: 2.688px;
+      font-size: 10.752px;
+      margin-bottom: 1.92px;
+    }
+
     font-weight: 600;
     color: ${(props) => props.theme.textColor};
     span {
@@ -91,8 +166,10 @@ const SCardInfoItem = styled.span`
 const SCardDescription = styled.div`
   span {
     font-size: 1.26vw;
+    @media screen and (min-width: 1280px) {
+      font-size: 12.096px;
+    }
   }
-  /* font-size: 18px; */
 `;
 const SCardUser = styled.div`
   display: flex;
@@ -103,14 +180,18 @@ const SCardUserItem = styled.div`
   flex-direction: column;
   margin-left: 1.12vw;
   height: 3.36vw;
-  /* margin-left: 16px;
-  height: 48px; */
   justify-content: space-around;
   font-weight: 500;
+  @media screen and (min-width: 1280px) {
+    margin-left: 10.752px;
+    height: 32.256px;
+  }
 
   span {
     font-size: 1.12vw;
-    /* font-size: 16px; */
+    @media screen and (min-width: 1280px) {
+      font-size: 10.752px;
+    }
     color: ${(props) => props.theme.textColor};
     :nth-child(2) {
       color: ${(props) => props.theme.textSubColor};
@@ -119,31 +200,82 @@ const SCardUserItem = styled.div`
   }
 `;
 
-interface studyImgProps {
+const curPath = window.location.pathname;
+console.log("PATH : ", curPath);
+
+interface PropsType {
   studyInfo: {
-    si_id: number;
-    si_img: string;
-    si_person: number;
-    si_max_person: number;
-    si_desc: string;
-    si_view: number;
-    si_leader: {
-      si_leader_id: number;
-      si_leader_img: string;
-      si_leader_nickname: string;
+    id: number; // 스터디 식별자
+    name?: string; // 스터디 이름
+    imagePath: string; // 스터디 대표 이미지 주소
+    description: string; // 스터디 설명
+    currentPerson: number; // 현재 가입 인원
+    maxPerson: number; // 최대 가입 인원
+    viewCount: number; // 조회수
+    lastVisitTime?: string; // 마지막 방문 시간
+    lastVisitedTime?: string; // 마지막 방문 시간
+    commentCount?: number;
+    type?: {
+      id?: number;
+      name?: string;
     };
+    leader: {
+      // 스터디 리더
+      id: number; // 스터디장 유저 식별자
+      imagePath: string; // 스터디장 프로필 이미지 주소
+      nickname: string; // 스터디장 닉네임
+    };
+    end?: boolean; // 스터디 종료 여부
   };
 }
 
-function Card(props: studyImgProps) {
+export default function Card(props: PropsType) {
   const visitedTime = 1;
-  const visitedCountInput = props.studyInfo.si_view;
+  const visitedCountInput = props.studyInfo.viewCount;
   const visitedCount = visitedCountInput
     .toString()
     .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const profileImgUrl = props.studyInfo.leader.imagePath;
+  const studyImgUrl = props.studyInfo.imagePath;
+
+  const formatter = new Intl.RelativeTimeFormat("ko", { numeric: "auto" });
+
+  const passedTime = (date: string) => {
+    const start: any = new Date(date);
+    const end: any = new Date(); // 현재 날짜
+
+    const diff = (end - start) / 1000; // 경과 시간
+
+    const times = [
+      { name: "년", milliSeconds: 60 * 60 * 24 * 365 },
+      { name: "개월", milliSeconds: 60 * 60 * 24 * 30 },
+      { name: "일", milliSeconds: 60 * 60 * 24 },
+      { name: "시간", milliSeconds: 60 * 60 },
+      { name: "분", milliSeconds: 60 },
+    ];
+
+    // 년 단위부터 알맞는 단위 찾기
+    for (const value of times) {
+      const betweenTime = Math.floor(diff / value.milliSeconds);
+
+      // 큰 단위는 0보다 작은 소수 단위 나옴
+      if (betweenTime > 0) {
+        return `${betweenTime}${value.name} 전`;
+      }
+    }
+
+    // 모든 단위가 맞지 않을 시
+    return "방금 전";
+  };
+
   return (
     <SContainer>
-      <SCardImg src={props.studyInfo.si_img} />
+      <SCardImg
+        src={studyImgUrl.includes("/root") ? defaultStudyImg : studyImgUrl}
+      />
+      <Description id={"overD"}>
+        <span>{props.studyInfo.description}</span>
+      </Description>
       <SCardItem>
         <SCardInfo>
           <SCardInfoItem>
@@ -156,27 +288,32 @@ function Card(props: studyImgProps) {
           <SCardInfoItem>
             <img src={require("../../assets/img/Users.png")} />
             <span>
-              {props.studyInfo.si_person}/{props.studyInfo.si_max_person}
+              {props.studyInfo.currentPerson}/{props.studyInfo.maxPerson}
             </span>
           </SCardInfoItem>
         </SCardInfo>
         <SCardDescription>
-          <span>{props.studyInfo.si_desc}</span>
+          {/* <span>{props.studyInfo.description}</span> */}
+          <span>{props.studyInfo.name}</span>
         </SCardDescription>
         <SCardUser>
           <ProfileImg
-            imgUrl={props.studyInfo.si_leader.si_leader_img}
+            imgUrl={profileImgUrl ? profileImgUrl : defaultprofileImg}
             width="3.36vw"
             height="3.36vw"
           />
           <SCardUserItem>
-            <span>{props.studyInfo.si_leader.si_leader_nickname}</span>
-            <span>{visitedTime} min read</span>
+            <span>{props.studyInfo.leader.nickname}</span>
+            <span>
+              {props.studyInfo.lastVisitTime
+                ? passedTime(props.studyInfo.lastVisitTime)
+                : props.studyInfo.lastVisitedTime
+                ? passedTime(props.studyInfo.lastVisitedTime)
+                : "방금 전"}
+            </span>
           </SCardUserItem>
         </SCardUser>
       </SCardItem>
     </SContainer>
   );
 }
-
-export default Card;

@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
-export const BackgroundYellow = styled.div`
+interface bgProps {
+  bgHeight: number;
+}
+
+export const BackgroundYellow = styled.div<bgProps>`
   position: absolute;
   z-index: -1;
   background-image: linear-gradient(
@@ -8,7 +12,10 @@ export const BackgroundYellow = styled.div`
     ${(props) => props.theme.mainColor},
     white
   );
-  height: 40vw;
+  height: ${(props) => String(props.bgHeight) + "vw"};
+  @media screen and (min-width: 1440px) {
+    height: ${(props) => String(props.bgHeight / 0.104) + "px"};
+  }
   width: 100vw;
   top: 0;
 `;

@@ -5,10 +5,13 @@
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 999999;
+  z-index: 99999;
   min-width: 400px !important;
 }
-
+#localUser {
+  top: 0;
+  position: relative;
+}
 .toolbar {
   min-height: 40px !important;
 }
@@ -49,9 +52,21 @@
   position: absolute;
   left: 0;
   right: 0;
-  /* top: 40px; */
+  top: 0;
   top: 0;
   bottom: 120px;
+  height: inherit;
+  min-width: 400px !important;
+  width: inherit;
+}
+.bounds2 {
+  background-color: #222831;
+  /* overflow: hidden; */
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  /* bottom: 120px; */
   height: inherit;
   min-width: 400px !important;
   width: inherit;

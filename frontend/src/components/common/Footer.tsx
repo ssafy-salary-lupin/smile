@@ -71,8 +71,15 @@ const Img = styled.img`
 `;
 
 function Footer() {
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
-    <FooterContainer>
+    <FooterContainer className="Footer">
       <FooterWrap>
         <FooterCon1>
           <ul>
@@ -94,7 +101,7 @@ function Footer() {
           </address>
           <Copy>
             <p>COPYRIGHT 2023. SSAFY. ALL RIGHTS RESERVED</p>
-            <TopButton>TOP</TopButton>
+            <TopButton onClick={scrollToTop}>TOP</TopButton>
           </Copy>
         </FooterCon2>
       </FooterWrap>
@@ -102,3 +109,4 @@ function Footer() {
   );
 }
 export default Footer;
+
